@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pazport to English | Slytherin Edition</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --slytherin-green: #1A472A;
+            --slytherin-silver: #AAAAAA;
+            --deep-black: #111111;
+            --parchment: #F5F5DC;
+            --light-parchment: #FFFEF7;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'EB Garamond', serif;
+            background-color: var(--deep-black);
+            background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-attachment: fixed;
+            background-blend-mode: multiply;
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 30px auto;
+            background-color: var(--parchment);
+            background-image: radial-gradient(#c9b18a 1px, transparent 1px);
+            background-size: 20px 20px;
+            border: 12px solid transparent;
+            border-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="%231A472A" stroke-width="8" stroke-dasharray="10,10"/></svg>') 25 stretch;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .screen { min-height: 75vh; padding: 40px; text-align: center; }
+        .hidden { display: none !important; }
+
+        h1, h2, h3 { font-family: 'Cinzel', serif; color: var(--slytherin-green); margin-bottom: 20px; }
+        h1 { font-size: 3.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+
+        input, select, button, .quiz-option { font-family: 'EB Garamond', serif !important; font-size: 1.2rem; }
+
+        .input-group { margin: 25px 0; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .input-group label { display: block; font-family: 'Cinzel', serif; margin-bottom: 10px; color: var(--slytherin-green); }
+        
+        input[type="text"], select {
+            width: 100%; padding: 15px; border: 3px solid var(--slytherin-green);
+            background: var(--light-parchment); border-radius: 4px;
+        }
+
+        .btn {
+            display: inline-block; padding: 16px 32px;
+            background: linear-gradient(to bottom, var(--slytherin-green), #0d2b1a);
+            color: var(--slytherin-silver) !important;
+            border: 2px solid var(--slytherin-silver);
+            border-radius: 4px; font-family: 'Cinzel', serif !important;
+            font-weight: 700; cursor: pointer; text-transform: uppercase;
+            box-shadow: 0 6px 0 var(--deep-black); transition: 0.2s;
+        }
+
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 0 var(--deep-black); filter: brightness(1.2); }
+
+        .activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-top: 40px; }
+        .activity-card {
+            background: var(--light-parchment); border: 5px solid var(--slytherin-green);
+            padding: 30px; border-radius: 8px; cursor: pointer; transition: 0.4s;
+            position: relative;
+        }
+        .activity-card:hover { transform: translateY(-10px); box-shadow: 0 0 20px var(--slytherin-green); }
+
+        /* SEAL OF COMPLETION STYLE */
+        .seal {
+            position: absolute; top: 10px; right: 10px;
+            color: var(--slytherin-silver); font-size: 1.5rem;
+            text-shadow: 0 0 10px var(--slytherin-green);
+        }
+
+        /* FLASHCARDS */
+        .flashcard { width: 350px; height: 250px; margin: 30px auto; perspective: 1000px; cursor: pointer; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .front, .back {
+            position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-radius: 15px; border: 8px solid var(--slytherin-silver); padding: 20px;
+        }
+        .front { background-color: var(--slytherin-green) !important; }
+        .front h3 { color: #CCCCCC !important; font-family: 'Cinzel', serif; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
+        .back { background-color: var(--slytherin-silver) !important; transform: rotateY(180deg); }
+        .back h3 { color: var(--slytherin-green) !important; font-family: 'Cinzel', serif; font-size: 2.5rem; }
+
+        .quiz-option {
+            background: var(--light-parchment); border: 3px solid var(--slytherin-green);
+            padding: 15px; margin: 10px auto; max-width: 600px; cursor: pointer; border-radius: 8px;
+        }
+        .correct { background: #d4edda !important; border-color: #28a745 !important; }
+        .wrong { background: #f8d7da !important; border-color: #dc3545 !important; }
+
+        .certificate-container { border: 15px double var(--slytherin-green); padding: 50px; background: white; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <section id="screen-home" class="screen">
+            <i class="fas fa-snake" style="font-size: 4rem; color: var(--slytherin-green);"></i>
+            <h1>Pazport to English</h1>
+            <p>Prove your ambition. Only the worthy shall pass.</p>
+            
+            <div class="input-group">
+                <label>Student Name</label>
+                <input type="text" id="studentName" placeholder="Identify yourself...">
+            </div>
+            
+            <div class="input-group">
+                <label>Select Your Unit</label>
+                <select id="unitSelect"></select>
+            </div>
+            
+            <button class="btn" onclick="startPortal()">Enter Dungeons</button>
+        </section>
+
+        <section id="screen-menu" class="screen hidden">
+            <h2 id="welcome-msg">Slytherin Room</h2>
+            <div class="activity-grid">
+                <div class="activity-card" id="card-flashcards" onclick="startActivity('flashcards')">
+                    <div id="seal-flashcards" class="seal hidden"><i class="fas fa-dragon"></i></div>
+                    <i class="fas fa-book-skull" style="font-size: 3rem; color: var(--slytherin-green);"></i>
+                    <h3>Study Scrolls</h3>
+                </div>
+                <div class="activity-card" id="card-quiz" onclick="startActivity('quiz')">
+                    <div id="seal-quiz" class="seal hidden"><i class="fas fa-dragon"></i></div>
+                    <i class="fas fa-vial" style="font-size: 3rem; color: var(--slytherin-green);"></i>
+                    <h3>Knowledge Potion</h3>
+                </div>
+                <div class="activity-card" id="card-hangman" onclick="startActivity('hangman')">
+                    <div id="seal-hangman" class="seal hidden"><i class="fas fa-dragon"></i></div>
+                    <i class="fas fa-ghost" style="font-size: 3rem; color: var(--slytherin-green);"></i>
+                    <h3>Shadow Hangman</h3>
+                </div>
+            </div>
+            <button class="btn" onclick="generateCertificate()" style="margin-top: 50px;">Claim Certificate</button>
+        </section>
+
+        <section id="screen-activity" class="screen hidden">
+            <div style="text-align: left; margin-bottom: 20px;">
+                <button class="btn" onclick="showScreen('menu')" style="padding: 10px 20px;">Back</button>
+            </div>
+            <div id="activity-content"></div>
+        </section>
+
+        <section id="screen-certificate" class="screen hidden">
+            <div class="certificate-container">
+                <i class="fas fa-shield-alt" style="font-size: 3rem; color: var(--slytherin-green);"></i>
+                <h1>Official Report</h1>
+                <p>This certifies that</p>
+                <h2 id="cert-name" style="text-decoration: underline;"></h2>
+                <p>has conquered the skills of</p>
+                <h3 id="cert-unit"></h3>
+                <div id="cert-code" style="border: 2px dashed #333; padding: 10px; margin-top: 20px;"></div>
+            </div>
+            <button class="btn" onclick="window.print()" style="margin-top: 30px;">Download PDF</button>
+        </section>
+    </div>
+
+    <script>
+        const VOCABULARY_DATABASE = {
+            "9th Grade - Unit 1: At The Apartment": {
+                english: ["Department Store", "Baseball Cap", "Clerk", "Straight", "Upstairs", "Toward", "Glove", "Terrible", "Direction"],
+                spanish: ["Almacén / Tienda", "Gorra de béisbol", "Dependiente", "Derecho / Recto", "Piso de arriba", "Hacia", "Guante", "Terrible", "Dirección"],
+                grammar: [{ q: "Imperative: _______ (Ve) upstairs.", a: "Go" }]
+            }
+        };
+
+        let state = { 
+            name: "", 
+            unit: "", 
+            completed: { flashcards: false, quiz: false, hangman: false } 
+        };
+
+        const unitSelect = document.getElementById('unitSelect');
+        Object.keys(VOCABULARY_DATABASE).forEach(u => {
+            let op = document.createElement('option'); op.value = u; op.innerText = u; unitSelect.appendChild(op);
+        });
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+            document.getElementById('screen-' + id).classList.remove('hidden');
+            
+            // Update the seals in the menu whenever we show it
+            if(id === 'menu') {
+                if(state.completed.flashcards) document.getElementById('seal-flashcards').classList.remove('hidden');
+                if(state.completed.quiz) document.getElementById('seal-quiz').classList.remove('hidden');
+                if(state.completed.hangman) document.getElementById('seal-hangman').classList.remove('hidden');
+            }
+        }
+
+        function startPortal() {
+            state.name = document.getElementById('studentName').value;
+            state.unit = unitSelect.value;
+            if(!state.name) return alert("Who goes there? Identify yourself.");
+            document.getElementById('welcome-msg').innerText = "Ambition is the way, " + state.name;
+            showScreen('menu');
+        }
+
+        function startActivity(type) {
+            showScreen('activity');
+            const cont = document.getElementById('activity-content');
+            const data = VOCABULARY_DATABASE[state.unit];
+
+            if(type === 'flashcards') {
+                let i = 0;
+                const render = () => {
+                    cont.innerHTML = `
+                        <h2>Scroll ${i+1} / ${data.english.length}</h2>
+                        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                            <div class="flashcard-inner">
+                                <div class="front"><h3>${data.english[i]}</h3></div>
+                                <div class="back"><h3>${data.spanish[i]}</h3></div>
+                            </div>
+                        </div>
+                        <button class="btn" id="nextF">${i === data.english.length - 1 ? 'End' : 'Next'}</button>
+                    `;
+                    document.getElementById('nextF').onclick = () => { 
+                        if(i < data.english.length - 1) { i++; render(); } 
+                        else { state.completed.flashcards = true; showScreen('menu'); }
+                    };
+                };
+                render();
+            }
+
+            if(type === 'quiz') {
+                let i = 0; let score = 0;
+                const questions = data.english.map((w, idx) => ({ q: `Translate: "${data.spanish[idx]}"`, a: w, opts: data.english }));
+                const renderQ = () => {
+                    let qd = questions[i];
+                    cont.innerHTML = `<h2>Exam</h2><p style="font-size: 2rem; margin: 20px;">${qd.q}</p><div id="qlist"></div>`;
+                    let opts = [...qd.opts].sort(()=>0.5-Math.random()).slice(0,4);
+                    if(!opts.includes(qd.a)) opts[0] = qd.a;
+                    opts.forEach(o => {
+                        let dv = document.createElement('div'); dv.className = 'quiz-option'; dv.innerText = o;
+                        dv.onclick = () => {
+                            if(o === qd.a) { dv.classList.add('correct'); score++; } else dv.classList.add('wrong');
+                            setTimeout(() => { 
+                                i++; 
+                                if(i < questions.length) renderQ(); 
+                                else { state.completed.quiz = true; showScreen('menu'); }
+                            }, 1000);
+                        };
+                        document.getElementById('qlist').appendChild(dv);
+                    });
+                };
+                renderQ();
+            }
+
+            if(type === 'hangman') {
+                let word = data.english[Math.floor(Math.random()*data.english.length)].toUpperCase();
+                let guessed = []; let lives = 5;
+                const renderH = () => {
+                    let disp = word.split('').map(l => guessed.includes(l) || l === " " ? l : "_").join(' ');
+                    cont.innerHTML = `<h2>Lives: ${lives}</h2><div style="font-size:3rem; letter-spacing:10px; color:var(--slytherin-green); margin:30px;">${disp}</div>
+                    <input type="text" id="h-in" maxlength="1" style="width:50px; font-size:2rem; border:2px solid var(--slytherin-green);"><br><br>
+                    <button class="btn" id="h-btn">Guess</button>`;
+                    if(!disp.includes("_")) { state.completed.hangman = true; showScreen('menu'); return; }
+                    if(lives <= 0) { alert("Try again to earn your seal."); showScreen('menu'); return; }
+                    document.getElementById('h-btn').onclick = () => {
+                        let l = document.getElementById('h-in').value.toUpperCase();
+                        if(l && !guessed.includes(l)) { guessed.push(l); if(!word.includes(l)) lives--; }
+                        renderH();
+                    };
+                };
+                renderH();
+            }
+        }
+
+        function generateCertificate() {
+            if(!state.completed.flashcards || !state.completed.quiz || !state.completed.hangman) {
+                return alert("A true Slytherin finishes the job. Complete all scrolls and potions first!");
+            }
+            document.getElementById('cert-name').innerText = state.name;
+            document.getElementById('cert-unit').innerText = state.unit;
+            document.getElementById('cert-code').innerText = "MASTER-CODE: SLY-" + Math.floor(Math.random()*99999);
+            showScreen('certificate');
+        }
+    </script>
+</body>
+</html>
