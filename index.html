@@ -109,6 +109,46 @@
         .wrong { background: #f8d7da !important; border-color: #dc3545 !important; }
 
         .certificate-container { border: 15px double var(--slytherin-green); padding: 50px; background: white; margin-top: 20px; }
+        /* UPDATED FLASHCARD CONTAINER FOR MOBILE */
+    .flashcard { 
+        width: 90%; /* Scales with the screen width */
+        max-width: 350px; /* Won't get too big on laptops */
+        height: 250px; 
+        margin: 20px auto; 
+        perspective: 1000px; 
+        cursor: pointer; 
+    }
+
+    .front h3, .back h3 { 
+        font-size: 1.8rem; /* Slightly smaller for mobile screens */
+        font-family: 'Cinzel', serif; 
+        text-align: center; 
+        word-wrap: break-word; /* Prevents long words from leaking out */
+        padding: 10px;
+    }
+
+    /* RESPONSIVE ADJUSTMENTS */
+    @media (max-width: 600px) {
+        h1 { font-size: 2.2rem; } /* Shrink title so it doesn't wrap weirdly */
+        
+        .screen { padding: 20px 15px; } /* More space for content */
+        
+        .activity-card {
+            width: 100%; /* Cards stack vertically on phones */
+            margin: 10px 0;
+            padding: 20px;
+        }
+
+        .btn {
+            width: 100%; /* Buttons are easier to tap if they are full-width */
+            padding: 14px;
+            font-size: 1rem;
+        }
+
+        .front h3, .back h3 {
+            font-size: 1.5rem; /* Better fit for small phones */
+        }
+    }
     </style>
 </head>
 <body>
