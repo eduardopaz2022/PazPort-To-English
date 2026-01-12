@@ -80,75 +80,36 @@
         }
         .activity-card:hover { transform: translateY(-10px); box-shadow: 0 0 20px var(--slytherin-green); }
 
-        /* SEAL OF COMPLETION STYLE */
-        .seal {
-            position: absolute; top: 10px; right: 10px;
-            color: var(--slytherin-silver); font-size: 1.5rem;
-            text-shadow: 0 0 10px var(--slytherin-green);
+        .seal { position: absolute; top: 10px; right: 10px; color: var(--slytherin-silver); font-size: 1.5rem; }
+
+        /* MOBILE RESPONSIVENESS */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.2rem; }
+            .flashcard { width: 90% !important; height: 300px !important; }
+            .front h3, .back p { font-size: 1.2rem !important; }
+            .btn { width: 100%; margin-bottom: 10px; }
         }
 
         /* FLASHCARDS */
-        .flashcard { width: 350px; height: 250px; margin: 30px auto; perspective: 1000px; cursor: pointer; }
+        .flashcard { width: 400px; height: 280px; margin: 30px auto; perspective: 1000px; cursor: pointer; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
         .front, .back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border-radius: 15px; border: 8px solid var(--slytherin-silver); padding: 20px;
+            border-radius: 15px; border: 8px solid var(--slytherin-silver); padding: 25px;
         }
-        .front { background-color: var(--slytherin-green) !important; }
-        .front h3 { color: #CCCCCC !important; font-family: 'Cinzel', serif; font-size: 2.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); }
-        .back { background-color: var(--slytherin-silver) !important; transform: rotateY(180deg); }
-        .back h3 { color: var(--slytherin-green) !important; font-family: 'Cinzel', serif; font-size: 2.5rem; }
-
+        .front { background-color: var(--slytherin-green) !important; color: var(--slytherin-silver) !important; }
+        .back { background-color: var(--slytherin-silver) !important; color: var(--slytherin-green) !important; transform: rotateY(180deg); }
+        
         .quiz-option {
             background: var(--light-parchment); border: 3px solid var(--slytherin-green);
-            padding: 15px; margin: 10px auto; max-width: 600px; cursor: pointer; border-radius: 8px;
+            padding: 15px; margin: 10px auto; max-width: 600px; cursor: pointer; border-radius: 8px; text-align: left;
         }
         .correct { background: #d4edda !important; border-color: #28a745 !important; }
         .wrong { background: #f8d7da !important; border-color: #dc3545 !important; }
 
         .certificate-container { border: 15px double var(--slytherin-green); padding: 50px; background: white; margin-top: 20px; }
-        /* UPDATED FLASHCARD CONTAINER FOR MOBILE */
-    .flashcard { 
-        width: 90%; /* Scales with the screen width */
-        max-width: 350px; /* Won't get too big on laptops */
-        height: 250px; 
-        margin: 20px auto; 
-        perspective: 1000px; 
-        cursor: pointer; 
-    }
-
-    .front h3, .back h3 { 
-        font-size: 1.8rem; /* Slightly smaller for mobile screens */
-        font-family: 'Cinzel', serif; 
-        text-align: center; 
-        word-wrap: break-word; /* Prevents long words from leaking out */
-        padding: 10px;
-    }
-
-    /* RESPONSIVE ADJUSTMENTS */
-    @media (max-width: 600px) {
-        h1 { font-size: 2.2rem; } /* Shrink title so it doesn't wrap weirdly */
-        
-        .screen { padding: 20px 15px; } /* More space for content */
-        
-        .activity-card {
-            width: 100%; /* Cards stack vertically on phones */
-            margin: 10px 0;
-            padding: 20px;
-        }
-
-        .btn {
-            width: 100%; /* Buttons are easier to tap if they are full-width */
-            padding: 14px;
-            font-size: 1rem;
-        }
-
-        .front h3, .back h3 {
-            font-size: 1.5rem; /* Better fit for small phones */
-        }
-    }
     </style>
 </head>
 <body>
@@ -157,69 +118,71 @@
         <section id="screen-home" class="screen">
             <i class="fas fa-snake" style="font-size: 4rem; color: var(--slytherin-green);"></i>
             <h1>Pazport to English</h1>
-            <p>Prove your ambition. Only the worthy shall pass.</p>
+            <p>Welcome, ambitious student. Master the language of the elite.</p>
             
             <div class="input-group">
-                <label>Student Name</label>
-                <input type="text" id="studentName" placeholder="Identify yourself...">
+                <label>Full Student Name</label>
+                <input type="text" id="studentName" placeholder="Enter your name...">
             </div>
             
             <div class="input-group">
-                <label>Select Your Unit</label>
+                <label>Select Lesson Unit</label>
                 <select id="unitSelect"></select>
             </div>
             
-            <button class="btn" onclick="startPortal()">Enter Dungeons</button>
+            <button class="btn" onclick="startPortal()">Enter the Dungeons</button>
         </section>
 
         <section id="screen-menu" class="screen hidden">
-            <h2 id="welcome-msg">Slytherin Room</h2>
+            <h2 id="welcome-msg">Slytherin Common Room</h2>
             <div class="activity-grid">
-                <div class="activity-card" id="card-flashcards" onclick="startActivity('flashcards')">
-                    <div id="seal-flashcards" class="seal hidden"><i class="fas fa-dragon"></i></div>
-                    <i class="fas fa-book-skull" style="font-size: 3rem; color: var(--slytherin-green);"></i>
+                <div class="activity-card" onclick="startActivity('scrolls')">
+                    <div id="seal-scrolls" class="seal hidden"><i class="fas fa-scroll"></i></div>
+                    <i class="fas fa-book-open" style="font-size: 3rem; color: var(--slytherin-green);"></i>
                     <h3>Study Scrolls</h3>
                 </div>
-                <div class="activity-card" id="card-quiz" onclick="startActivity('quiz')">
-                    <div id="seal-quiz" class="seal hidden"><i class="fas fa-dragon"></i></div>
-                    <i class="fas fa-vial" style="font-size: 3rem; color: var(--slytherin-green);"></i>
-                    <h3>Knowledge Potion</h3>
+                <div class="activity-card" onclick="startActivity('quiz')">
+                    <div id="seal-quiz" class="seal hidden"><i class="fas fa-vial"></i></div>
+                    <i class="fas fa-brain" style="font-size: 3rem; color: var(--slytherin-green);"></i>
+                    <h3>Definition Quiz</h3>
                 </div>
-                <div class="activity-card" id="card-hangman" onclick="startActivity('hangman')">
-                    <div id="seal-hangman" class="seal hidden"><i class="fas fa-dragon"></i></div>
-                    <i class="fas fa-ghost" style="font-size: 3rem; color: var(--slytherin-green);"></i>
-                    <h3>Shadow Hangman</h3>
+                <div class="activity-card" onclick="startActivity('chamber')">
+                    <div id="seal-chamber" class="seal hidden"><i class="fas fa-magic"></i></div>
+                    <i class="fas fa-wand-sparkles" style="font-size: 3rem; color: var(--slytherin-green);"></i>
+                    <h3>Sentence Chamber</h3>
                 </div>
             </div>
-            <button class="btn" onclick="generateCertificate()" style="margin-top: 50px;">Claim Certificate</button>
+            <button class="btn" onclick="generateCertificate()" style="margin-top: 50px;">Claim Official Report</button>
         </section>
 
         <section id="screen-activity" class="screen hidden">
             <div style="text-align: left; margin-bottom: 20px;">
-                <button class="btn" onclick="showScreen('menu')" style="padding: 10px 20px;">Back</button>
+                <button class="btn" onclick="showScreen('menu')" style="padding: 10px 20px;">Back to Menu</button>
             </div>
             <div id="activity-content"></div>
         </section>
 
         <section id="screen-certificate" class="screen hidden">
             <div class="certificate-container">
-                <i class="fas fa-shield-alt" style="font-size: 3rem; color: var(--slytherin-green);"></i>
+                <i class="fas fa-shield-halved" style="font-size: 3rem; color: var(--slytherin-green);"></i>
                 <h1>Official Report</h1>
-                <p>This certifies that</p>
-                <h2 id="cert-name" style="text-decoration: underline;"></h2>
-                <p>has conquered the skills of</p>
-                <h3 id="cert-unit"></h3>
-                <div id="cert-code" style="border: 2px dashed #333; padding: 10px; margin-top: 20px;"></div>
+                <p>This recognizes that</p>
+                <h2 id="cert-name" style="text-decoration: underline; margin: 15px 0;"></h2>
+                <p>has mastered the English skills of</p>
+                <h3 id="cert-unit" style="margin: 15px 0;"></h3>
+                <div id="cert-code" style="border: 2px dashed #333; padding: 10px; margin-top: 20px; font-family: monospace;"></div>
             </div>
-            <button class="btn" onclick="window.print()" style="margin-top: 30px;">Download PDF</button>
+            <button class="btn" onclick="window.print()" style="margin-top: 30px;">Save Progress (PDF)</button>
         </section>
     </div>
 
     <script>
+        // ==========================================
+        // TEACHER'S OFFICE: DATABASE
+        // ==========================================
         const VOCABULARY_DATABASE = {
             "9th Grade - Unit 1 (Part 1)": {
                 english: ["Department Store", "Baseball Cap", "Clerk", "Straight", "Upstairs", "Toward"],
-                // DEFINITIONS INSTEAD OF TRANSLATIONS
                 meanings: [
                     "A large shop divided into several parts selling different types of things.",
                     "A soft hat with a stiff part extending over the eyes.",
@@ -228,7 +191,6 @@
                     "Towards or on the highest floor of a house or building.",
                     "In the direction of someone or something."
                 ],
-                // SCRAMBLED SENTENCES FOR THE NEW ACTIVITY
                 sentences: [
                     { scrambled: "buy / I / clothes / at / the / department store", correct: "I buy clothes at the department store" },
                     { scrambled: "wearing / is / a / red / baseball cap / He", correct: "He is wearing a red baseball cap" },
@@ -246,112 +208,6 @@
             completed: { scrolls: false, quiz: false, chamber: false } 
         };
 
-        // ... [StartPortal and ShowScreen Logic remains the same] ...
-
-        function startActivity(type) {
-            showScreen('activity');
-            const cont = document.getElementById('activity-content');
-            const data = VOCABULARY_DATABASE[state.unit];
-
-            // 1. STUDY SCROLLS (Now with English Definitions)
-            if(type === 'flashcards') {
-                let i = 0;
-                const render = () => {
-                    cont.innerHTML = `
-                        <h2>Scroll ${i+1} / ${data.english.length}</h2>
-                        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                            <div class="flashcard-inner">
-                                <div class="front"><h3>${data.english[i]}</h3></div>
-                                <div class="back"><p style="font-size:1.2rem; padding:10px;">${data.meanings[i]}</p></div>
-                            </div>
-                        </div>
-                        <button class="btn" id="nextF">${i === data.english.length - 1 ? 'Mastered' : 'Next'}</button>
-                    `;
-                    document.getElementById('nextF').onclick = () => { 
-                        if(i < data.english.length - 1) { i++; render(); } 
-                        else { state.completed.scrolls = true; showScreen('menu'); }
-                    };
-                };
-                render();
-            }
-
-            // 2. VERITASERUM QUIZ (English Word -> English Definition)
-            if(type === 'quiz') {
-                let i = 0;
-                const renderQ = () => {
-                    let qd = data.english[i];
-                    let correctDef = data.meanings[i];
-                    cont.innerHTML = `<h2>Match the Definition</h2><p style="font-size:1.8rem; margin:20px;">What is a "${qd}"?</p><div id="qlist"></div>`;
-                    
-                    // Mix 3 random definitions as options
-                    let opts = [...data.meanings].sort(()=>0.5-Math.random()).slice(0,3);
-                    if(!opts.includes(correctDef)) opts[0] = correctDef;
-                    opts.sort().forEach(o => {
-                        let dv = document.createElement('div'); dv.className = 'quiz-option'; dv.innerText = o;
-                        dv.onclick = () => {
-                            if(o === correctDef) { dv.classList.add('correct'); } else dv.classList.add('wrong');
-                            setTimeout(() => { i++; if(i < data.english.length) renderQ(); else { state.completed.quiz = true; showScreen('menu'); } }, 1200);
-                        };
-                        document.getElementById('qlist').appendChild(dv);
-                    });
-                };
-                renderQ();
-            }
-
-            // 3. THE SENTENCE CHAMBER (Unscramble the Magic)
-            if(type === 'chamber') {
-                let i = 0;
-                const renderC = () => {
-                    let sData = data.sentences[i];
-                    cont.innerHTML = `
-                        <h2>The Sentence Chamber</h2>
-                        <p style="margin-bottom:20px;">Unscramble the words to cast the spell:</p>
-                        <h3 style="color:var(--slytherin-green); letter-spacing:1px;">${sData.scrambled}</h3>
-                        <input type="text" id="s-in" placeholder="Type the full sentence here..." style="width:100%; margin:20px 0; padding:10px;">
-                        <button class="btn" id="s-btn">Check Sentence</button>
-                    `;
-                    document.getElementById('s-btn').onclick = () => {
-                        let val = document.getElementById('s-in').value.trim().toLowerCase();
-                        if(val === sData.correct.toLowerCase()) {
-                            alert("Spell cast correctly!");
-                            i++; if(i < data.sentences.length) renderC(); else { state.completed.chamber = true; showScreen('menu'); }
-                        } else {
-                            alert("The magic failed. Try again! Remember capital letters don't matter, but spelling does.");
-                        }
-                    };
-                };
-                renderC();
-            }
-        }
-    </script>
-            "10th Grade - Unit 1 (Part 1)": {
-                english: ["Happy", "Nervous", "Proud", "Jealous", "Mad", "Sad"],
-                spanish: ["Feliz", "Nervioso", "Orgulloso", "Celoso", "Enojado", "Triste"],
-                grammar: [{ q: "I feel _______ (orgulloso) of my work.", a: "proud" }]
-            },
-            "10th Grade - Unit 1 (Part 2)": {
-                english: ["Comfortable", "Lonely", "Calm", "Down", "Curious", "Afraid"],
-                spanish: ["Cómodo", "Solitario", "Calmado", "Deprimido", "Curioso", "Asustado"],
-                grammar: [{ q: "Are you _______ (asustado) of snakes?", a: "afraid" }]
-            },
-            "11th Grade - Unit 1 (Part 1)": {
-                english: ["Celebration", "Costumes", "Terrific", "Take part in", "Well-known", "Be filled with"],
-                spanish: ["Celebración", "Disfraces", "Genial", "Participar en", "Famoso/Conocido", "Estar lleno de"],
-                grammar: [{ q: "Let's _______ (participar) the festival.", a: "take part in" }]
-            },
-            "11th Grade - Unit 1 (Part 2)": {
-                english: ["Battle", "Festival", "To Book", "Carnival", "Travel Agency", "Tradition"],
-                spanish: ["Batalla", "Festival", "Reservar", "Carnaval", "Agencia de viajes", "Tradición"],
-                grammar: [{ q: "I need to _______ (reservar) a room.", a: "book" }]
-            }
-        };
-
-        let state = { 
-            name: "", 
-            unit: "", 
-            completed: { flashcards: false, quiz: false, hangman: false } 
-        };
-
         const unitSelect = document.getElementById('unitSelect');
         Object.keys(VOCABULARY_DATABASE).forEach(u => {
             let op = document.createElement('option'); op.value = u; op.innerText = u; unitSelect.appendChild(op);
@@ -360,20 +216,18 @@
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
             document.getElementById('screen-' + id).classList.remove('hidden');
-            
-            // Update the seals in the menu whenever we show it
             if(id === 'menu') {
-                if(state.completed.flashcards) document.getElementById('seal-flashcards').classList.remove('hidden');
+                if(state.completed.scrolls) document.getElementById('seal-scrolls').classList.remove('hidden');
                 if(state.completed.quiz) document.getElementById('seal-quiz').classList.remove('hidden');
-                if(state.completed.hangman) document.getElementById('seal-hangman').classList.remove('hidden');
+                if(state.completed.chamber) document.getElementById('seal-chamber').classList.remove('hidden');
             }
         }
 
         function startPortal() {
             state.name = document.getElementById('studentName').value;
             state.unit = unitSelect.value;
-            if(!state.name) return alert("Who goes there? Identify yourself.");
-            document.getElementById('welcome-msg').innerText = "Ambition is the only way!";
+            if(!state.name) return alert("Identify yourself first.");
+            document.getElementById('welcome-msg').innerText = "Greetings, " + state.name;
             showScreen('menu');
         }
 
@@ -382,44 +236,39 @@
             const cont = document.getElementById('activity-content');
             const data = VOCABULARY_DATABASE[state.unit];
 
-            if(type === 'flashcards') {
+            if(type === 'scrolls') {
                 let i = 0;
                 const render = () => {
                     cont.innerHTML = `
-                        <h2>Scroll ${i+1} / ${data.english.length}</h2>
+                        <h2>Word ${i+1} / ${data.english.length}</h2>
                         <div class="flashcard" onclick="this.classList.toggle('flipped')">
                             <div class="flashcard-inner">
                                 <div class="front"><h3>${data.english[i]}</h3></div>
-                                <div class="back"><h3>${data.spanish[i]}</h3></div>
+                                <div class="back"><p style="font-size:1.3rem;">${data.meanings[i]}</p></div>
                             </div>
                         </div>
-                        <button class="btn" id="nextF">${i === data.english.length - 1 ? 'End' : 'Next'}</button>
+                        <button class="btn" id="nextF">${i === data.english.length - 1 ? 'Finish Study' : 'Next Word'}</button>
                     `;
-                    document.getElementById('nextF').onclick = () => { 
-                        if(i < data.english.length - 1) { i++; render(); } 
-                        else { state.completed.flashcards = true; showScreen('menu'); }
-                    };
+                    document.getElementById('nextF').onclick = () => { if(i < data.english.length - 1) { i++; render(); } else { state.completed.scrolls = true; showScreen('menu'); } };
                 };
                 render();
             }
 
             if(type === 'quiz') {
-                let i = 0; let score = 0;
-                const questions = data.english.map((w, idx) => ({ q: `Translate: "${data.spanish[idx]}"`, a: w, opts: data.english }));
+                let i = 0;
                 const renderQ = () => {
-                    let qd = questions[i];
-                    cont.innerHTML = `<h2>Exam</h2><p style="font-size: 2rem; margin: 20px;">${qd.q}</p><div id="qlist"></div>`;
-                    let opts = [...qd.opts].sort(()=>0.5-Math.random()).slice(0,4);
-                    if(!opts.includes(qd.a)) opts[0] = qd.a;
+                    let word = data.english[i];
+                    let correctDef = data.meanings[i];
+                    let opts = [...data.meanings].sort(()=>0.5-Math.random()).slice(0,3);
+                    if(!opts.includes(correctDef)) opts[0] = correctDef;
+                    opts.sort();
+
+                    cont.innerHTML = `<h2>Match the Definition</h2><p style="font-size:1.8rem; margin:20px;">What is: <b>${word}</b>?</p><div id="qlist"></div>`;
                     opts.forEach(o => {
                         let dv = document.createElement('div'); dv.className = 'quiz-option'; dv.innerText = o;
                         dv.onclick = () => {
-                            if(o === qd.a) { dv.classList.add('correct'); score++; } else dv.classList.add('wrong');
-                            setTimeout(() => { 
-                                i++; 
-                                if(i < questions.length) renderQ(); 
-                                else { state.completed.quiz = true; showScreen('menu'); }
-                            }, 1000);
+                            if(o === correctDef) { dv.classList.add('correct'); setTimeout(() => { i++; if(i < data.english.length) renderQ(); else { state.completed.quiz = true; showScreen('menu'); } }, 1000); }
+                            else { dv.classList.add('wrong'); alert("That is not the correct definition."); }
                         };
                         document.getElementById('qlist').appendChild(dv);
                     });
@@ -427,33 +276,32 @@
                 renderQ();
             }
 
-            if(type === 'hangman') {
-                let word = data.english[Math.floor(Math.random()*data.english.length)].toUpperCase();
-                let guessed = []; let lives = 5;
-                const renderH = () => {
-                    let disp = word.split('').map(l => guessed.includes(l) || l === " " ? l : "_").join(' ');
-                    cont.innerHTML = `<h2>Lives: ${lives}</h2><div style="font-size:3rem; letter-spacing:10px; color:var(--slytherin-green); margin:30px;">${disp}</div>
-                    <input type="text" id="h-in" maxlength="1" style="width:50px; font-size:2rem; border:2px solid var(--slytherin-green);"><br><br>
-                    <button class="btn" id="h-btn">Guess</button>`;
-                    if(!disp.includes("_")) { state.completed.hangman = true; showScreen('menu'); return; }
-                    if(lives <= 0) { alert("Try again to earn your seal."); showScreen('menu'); return; }
-                    document.getElementById('h-btn').onclick = () => {
-                        let l = document.getElementById('h-in').value.toUpperCase();
-                        if(l && !guessed.includes(l)) { guessed.push(l); if(!word.includes(l)) lives--; }
-                        renderH();
+            if(type === 'chamber') {
+                let i = 0;
+                const renderC = () => {
+                    let sData = data.sentences[i];
+                    cont.innerHTML = `
+                        <h2>Sentence Chamber</h2>
+                        <p style="margin-bottom:20px;">Fix the mixed-up spell:</p>
+                        <h3 style="color:var(--slytherin-green); margin:20px 0;">${sData.scrambled}</h3>
+                        <input type="text" id="s-in" placeholder="Type sentence here..." style="width:100%; padding:15px; margin-bottom:20px;">
+                        <button class="btn" id="s-btn">Cast Spell</button>
+                    `;
+                    document.getElementById('s-btn').onclick = () => {
+                        if(document.getElementById('s-in').value.trim().toLowerCase() === sData.correct.toLowerCase()) {
+                            i++; if(i < data.sentences.length) renderC(); else { state.completed.chamber = true; showScreen('menu'); }
+                        } else alert("Incorrect word order. Try again!");
                     };
                 };
-                renderH();
+                renderC();
             }
         }
 
         function generateCertificate() {
-            if(!state.completed.flashcards || !state.completed.quiz || !state.completed.hangman) {
-                return alert("A true Slytherin finishes the job. Complete all scrolls and potions first!");
-            }
+            if(!state.completed.scrolls || !state.completed.quiz || !state.completed.chamber) return alert("Access Denied. Complete all 3 tasks first!");
             document.getElementById('cert-name').innerText = state.name;
             document.getElementById('cert-unit').innerText = state.unit;
-            document.getElementById('cert-code').innerText = "MASTER-CODE: SLY-" + Math.floor(Math.random()*99999);
+            document.getElementById('cert-code').innerText = "PAZ-SLY-" + Math.random().toString(36).substr(2, 8).toUpperCase();
             showScreen('certificate');
         }
     </script>
