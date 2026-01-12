@@ -219,14 +219,111 @@
         const VOCABULARY_DATABASE = {
             "9th Grade - Unit 1 (Part 1)": {
                 english: ["Department Store", "Baseball Cap", "Clerk", "Straight", "Upstairs", "Toward"],
-                spanish: ["Almacén", "Gorra de béisbol", "Dependiente", "Derecho/Recto", "Piso de arriba", "Hacia"],
-                grammar: [{ q: "Go _______ (arriba).", a: "upstairs" }]
-            },
-            "9th Grade - Unit 1 (Part 2)": {
-                english: ["Glove", "Terrible", "Direction", "Basement", "Food Court", "Restroom"],
-                spanish: ["Guante", "Terrible", "Dirección", "Sótano", "Plaza de comidas", "Baño"],
-                grammar: [{ q: "Don't walk _______ (hacia) the dog.", a: "toward" }]
-            },
+                // DEFINITIONS INSTEAD OF TRANSLATIONS
+                meanings: [
+                    "A large shop divided into several parts selling different types of things.",
+                    "A soft hat with a stiff part extending over the eyes.",
+                    "A person who works in a shop, office, or bank.",
+                    "Continuing in one direction without bending or curving.",
+                    "Towards or on the highest floor of a house or building.",
+                    "In the direction of someone or something."
+                ],
+                // SCRAMBLED SENTENCES FOR THE NEW ACTIVITY
+                sentences: [
+                    { scrambled: "buy / I / clothes / at / the / department store", correct: "I buy clothes at the department store" },
+                    { scrambled: "wearing / is / a / red / baseball cap / He", correct: "He is wearing a red baseball cap" },
+                    { scrambled: "The / clerk / me / helped / in / the / shop", correct: "The clerk helped me in the shop" },
+                    { scrambled: "Go / and / turn / straight / left", correct: "Go straight and turn left" },
+                    { scrambled: "The / is / upstairs / bedroom", correct: "The bedroom is upstairs" },
+                    { scrambled: "Walk / toward / the / library / slowly", correct: "Walk toward the library slowly" }
+                ]
+            }
+        };
+
+        let state = { 
+            name: "", 
+            unit: "", 
+            completed: { scrolls: false, quiz: false, chamber: false } 
+        };
+
+        // ... [StartPortal and ShowScreen Logic remains the same] ...
+
+        function startActivity(type) {
+            showScreen('activity');
+            const cont = document.getElementById('activity-content');
+            const data = VOCABULARY_DATABASE[state.unit];
+
+            // 1. STUDY SCROLLS (Now with English Definitions)
+            if(type === 'flashcards') {
+                let i = 0;
+                const render = () => {
+                    cont.innerHTML = `
+                        <h2>Scroll ${i+1} / ${data.english.length}</h2>
+                        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                            <div class="flashcard-inner">
+                                <div class="front"><h3>${data.english[i]}</h3></div>
+                                <div class="back"><p style="font-size:1.2rem; padding:10px;">${data.meanings[i]}</p></div>
+                            </div>
+                        </div>
+                        <button class="btn" id="nextF">${i === data.english.length - 1 ? 'Mastered' : 'Next'}</button>
+                    `;
+                    document.getElementById('nextF').onclick = () => { 
+                        if(i < data.english.length - 1) { i++; render(); } 
+                        else { state.completed.scrolls = true; showScreen('menu'); }
+                    };
+                };
+                render();
+            }
+
+            // 2. VERITASERUM QUIZ (English Word -> English Definition)
+            if(type === 'quiz') {
+                let i = 0;
+                const renderQ = () => {
+                    let qd = data.english[i];
+                    let correctDef = data.meanings[i];
+                    cont.innerHTML = `<h2>Match the Definition</h2><p style="font-size:1.8rem; margin:20px;">What is a "${qd}"?</p><div id="qlist"></div>`;
+                    
+                    // Mix 3 random definitions as options
+                    let opts = [...data.meanings].sort(()=>0.5-Math.random()).slice(0,3);
+                    if(!opts.includes(correctDef)) opts[0] = correctDef;
+                    opts.sort().forEach(o => {
+                        let dv = document.createElement('div'); dv.className = 'quiz-option'; dv.innerText = o;
+                        dv.onclick = () => {
+                            if(o === correctDef) { dv.classList.add('correct'); } else dv.classList.add('wrong');
+                            setTimeout(() => { i++; if(i < data.english.length) renderQ(); else { state.completed.quiz = true; showScreen('menu'); } }, 1200);
+                        };
+                        document.getElementById('qlist').appendChild(dv);
+                    });
+                };
+                renderQ();
+            }
+
+            // 3. THE SENTENCE CHAMBER (Unscramble the Magic)
+            if(type === 'chamber') {
+                let i = 0;
+                const renderC = () => {
+                    let sData = data.sentences[i];
+                    cont.innerHTML = `
+                        <h2>The Sentence Chamber</h2>
+                        <p style="margin-bottom:20px;">Unscramble the words to cast the spell:</p>
+                        <h3 style="color:var(--slytherin-green); letter-spacing:1px;">${sData.scrambled}</h3>
+                        <input type="text" id="s-in" placeholder="Type the full sentence here..." style="width:100%; margin:20px 0; padding:10px;">
+                        <button class="btn" id="s-btn">Check Sentence</button>
+                    `;
+                    document.getElementById('s-btn').onclick = () => {
+                        let val = document.getElementById('s-in').value.trim().toLowerCase();
+                        if(val === sData.correct.toLowerCase()) {
+                            alert("Spell cast correctly!");
+                            i++; if(i < data.sentences.length) renderC(); else { state.completed.chamber = true; showScreen('menu'); }
+                        } else {
+                            alert("The magic failed. Try again! Remember capital letters don't matter, but spelling does.");
+                        }
+                    };
+                };
+                renderC();
+            }
+        }
+    </script>
             "10th Grade - Unit 1 (Part 1)": {
                 english: ["Happy", "Nervous", "Proud", "Jealous", "Mad", "Sad"],
                 spanish: ["Feliz", "Nervioso", "Orgulloso", "Celoso", "Enojado", "Triste"],
