@@ -26,38 +26,32 @@
             background-size: cover;
             background-attachment: fixed;
             background-blend-mode: multiply;
-            color: #333;
             min-height: 100vh;
-            padding: 20px;
+            padding: 10px;
         }
 
         .container {
             max-width: 1000px;
-            margin: 30px auto;
+            margin: 20px auto;
             background-color: var(--parchment);
-            background-image: radial-gradient(#c9b18a 1px, transparent 1px);
-            background-size: 20px 20px;
-            border: 12px solid transparent;
-            border-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="%231A472A" stroke-width="8" stroke-dasharray="10,10"/></svg>') 25 stretch;
+            border: 8px solid var(--slytherin-green);
             box-shadow: 0 20px 50px rgba(0,0,0,0.7);
             border-radius: 8px;
             overflow: hidden;
         }
 
-        .screen { min-height: 75vh; padding: 40px; text-align: center; }
+        .screen { min-height: 70vh; padding: 30px; text-align: center; }
         .hidden { display: none !important; }
 
         h1, h2, h3 { font-family: 'Cinzel', serif; color: var(--slytherin-green); margin-bottom: 20px; }
-        h1 { font-size: 3.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        h1 { font-size: 2.8rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
 
-        input, select, button, .quiz-option { font-family: 'EB Garamond', serif !important; font-size: 1.2rem; }
-
-        .input-group { margin: 25px 0; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto; }
-        .input-group label { display: block; font-family: 'Cinzel', serif; margin-bottom: 10px; color: var(--slytherin-green); }
+        .input-group { margin: 20px 0; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .input-group label { display: block; font-family: 'Cinzel', serif; margin-bottom: 8px; color: var(--slytherin-green); font-weight: bold; }
         
         input[type="text"], select {
             width: 100%; padding: 15px; border: 3px solid var(--slytherin-green);
-            background: var(--light-parchment); border-radius: 4px;
+            background: var(--light-parchment); border-radius: 4px; font-size: 1.1rem;
         }
 
         .btn {
@@ -65,340 +59,373 @@
             background: linear-gradient(to bottom, var(--slytherin-green), #0d2b1a);
             color: var(--slytherin-silver) !important;
             border: 2px solid var(--slytherin-silver);
-            border-radius: 4px; font-family: 'Cinzel', serif !important;
+            border-radius: 4px; font-family: 'Cinzel', serif;
             font-weight: 700; cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 6px 0 var(--deep-black); transition: 0.2s;
+            box-shadow: 0 4px 0 #000; transition: 0.2s;
         }
 
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 0 var(--deep-black); filter: brightness(1.2); }
+        .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 #000; }
+        .btn:disabled { background: #555; cursor: not-allowed; opacity: 0.6; box-shadow: none; }
 
-        .activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 25px; margin-top: 40px; }
+        .activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; }
         .activity-card {
-            background: var(--light-parchment); border: 5px solid var(--slytherin-green);
-            padding: 30px; border-radius: 8px; cursor: pointer; transition: 0.4s;
-            position: relative;
+            background: var(--light-parchment); border: 4px solid var(--slytherin-green);
+            padding: 25px; border-radius: 8px; cursor: pointer; transition: 0.3s;
         }
-        .activity-card:hover { transform: translateY(-10px); box-shadow: 0 0 20px var(--slytherin-green); }
-
-        .seal { position: absolute; top: 10px; right: 10px; color: var(--slytherin-silver); font-size: 1.5rem; }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 2.2rem; }
-            .flashcard { width: 95% !important; height: 320px !important; }
-            .front h3 { font-size: 1.8rem !important; }
-            .back p { font-size: 1.1rem !important; }
-            .btn { width: 100%; margin-bottom: 10px; }
-        }
+        .activity-card:hover { transform: scale(1.03); background: #eee; }
 
         /* FLASHCARDS VISIBILITY FIX */
-        .flashcard { width: 450px; height: 300px; margin: 30px auto; perspective: 1000px; cursor: pointer; }
+        .flashcard { width: 100%; max-width: 450px; height: 300px; margin: 20px auto; perspective: 1000px; cursor: pointer; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
         .front, .back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border-radius: 15px; border: 8px solid var(--slytherin-silver); padding: 30px;
+            border-radius: 10px; border: 6px solid var(--slytherin-silver); padding: 25px;
         }
-        .front { background-color: var(--slytherin-green) !important; }
-        .front h3 { 
-            color: #CCCCCC !important; 
-            font-family: 'Cinzel', serif; 
-            font-size: 2.5rem; 
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8); 
-        }
-        .back { background-color: var(--slytherin-silver) !important; transform: rotateY(180deg); }
-        .back p { 
-            color: var(--slytherin-green) !important; 
-            font-weight: 600; 
-            font-size: 1.4rem; 
-            line-height: 1.4;
-        }
-        
+        .front { background-color: var(--slytherin-green); color: #CCCCCC !important; }
+        .front h3 { font-size: 2.2rem; text-align: center; }
+        .back { background-color: var(--slytherin-silver); color: var(--slytherin-green); transform: rotateY(180deg); }
+        .back p { font-size: 1.3rem; font-weight: bold; line-height: 1.4; text-align: center; }
+
         .quiz-option {
-            background: var(--light-parchment); border: 3px solid var(--slytherin-green);
-            padding: 15px; margin: 10px auto; max-width: 650px; cursor: pointer; border-radius: 8px; text-align: left;
+            background: var(--light-parchment); border: 2px solid var(--slytherin-green);
+            padding: 14px; margin: 10px auto; max-width: 650px; cursor: pointer; border-radius: 8px; transition: 0.2s;
         }
         .correct { background: #d4edda !important; border-color: #28a745 !important; }
         .wrong { background: #f8d7da !important; border-color: #dc3545 !important; }
 
-        .certificate-container { border: 15px double var(--slytherin-green); padding: 50px; background: white; margin-top: 20px; }
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .flashcard { height: 280px; }
+            .front h3 { font-size: 1.8rem; }
+            .back p { font-size: 1.1rem; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <section id="screen-home" class="screen">
-            <i class="fas fa-snake" style="font-size: 4rem; color: var(--slytherin-green);"></i>
-            <h1>Pazport to English</h1>
-            <p>Enter the portal of ambition. Master the language of the elite.</p>
-            <div class="input-group">
-                <label>Full Student Name</label>
-                <input type="text" id="studentName" placeholder="Type your name...">
-            </div>
-            <div class="input-group">
-                <label>Select Your Unit</label>
-                <select id="unitSelect"></select>
-            </div>
-            <button class="btn" onclick="startPortal()">Enter Common Room</button>
-        </section>
+<div class="container">
+    <section id="screen-home" class="screen">
+        <i class="fas fa-snake" style="font-size: 3.5rem; color: var(--slytherin-green);"></i>
+        <h1>Pazport to English</h1>
+        <p>Master the language, master the world.</p>
+        
+        <div class="input-group">
+            <label>Student Full Name</label>
+            <input type="text" id="studentName" placeholder="Enter your name..." oninput="updateUnitList()">
+        </div>
+        
+        <div class="input-group">
+            <label>Select Your Quest</label>
+            <select id="unitSelect" onchange="checkUnitStatus()"></select>
+        </div>
+        
+        <button class="btn" id="enterBtn" onclick="startPortal()">Enter the Common Room</button>
+        <p id="statusMsg" style="margin-top:15px; font-weight:bold; color:var(--slytherin-green);"></p>
+    </section>
 
-        <section id="screen-menu" class="screen hidden">
-            <h2 id="welcome-msg">Slytherin Room</h2>
-            <div class="activity-grid">
-                <div class="activity-card" onclick="startActivity('scrolls')">
-                    <div id="seal-scrolls" class="seal hidden"><i class="fas fa-scroll"></i></div>
-                    <i class="fas fa-book-open" style="font-size: 3rem; color: var(--slytherin-green);"></i>
-                    <h3>Study Scrolls</h3>
-                </div>
-                <div class="activity-card" onclick="startActivity('quiz')">
-                    <div id="seal-quiz" class="seal hidden"><i class="fas fa-vial"></i></div>
-                    <i class="fas fa-brain" style="font-size: 3rem; color: var(--slytherin-green);"></i>
-                    <h3>Definition Quiz</h3>
-                </div>
-                <div class="activity-card" onclick="startActivity('chamber')">
-                    <div id="seal-chamber" class="seal hidden"><i class="fas fa-magic"></i></div>
-                    <i class="fas fa-wand-sparkles" style="font-size: 3rem; color: var(--slytherin-green);"></i>
-                    <h3>Sentence Chamber</h3>
-                </div>
+    <section id="screen-menu" class="screen hidden">
+        <h2 id="welcome-msg">Slytherin Room</h2>
+        <div class="activity-grid">
+            <div class="activity-card" onclick="startActivity('scrolls')">
+                <i class="fas fa-scroll" style="font-size: 2.5rem; color: var(--slytherin-green);"></i>
+                <h3>Study Scrolls</h3>
             </div>
-            <button class="btn" onclick="generateCertificate()" style="margin-top: 50px;">Claim Final Report</button>
-        </section>
-
-        <section id="screen-activity" class="screen hidden">
-            <div style="text-align: left; margin-bottom: 20px;">
-                <button class="btn" onclick="showScreen('menu')" style="padding: 10px 20px;">Back</button>
+            <div class="activity-card" onclick="startActivity('quiz')">
+                <i class="fas fa-vial" style="font-size: 2.5rem; color: var(--slytherin-green);"></i>
+                <h3>Definition Quiz</h3>
             </div>
-            <div id="activity-content"></div>
-        </section>
-
-        <section id="screen-certificate" class="screen hidden">
-            <div class="certificate-container">
-                <i class="fas fa-shield-halved" style="font-size: 3rem; color: var(--slytherin-green);"></i>
-                <h1>Mastery Achievement</h1>
-                <p>This recognizes that</p>
-                <h2 id="cert-name" style="text-decoration: underline; margin: 15px 0;"></h2>
-                <p>has conquered the English skills of</p>
-                <h3 id="cert-unit" style="margin: 15px 0;"></h3>
-                <div id="cert-code" style="border: 2px dashed #333; padding: 10px; margin-top: 20px; font-family: monospace;"></div>
+            <div class="activity-card" onclick="startActivity('chamber')">
+                <i class="fas fa-wand-sparkles" style="font-size: 2.5rem; color: var(--slytherin-green);"></i>
+                <h3>Sentence Chamber</h3>
             </div>
-            <button class="btn" onclick="window.print()" style="margin-top: 30px;">Download PDF</button>
-        </section>
-    </div>
+        </div>
+        <button class="btn" onclick="generateCertificate()" style="margin-top: 50px;">Claim Official Report</button>
+    </section>
 
-    <script>
-        const VOCABULARY_DATABASE = {
-            "9th - Unit 1 (Part 1)": {
-                english: ["Department Store", "Baseball Cap", "Clerk", "Straight", "Upstairs", "Toward"],
-                meanings: [
-                    "A large shop divided into several parts selling different types of things.",
-                    "A soft hat with a stiff part extending over the eyes.",
-                    "A person who works in a shop, office, or bank.",
-                    "Continuing in one direction without bending or curving.",
-                    "Towards or on the highest floor of a house or building.",
-                    "In the direction of someone or something."
-                ],
-                sentences: [
-                    { scrambled: "buy / I / clothes / at / the / department store", correct: "I buy clothes at the department store" },
-                    { scrambled: "wearing / is / a / red / baseball cap / He", correct: "He is wearing a red baseball cap" },
-                    { scrambled: "The / clerk / me / helped / in / the / shop", correct: "The clerk helped me in the shop" },
-                    { scrambled: "Go / and / turn / straight / left", correct: "Go straight and turn left" },
-                    { scrambled: "The / is / upstairs / bedroom", correct: "The bedroom is upstairs" },
-                    { scrambled: "Walk / toward / the / library / slowly", correct: "Walk toward the library slowly" }
-                ]
-            },
-            "9th - Unit 1 (Part 2)": {
-                english: ["Glove", "Terrible", "Direction", "Basement", "Food Court", "Restroom"],
-                meanings: [
-                    "A piece of clothing that covers the hand and fingers.",
-                    "Very unpleasant or serious.",
-                    "The path that something takes.",
-                    "The part of a building that is below the level of the ground.",
-                    "An area in a shopping center where there are many small restaurants.",
-                    "A room with a toilet in a public building."
-                ],
-                sentences: [
-                    { scrambled: "hands / My / cold / are / wear / I / gloves", correct: "My hands are cold I wear gloves" },
-                    { scrambled: "food / The / was / really / terrible", correct: "The food was really terrible" },
-                    { scrambled: "Which / is / direction / the / bank / in?", correct: "Which direction is the bank in?" },
-                    { scrambled: "stored / boxes / in / the / basement / We", correct: "We stored boxes in the basement" },
-                    { scrambled: "Let's / eat / lunch / at / the / food court", correct: "Let's eat lunch at the food court" },
-                    { scrambled: "Where / is / public / the / restroom?", correct: "Where is the public restroom?" }
-                ]
-            },
-"10th - Unit 1 (Part 1)": {
-                english: ["Nervous", "Proud", "Jealous", "Mad", "Lonely", "Afraid"],
-                meanings: [
-                    "Feeling worried or anxious about something, like an exam.",
-                    "Feeling very pleased about something you have done.",
-                    "Unhappy because someone has something you want.",
-                    "Feeling very angry.",
-                    "Unhappy because you are not with other people.",
-                    "Feeling fear or worried about a possible result."
-                ],
-                sentences: [
-                    { scrambled: "makes / Music / feel / me / happy", correct: "Music makes me feel happy" },
-                    { scrambled: "nervous / about / am / I / the / speech", correct: "I am nervous about the speech" },
-                    { scrambled: "parents / My / are / proud / of / me", correct: "My parents are proud of me" },
-                    { scrambled: "Do / be / not / jealous / her / of", correct: "Do not be jealous of her" },
-                    { scrambled: "He / was / mad / the / at / president", correct: "He was mad at the president" },
-                    { scrambled: "The / news / bad / made / us / sad", correct: "The bad news made us sad" }
-                ]
-            },
-            "10th - Unit 1 (Part 2)": {
-                english: ["Cheer up", "Congratulations", "Way to go", "Calm down", "Take it easy", "Relax"],
-                meanings: [
-                    "An expression used to make someone feel happier.",
-                    "Something you say when someone has done something well.",
-                    "An enthusiastic way to say 'well done'.",
-                    "To stop feeling angry or excited.",
-                    "Used to tell someone to be calm and not worry.",
-                    "To become less active and more calm."
-                ],
-                sentences: [
-                    { scrambled: "Please / up / cheer / because / it / is / okay", correct: "Please cheer up because it is okay" },
-                    { scrambled: "you / Congratulations / on / your / good / grade", correct: "Congratulations on your good grade" },
-                    { scrambled: "Way / to / go / on / the / test", correct: "Way to go on the test" },
-                    { scrambled: "You / need / to / down / calm / now", correct: "You need to calm down now" },
-                    { scrambled: "Take / it / easy / and / breathe / slowly", correct: "Take it easy and breathe slowly" },
-                    { scrambled: "Try / to / and / relax / listen / to / music", correct: "Try to relax and listen to music" }
-                ]
-            },
-"11th - Unit 1 (Part 1)": {
-                english: ["Celebration", "Costumes", "Terrific", "To Book", "Well-known", "Be filled with"],
-                meanings: [
-                    "A special social event, such as a party, for a specific occasion.",
-                    "The set of clothes typical of a particular country or period.",
-                    "Very good; wonderful or fantastic.",
-                    "To reserve a seat, ticket, or hotel in advance.",
-                    "Famous or familiar to many people.",
-                    "To contain a lot of a specific thing or feeling."
-                ],
-                sentences: [
-                    { scrambled: "The / was / party / a / great / celebration", correct: "The party was a great celebration" },
-                    { scrambled: "wore / They / colorful / for / costumes / carnival", correct: "They wore colorful costumes for carnival" },
-                    { scrambled: "had / a / We / terrific / in / time / Spain", correct: "We had a terrific time in Spain" },
-                    { scrambled: "want / I / to / take part in / the / parade", correct: "I want to take part in the parade" },
-                    { scrambled: "is / food / This / well-known / in / the / world", correct: "This food is well-known in the world" },
-                    { scrambled: "The / were / streets / filled with / people", correct: "The streets were filled with people" }
-                ]
-            },
-            "11th - Unit 1 (Part 2)": {
-                english: ["Call off", "Find out", "Bump into", "Count on", "Look forward to", "To take part in"],
-                meanings: [
-                    "To cancel something that was planned.",
-                    "To discover a fact or piece of information.",
-                    "To meet someone you know unexpectedly.",
-                    "To rely on or expect someone's help.",
-                    "To feel excited about a future event.",
-                    ""To be involved in an activity with other people; to participate.""
-                ],
-                sentences: [
-                    { scrambled: "They / call / off / the / had / to / festival", correct: "They had to call off the festival" },
-                    { scrambled: "I / to / find / out / need / the / date", correct: "I need to find out the date" },
-                    { scrambled: "I / into / bumped / Jenny / at / library / the", correct: "I bumped into Jenny at the library" },
-                    { scrambled: "can / You / on / always / count / me", correct: "You can always count on me" },
-                    { scrambled: "forward / to / I / look / the / party", correct: "I look forward to the party" },
-                    { scrambled: "booked / Pedro / a / home / flight", correct: "Pedro booked a flight home" }
-                ]
+    <section id="screen-activity" class="screen hidden">
+        <div style="text-align: left; margin-bottom: 20px;">
+            <button class="btn" onclick="showScreen('menu')" style="padding: 10px 20px;">Return</button>
+        </div>
+        <div id="activity-content"></div>
+    </section>
+
+    <section id="screen-certificate" class="screen hidden">
+        <div id="cert-area" style="border: 12px double var(--slytherin-green); padding: 40px; background: white;">
+            <h1>Mastery Achievement</h1>
+            <p>This recognizes that</p>
+            <h2 id="cert-name" style="text-decoration: underline; margin: 15px 0; font-size: 2.2rem;"></h2>
+            <p>has successfully conquered the skills of</p>
+            <h3 id="cert-unit" style="margin: 10px 0; color: var(--slytherin-green);"></h3>
+            <p id="cert-date" style="font-style: italic;"></p>
+            <div style="margin-top:20px; font-family:monospace; border:1px dashed #ccc; padding:5px;" id="cert-code"></div>
+        </div>
+        <button class="btn" onclick="location.reload()" style="margin-top: 25px;">Save & Return to Hall</button>
+    </section>
+</div>
+
+<script>
+    // ==========================================
+    // TEACHER'S OFFICE: COMPLETE DATABASE
+    // ==========================================
+    const VOCABULARY_DATABASE = {
+        "9th - Unit 1 (Part 1)": {
+            english: ["Department Store", "Baseball Cap", "Clerk", "Straight", "Upstairs", "Toward"],
+            meanings: [
+                [cite_start]"A large shop divided into several parts selling different things[cite: 13].",
+                [cite_start]"A soft hat with a stiff part extending over the eyes[cite: 13].",
+                [cite_start]"A person who works in a shop, office, or bank[cite: 13].",
+                [cite_start]"Continuing in one direction without bending or curving[cite: 13].",
+                [cite_start]"Towards or on the highest floor of a building[cite: 13].",
+                [cite_start]"In the direction of someone or something[cite: 13]."
+            ],
+            sentences: [
+                { s: "buy / I / clothes / at / the / department store", c: "I buy clothes at the department store" },
+                { s: "wearing / is / a / red / baseball cap / He", c: "He is wearing a red baseball cap" },
+                { s: "The / clerk / me / helped / in / the / shop", c: "The clerk helped me in the shop" },
+                { s: "Go / and / turn / straight / left", c: "Go straight and turn left" },
+                { s: "The / is / upstairs / bedroom", c: "The bedroom is upstairs" },
+                { s: "Walk / toward / the / library / slowly", c: "Walk toward the library slowly" }
+            ]
+        },
+        "9th - Unit 1 (Part 2)": {
+            english: ["Glove", "Terrible", "Direction", "Basement", "Food Court", "Restroom"],
+            meanings: [
+                [cite_start]"Clothing that covers the hand and fingers[cite: 13].",
+                [cite_start]"Very unpleasant or serious[cite: 13].",
+                [cite_start]"The path that something takes[cite: 13].",
+                [cite_start]"The part of a building below ground level[cite: 13].",
+                [cite_start]"Area in a mall with many small restaurants[cite: 13].",
+                [cite_start]"A room with a toilet in a public building[cite: 13]."
+            ],
+            sentences: [
+                { s: "wear / I / gloves / when / it / is / cold", c: "I wear gloves when it is cold" },
+                { s: "The / weather / was / terrible / yesterday", c: "The weather was terrible yesterday" },
+                { s: "Which / is / direction / the / bank / in?", c: "Which direction is the bank in?" },
+                { s: "Go / down / to / the / basement / now", c: "Go down to the basement now" },
+                { s: "Let's / meet / at / the / food court", c: "Let's meet at the food court" },
+                { s: "Where / is / the / public / restroom?", c: "Where is the public restroom?" }
+            ]
+        },
+        "10th - Unit 1 (Part 1)": {
+            english: ["Nervous", "Proud", "Jealous", "Mad", "Lonely", "Afraid"],
+            meanings: [
+                "Feeling worried or anxious.",
+                "Feeling pleased about something you did.",
+                "Unhappy because someone has what you want.",
+                "Feeling very angry.",
+                "Unhappy because you are not with other people.",
+                "Feeling fear or worried about a possible result."
+            ],
+            sentences: [
+                { s: "nervous / about / am / I / the / speech", c: "I am nervous about the speech" },
+                { s: "parents / My / are / proud / of / me", c: "My parents are proud of me" },
+                { s: "Do / not / be / jealous / of / her", c: "Do not be jealous of her" },
+                { s: "He / was / mad / the / at / president", c: "He was mad at the president" },
+                { s: "feels / She / lives / and / lonely / often / alone", c: "She lives alone and often feels lonely."},
+                { s: "dark / of / the / afraid / He / is", c: "He is afraid of the dark."}
+            ]
+        },
+        "10th - Unit 1 (Part 2)": {
+            english: ["Cheer up", "Congratulations", "Way to go", "Calm down", "Take it easy", "Relax"],
+            meanings: [
+                "Expression to make someone feel happier.",
+                "Phrase used when someone has done well.",
+                "Enthusiastic way to say 'well done'.",
+                "To stop feeling angry or excited.",
+                "Used to tell someone to be calm.",
+                "To become less active and more calm."
+            ],
+            sentences: [
+                { s: "Please / cheer / up / it / is / okay", c: "Please cheer up it is okay" },
+                { s: "Congratulations / on / your / good / grade", c: "Congratulations on your good grade" },
+                { s: "Way / to / go / on / the / test", c: "Way to go on the test" },
+                { s: "You / need / to / calm / down / now", c: "You need to calm down now" },
+                { s: "Take / it / easy / and / breathe / slowly", c: "Take it easy and breathe slowly" },
+                { s: "Try / to / and / relax / listen / music", c: "Try to relax and listen music" }
+            ]
+        },
+        "11th - Unit 1 (Part 1)": {
+            english: ["Celebration", "Costumes", "Terrific", "Take part in", "Well-known", "Be filled with"],
+            meanings: [
+                "Special social event to celebrate.",
+                "Clothes worn typical of a period.",
+                "Very good; wonderful or fantastic.",
+                "To be involved in an activity.",
+                "Famous or familiar to many people.",
+                "To contain a lot of something."
+            ],
+            sentences: [
+                { s: "The / party / was / a / celebration", c: "The party was a celebration" },
+                { s: "wore / They / costumes / for / carnival", c: "They wore costumes for carnival" },
+                { s: "had / a / We / terrific / time", c: "We had a terrific time" },
+                { s: "I / want / to / take part in / the / race", c: "I want to take part in the race" },
+                { s: "He / is / a / well-known / singer", c: "He is a well-known singer" },
+                { s: "The / streets / were / filled with / people", c: "The streets were filled with people" }
+            ]
+        },
+        "11th - Unit 1 (Part 2)": {
+            english: ["Call off", "Find out", "Bump into", "Count on", "Look forward to", "Book"],
+            meanings: [
+                "To cancel something planned.",
+                "To discover a piece of information.",
+                "To meet someone unexpectedly.",
+                "To rely on someone for help.",
+                "To feel excited about the future.",
+                "To reserve a seat or hotel."
+            ],
+            sentences: [
+                { s: "They / had / to / call / off / the / festival", c: "They had to call off the festival" },
+                { s: "I / to / find / out / need / the / date", c: "I need to find out the date" },
+                { s: "I / into / bumped / Jenny / at / the / library", c: "I bumped into Jenny at the library" },
+                { s: "You / can / always / count / on / me", c: "You can always count on me" },
+                { s: "I / look / forward / to / the / party", c: "I look forward to the party" },
+                { s: "booked / Pedro / a / home / flight", c: "Pedro booked a flight home" }
+            ]
+        }
+    };
+
+    let state = { name: "", unit: "", completed: { scrolls: false, quiz: false, chamber: false } };
+
+    // --- LOGIC: MEMORY & LOCKING ---
+    function updateUnitList() {
+        const name = document.getElementById('studentName').value.trim().toLowerCase();
+        const select = document.getElementById('unitSelect');
+        select.innerHTML = "";
+
+        Object.keys(VOCABULARY_DATABASE).forEach(unit => {
+            const isDone = localStorage.getItem(`${name}-${unit}`);
+            const opt = document.createElement('option');
+            opt.value = unit;
+            opt.innerText = isDone ? `✅ ${unit} (DONE)` : unit;
+            if (isDone) {
+                opt.style.textDecoration = "line-through";
+                opt.style.color = "#888";
             }
-        };
-
-        let state = { name: "", unit: "", completed: { scrolls: false, quiz: false, chamber: false } };
-        const unitSelect = document.getElementById('unitSelect');
-        Object.keys(VOCABULARY_DATABASE).forEach(u => {
-            let op = document.createElement('option'); op.value = u; op.innerText = u; unitSelect.appendChild(op);
+            select.appendChild(opt);
         });
+        checkUnitStatus();
+    }
 
-        function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-            document.getElementById('screen-' + id).classList.remove('hidden');
-            if(id === 'menu') {
-                if(state.completed.scrolls) document.getElementById('seal-scrolls').classList.remove('hidden');
-                if(state.completed.quiz) document.getElementById('seal-quiz').classList.remove('hidden');
-                if(state.completed.chamber) document.getElementById('seal-chamber').classList.remove('hidden');
-            }
+    function checkUnitStatus() {
+        const name = document.getElementById('studentName').value.trim().toLowerCase();
+        const unit = document.getElementById('unitSelect').value;
+        const btn = document.getElementById('enterBtn');
+        const msg = document.getElementById('statusMsg');
+
+        if (name && localStorage.getItem(`${name}-${unit}`)) {
+            btn.disabled = true;
+            msg.innerText = "⚠️ You have already mastered this quest!";
+        } else {
+            btn.disabled = false;
+            msg.innerText = "";
         }
+    }
 
-        function startPortal() {
-            state.name = document.getElementById('studentName').value;
-            state.unit = unitSelect.value;
-            if(!state.name) return alert("Who are you? State your name.");
-            document.getElementById('welcome-msg').innerText = "Ambition achieved, " + state.name;
-            showScreen('menu');
-        }
+    // Inicializar lista
+    updateUnitList();
 
-        function startActivity(type) {
-            showScreen('activity');
-            const cont = document.getElementById('activity-content');
-            const data = VOCABULARY_DATABASE[state.unit];
+    function showScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+        document.getElementById('screen-' + id).classList.remove('hidden');
+    }
 
-            if(type === 'scrolls') {
-                let i = 0;
-                const render = () => {
-                    cont.innerHTML = `
-                        <h2>Word Scroll ${i+1} / ${data.english.length}</h2>
-                        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-                            <div class="flashcard-inner">
-                                <div class="front"><h3>${data.english[i]}</h3></div>
-                                <div class="back"><p>${data.meanings[i]}</p></div>
-                            </div>
+    function startPortal() {
+        state.name = document.getElementById('studentName').value.trim();
+        state.unit = document.getElementById('unitSelect').value;
+        if (!state.name) return alert("Who are you? State your name.");
+        document.getElementById('welcome-msg').innerText = "Greetings, " + state.name;
+        showScreen('menu');
+    }
+
+    function startActivity(type) {
+        showScreen('activity');
+        const cont = document.getElementById('activity-content');
+        const data = VOCABULARY_DATABASE[state.unit];
+
+        if(type === 'scrolls') {
+            let i = 0;
+            const render = () => {
+                cont.innerHTML = `
+                    <h2>Word ${i+1} / ${data.english.length}</h2>
+                    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                        <div class="flashcard-inner">
+                            <div class="front"><h3>${data.english[i]}</h3></div>
+                            <div class="back"><p>${data.meanings[i]}</p></div>
                         </div>
-                        <button class="btn" id="nextF">${i === data.english.length - 1 ? 'End Study' : 'Next Word'}</button>
-                    `;
-                    document.getElementById('nextF').onclick = () => { if(i < data.english.length - 1) { i++; render(); } else { state.completed.scrolls = true; showScreen('menu'); } };
+                    </div>
+                    <button class="btn" id="nextF">${i === data.english.length - 1 ? 'Complete Study' : 'Next Scroll'}</button>
+                `;
+                document.getElementById('nextF').onclick = () => {
+                    if(i < data.english.length - 1) { i++; render(); }
+                    else { state.completed.scrolls = true; showScreen('menu'); }
                 };
-                render();
-            }
+            };
+            render();
+        }
 
-            if(type === 'quiz') {
-                let i = 0;
-                const renderQ = () => {
-                    let word = data.english[i];
-                    let correctDef = data.meanings[i];
-                    let opts = [...data.meanings].sort(()=>0.5-Math.random()).slice(0,3);
-                    if(!opts.includes(correctDef)) opts[0] = correctDef;
-                    opts.sort();
-                    cont.innerHTML = `<h2>Match the Definition</h2><p style="font-size:1.8rem; margin:20px;">What is <b>${word}</b>?</p><div id="qlist"></div>`;
-                    opts.forEach(o => {
-                        let dv = document.createElement('div'); dv.className = 'quiz-option'; dv.innerText = o;
-                        dv.onclick = () => {
-                            if(o === correctDef) { dv.classList.add('correct'); setTimeout(() => { i++; if(i < data.english.length) renderQ(); else { state.completed.quiz = true; showScreen('menu'); } }, 1000); }
-                            else { dv.classList.add('wrong'); }
-                        };
-                        document.getElementById('qlist').appendChild(dv);
-                    });
-                };
-                renderQ();
-            }
-
-            if(type === 'chamber') {
-                let i = 0;
-                const renderC = () => {
-                    let sData = data.sentences[i];
-                    cont.innerHTML = `
-                        <h2>Sentence Chamber</h2>
-                        <p style="margin-bottom:20px;">Fix the mixed-up spell:</p>
-                        <h3 style="color:var(--slytherin-green); margin:20px 0;">${sData.scrambled}</h3>
-                        <input type="text" id="s-in" placeholder="Type sentence here..." style="width:100%; padding:15px; margin-bottom:20px;">
-                        <button class="btn" id="s-btn">Cast Spell</button>
-                    `;
-                    document.getElementById('s-btn').onclick = () => {
-                        if(document.getElementById('s-in').value.trim().toLowerCase() === sData.correct.toLowerCase()) {
-                            i++; if(i < data.sentences.length) renderC(); else { state.completed.chamber = true; showScreen('menu'); }
-                        } else alert("Magic failed. Try again!");
+        if(type === 'quiz') {
+            let i = 0;
+            const renderQ = () => {
+                let word = data.english[i];
+                let correct = data.meanings[i];
+                let opts = [...data.meanings].sort(()=>0.5-Math.random()).slice(0,3);
+                if(!opts.includes(correct)) opts[0] = correct;
+                opts.sort();
+                cont.innerHTML = `<h2>Match the definition for:</h2><h3 style="font-size:2rem; margin:15px;">${word}</h3><div id="ql"></div>`;
+                opts.forEach(o => {
+                    let d = document.createElement('div'); d.className = 'quiz-option'; d.innerText = o;
+                    d.onclick = () => {
+                        if(o === correct) {
+                            d.classList.add('correct');
+                            setTimeout(() => { i++; i < data.english.length ? renderQ() : (state.completed.quiz = true, showScreen('menu')); }, 1000);
+                        } else {
+                            d.classList.add('wrong');
+                            alert("Incorrect! Review your scrolls.");
+                        }
                     };
-                };
-                renderC();
-            }
+                    document.getElementById('ql').appendChild(d);
+                });
+            };
+            renderQ();
         }
 
-        function generateCertificate() {
-            if(!state.completed.scrolls || !state.completed.quiz || !state.completed.chamber) return alert("Forbidden! Complete all 3 tasks first.");
-            document.getElementById('cert-name').innerText = state.name;
-            document.getElementById('cert-unit').innerText = state.unit;
-            document.getElementById('cert-code').innerText = "PAZ-MASTER-" + Math.random().toString(36).substr(2, 6).toUpperCase();
-            showScreen('certificate');
+        if(type === 'chamber') {
+            let i = 0;
+            const renderC = () => {
+                let sData = data.sentences[i];
+                cont.innerHTML = `
+                    <h2>The Sentence Chamber</h2>
+                    <p>Unscramble the spell:</p>
+                    <h3 style="margin:25px 0; color:var(--slytherin-green);">${sData.s}</h3>
+                    <input type="text" id="sin" placeholder="Type the full sentence here..." style="width:100%; margin-bottom:20px;">
+                    <button class="btn" id="cbtn">Cast Spell</button>
+                `;
+                document.getElementById('cbtn').onclick = () => {
+                    if(document.getElementById('sin').value.trim().toLowerCase() === sData.c.toLowerCase()) {
+                        i++; i < data.sentences.length ? renderC() : (state.completed.chamber = true, showScreen('menu'));
+                    } else alert("The magic failed. Check word order!");
+                };
+            };
+            renderC();
         }
-    </script>
+    }
+
+    function generateCertificate() {
+        if(!state.completed.scrolls || !state.completed.quiz || !state.completed.chamber) {
+            return alert("Access Denied. You must complete all three tasks first!");
+        }
+        
+        // --- SAVE PROGRESS PERMANENTLY ---
+        localStorage.setItem(`${state.name.toLowerCase()}-${state.unit}`, "completed");
+        
+        document.getElementById('cert-name').innerText = state.name;
+        document.getElementById('cert-unit').innerText = state.unit;
+        document.getElementById('cert-date').innerText = "Date of Mastery: " + new Date().toLocaleDateString();
+        document.getElementById('cert-code').innerText = "VERIFICATION CODE: " + Math.random().toString(36).substr(2, 9).toUpperCase();
+        showScreen('certificate');
+    }
+</script>
 </body>
 </html>
