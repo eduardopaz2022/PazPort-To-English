@@ -51,7 +51,7 @@
         
         input[type="text"], select {
             width: 100%; padding: 15px; border: 3px solid var(--slytherin-green);
-            background: var(--light-parchment); border-radius: 4px; font-size: 1.1rem;
+            background: var(--light-parchment); border-radius: 4px; font-size: 1.1rem; color: #333;
         }
 
         .btn {
@@ -74,7 +74,6 @@
         }
         .activity-card:hover { transform: scale(1.03); background: #eee; }
 
-        /* FLASHCARDS VISIBILITY FIX */
         .flashcard { width: 100%; max-width: 450px; height: 300px; margin: 20px auto; perspective: 1000px; cursor: pointer; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
@@ -98,8 +97,6 @@
         @media (max-width: 600px) {
             h1 { font-size: 2rem; }
             .flashcard { height: 280px; }
-            .front h3 { font-size: 1.8rem; }
-            .back p { font-size: 1.1rem; }
         }
     </style>
 </head>
@@ -166,136 +163,133 @@
 </div>
 
 <script>
-    // ==========================================
-    // TEACHER'S OFFICE: COMPLETE DATABASE
-    // ==========================================
     const VOCABULARY_DATABASE = {
         "9th - Unit 1 (Part 1)": {
-            english: ["Department Store", "Baseball Cap", "Clerk", "Straight", "Upstairs", "Toward"],
+            english: ["Clerk", "Department Store", "Information Desk", "Restroom", "Food Court", "Basement"],
             meanings: [
-                [cite_start]"A large shop divided into several parts selling different things[cite: 13].",
-                [cite_start]"A soft hat with a stiff part extending over the eyes[cite: 13].",
-                [cite_start]"A person who works in a shop, office, or bank[cite: 13].",
-                [cite_start]"Continuing in one direction without bending or curving[cite: 13].",
-                [cite_start]"Towards or on the highest floor of a building[cite: 13].",
-                [cite_start]"In the direction of someone or something[cite: 13]."
+                "A person who assists customers in a store.",
+                "A large shop divided into several parts selling different things.",
+                "A place in a public building where you can get information.",
+                "A room with toilets that is in a public place.",
+                "A large area inside of a mall where restaurants sell food.",
+                "The part of a building that is below the level of the ground."
             ],
             sentences: [
-                { s: "buy / I / clothes / at / the / department store", c: "I buy clothes at the department store" },
-                { s: "wearing / is / a / red / baseball cap / He", c: "He is wearing a red baseball cap" },
-                { s: "The / clerk / me / helped / in / the / shop", c: "The clerk helped me in the shop" },
-                { s: "Go / and / turn / straight / left", c: "Go straight and turn left" },
-                { s: "The / is / upstairs / bedroom", c: "The bedroom is upstairs" },
-                { s: "Walk / toward / the / library / slowly", c: "Walk toward the library slowly" }
+                { s: "The / helped / me / find / the / clerk / shoes", c: "The clerk helped me find the shoes" },
+                { s: "I / buy / clothes / at / the / department store", c: "I buy clothes at the department store" },
+                { s: "Ask / for / a / map / at / information desk / the", c: "Ask for a map at the information desk" },
+                { s: "Where / is / the / public / restroom?", c: "Where is the public restroom?" },
+                { s: "Let's / eat / pizza / at / the / food court", c: "Let's eat pizza at the food court" },
+                { s: "The / is / downstairs / in / the / basement / parking", c: "The parking is downstairs in the basement" }
             ]
         },
         "9th - Unit 1 (Part 2)": {
-            english: ["Glove", "Terrible", "Direction", "Basement", "Food Court", "Restroom"],
+            english: ["Straight", "Toward", "Upstairs", "Direction", "Terrible", "Baseball Cap"],
             meanings: [
-                [cite_start]"Clothing that covers the hand and fingers[cite: 13].",
-                [cite_start]"Very unpleasant or serious[cite: 13].",
-                [cite_start]"The path that something takes[cite: 13].",
-                [cite_start]"The part of a building below ground level[cite: 13].",
-                [cite_start]"Area in a mall with many small restaurants[cite: 13].",
-                [cite_start]"A room with a toilet in a public building[cite: 13]."
+                "Continuing in one direction without curving.",
+                "In the direction of someone or something.",
+                "Towards or on the highest floor of a building.",
+                "The position towards which someone or something moves.",
+                "Very unpleasant or serious / low of quality.",
+                "A soft flat hat that has a curved part sticking out."
             ],
             sentences: [
-                { s: "wear / I / gloves / when / it / is / cold", c: "I wear gloves when it is cold" },
-                { s: "The / weather / was / terrible / yesterday", c: "The weather was terrible yesterday" },
-                { s: "Which / is / direction / the / bank / in?", c: "Which direction is the bank in?" },
-                { s: "Go / down / to / the / basement / now", c: "Go down to the basement now" },
-                { s: "Let's / meet / at / the / food court", c: "Let's meet at the food court" },
-                { s: "Where / is / the / public / restroom?", c: "Where is the public restroom?" }
+                { s: "Go / and / turn / straight / left / then", c: "Go straight and then turn left" },
+                { s: "Walk / toward / the / exit / door / now", c: "Walk toward the exit door now" },
+                { s: "The / is / upstairs / on / the / office / second / floor", c: "The office is upstairs on the second floor" },
+                { s: "Which / is / the / direction / hospital / in / this?", c: "Which direction is the hospital in this?" },
+                { s: "The / was / food / at / the / mall / terrible", c: "The food at the mall was terrible" },
+                { s: "He / is / wearing / a / blue / baseball cap", c: "He is wearing a blue baseball cap" }
             ]
         },
         "10th - Unit 1 (Part 1)": {
             english: ["Nervous", "Proud", "Jealous", "Mad", "Lonely", "Afraid"],
             meanings: [
-                "Feeling worried or anxious.",
-                "Feeling pleased about something you did.",
-                "Unhappy because someone has what you want.",
+                "Feeling worried or anxious about something.",
+                "Feeling very pleased about something you have done.",
+                "Unhappy because someone has something you want.",
                 "Feeling very angry.",
                 "Unhappy because you are not with other people.",
-                "Feeling fear or worried about a possible result."
+                "Feeling fear or worry."
             ],
             sentences: [
-                { s: "nervous / about / am / I / the / speech", c: "I am nervous about the speech" },
-                { s: "parents / My / are / proud / of / me", c: "My parents are proud of me" },
-                { s: "Do / not / be / jealous / of / her", c: "Do not be jealous of her" },
-                { s: "He / was / mad / the / at / president", c: "He was mad at the president" },
-                { s: "feels / She / lives / and / lonely / often / alone", c: "She lives alone and often feels lonely."},
-                { s: "dark / of / the / afraid / He / is", c: "He is afraid of the dark."}
+                { s: "I / feel / before / an / exam / nervous", c: "I feel nervous before an exam" },
+                { s: "My / are / proud / of / my / parents / grades", c: "My parents are proud of my grades" },
+                { s: "Don't / be / jealous / of / your / sister", c: "Don't be jealous of your sister" },
+                { s: "He / was / mad / because / he / lost / the / game", c: "He was mad because he lost the game" },
+                { s: "Living / alone / can / make / you / lonely / feel", c: "Living alone can make you feel lonely" },
+                { s: "Are / you / afraid / of / the / dark?", c: "Are you afraid of the dark?" }
             ]
         },
         "10th - Unit 1 (Part 2)": {
             english: ["Cheer up", "Congratulations", "Way to go", "Calm down", "Take it easy", "Relax"],
             meanings: [
-                "Expression to make someone feel happier.",
-                "Phrase used when someone has done well.",
-                "Enthusiastic way to say 'well done'.",
-                "To stop feeling angry or excited.",
-                "Used to tell someone to be calm.",
+                "Expression used to make someone feel happier.",
+                "Phrase used when someone has done something well.",
+                "An enthusiastic way to say 'well done'.",
+                "To stop feeling angry, upset or excited.",
+                "Used to tell someone to be calm and not worry.",
                 "To become less active and more calm."
             ],
             sentences: [
-                { s: "Please / cheer / up / it / is / okay", c: "Please cheer up it is okay" },
-                { s: "Congratulations / on / your / good / grade", c: "Congratulations on your good grade" },
-                { s: "Way / to / go / on / the / test", c: "Way to go on the test" },
-                { s: "You / need / to / calm / down / now", c: "You need to calm down now" },
-                { s: "Take / it / easy / and / breathe / slowly", c: "Take it easy and breathe slowly" },
-                { s: "Try / to / and / relax / listen / music", c: "Try to relax and listen music" }
+                { s: "Cheer / up / things / will / get / better", c: "Cheer up things will get better" },
+                { s: "Congratulations / on / winning / the / competition", c: "Congratulations on winning the competition" },
+                { s: "Way / to / go / on / your / final / project", c: "Way to go on your final project" },
+                { s: "You / need / to / calm / down / and / breathe", c: "You need to calm down and breathe" },
+                { s: "Take / it / easy / and / have / some / tea", c: "Take it easy and have some tea" },
+                { s: "Try / to / and / relax / listen / to / music", c: "Try to relax and listen to music" }
             ]
         },
         "11th - Unit 1 (Part 1)": {
             english: ["Celebration", "Costumes", "Terrific", "Take part in", "Well-known", "Be filled with"],
             meanings: [
-                "Special social event to celebrate.",
-                "Clothes worn typical of a period.",
+                "A special social event for a specific occasion.",
+                "The set of clothes typical of a period or history.",
                 "Very good; wonderful or fantastic.",
-                "To be involved in an activity.",
+                "To be involved in an activity with other people.",
                 "Famous or familiar to many people.",
-                "To contain a lot of something."
+                "To contain a lot of a specific thing."
             ],
             sentences: [
-                { s: "The / party / was / a / celebration", c: "The party was a celebration" },
-                { s: "wore / They / costumes / for / carnival", c: "They wore costumes for carnival" },
-                { s: "had / a / We / terrific / time", c: "We had a terrific time" },
-                { s: "I / want / to / take part in / the / race", c: "I want to take part in the race" },
-                { s: "He / is / a / well-known / singer", c: "He is a well-known singer" },
+                { s: "The / was / party / a / great / celebration", c: "The party was a great celebration" },
+                { s: "They / wore / scary / costumes / for / Halloween", c: "They wore scary costumes for Halloween" },
+                { s: "Spain / has / been / terrific / so / far", c: "Spain has been terrific so far" },
+                { s: "I / want / to / take part in / the / festival", c: "I want to take part in the festival" },
+                { s: "It / is / the / most / well-known / food / here", c: "It is the most well-known food here" },
                 { s: "The / streets / were / filled with / people", c: "The streets were filled with people" }
             ]
         },
         "11th - Unit 1 (Part 2)": {
             english: ["Call off", "Find out", "Bump into", "Count on", "Look forward to", "Book"],
             meanings: [
-                "To cancel something planned.",
-                "To discover a piece of information.",
-                "To meet someone unexpectedly.",
-                "To rely on someone for help.",
-                "To feel excited about the future.",
-                "To reserve a seat or hotel."
+                "To cancel something that was planned.",
+                "To discover a fact or piece of information.",
+                "To meet someone you know unexpectedly.",
+                "To rely on or expect someone's help.",
+                "To feel happy and excited about the future.",
+                "To reserve a seat, ticket, or hotel in advance."
             ],
             sentences: [
-                { s: "They / had / to / call / off / the / festival", c: "They had to call off the festival" },
-                { s: "I / to / find / out / need / the / date", c: "I need to find out the date" },
-                { s: "I / into / bumped / Jenny / at / the / library", c: "I bumped into Jenny at the library" },
-                { s: "You / can / always / count / on / me", c: "You can always count on me" },
-                { s: "I / look / forward / to / the / party", c: "I look forward to the party" },
-                { s: "booked / Pedro / a / home / flight", c: "Pedro booked a flight home" }
+                { s: "They / had / to / call / off / the / parade", c: "They had to call off the parade" },
+                { s: "I / to / find / out / the / results / need", c: "I need to find out the results" },
+                { s: "I / bumped / into / an / old / friend / yesterday", c: "I bumped into an old friend yesterday" },
+                { s: "You / can / always / count / on / your / family", c: "You can always count on your family" },
+                { s: "I / look / forward / to / visiting / Mexico", c: "I look forward to visiting Mexico" },
+                { s: "Did / you / book / the / flight / tickets?", c: "Did you book the flight tickets?" }
             ]
         }
     };
 
     let state = { name: "", unit: "", completed: { scrolls: false, quiz: false, chamber: false } };
 
-    // --- LOGIC: MEMORY & LOCKING ---
     function updateUnitList() {
-        const name = document.getElementById('studentName').value.trim().toLowerCase();
+        const nameInput = document.getElementById('studentName').value.trim().toLowerCase();
         const select = document.getElementById('unitSelect');
+        const lastSelected = select.value;
         select.innerHTML = "";
 
         Object.keys(VOCABULARY_DATABASE).forEach(unit => {
-            const isDone = localStorage.getItem(`${name}-${unit}`);
+            const isDone = nameInput && localStorage.getItem(`${nameInput}-${unit}`);
             const opt = document.createElement('option');
             opt.value = unit;
             opt.innerText = isDone ? `✅ ${unit} (DONE)` : unit;
@@ -305,6 +299,8 @@
             }
             select.appendChild(opt);
         });
+        
+        if (lastSelected && VOCABULARY_DATABASE[lastSelected]) select.value = lastSelected;
         checkUnitStatus();
     }
 
@@ -314,16 +310,15 @@
         const btn = document.getElementById('enterBtn');
         const msg = document.getElementById('statusMsg');
 
-        if (name && localStorage.getItem(`${name}-${unit}`)) {
+        if (name && unit && localStorage.getItem(`${name}-${unit}`)) {
             btn.disabled = true;
-            msg.innerText = "⚠️ You have already mastered this quest!";
+            msg.innerText = "⚠️ Quest already finished!";
         } else {
             btn.disabled = false;
             msg.innerText = "";
         }
     }
 
-    // Inicializar lista
     updateUnitList();
 
     function showScreen(id) {
@@ -347,16 +342,14 @@
         if(type === 'scrolls') {
             let i = 0;
             const render = () => {
-                cont.innerHTML = `
-                    <h2>Word ${i+1} / ${data.english.length}</h2>
+                cont.innerHTML = `<h2>Word ${i+1} / ${data.english.length}</h2>
                     <div class="flashcard" onclick="this.classList.toggle('flipped')">
                         <div class="flashcard-inner">
                             <div class="front"><h3>${data.english[i]}</h3></div>
                             <div class="back"><p>${data.meanings[i]}</p></div>
                         </div>
                     </div>
-                    <button class="btn" id="nextF">${i === data.english.length - 1 ? 'Complete Study' : 'Next Scroll'}</button>
-                `;
+                    <button class="btn" id="nextF">${i === data.english.length - 1 ? 'Finish' : 'Next'}</button>`;
                 document.getElementById('nextF').onclick = () => {
                     if(i < data.english.length - 1) { i++; render(); }
                     else { state.completed.scrolls = true; showScreen('menu'); }
@@ -373,17 +366,14 @@
                 let opts = [...data.meanings].sort(()=>0.5-Math.random()).slice(0,3);
                 if(!opts.includes(correct)) opts[0] = correct;
                 opts.sort();
-                cont.innerHTML = `<h2>Match the definition for:</h2><h3 style="font-size:2rem; margin:15px;">${word}</h3><div id="ql"></div>`;
+                cont.innerHTML = `<h2>Match:</h2><h3 style="font-size:2rem; margin:15px;">${word}</h3><div id="ql"></div>`;
                 opts.forEach(o => {
                     let d = document.createElement('div'); d.className = 'quiz-option'; d.innerText = o;
                     d.onclick = () => {
                         if(o === correct) {
                             d.classList.add('correct');
-                            setTimeout(() => { i++; i < data.english.length ? renderQ() : (state.completed.quiz = true, showScreen('menu')); }, 1000);
-                        } else {
-                            d.classList.add('wrong');
-                            alert("Incorrect! Review your scrolls.");
-                        }
+                            setTimeout(() => { i++; i < data.english.length ? renderQ() : (state.completed.quiz = true, showScreen('menu')); }, 800);
+                        } else d.classList.add('wrong');
                     };
                     document.getElementById('ql').appendChild(d);
                 });
@@ -395,17 +385,13 @@
             let i = 0;
             const renderC = () => {
                 let sData = data.sentences[i];
-                cont.innerHTML = `
-                    <h2>The Sentence Chamber</h2>
-                    <p>Unscramble the spell:</p>
-                    <h3 style="margin:25px 0; color:var(--slytherin-green);">${sData.s}</h3>
-                    <input type="text" id="sin" placeholder="Type the full sentence here..." style="width:100%; margin-bottom:20px;">
-                    <button class="btn" id="cbtn">Cast Spell</button>
-                `;
+                cont.innerHTML = `<h2>Unscramble Spell</h2><p>${sData.s}</p>
+                    <input type="text" id="sin" placeholder="Type sentence..." style="width:100%; margin:20px 0;">
+                    <button class="btn" id="cbtn">Cast</button>`;
                 document.getElementById('cbtn').onclick = () => {
                     if(document.getElementById('sin').value.trim().toLowerCase() === sData.c.toLowerCase()) {
                         i++; i < data.sentences.length ? renderC() : (state.completed.chamber = true, showScreen('menu'));
-                    } else alert("The magic failed. Check word order!");
+                    } else alert("Magic failed!");
                 };
             };
             renderC();
@@ -413,17 +399,12 @@
     }
 
     function generateCertificate() {
-        if(!state.completed.scrolls || !state.completed.quiz || !state.completed.chamber) {
-            return alert("Access Denied. You must complete all three tasks first!");
-        }
-        
-        // --- SAVE PROGRESS PERMANENTLY ---
+        if(!state.completed.scrolls || !state.completed.quiz || !state.completed.chamber) return alert("Complete tasks first.");
         localStorage.setItem(`${state.name.toLowerCase()}-${state.unit}`, "completed");
-        
         document.getElementById('cert-name').innerText = state.name;
         document.getElementById('cert-unit').innerText = state.unit;
-        document.getElementById('cert-date').innerText = "Date of Mastery: " + new Date().toLocaleDateString();
-        document.getElementById('cert-code').innerText = "VERIFICATION CODE: " + Math.random().toString(36).substr(2, 9).toUpperCase();
+        document.getElementById('cert-date').innerText = new Date().toLocaleDateString();
+        document.getElementById('cert-code').innerText = "CODE: " + Math.random().toString(36).substr(2, 9).toUpperCase();
         showScreen('certificate');
     }
 </script>
