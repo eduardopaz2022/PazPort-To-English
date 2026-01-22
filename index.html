@@ -48,7 +48,15 @@
         .hidden { display: none !important; }
 
         h1, h2, h3 { font-family: 'Cinzel', serif; color: var(--slytherin-green); margin-bottom: 20px; text-transform: uppercase; }
+        
+        /* FIX: Mobile "Achievement" text overflow */
         h1 { font-size: 3.2rem; letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem !important; } 
+            .screen { padding: 20px; }
+            .flashcard { height: 280px; }
+            .front h3 { font-size: 2rem; }
+        }
 
         .input-group { margin: 25px 0; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto; }
         .input-group label { display: block; font-family: 'Cinzel', serif; margin-bottom: 10px; color: var(--slytherin-green); font-weight: 900; }
@@ -77,11 +85,13 @@
         .activity-card {
             background: var(--light-parchment); border: 5px solid var(--slytherin-green);
             padding: 30px; border-radius: 10px; cursor: pointer; transition: 0.4s;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); position: relative;
         }
         .activity-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px var(--slytherin-green); }
 
-        /* FLASHCARDS CONTRAST FIX */
+        /* FIX: Re-integrated Completion Seals */
+        .seal { position: absolute; top: 10px; right: 10px; color: var(--slytherin-green); font-size: 1.5rem; }
+
         .flashcard { width: 100%; max-width: 500px; height: 320px; margin: 30px auto; perspective: 1000px; cursor: pointer; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
@@ -95,7 +105,7 @@
         
         .front { background-color: var(--slytherin-green) !important; }
         .front h3 { 
-            color: #FFFFFF !important; /* Blanco puro para contraste máximo */
+            color: #FFFFFF !important; 
             font-family: 'Cinzel', serif; 
             font-size: 2.8rem; 
             text-shadow: 3px 3px 6px rgba(0,0,0,0.9);
@@ -119,13 +129,6 @@
         }
         .correct { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; }
         .wrong { background: #f8d7da !important; border-color: #dc3545 !important; color: #721c24 !important; }
-
-        @media (max-width: 600px) {
-            h1 { font-size: 2.2rem; }
-            .screen { padding: 20px; }
-            .flashcard { height: 280px; }
-            .front h3 { font-size: 2rem; }
-        }
     </style>
 </head>
 <body>
@@ -151,17 +154,20 @@
     </section>
 
     <section id="screen-menu" class="screen hidden">
-        <h2 id="welcome-msg">Common Room</h2>
+        <h2 id="welcome-msg">Slytherin Room</h2>
         <div class="activity-grid">
             <div class="activity-card" onclick="startActivity('scrolls')">
+                <div id="seal-scrolls" class="seal hidden"><i class="fas fa-snake"></i></div>
                 <i class="fas fa-scroll" style="font-size: 3rem; color: var(--slytherin-green);"></i>
                 <h3 style="margin-top:15px;">Study Scrolls</h3>
             </div>
             <div class="activity-card" onclick="startActivity('quiz')">
+                <div id="seal-quiz" class="seal hidden"><i class="fas fa-snake"></i></div>
                 <i class="fas fa-vial" style="font-size: 3rem; color: var(--slytherin-green);"></i>
                 <h3 style="margin-top:15px;">Definition Quiz</h3>
             </div>
             <div class="activity-card" onclick="startActivity('chamber')">
+                <div id="seal-chamber" class="seal hidden"><i class="fas fa-snake"></i></div>
                 <i class="fas fa-wand-sparkles" style="font-size: 3rem; color: var(--slytherin-green);"></i>
                 <h3 style="margin-top:15px;">Sentence Chamber</h3>
             </div>
@@ -178,7 +184,7 @@
 
     <section id="screen-certificate" class="screen hidden">
         <div id="cert-area" style="border: 15px double var(--slytherin-green); padding: 50px; background: white; border-radius: 10px;">
-            <h1 style="font-size: 3rem;">Mastery Achievement</h1>
+            <h1 style="text-transform: uppercase;">Mastery Achievement</h1>
             <p style="font-size: 1.4rem;">This recognizes that</p>
             <h2 id="cert-name" style="text-decoration: underline; margin: 20px 0; font-size: 2.8rem; color: #000;"></h2>
             <p style="font-size: 1.4rem;">has conquered the English skills of</p>
@@ -194,33 +200,75 @@
     const VOCABULARY_DATABASE = {
         "9th - Unit 1 (Part 1)": {
             english: ["Clerk", "Department Store", "Information Desk", "Restroom", "Food Court", "Basement"],
-            meanings: ["A person who assists customers in a store.","Large shop divided into several parts selling different things.","Place in a building where you can get information.","A room with toilets in a public place.","Area in a mall where restaurants sell food.","Building part below ground level."],
-            sentences: [{ s: "The / helped / me / find / the / clerk / shoes", c: "The clerk helped me find the shoes" }]
+            meanings: ["A store worker.","Large shop with parts.","Help desk.","Public toilet.","Dining area.","Below ground level."],
+            sentences: [
+                { s: "The / clerk / helped / me", c: "The clerk helped me" },
+                { s: "Go / to / the / food court", c: "Go to the food court" },
+                { s: "Where / is / the / restroom?", c: "Where is the restroom?" },
+                { s: "It / is / in / the / basement", c: "It is in the basement" },
+                { s: "Ask / at / the / information desk", c: "Ask at the information desk" },
+                { s: "I / love / this / department store", c: "I love this department store" }
+            ]
         },
         "9th - Unit 1 (Part 2)": {
             english: ["Straight", "Toward", "Upstairs", "Direction", "Terrible", "Baseball Cap"],
-            meanings: ["Moving in one direction without curving.","In the direction of someone or something.","On the highest floor of a building.","Path towards which something moves.","Very unpleasant or low quality.","Soft flat hat with a front part."],
-            sentences: [{ s: "He / is / wearing / a / blue / baseball cap", c: "He is wearing a blue baseball cap" }]
+            meanings: ["No curves.","Direction of.","Higher floor.","Path taken.","Unpleasant.","Soft hat."],
+            sentences: [
+                { s: "Go / straight / now", c: "Go straight now" },
+                { s: "Walk / toward / the / door", c: "Walk toward the door" },
+                { s: "Go / upstairs / please", c: "Go upstairs please" },
+                { s: "Which / direction / is / it?", c: "Which direction is it?" },
+                { s: "This / is / terrible", c: "This is terrible" },
+                { s: "I / have / a / baseball cap", c: "I have a baseball cap" }
+            ]
         },
         "10th - Unit 1 (Part 1)": {
             english: ["Nervous", "Proud", "Jealous", "Mad", "Lonely", "Afraid"],
-            meanings: ["Worried about something.","Pleased about your actions.","Unhappy because others have what you want.","Very angry.","Unhappy because you are alone.","Feeling fear."],
-            sentences: [{ s: "I / feel / before / an / exam / nervous", c: "I feel nervous before an exam" }]
+            meanings: ["Worried.","Pleased.","Envious.","Angry.","Alone.","Fear."],
+            sentences: [
+                { s: "I / feel / nervous", c: "I feel nervous" },
+                { s: "She / is / proud / of / me", c: "She is proud of me" },
+                { s: "Don't / be / jealous", c: "Don't be jealous" },
+                { s: "He / is / very / mad", c: "He is very mad" },
+                { s: "I / am / lonely", c: "I am lonely" },
+                { s: "Are / you / afraid?", c: "Are you afraid?" }
+            ]
         },
         "10th - Unit 1 (Part 2)": {
             english: ["Cheer up", "Congratulations", "Way to go", "Calm down", "Take it easy", "Relax"],
-            meanings: ["Become happier.","Done something well.","Enthusiastic 'well done'.","Stop feeling angry.","Be calm and not worry.","Become less active."],
-            sentences: [{ s: "Cheer / up / things / will / get / better", c: "Cheer up things will get better" }]
+            meanings: ["Become happier.","Well done.","Enthusiastic praise.","Stop being angry.","Relax.","Become calm."],
+            sentences: [
+                { s: "Please / cheer / up", c: "Please cheer up" },
+                { s: "I / say / congratulations", c: "I say congratulations" },
+                { s: "Way / to / go", c: "Way to go" },
+                { s: "Please / calm / down", c: "Please calm down" },
+                { s: "Just / take / it / easy", c: "Just take it easy" },
+                { s: "Now / you / relax", c: "Now you relax" }
+            ]
         },
         "11th - Unit 1 (Part 1)": {
             english: ["Celebration", "Costumes", "Terrific", "Take part in", "Well-known", "Be filled with"],
-            meanings: ["Social event to celebrate.","Clothes typical of a period.","Wonderful or fantastic.","Participate in an activity.","Famous or familiar.","Contain a lot of something."],
-            sentences: [{ s: "The / party / was / a / celebration", c: "The party was a celebration" }]
+            meanings: ["Social event.","Special clothes.","Wonderful.","Participate.","Famous.","Full of."],
+            sentences: [
+                { s: "Great / birthday / celebration", c: "Great birthday celebration" },
+                { s: "Wear / your / costumes", c: "Wear your costumes" },
+                { s: "That / is / terrific", c: "That is terrific" },
+                { s: "Please / take part in / it", c: "Please take part in it" },
+                { s: "It / is / well-known", c: "It is well-known" },
+                { s: "The / room / is / filled with / joy", c: "The room is filled with joy" }
+            ]
         },
         "11th - Unit 1 (Part 2)": {
             english: ["Call off", "Find out", "Bump into", "Count on", "Look forward to", "Book"],
-            meanings: ["Cancel something planned.","Discover information.","Meet unexpectedly.","Rely on help.","Excited about the future.","Reserve in advance."],
-            sentences: [{ s: "They / had / to / call / off / the / parade", c: "They had to call off the parade" }]
+            meanings: ["Cancel.","Discover.","Meet unexpectedly.","Rely on.","Excited.","Reserve."],
+            sentences: [
+                { s: "Don't / call / off / the / trip", c: "Don't call off the trip" },
+                { s: "I / will / find / out", c: "I will find out" },
+                { s: "I / bump / into / you", c: "I bump into you" },
+                { s: "I / count / on / you", c: "I count on you" },
+                { s: "I / look / forward / to / it", c: "I look forward to it" },
+                { s: "Please / book / my / flight", c: "Please book my flight" }
+            ]
         }
     };
 
@@ -263,11 +311,14 @@
         }
     }
 
-    updateUnitList();
-
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
         document.getElementById('screen-' + id).classList.remove('hidden');
+        if(id === 'menu') {
+            if(state.completed.scrolls) document.getElementById('seal-scrolls').classList.remove('hidden');
+            if(state.completed.quiz) document.getElementById('seal-quiz').classList.remove('hidden');
+            if(state.completed.chamber) document.getElementById('seal-chamber').classList.remove('hidden');
+        }
     }
 
     function startPortal() {
@@ -329,13 +380,13 @@
             let i = 0;
             const renderC = () => {
                 let sData = data.sentences[i];
-                cont.innerHTML = `<h3>Unscramble the Spell</h3><p style="font-size:1.5rem; color:#666;">${sData.s}</p>
-                    <input type="text" id="sin" placeholder="Cast the sentence..." style="width:100%; margin:25px 0;">
+                cont.innerHTML = `<h3>Unscramble Spell ${i+1} / ${data.sentences.length}</h3><p style="font-size:1.5rem; color:#666;">${sData.s}</p>
+                    <input type="text" id="sin" placeholder="Cast sentence..." style="width:100%; margin:25px 0;">
                     <button class="btn" id="cbtn">Release Magic</button>`;
                 document.getElementById('cbtn').onclick = () => {
                     if(document.getElementById('sin').value.trim().toLowerCase() === sData.c.toLowerCase()) {
                         i++; i < data.sentences.length ? renderC() : (state.completed.chamber = true, showScreen('menu'));
-                    } else alert("Magic failure! Check the syntax.");
+                    } else alert("Try again!");
                 };
             };
             renderC();
@@ -343,14 +394,15 @@
     }
 
     function generateCertificate() {
-        if(!state.completed.scrolls || !state.completed.quiz || !state.completed.chamber) return alert("You must finish all activities!");
+        if(!state.completed.scrolls || !state.completed.quiz || !state.completed.chamber) return alert("Complete all tasks!");
         localStorage.setItem(`${state.name.toLowerCase()}-${state.unit}`, "completed");
         document.getElementById('cert-name').innerText = state.name;
         document.getElementById('cert-unit').innerText = state.unit;
-        document.getElementById('cert-date').innerText = "Awarded on: " + new Date().toLocaleDateString();
-        document.getElementById('cert-code').innerText = "VERIFICATION: " + Math.random().toString(36).substr(2, 9).toUpperCase();
+        document.getElementById('cert-date').innerText = "Awarded: " + new Date().toLocaleDateString();
+        document.getElementById('cert-code').innerText = "CODE: " + Math.random().toString(36).substr(2, 9).toUpperCase();
         showScreen('certificate');
     }
+    updateUnitList();
 </script>
 </body>
 </html>
