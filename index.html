@@ -11,11 +11,10 @@
     <style>
         :root {
             --slytherin-green: #1A472A;
-            --slytherin-silver: #AAAAAA;
-            --deep-black: #111111;
+            --slytherin-silver: #C5C5C5;
+            --deep-black: #0a0a0a;
             --parchment: #F5F5DC;
             --light-parchment: #FFFEF7;
-            --gold-accent: #C0C0C0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,296 +22,419 @@
         body {
             font-family: 'EB Garamond', serif;
             background-color: var(--deep-black);
-            background-image: url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1600&q=80');
+            /* Fondo de biblioteca oscura para desktop */
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-attachment: fixed;
-            background-blend-mode: multiply;
+            background-position: center;
             min-height: 100vh;
             padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
-            max-width: 1000px;
-            margin: 20px auto;
+            width: 100%;
+            max-width: 1100px; /* Más ancho en PC */
             background-color: var(--parchment);
-            background-image: radial-gradient(#c9b18a 1px, transparent 1px);
-            background-size: 20px 20px;
-            border: 12px solid var(--slytherin-green);
-            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
+            border: 8px solid var(--slytherin-green);
+            box-shadow: 0 0 60px rgba(0,0,0,0.9);
             border-radius: 12px;
             overflow: hidden;
-            border-image: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="none" stroke="%231A472A" stroke-width="10"/></svg>') 30 stretch;
+            position: relative;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
-        .screen { min-height: 75vh; padding: 30px; text-align: center; }
+        /* DECORACIÓN PARA PC (Espacios Muertos) */
+        .desktop-deco { display: none; }
+        @media (min-width: 1024px) {
+            .container::before, .container::after {
+                content: ''; position: absolute; top: 0; bottom: 0; width: 100px;
+                background-image: url('https://cdn-icons-png.flaticon.com/512/4072/4072307.png'); /* Icono sutil de serpiente/magia */
+                background-repeat: space; background-size: 60px; opacity: 0.05; pointer-events: none;
+            }
+            .container::before { left: 10px; border-right: 2px solid rgba(26, 71, 42, 0.1); }
+            .container::after { right: 10px; border-left: 2px solid rgba(26, 71, 42, 0.1); }
+            .screen { padding: 40px 120px !important; } /* Margen interno para no tapar deco */
+        }
+
+        .screen { padding: 20px; text-align: center; width: 100%; box-sizing: border-box; }
         .hidden { display: none !important; }
 
-        h1, h2, h3 { font-family: 'Cinzel', serif; color: var(--slytherin-green); margin-bottom: 20px; text-transform: uppercase; }
-        
-        /* FIX: Mobile Responsive Titles */
-        h1 { font-size: clamp(1.6rem, 7vw, 3.2rem); letter-spacing: 2px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
-        @media (max-width: 600px) {
-            .screen { padding: 15px; }
-            .flashcard { height: 260px !important; }
-            .front h3 { font-size: 1.8rem !important; }
-        }
+        h1 { font-family: 'Cinzel', serif; color: var(--slytherin-green); font-size: clamp(1.8rem, 5vw, 3.5rem); margin-bottom: 5px; text-shadow: 1px 1px 0px rgba(0,0,0,0.2); }
+        .slogan { font-family: 'Cinzel', serif; color: #555; font-size: clamp(0.9rem, 2vw, 1.2rem); margin-bottom: 30px; font-weight: bold; letter-spacing: 1px; }
 
-        .input-group { margin: 25px 0; text-align: left; max-width: 500px; margin-left: auto; margin-right: auto; }
-        .input-group label { display: block; font-family: 'Cinzel', serif; margin-bottom: 10px; color: var(--slytherin-green); font-weight: 900; }
-        
+        /* Inputs Responsivos */
+        .input-group { max-width: 500px; margin: 15px auto; text-align: left; }
+        .input-group label { display: block; font-family: 'Cinzel', serif; color: var(--slytherin-green); font-weight: bold; margin-bottom: 5px; }
         input[type="text"], select {
-            width: 100%; padding: 15px; border: 4px solid var(--slytherin-green);
+            width: 100%; padding: 15px; border: 3px solid var(--slytherin-green);
             background: var(--light-parchment); border-radius: 6px; font-size: 1.1rem;
-            font-family: 'EB Garamond', serif; font-weight: 600;
+            font-family: 'EB Garamond', serif;
         }
 
         .btn {
-            display: inline-block; padding: 16px 32px;
-            background: linear-gradient(to bottom, var(--slytherin-green), #0d2b1a);
-            color: var(--gold-accent) !important;
-            border: 2px solid var(--slytherin-silver);
-            border-radius: 6px; font-family: 'Cinzel', serif;
-            font-weight: 700; cursor: pointer; text-transform: uppercase;
-            box-shadow: 0 6px 0 #000; transition: 0.2s;
+            padding: 15px 40px; margin-top: 20px;
+            background: linear-gradient(180deg, var(--slytherin-green), #0f2b19);
+            color: #d4af37 !important; /* Dorado */
+            border: 2px solid #555; border-radius: 6px;
+            font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: bold;
+            cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
         }
+        .btn:active { transform: scale(0.98); }
+        .btn:disabled { background: #555; color: #999 !important; cursor: not-allowed; }
 
-        .btn:disabled { background: #444; cursor: not-allowed; opacity: 0.6; box-shadow: none; }
-
-        .activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 40px; }
+        /* CARTAS DE ACTIVIDAD */
+        .activity-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+            gap: 20px; margin-top: 30px; max-width: 900px; margin-left: auto; margin-right: auto;
+        }
         .activity-card {
-            background: var(--light-parchment); border: 5px solid var(--slytherin-green);
+            background: white; border: 3px solid var(--slytherin-green);
             padding: 25px; border-radius: 10px; cursor: pointer; position: relative;
+            transition: transform 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        
+        .activity-card:hover { transform: translateY(-5px); border-color: #d4af37; }
+        .activity-card i { font-size: 2.5rem; color: var(--slytherin-green); margin-bottom: 10px; }
         .seal { position: absolute; top: 10px; right: 10px; color: var(--slytherin-green); font-size: 1.5rem; }
 
-        .flashcard { width: 100%; max-width: 450px; height: 300px; margin: 20px auto; perspective: 1000px; }
+        /* FLASHCARDS - CONTRASTE TOTAL */
+        .flashcard { width: 100%; max-width: 500px; height: 280px; margin: 20px auto; perspective: 1000px; cursor: pointer; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        
         .front, .back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            border-radius: 15px; border: 6px solid var(--slytherin-silver); padding: 25px;
+            display: flex; align-items: center; justify-content: center; padding: 20px;
+            border-radius: 12px; border: 6px solid #555;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
-        .front { background-color: var(--slytherin-green); color: #FFFFFF; }
-        .front h3 { font-size: 2.4rem; text-align: center; text-shadow: 2px 2px 4px #000; }
-        .back { background-color: var(--slytherin-silver); color: var(--slytherin-green); transform: rotateY(180deg); }
-        .back p { font-size: 1.4rem; font-weight: bold; text-align: center; }
-
-        /* CERTIFICADO RESPONSIVE FIX */
-        #cert-area { 
-            border: 10px double var(--slytherin-green); 
-            padding: clamp(15px, 5vw, 50px); 
-            background: white; 
-            border-radius: 10px; 
-            width: 100%;
-            box-sizing: border-box;
+        
+        /* CORRECCIÓN DE COLOR */
+        .front { background-color: var(--slytherin-green); }
+        .front h3 { 
+            color: #FFFFFF !important; /* Blanco Puro */
+            font-size: 2.5rem; text-align: center; font-family: 'Cinzel', serif;
+            text-shadow: 2px 2px 0px #000;
         }
-        #cert-name { font-size: clamp(1.4rem, 8vw, 2.8rem); text-decoration: underline; margin: 15px 0; color: #000; display: block; overflow-wrap: break-word; }
+        
+        .back { background-color: var(--slytherin-silver); transform: rotateY(180deg); }
+        .back p { 
+            color: #000000 !important; /* Negro Puro */
+            font-size: 1.4rem; text-align: center; font-weight: bold; line-height: 1.4;
+        }
 
+        /* QUIZ & CHAMBER */
         .quiz-option {
-            background: var(--light-parchment); border: 3px solid var(--slytherin-green);
-            padding: 14px; margin: 10px auto; max-width: 650px; cursor: pointer; border-radius: 8px;
+            background: white; border: 2px solid var(--slytherin-green);
+            padding: 15px; margin: 10px auto; max-width: 600px; border-radius: 8px;
+            font-size: 1.2rem; cursor: pointer; transition: 0.2s;
         }
-        .correct { background: #d4edda !important; }
-        .wrong { background: #f8d7da !important; }
+        .quiz-option:hover { background: #f0f0f0; }
+        .correct { background: #d4edda !important; border-color: #28a745; }
+        .wrong { background: #f8d7da !important; border-color: #dc3545; }
+
+        /* DIPLOMA RESPONSIVE */
+        #cert-area {
+            border: 10px double var(--slytherin-green);
+            padding: 30px; background: white; border-radius: 5px;
+            max-width: 700px; margin: 0 auto;
+        }
+        #cert-name { 
+            font-size: clamp(1.5rem, 6vw, 3rem); 
+            font-family: 'Cinzel', serif; text-decoration: underline; 
+            margin: 15px 0; display: block; color: #000; word-break: break-word;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <section id="screen-home" class="screen">
-        <i class="fas fa-shield-snake" style="font-size: 4rem; color: var(--slytherin-green);"></i>
+        <i class="fas fa-shield-snake" style="font-size: 4rem; color: var(--slytherin-green); margin-bottom: 10px;"></i>
         <h1>Pazport to English</h1>
+        <p class="slogan">The Portal of Ambition and Knowledge</p>
+        
         <div class="input-group">
             <label>Student Full Name</label>
-            <input type="text" id="studentName" placeholder="Type your name..." oninput="updateUnitList()">
+            <input type="text" id="studentName" placeholder="Type your name here..." oninput="updateUnitList()">
         </div>
+        
         <div class="input-group">
             <label>Select Your Quest</label>
-            <select id="unitSelect" onchange="checkUnitStatus()"></select>
+            <select id="unitSelect" onchange="checkStatus()"></select>
         </div>
-        <button class="btn" id="enterBtn" onclick="startPortal()">Enter the Dungeons</button>
-        <p id="statusMsg" style="margin-top:20px; font-weight:bold; color:var(--slytherin-green);"></p>
+        
+        <button class="btn" id="startBtn" onclick="start()">Enter the Dungeons</button>
+        <p id="msg" style="margin-top:15px; font-weight:bold; color: var(--slytherin-green);"></p>
     </section>
 
     <section id="screen-menu" class="screen hidden">
-        <h2 id="welcome-msg"></h2>
+        <h2 id="userGreet" style="font-family:'Cinzel'; color:#333;"></h2>
         <div class="activity-grid">
-            <div class="activity-card" onclick="startActivity('scrolls')">
-                <div id="seal-scrolls" class="seal hidden"><i class="fas fa-snake"></i></div>
-                <i class="fas fa-scroll" style="font-size: 2.5rem; color: var(--slytherin-green);"></i>
+            <div class="activity-card" onclick="go('scrolls')">
+                <div id="s-scrolls" class="seal hidden"><i class="fas fa-snake"></i></div>
+                <i class="fas fa-scroll"></i>
                 <h3>Study Scrolls</h3>
+                <p>Memorize the words</p>
             </div>
-            <div class="activity-card" onclick="startActivity('quiz')">
-                <div id="seal-quiz" class="seal hidden"><i class="fas fa-snake"></i></div>
-                <i class="fas fa-vial" style="font-size: 2.5rem; color: var(--slytherin-green);"></i>
+            <div class="activity-card" onclick="go('quiz')">
+                <div id="s-quiz" class="seal hidden"><i class="fas fa-snake"></i></div>
+                <i class="fas fa-vial"></i>
                 <h3>Definition Quiz</h3>
+                <p>Test your knowledge</p>
             </div>
-            <div class="activity-card" onclick="startActivity('chamber')">
-                <div id="seal-chamber" class="seal hidden"><i class="fas fa-snake"></i></div>
-                <i class="fas fa-wand-sparkles" style="font-size: 2.5rem; color: var(--slytherin-green);"></i>
+            <div class="activity-card" onclick="go('chamber')">
+                <div id="s-chamber" class="seal hidden"><i class="fas fa-snake"></i></div>
+                <i class="fas fa-magic"></i>
                 <h3>Sentence Chamber</h3>
+                <p>Unscramble the spell</p>
             </div>
         </div>
-        <button class="btn" onclick="generateCertificate()" style="margin-top: 50px;">Claim Final Report</button>
+        <button class="btn" style="margin-top:40px;" onclick="claimCert()">Get Official Report</button>
     </section>
 
-    <section id="screen-activity" class="screen hidden">
-        <div style="text-align: left; margin-bottom: 20px;">
-            <button class="btn" onclick="showScreen('menu')" style="padding: 10px 20px; font-size: 0.8rem;">Back</button>
+    <section id="screen-act" class="screen hidden">
+        <div style="text-align:left; margin-bottom:10px;">
+            <button class="btn" style="padding:5px 15px; margin:0; font-size:0.8rem;" onclick="show('menu')">Back</button>
         </div>
-        <div id="activity-content"></div>
+        <div id="act-content"></div>
     </section>
 
-    <section id="screen-certificate" class="screen hidden">
+    <section id="screen-cert" class="screen hidden">
         <div id="cert-area">
-            <h2 style="font-family: 'Cinzel'; font-size: 1.2rem;">Slytherin House Achievement</h2>
-            <h1 style="text-transform: uppercase;">Mastery Report</h1>
-            <p style="font-size: 1.2rem;">This recognizes that</p>
+            <h1 style="font-size: clamp(1.5rem, 5vw, 2.5rem);">Mastery Achievement Report</h1>
+            <p style="font-size: 1.2rem;">This document certifies that</p>
             <span id="cert-name"></span>
-            <p style="font-size: 1.2rem;">has conquered the skills of</p>
-            <h3 id="cert-unit" style="margin: 10px 0; color: var(--slytherin-green); font-size: 1.5rem;"></h3>
-            <p id="cert-timestamp" style="font-weight: bold; margin-top: 20px;"></p>
-            <div style="margin-top:15px; font-family:monospace; border:1px dashed #333; padding:5px; font-size: 0.8rem;" id="cert-code"></div>
+            <p style="font-size: 1.2rem;">Has successfully completed:</p>
+            <h3 id="cert-unit" style="color:var(--slytherin-green); font-size: 1.5rem;"></h3>
+            <p id="cert-time" style="margin-top:20px; font-weight:bold; color:#555;"></p>
+            <div id="cert-code" style="margin-top:10px; font-family:monospace; font-size:0.8rem; border:1px dashed #999; padding:5px; display:inline-block;"></div>
         </div>
-        <button class="btn" onclick="location.reload()" style="margin-top: 25px;">Complete Quest</button>
+        <button class="btn" onclick="location.reload()">Finish Quest</button>
     </section>
 </div>
 
 <script>
-    const VOCABULARY_DATABASE = {
+    /* BASE DE DATOS COMPLETA V3.0 */
+    const DB = {
         "DEMO: Trial Run": {
-            english: ["Magic", "Ambition"],
-            meanings: ["Supernatural powers.","Strong desire to succeed."],
-            sentences: [{ s: "magic / I / love", c: "I love magic" }]
+            words: ["Magic", "Ambition", "Snake"],
+            defs: ["Supernatural power.","Strong desire to succeed.","A reptile without legs."],
+            sentences: [{ s: "love / magic. / I", c: "I love magic." }]
         },
         "9th - Unit 1 (Part 1)": {
-            english: ["Clerk", "Department Store", "Information Desk", "Restroom", "Food Court", "Basement"],
-            meanings: ["The person who assists customers in-store.","A large shop divided into several parts.","Place where you can get information.","A room with toilets in public.","Area in a mall with restaurants.","Building part below ground level."],
+            words: ["Clerk", "Department Store", "Information Desk", "Restroom", "Food Court", "Basement"],
+            defs: ["The person who assists customers in-store.","A large shop divided into several parts selling different things.","A place in a public building where you can get information.","A room with toilets that is in a public place.","A large area inside a mall where restaurants sell food.","A part of a building below ground level."],
             sentences: [
-                { s: "clerk / The / helped / me", c: "The clerk helped me" },
-                { s: "restroom? / is / where / The", c: "Where is the restroom?" },
-                { s: "Ask / at / the / information / desk", c: "Ask at the information desk" }
+                { s: "clerk / helped / The / me. / shopping / with / my", c: "The clerk helped me with my shopping." },
+                { s: "eat / go / to / will / We / court. / food / the", c: "We will go to the food court." },
+                { s: "restroom? / is / the / Where", c: "Where is the restroom?" },
+                { s: "scissors / Look / the / basement. / for / the / in", c: "Look for the scissors in the basement." },
+                { s: "information / at / Ask / desk. / the", c: "Ask at the information desk." },
+                { s: "store. / this / department / love / I", c: "I love this department store." }
+            ]
+        },
+        "9th - Unit 1 (Part 2)": {
+            words: ["Straight", "Toward", "Upstairs", "Direction", "Terrible", "Baseball Cap"],
+            defs: ["Moving in one direction without curving.","In the direction of someone or something.","On the highest floor of a building.","The path that something takes.","Very unpleasant or low quality.","A soft hat with a curved part sticking out."],
+            sentences: [
+                { s: "straight / Go / and / left. / turn", c: "Go straight and turn left." },
+                { s: "toward / Walk / door. / the / exit", c: "Walk toward the exit door." },
+                { s: "office / The / upstairs. / is", c: "The office is upstairs." },
+                { s: "is / hospital? / Which / the / direction", c: "Which direction is the hospital?" },
+                { s: "food / terrible. / was / The", c: "The food was terrible." },
+                { s: "wearing / is / He / cap. / baseball / a", c: "He is wearing a baseball cap." }
             ]
         },
         "10th - Unit 1 (Part 1)": {
-            english: ["Nervous", "Proud", "Jealous", "Mad", "Lonely", "Afraid"],
-            meanings: ["Worried about something.","Pleased about your actions.","Envious of others.","Very angry.","Unhappy being alone.","Feeling fear."],
-            sentences: [{ s: "feel / I / nervous", c: "I feel nervous" }]
+            words: ["Nervous", "Proud", "Jealous", "Mad", "Lonely", "Afraid"],
+            defs: ["Feeling worried or anxious about something.","Feeling pleased about something you have done.","Unhappy because someone has something you want.","Feeling very angry.","Unhappy because you are not with other people.","Feeling fear or worry."],
+            sentences: [
+                { s: "feel / nervous / exam. / an / before / I", c: "I feel nervous before an exam." },
+                { s: "proud / are / My / parents / me. / of", c: "My parents are proud of me." },
+                { s: "jealous / be / Do / sister. / your / of", c: "Do not be jealous of your sister." },
+                { s: "mad / very / is / He", c: "He is very mad." },
+                { s: "feel / I / lonely / here.", c: "I feel lonely here." },
+                { s: "Are / afraid / dark? / the / of / you", c: "Are you afraid of the dark?" }
+            ]
+        },
+        "10th - Unit 1 (Part 2)": {
+            words: ["Cheer up", "Congratulations", "Way to go", "Calm down", "Take it easy", "Relax"],
+            defs: ["To become happier.","Phrase used when someone has done well.","Enthusiastic way to say 'well done'.","To stop feeling angry or excited.","Used to tell someone to be calm.","To become less active and more calm."],
+            sentences: [
+                { s: "up, / Cheer / get / things / better. / will", c: "Cheer up, things will get better." },
+                { s: "Congratulations / winning. / on", c: "Congratulations on winning." },
+                { s: "to / Way / project. / on / your / go", c: "Way to go on your project." },
+                { s: "calm / need / to / down. / You", c: "You need to calm down." },
+                { s: "Take / easy / breathe. / and / it", c: "Take it easy and breathe." },
+                { s: "relax / music. / and / listen / to", c: "Relax and listen to music." }
+            ]
+        },
+        "11th - Unit 1 (Part 1)": {
+            words: ["Celebration", "Costumes", "Terrific", "Take part in", "Well-known", "Be filled with"],
+            defs: ["A special social event.","Clothes typical of a period or country.","Very good, wonderful or fantastic.","To be involved in an activity.","Famous or familiar to many people.","To contain a lot of something."],
+            sentences: [
+                { s: "great / is / This / celebration. / a", c: "This is a great celebration." },
+                { s: "wear / costumes. / colorful / They", c: "They wear colorful costumes." },
+                { s: "idea / is / terrific! / That", c: "That idea is terrific!" },
+                { s: "part / in / Take / parade. / the", c: "Take part in the parade." },
+                { s: "singer / well-known. / is / The", c: "The singer is well-known." },
+                { s: "filled / room / is / The / joy. / with", c: "The room is filled with joy." }
+            ]
+        },
+        "11th - Unit 1 (Part 2)": {
+            words: ["Call off", "Find out", "Bump into", "Count on", "Look forward to", "Book"],
+            defs: ["To cancel something planned.","To discover information.","To meet someone unexpectedly.","To rely on someone.","To feel excited about the future.","To reserve in advance."],
+            sentences: [
+                { s: "call / Don't / off / party. / the", c: "Don't call off the party." },
+                { s: "will / find / out / I / truth. / the", c: "I will find out the truth." },
+                { s: "bumped / I / into / Jenny. / yesterday", c: "I bumped into Jenny yesterday." },
+                { s: "count / can / You / me. / on", c: "You can count on me." },
+                { s: "look / forward / to / it. / I", c: "I look forward to it." },
+                { s: "book / Please / flight. / the", c: "Please book the flight." }
+            ]
         }
     };
 
-    let state = { name: "", unit: "", completed: { scrolls: false, quiz: false, chamber: false } };
+    let state = { name: "", unit: "", done: {scrolls: false, quiz: false, chamber: false} };
 
     function updateUnitList() {
-        const nameInput = document.getElementById('studentName').value.trim().toLowerCase();
-        const select = document.getElementById('unitSelect');
-        const last = select.value;
-        select.innerHTML = "";
-        Object.keys(VOCABULARY_DATABASE).forEach(u => {
-            const isDone = nameInput && localStorage.getItem(`${nameInput}-${u}`);
+        const user = document.getElementById('studentName').value.trim().toLowerCase();
+        const sel = document.getElementById('unitSelect');
+        const lastVal = sel.value;
+        sel.innerHTML = "";
+        
+        Object.keys(DB).forEach(u => {
+            const isDone = user && localStorage.getItem(`${user}-${u}`);
             const opt = document.createElement('option');
             opt.value = u;
-            opt.innerText = isDone ? `✅ ${u}` : u;
-            select.appendChild(opt);
+            opt.innerText = isDone ? "✅ " + u + " (Completo)" : u;
+            if(isDone) opt.disabled = true; // Opcional: Deshabilitar selección si ya está hecho
+            sel.appendChild(opt);
         });
-        if(last) select.value = last;
-        checkUnitStatus();
+        if(lastVal && !sel.querySelector(`option[value="${lastVal}"]`).disabled) sel.value = lastVal;
+        checkStatus();
     }
 
-    function checkUnitStatus() {
-        const name = document.getElementById('studentName').value.trim().toLowerCase();
+    function checkStatus() {
+        const user = document.getElementById('studentName').value.trim().toLowerCase();
         const unit = document.getElementById('unitSelect').value;
-        const btn = document.getElementById('enterBtn');
-        if (name && unit && localStorage.getItem(`${name}-${unit}`)) {
+        const btn = document.getElementById('startBtn');
+        
+        if (user && localStorage.getItem(`${user}-${unit}`)) {
             btn.disabled = true;
-            document.getElementById('statusMsg').innerText = "QUEST ALREADY FINISHED";
+            document.getElementById('msg').innerText = "QUEST ALREADY COMPLETED";
         } else {
             btn.disabled = false;
-            document.getElementById('statusMsg').innerText = "";
+            document.getElementById('msg').innerText = "";
         }
     }
 
-    function showScreen(id) {
+    function start() {
+        state.name = document.getElementById('studentName').value.trim();
+        state.unit = document.getElementById('unitSelect').value;
+        if(!state.name) return alert("Identify yourself!");
+        document.getElementById('userGreet').innerText = "Wizard: " + state.name;
+        show('menu');
+    }
+
+    function show(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
         document.getElementById('screen-' + id).classList.remove('hidden');
         if(id === 'menu') {
-            if(state.completed.scrolls) document.getElementById('seal-scrolls').classList.remove('hidden');
-            if(state.completed.quiz) document.getElementById('seal-quiz').classList.remove('hidden');
-            if(state.completed.chamber) document.getElementById('seal-chamber').classList.remove('hidden');
+            if(state.done.scrolls) document.getElementById('s-scrolls').classList.remove('hidden');
+            if(state.done.quiz) document.getElementById('s-quiz').classList.remove('hidden');
+            if(state.done.chamber) document.getElementById('s-chamber').classList.remove('hidden');
         }
     }
 
-    function startPortal() {
-        state.name = document.getElementById('studentName').value.trim();
-        state.unit = document.getElementById('unitSelect').value;
-        if (!state.name) return alert("Identify yourself!");
-        document.getElementById('welcome-msg').innerText = "Wizard: " + state.name;
-        showScreen('menu');
-    }
-
-    function startActivity(type) {
-        showScreen('activity');
-        const cont = document.getElementById('activity-content');
-        const data = VOCABULARY_DATABASE[state.unit];
+    function go(type) {
+        show('act');
+        const area = document.getElementById('act-content');
+        const data = DB[state.unit];
 
         if(type === 'scrolls') {
             let i = 0;
-            const render = () => {
-                cont.innerHTML = `<h3>Scroll ${i+1}/${data.english.length}</h3>
-                    <div class="flashcard" onclick="this.classList.toggle('flipped')"><div class="flashcard-inner">
-                    <div class="front"><h3>${data.english[i]}</h3></div><div class="back"><p>${data.meanings[i]}</p></div></div></div>
-                    <button class="btn" onclick="nextS(${i})">${i === data.english.length-1 ? 'Finish' : 'Next'}</button>`;
+            const draw = () => {
+                area.innerHTML = `<h3>Scroll ${i+1}/${data.words.length}</h3>
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="front"><h3>${data.words[i]}</h3></div>
+                        <div class="back"><p>${data.defs[i]}</p></div>
+                    </div>
+                </div>
+                <button class="btn" onclick="nextS(${i})">${i === data.words.length-1 ? 'Unlock' : 'Next'}</button>`;
             };
-            window.nextS = (idx) => { if(idx < data.english.length-1){ i++; render(); } else { state.completed.scrolls = true; showScreen('menu'); } };
-            render();
+            window.nextS = (idx) => { if(idx < data.words.length-1){ i++; draw(); } else { state.done.scrolls = true; show('menu'); } };
+            draw();
         }
 
         if(type === 'quiz') {
             let i = 0;
-            const renderQ = () => {
-                const correct = data.meanings[i];
-                let opts = [...data.meanings].sort(() => 0.5 - Math.random()).slice(0,3);
+            const drawQ = () => {
+                const correct = data.defs[i];
+                // Lógica de mezcla de definiciones
+                let opts = [...data.defs].sort(() => 0.5 - Math.random()).slice(0,3);
                 if(!opts.includes(correct)) opts[0] = correct;
-                opts.sort();
-                cont.innerHTML = `<h3>Define: <b>${data.english[i]}</b></h3><div id="ql"></div>`;
+                opts.sort(() => 0.5 - Math.random()); // Mezclar orden final
+                
+                area.innerHTML = `<h3>Define: <b>${data.words[i]}</b></h3><div id="ql"></div>`;
                 opts.forEach(o => {
                     const d = document.createElement('div'); d.className = 'quiz-option'; d.innerText = o;
-                    d.onclick = () => { if(o === correct){ d.classList.add('correct'); setTimeout(() => { i++; i<data.english.length ? renderQ() : (state.completed.quiz=true, showScreen('menu')) }, 800); } else d.classList.add('wrong'); };
+                    d.onclick = () => {
+                        if(o === correct) {
+                            d.classList.add('correct');
+                            setTimeout(() => { i++; i < data.words.length ? drawQ() : (state.done.quiz = true, show('menu')); }, 800);
+                        } else d.classList.add('wrong');
+                    };
                     document.getElementById('ql').appendChild(d);
                 });
             };
-            renderQ();
+            drawQ();
         }
 
         if(type === 'chamber') {
             let i = 0;
-            const renderC = () => {
-                cont.innerHTML = `<h3>Unscramble (${i+1}/${data.sentences.length})</h3>
-                <p style="background:#ddd; padding:15px; margin:20px 0;">${data.sentences[i].s}</p>
-                <input type="text" id="ans" placeholder="Type here..." style="width:100%; margin-bottom:20px;">
+            const drawC = () => {
+                area.innerHTML = `<h3>Spell ${i+1} of ${data.sentences.length}</h3>
+                <p style="background:#eee; padding:15px; margin:20px auto; border-radius:5px; max-width:600px; font-weight:bold;">${data.sentences[i].s}</p>
+                <input type="text" id="ans" placeholder="Type the correct sentence here..." style="width:100%; margin-bottom:20px;">
                 <button class="btn" onclick="checkC(${i})">Cast Spell</button>`;
             };
             window.checkC = (idx) => {
-                if(document.getElementById('ans').value.trim().toLowerCase() === data.sentences[idx].c.toLowerCase()){
-                    i++; i < data.sentences.length ? renderC() : (state.completed.chamber = true, showScreen('menu'));
-                } else alert("Try again!");
+                const userAns = document.getElementById('ans').value.trim();
+                // Normalización para evitar errores por un espacio extra
+                if(userAns.toLowerCase().replace(/\s+/g,' ').trim() === data.sentences[idx].c.toLowerCase().replace(/\s+/g,' ').trim()){
+                    i++; i < data.sentences.length ? drawC() : (state.done.chamber = true, show('menu'));
+                } else alert("The spell fizzled! Check your spelling and order.");
             };
-            renderC();
+            drawC();
         }
     }
 
-    function generateCertificate() {
-        if(!state.completed.scrolls || !state.completed.quiz || !state.completed.chamber) return alert("Finish all tasks!");
+    function claimCert() {
+        if(!state.done.scrolls || !state.done.quiz || !state.done.chamber) return alert("You must complete all tasks first!");
+        
         const now = new Date();
-        const timeStr = now.toLocaleDateString() + " " + now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        const timeString = now.toLocaleDateString() + " at " + now.toLocaleTimeString();
+        
         document.getElementById('cert-name').innerText = state.name.toUpperCase();
         document.getElementById('cert-unit').innerText = state.unit;
-        document.getElementById('cert-timestamp').innerText = "Completed: " + timeStr;
-        document.getElementById('cert-code').innerText = "VERIFICATION: " + btoa(state.name + state.unit).substr(0,10).toUpperCase();
-        localStorage.setItem(`${state.name.toLowerCase()}-${state.unit}`, "completed");
-        showScreen('certificate');
+        document.getElementById('cert-time').innerText = "Issued: " + timeString;
+        // Código único simple
+        document.getElementById('cert-code').innerText = "ID: " + Math.random().toString(36).substring(2, 10).toUpperCase();
+        
+        // Guardar permanentemente
+        localStorage.setItem(`${state.name.toLowerCase()}-${state.unit}`, "COMPLETED");
+        
+        show('cert');
     }
     updateUnitList();
 </script>
