@@ -22,7 +22,6 @@
         body {
             font-family: 'EB Garamond', serif;
             background-color: var(--deep-black);
-            /* Fondo de biblioteca oscura para desktop */
             background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-attachment: fixed;
@@ -36,7 +35,7 @@
 
         .container {
             width: 100%;
-            max-width: 1100px; /* Más ancho en PC */
+            max-width: 1100px;
             background-color: var(--parchment);
             background-image: url('https://www.transparenttextures.com/patterns/aged-paper.png');
             border: 8px solid var(--slytherin-green);
@@ -50,17 +49,15 @@
             justify-content: center;
         }
 
-        /* DECORACIÓN PARA PC (Espacios Muertos) */
-        .desktop-deco { display: none; }
         @media (min-width: 1024px) {
             .container::before, .container::after {
                 content: ''; position: absolute; top: 0; bottom: 0; width: 100px;
-                background-image: url('https://cdn-icons-png.flaticon.com/512/4072/4072307.png'); /* Icono sutil de serpiente/magia */
+                background-image: url('https://cdn-icons-png.flaticon.com/512/4072/4072307.png');
                 background-repeat: space; background-size: 60px; opacity: 0.05; pointer-events: none;
             }
             .container::before { left: 10px; border-right: 2px solid rgba(26, 71, 42, 0.1); }
             .container::after { right: 10px; border-left: 2px solid rgba(26, 71, 42, 0.1); }
-            .screen { padding: 40px 120px !important; } /* Margen interno para no tapar deco */
+            .screen { padding: 40px 120px !important; }
         }
 
         .screen { padding: 20px; text-align: center; width: 100%; box-sizing: border-box; }
@@ -69,7 +66,6 @@
         h1 { font-family: 'Cinzel', serif; color: var(--slytherin-green); font-size: clamp(1.8rem, 5vw, 3.5rem); margin-bottom: 5px; text-shadow: 1px 1px 0px rgba(0,0,0,0.2); }
         .slogan { font-family: 'Cinzel', serif; color: #555; font-size: clamp(0.9rem, 2vw, 1.2rem); margin-bottom: 30px; font-weight: bold; letter-spacing: 1px; }
 
-        /* Inputs Responsivos */
         .input-group { max-width: 500px; margin: 15px auto; text-align: left; }
         .input-group label { display: block; font-family: 'Cinzel', serif; color: var(--slytherin-green); font-weight: bold; margin-bottom: 5px; }
         input[type="text"], select {
@@ -81,7 +77,7 @@
         .btn {
             padding: 15px 40px; margin-top: 20px;
             background: linear-gradient(180deg, var(--slytherin-green), #0f2b19);
-            color: #d4af37 !important; /* Dorado */
+            color: #d4af37 !important;
             border: 2px solid #555; border-radius: 6px;
             font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: bold;
             cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
@@ -90,7 +86,6 @@
         .btn:active { transform: scale(0.98); }
         .btn:disabled { background: #555; color: #999 !important; cursor: not-allowed; }
 
-        /* CARTAS DE ACTIVIDAD */
         .activity-grid { 
             display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
             gap: 20px; margin-top: 30px; max-width: 900px; margin-left: auto; margin-right: auto;
@@ -104,7 +99,6 @@
         .activity-card i { font-size: 2.5rem; color: var(--slytherin-green); margin-bottom: 10px; }
         .seal { position: absolute; top: 10px; right: 10px; color: var(--slytherin-green); font-size: 1.5rem; }
 
-        /* FLASHCARDS - CONTRASTE TOTAL */
         .flashcard { width: 100%; max-width: 500px; height: 280px; margin: 20px auto; perspective: 1000px; cursor: pointer; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
@@ -116,21 +110,19 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
         
-        /* CORRECCIÓN DE COLOR */
         .front { background-color: var(--slytherin-green); }
         .front h3 { 
-            color: #FFFFFF !important; /* Blanco Puro */
+            color: #FFFFFF !important;
             font-size: 2.5rem; text-align: center; font-family: 'Cinzel', serif;
             text-shadow: 2px 2px 0px #000;
         }
         
         .back { background-color: var(--slytherin-silver); transform: rotateY(180deg); }
         .back p { 
-            color: #000000 !important; /* Negro Puro */
+            color: #000000 !important;
             font-size: 1.4rem; text-align: center; font-weight: bold; line-height: 1.4;
         }
 
-        /* QUIZ & CHAMBER */
         .quiz-option {
             background: white; border: 2px solid var(--slytherin-green);
             padding: 15px; margin: 10px auto; max-width: 600px; border-radius: 8px;
@@ -140,7 +132,6 @@
         .correct { background: #d4edda !important; border-color: #28a745; }
         .wrong { background: #f8d7da !important; border-color: #dc3545; }
 
-        /* DIPLOMA RESPONSIVE */
         #cert-area {
             border: 10px double var(--slytherin-green);
             padding: 30px; background: white; border-radius: 5px;
@@ -222,8 +213,8 @@
 </div>
 
 <script>
-    /* BASE DE DATOS COMPLETA V3.0 */
     const DB = {
+        // --- 9TH GRADE ---
         "9th - Unit 2 (Part 1)": {
             words: ["Forest", "Island", "Waterfall", "Valley", "Ocean", "Field"],
             defs: ["A large area full of trees .","Land surrounded by water .","Water falling from a height .","Low land between hills or mountains .","A very large sea .","Open land used for farming or grass."],
@@ -247,19 +238,9 @@
                 { s: "flowers. / colorful / many / are / There", c: "There are many colorful flowers." },
                 { s: "teacher. / your / respect / have / to / You", c: "You have to respect your teacher." }
             ]
-        }
-      "10th - Unit 2 (Part 1)": {
-            words: ["Attend", "Visit", "Cup of tea", "Go", "Pick up", "To Play"],
-            [cite_start]defs: ["To be present at an event.","To go see a place (like a museum).","Idiom: Something you like or prefer.","Used with activities ending in -ing (e.g., go shopping, go swimming).","To collect someone in a car.","A verb used with sports involving a ball or instruments (e.g., play soccer, play the guitar)."],
-            sentences: [
-                { s: "attend / concerts. / weekend, / Every / I", c: "Every weekend, I attend concerts." },
-                { s: "museum. / a / visit / Let's", c: "Let's visit a museum." },
-                { s: "cup / tea. / of / not / It's / my", c: "It's not my cup of tea." },
-                { s: "to / going / am / I / the / park.", c: "I am going to the park." },
-                { s: "pick / can / up. / you / I", c: "I can pick you up." },
-                { s: "play / to / want / I / soccer / this / weekend.", c: "I want to play soccer this weekend." }
-            ]
         },
+
+        // --- 10TH GRADE ---
         "10th - Unit 1 (Part 2)": {
             words: ["Cheer up", "Congratulations", "Way to go", "Calm down", "Take it easy", "Relax"],
             defs: ["To become happier.","Phrase used when someone has done well.","Enthusiastic way to say 'well done'.","To stop feeling angry or excited.","Used to tell someone to be calm.","To become less active and more calm."],
@@ -272,6 +253,32 @@
                 { s: "relax / music. / and / listen / to", c: "Relax and listen to music." }
             ]
         },
+        "10th - Unit 2 (Part 1)": {
+            words: ["Attend", "Visit", "Cup of tea", "Go", "Pick up", "To Play"],
+            defs: ["To be present at an event.","To go see a place (like a museum).","Idiom: Something you like or prefer.","Used with activities ending in -ing (e.g., go shopping, go swimming).","To collect someone in a car.","A verb used with sports involving a ball or instruments (e.g., play soccer, play the guitar)."],
+            sentences: [
+                { s: "attend / concerts. / weekend, / Every / I", c: "Every weekend, I attend concerts." },
+                { s: "museum. / a / visit / Let's", c: "Let's visit a museum." },
+                { s: "cup / tea. / of / not / It's / my", c: "It's not my cup of tea." },
+                { s: "to / going / am / I / the / park.", c: "I am going to the park." },
+                { s: "pick / can / up. / you / I", c: "I can pick you up." },
+                { s: "play / to / want / I / soccer / this / weekend.", c: "I want to play soccer this weekend." }
+            ]
+        },
+        "10th - Unit 2 (Part 2)": {
+            words: ["Risky", "Injury", "Chase", "Avoid", "Refuse", "Imagine"],
+            defs: ["Dangerous or involving risk.","Physical harm to the body.","To run after something to catch it.","To stay away from doing something (use Gerund).","To say no to doing something (use Infinitive).","To form a picture in the mind (use Gerund)."],
+            sentences: [
+                { s: "activity. / risky / a / is / It", c: "It is a risky activity." },
+                { s: "injury. / bad / a / had / He", c: "He had a bad injury." },
+                { s: "bulls / chase / The / runners. / the", c: "The bulls chase the runners." },
+                { s: "sweets. / eating / avoid / We", c: "We avoid eating sweets." },
+                { s: "to / go. / refused / Bryan", c: "Bryan refused to go." },
+                { s: "winning? / imagine / you / Can", c: "Can you imagine winning?" }
+            ]
+        },
+
+        // --- 11TH GRADE ---
         "11th - Unit 1 (Part 1)": {
             words: ["Celebration", "Costumes", "Terrific", "Take part in", "Well-known", "Be filled with"],
             defs: ["A special social event.","Clothes typical of a period or country.","Very good, wonderful or fantastic.","To be involved in an activity.","Famous or familiar to many people.","To contain a lot of something."],
@@ -285,25 +292,43 @@
             ]
         },
         "11th - Unit 1 (Part 2)": {
-            words: ["Float", "Dye", "Parade", "Hand In", "Turn Down", "Tradition"],
-            defs: [
-                "A decorated vehicle used in a festival procession[cite: 22].",
-                "To change the color of something using a liquid[cite: 72].",
-                "A public procession with music and people[cite: 18].",
-                "To submit homework or a document to someone[cite: 56].",
-                "To decline or say 'no' to an invitation[cite: 63].",
-                "A custom passed down from generation to generation[cite: 72]."
-            ],
+            words: ["Call off", "Find out", "Bump into", "Count on", "Look forward to", "Book"],
+            defs: ["To cancel something planned.","To discover information.","To meet someone unexpectedly.","To rely on someone.","To feel excited about the future.","To reserve in advance."],
             sentences: [
-                { s: "saw / We / beautiful / a / float. / flower", c: "We saw a beautiful flower float." },
-                { s: "dye / eggs / red. / usually / They", c: "They usually dye eggs red." },
-                { s: "went / the / We / to / parade. / big", c: "We went to the big parade." },
-                { s: "hand / Please / your / in / homework.", c: "Please hand in your homework." },
-                { s: "turn / down / offer. / the / Don't", c: "Don't turn down the offer." },
-                { s: "family / is / a / This / tradition.", c: "This is a family tradition." }
+                { s: "call / Don't / off / party. / the", c: "Don't call off the party." },
+                { s: "will / find / out / I / truth. / the", c: "I will find out the truth." },
+                { s: "bumped / I / into / Jenny. / yesterday", c: "I bumped into Jenny yesterday." },
+                { s: "count / can / You / me. / on", c: "You can count on me." },
+                { s: "look / forward / to / it. / I", c: "I look forward to it." },
+                { s: "book / Please / flight. / the", c: "Please book the flight." }
+            ]
+        },
+        "11th - Unit 2 (Part 1)": {
+            words: ["Endangered", "Extinct", "Species", "Threat", "Wildlife", "Charity"],
+            defs: ["Animals in danger of disappearing.","No longer existing.","A group of similar animals.","A danger or risk.","Animals living in nature.","Organization that gives help."],
+            sentences: [
+                { s: "endangered. / bears / Polar / are", c: "Polar bears are endangered." },
+                { s: "extinct. / dinosaurs / are / The", c: "The dinosaurs are extinct." },
+                { s: "species. / a / rare / is / This", c: "This is a rare species." },
+                { s: "threat. / is / a / big / Pollution", c: "Pollution is a big threat." },
+                { s: "protect / must / We / wildlife.", c: "We must protect wildlife." },
+                { s: "money / to / Give / charity. / a", c: "Give money to a charity." }
+            ]
+        },
+        "11th - Unit 2 (Part 2)": {
+            words: ["Detect", "Accurate", "Theory", "Blame", "Predict", "Behave"],
+            defs: ["To discover or notice something.","Correct and exact.","An idea to explain something.","To say someone is responsible for a mistake.","To say what will happen in the future.","To act in a certain way."],
+            sentences: [
+                { s: "cancer. / detect / can / Dogs", c: "Dogs can detect cancer." },
+                { s: "test / accurate. / is / The", c: "The test is accurate." },
+                { s: "have / a / I / theory.", c: "I have a theory." },
+                { s: "blame? / is / Who / to", c: "Who is to blame?" },
+                { s: "earthquakes. / predict / Animals / can", c: "Animals can predict earthquakes." },
+                { s: "behave / strangely. / Cats", c: "Cats behave strangely." }
             ]
         }
- }; //
+    };
+
     let state = { name: "", unit: "", done: {scrolls: false, quiz: false, chamber: false} };
 
     function updateUnitList() {
@@ -317,7 +342,7 @@
             const opt = document.createElement('option');
             opt.value = u;
             opt.innerText = isDone ? "✅ " + u + " (Completo)" : u;
-            if(isDone) opt.disabled = true; // Opcional: Deshabilitar selección si ya está hecho
+            if(isDone) opt.disabled = true;
             sel.appendChild(opt);
         });
         if(lastVal && !sel.querySelector(`option[value="${lastVal}"]`).disabled) sel.value = lastVal;
@@ -381,10 +406,9 @@
             let i = 0;
             const drawQ = () => {
                 const correct = data.defs[i];
-                // Lógica de mezcla de definiciones
                 let opts = [...data.defs].sort(() => 0.5 - Math.random()).slice(0,3);
                 if(!opts.includes(correct)) opts[0] = correct;
-                opts.sort(() => 0.5 - Math.random()); // Mezclar orden final
+                opts.sort(() => 0.5 - Math.random());
                 
                 area.innerHTML = `<h3>Define: <b>${data.words[i]}</b></h3><div id="ql"></div>`;
                 opts.forEach(o => {
@@ -411,7 +435,6 @@
             };
             window.checkC = (idx) => {
                 const userAns = document.getElementById('ans').value.trim();
-                // Normalización para evitar errores por un espacio extra
                 if(userAns.toLowerCase().replace(/\s+/g,' ').trim() === data.sentences[idx].c.toLowerCase().replace(/\s+/g,' ').trim()){
                     i++; i < data.sentences.length ? drawC() : (state.done.chamber = true, show('menu'));
                 } else alert("The spell fizzled! Check your spelling and order.");
@@ -429,10 +452,8 @@
         document.getElementById('cert-name').innerText = state.name.toUpperCase();
         document.getElementById('cert-unit').innerText = state.unit;
         document.getElementById('cert-time').innerText = "Issued: " + timeString;
-        // Código único simple
         document.getElementById('cert-code').innerText = "ID: " + Math.random().toString(36).substring(2, 10).toUpperCase();
         
-        // Guardar permanentemente
         localStorage.setItem(`${state.name.toLowerCase()}-${state.unit}`, "COMPLETED");
         
         show('cert');
