@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Punctuation Project Rubric</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        background-color: #f4f6f9;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: white;
+    }
+
+    th {
+        background-color: #2f4f4f;
+        color: white;
+        padding: 10px;
+    }
+
+    td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        vertical-align: top;
+    }
+
+    select {
+        width: 70px;
+        padding: 5px;
+    }
+
+    .total-box {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: white;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    button {
+        margin-top: 15px;
+        padding: 8px 15px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Punctuation Project – Pair Rubric</h1>
+
+<label><strong>Student Names:</strong></label>
+<input type="text" id="students" style="width:300px;" oninput="saveData()">
+
+<br><br>
+
+<table>
+<tr>
+    <th>Category</th>
+    <th>Criteria & Expectations</th>
+    <th>Score (1–10)</th>
+</tr>
+
+<tr>
+<td><strong>Content & Understanding (20%)</strong></td>
+<td>Clear explanation of all punctuation marks in a 300+ word summary.</td>
+<td><select id="content" onchange="calculateTotal(); saveData();"></select></td>
+</tr>
+
+<tr>
+<td><strong>Examples (15%)</strong></td>
+<td>Includes correct original example for each punctuation mark.</td>
+<td><select id="examples" onchange="calculateTotal(); saveData();"></select></td>
+</tr>
+
+<tr>
+<td><strong>Mechanics (15%)</strong></td>
+<td>Correct grammar and punctuation throughout the summary.</td>
+<td><select id="mechanics" onchange="calculateTotal(); saveData();"></select></td>
+</tr>
+
+<tr>
+<td><strong>Worksheet Completion (20%)</strong></td>
+<td>All 30 sentences corrected accurately and completely.</td>
+<td><select id="worksheet" onchange="calculateTotal(); saveData();"></select></td>
+</tr>
+
+<tr>
+<td><strong>Collaboration (10%)</strong></td>
+<td>Both students worked actively, helped each other, and did not ask other groups for help.</td>
+<td><select id="collaboration" onchange="calculateTotal(); saveData();"></select></td>
+</tr>
+
+<tr>
+<td><strong>English Only Policy (5%)</strong></td>
+<td>Pair communicated only in English during work time.</td>
+<td><select id="english" onchange="calculateTotal(); saveData();"></select></td>
+</tr>
+
+<tr>
+<td><strong>Time Management (5%)</strong></td>
+<td>Used class time effectively and completed work within the limit.</td>
+<td><select id="time" onchange="calculateTotal(); saveData();"></select></td>
+</tr>
+
+<tr>
+<td><strong>Presentation (10%)</strong></td>
+<td>Work is neat, organized, and professional.</td>
+<td><select id="presentation" onchange="calculateTotal(); saveData();"></select></td>
+</tr>
+
+</table>
+
+<div class="total-box">
+Final Weighted Score: <span id="total">0</span> / 100
+</div>
+
+<button onclick="resetForm()">Reset</button>
+<button onclick="window.print()">Print</button>
+
+<script>
+
+const weights = {
+    content: 0.20,
+    examples: 0.15,
+    mechanics: 0.15,
+    worksheet: 0.20,
+    collaboration: 0.10,
+    english: 0.05,
+    time: 0.05,
+    presentation: 0.10
+};
+
+function populateDropdowns() {
+    const selects = document.querySelectorAll("select");
+    selects.forEach(select => {
+        select.innerHTML = "<option value='0'>--</option>";
+        for (let i = 1; i <= 10; i++) {
+            select.innerHTML += `<option value="${i}">${i}</option>`;
+        }
+    });
+}
+
+function calculateTotal() {
+    let total = 0;
+
+    for (let key in weights) {
+        let score = parseFloat(document.getElementById(key).value) || 0;
+        total += score * 10 * weights[key];
+    }
+
+    document.getElementById("total").innerText = total.toFixed(2);
+}
+
+function saveData() {
+    const data = {};
+    data.students = document.getElementById("students").value;
+
+    for (let key in weights) {
+        data[key] = document.getElementById(key).value;
+    }
+
+    localStorage.setItem("rubricData", JSON.stringify(data));
+}
+
+function loadData() {
+    const saved = localStorage.getItem("rubricData");
+    if (!saved) return;
+
+    const data = JSON.parse(saved);
+    document.getElementById("students").value = data.students;
+
+    for (let key in weights) {
+        if (data[key]) {
+            document.getElementById(key).value = data[key];
+        }
+    }
+
+    calculateTotal();
+}
+
+function resetForm() {
+    localStorage.removeItem("rubricData");
+    location.reload();
+}
+
+populateDropdowns();
+loadData();
+
+</script>
+
+</body>
+</html>
