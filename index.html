@@ -15,6 +15,10 @@
             --deep-black: #0a0a0a;
             --parchment: #F5F5DC;
             --light-parchment: #FFFEF7;
+            
+            /* Recovery Theme Variables */
+            --rec-primary: #4a0404; 
+            --rec-border: rgba(200,0,0,0.3);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,6 +35,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: background-image 0.5s;
+        }
+
+        body.recovery-mode {
+            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?auto=format&fit=crop&w=1920&q=80');
         }
 
         .container {
@@ -47,6 +56,12 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            transition: border-color 0.5s, box-shadow 0.5s;
+        }
+
+        .recovery-mode .container {
+            border-color: var(--rec-primary);
+            box-shadow: 0 0 60px var(--rec-border);
         }
 
         @media (min-width: 1024px) {
@@ -64,15 +79,20 @@
         .hidden { display: none !important; }
 
         h1 { font-family: 'Cinzel', serif; color: var(--slytherin-green); font-size: clamp(1.8rem, 5vw, 3.5rem); margin-bottom: 5px; text-shadow: 1px 1px 0px rgba(0,0,0,0.2); }
+        .recovery-mode h1 { color: var(--rec-primary); }
+
         .slogan { font-family: 'Cinzel', serif; color: #555; font-size: clamp(0.9rem, 2vw, 1.2rem); margin-bottom: 30px; font-weight: bold; letter-spacing: 1px; }
 
         .input-group { max-width: 500px; margin: 15px auto; text-align: left; }
         .input-group label { display: block; font-family: 'Cinzel', serif; color: var(--slytherin-green); font-weight: bold; margin-bottom: 5px; }
+        .recovery-mode .input-group label { color: var(--rec-primary); }
+
         input[type="text"], select {
             width: 100%; padding: 15px; border: 3px solid var(--slytherin-green);
             background: var(--light-parchment); border-radius: 6px; font-size: 1.1rem;
             font-family: 'EB Garamond', serif;
         }
+        .recovery-mode input[type="text"], .recovery-mode select { border-color: var(--rec-primary); }
 
         .btn {
             padding: 15px 40px; margin-top: 20px;
@@ -83,6 +103,7 @@
             cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             transition: transform 0.2s;
         }
+        .recovery-mode .btn { background: linear-gradient(180deg, var(--rec-primary), #2a0202); }
         .btn:active { transform: scale(0.98); }
         .btn:disabled { background: #555; color: #999 !important; cursor: not-allowed; }
 
@@ -128,42 +149,63 @@
             padding: 15px; margin: 10px auto; max-width: 600px; border-radius: 8px;
             font-size: 1.2rem; cursor: pointer; transition: 0.2s;
         }
+        .recovery-mode .quiz-option { border-color: var(--rec-primary); }
         .quiz-option:hover { background: #f0f0f0; }
-        .correct { background: #d4edda !important; border-color: #28a745; }
-        .wrong { background: #f8d7da !important; border-color: #dc3545; }
+        .correct { background: #d4edda !important; border-color: #28a745 !important; }
+        .wrong { background: #f8d7da !important; border-color: #dc3545 !important; }
 
-        #cert-area {
+        .cert-area {
             border: 10px double var(--slytherin-green);
             padding: 30px; background: white; border-radius: 5px;
             max-width: 700px; margin: 0 auto;
         }
+        .recovery-mode .cert-area { border-color: var(--rec-primary); }
         #cert-name { 
             font-size: clamp(1.5rem, 6vw, 3rem); 
             font-family: 'Cinzel', serif; text-decoration: underline; 
             margin: 15px 0; display: block; color: #000; word-break: break-word;
         }
+
+        /* Recovery Specific */
+        .score-pass { color: green; font-size: 2rem; font-family: 'Cinzel', serif; font-weight: bold; }
+        .score-fail { color: red; font-size: 2rem; font-family: 'Cinzel', serif; font-weight: bold; }
+        .secret-link { margin-top: 40px; font-size: 0.9rem; color: #555; cursor: pointer; transition: 0.3s; }
+        .secret-link:hover { color: var(--rec-primary); }
     </style>
 </head>
 <body>
 
 <div class="container">
     <section id="screen-home" class="screen">
-        <i class="fas fa-shield-snake" style="font-size: 4rem; color: var(--slytherin-green); margin-bottom: 10px;"></i>
-        <h1>Pazport to English</h1>
-        <p class="slogan">The Portal of Ambition and Knowledge</p>
+        <i class="fas fa-shield-snake" id="home-icon" style="font-size: 4rem; color: var(--slytherin-green); margin-bottom: 10px;"></i>
+        <h1 id="home-title">Pazport to English</h1>
+        <p class="slogan" id="home-slogan">The Portal of Ambition and Knowledge</p>
         
         <div class="input-group">
             <label>Student Full Name</label>
             <input type="text" id="studentName" placeholder="Type your name here..." oninput="updateUnitList()">
         </div>
         
-        <div class="input-group">
+        <div class="input-group" id="normal-select-group">
             <label>Select Your Quest</label>
             <select id="unitSelect" onchange="checkStatus()"></select>
+        </div>
+
+        <div class="input-group hidden" id="recovery-select-group">
+            <label>Select Your Recovery Exam</label>
+            <select id="recoverySelect">
+                <option value="">-- Choose Grade --</option>
+                <option value="10th">10th Grade (Units 1 & 2)</option>
+                <option value="11th">11th Grade (Units 1 & 2)</option>
+            </select>
         </div>
         
         <button class="btn" id="startBtn" onclick="start()">Enter the Dungeons</button>
         <p id="msg" style="margin-top:15px; font-weight:bold; color: var(--slytherin-green);"></p>
+
+        <div class="secret-link" onclick="toggleRecoveryMode()">
+            <i class="fas fa-lock"></i> Restricted Section Access
+        </div>
     </section>
 
     <section id="screen-menu" class="screen hidden">
@@ -198,23 +240,37 @@
         <div id="act-content"></div>
     </section>
 
+    <section id="screen-recovery-quiz" class="screen hidden">
+        <div style="display: flex; justify-content: space-between; font-weight: bold; font-family: 'Cinzel', serif; border-bottom: 2px solid var(--rec-primary); padding-bottom: 10px; margin-bottom: 20px;">
+            <span id="rec-q-counter">Question: 1/10</span>
+            <span id="rec-score-counter">Score: 0</span>
+        </div>
+        <div id="rec-content"></div>
+    </section>
+
     <section id="screen-cert" class="screen hidden">
-        <div id="cert-area">
-            <h1 style="font-size: clamp(1.5rem, 5vw, 2.5rem);">Mastery Achievement Report</h1>
+        <div class="cert-area" id="cert-box">
+            <h1 id="cert-main-title" style="font-size: clamp(1.5rem, 5vw, 2.5rem);">Mastery Achievement Report</h1>
             <p style="font-size: 1.2rem;">This document certifies that</p>
             <span id="cert-name"></span>
             <p style="font-size: 1.2rem;">Has successfully completed:</p>
             <h3 id="cert-unit" style="color:var(--slytherin-green); font-size: 1.5rem;"></h3>
+            
+            <div id="rec-score-area" class="hidden" style="margin-top: 20px;">
+                <p>Final Score:</p>
+                <div id="cert-final-score" class="score-pass"></div>
+                <p id="cert-msg" style="margin-top: 10px; font-weight: bold;"></p>
+            </div>
+
             <p id="cert-time" style="margin-top:20px; font-weight:bold; color:#555;"></p>
             <div id="cert-code" style="margin-top:10px; font-family:monospace; font-size:0.8rem; border:1px dashed #999; padding:5px; display:inline-block;"></div>
         </div>
-        <button class="btn" onclick="location.reload()">Finish Quest</button>
+        <button class="btn" id="finishBtn" onclick="location.reload()">Finish Quest</button>
     </section>
 </div>
 
 <script>
     const DB = {
-        // --- 9TH GRADE (Unit 3) ---
         "9th - Unit 3 (Part 1)": {
             words: ["Deliver", "Order", "Waitress / Waiter", "Refund", "Change", "Corner"],
             defs: ["To take goods or food to a person's home.", "To ask for food or drinks in a restaurant.", "A person whose job is to serve customers at their tables.", "Money returned to you because you are not happy with a product.", "The money returned to you when you pay more than the exact price.", "The place where two streets or roads meet."],
@@ -241,6 +297,35 @@
         }
     };
 
+    const DB_RECOVERY = {
+        "10th": [
+            { type: "mc", q: "To stay away from doing something because you don't want to do it:", ans: "Avoid", options: ["Avoid", "Chase", "Attend", "Pick up"] },
+            { type: "mc", q: "A physical harm to your body is called an:", ans: "Injury", options: ["Injury", "Threat", "Adventure", "Habit"] },
+            { type: "mc", q: "To say 'no' to doing something:", ans: "Refuse", options: ["Refuse", "Imagine", "Avoid", "Visit"] },
+            { type: "mc", q: "Perry tried _______ up chocolate.", ans: "to give", options: ["to give", "giving", "give", "gave"] },
+            { type: "mc", q: "We avoid _______ sweets before dinner.", ans: "eating", options: ["eating", "to eat", "eat", "eaten"] },
+            { type: "mc", q: "Can you imagine _______ that much money?", ans: "earning", options: ["earning", "to earn", "earn", "earned"] },
+            { type: "text", q: "Unscramble: activity. / risky / a / is / It", ans: "It is a risky activity." },
+            { type: "text", q: "Unscramble: refused / Bryan / to / go.", ans: "Bryan refused to go." },
+            { type: "text", q: "Unscramble: park. / the / to / going / am / I", ans: "I am going to the park." },
+            { type: "text", q: "Unscramble: up. / you / pick / can / I", ans: "I can pick you up." }
+        ],
+        "11th": [
+            { type: "mc", q: "A group of similar animals is called a:", ans: "Species", options: ["Species", "Charity", "Threat", "Extinct"] },
+            { type: "mc", q: "Animals that are in danger of disappearing forever are:", ans: "Endangered", options: ["Endangered", "Accurate", "Extinct", "Safe"] },
+            { type: "mc", q: "To say that someone is responsible for a mistake:", ans: "Blame", options: ["Blame", "Detect", "Predict", "Behave"] },
+            { type: "mc", q: "Correct, exact, and without any mistakes:", ans: "Accurate", options: ["Accurate", "Extinct", "Endangered", "Risky"] },
+            { type: "mc", q: "I _______ a lot more energy when I was younger.", ans: "had", options: ["had", "have", "have had", "has"] },
+            { type: "mc", q: "The children _______ never traveled abroad.", ans: "have", options: ["have", "has", "had", "are"] },
+            { type: "text", q: "Unscramble: extinct. / dinosaurs / are / The", ans: "The dinosaurs are extinct." },
+            { type: "text", q: "Unscramble: protect / must / We / wildlife.", ans: "We must protect wildlife." },
+            { type: "text", q: "Unscramble: earthquakes. / predict / Animals / can", ans: "Animals can predict earthquakes." },
+            { type: "text", q: "Unscramble: blame? / is / Who / to", ans: "Who is to blame?" }
+        ]
+    };
+
+    let isRecoveryMode = false;
+    let recState = { questions: [], currentIdx: 0, score: 0 };
     let state = { name: "", unit: "", done: {scrolls: false, quiz: false, chamber: false} };
 
     function updateUnitList() {
@@ -266,7 +351,7 @@
         const unit = document.getElementById('unitSelect').value;
         const btn = document.getElementById('startBtn');
         
-        if (user && localStorage.getItem(`${user}-${unit}`)) {
+        if (!isRecoveryMode && user && localStorage.getItem(`${user}-${unit}`)) {
             btn.disabled = true;
             document.getElementById('msg').innerText = "QUEST ALREADY COMPLETED";
         } else {
@@ -275,26 +360,70 @@
         }
     }
 
+    function toggleRecoveryMode() {
+        if (!isRecoveryMode) {
+            const pass = prompt("Enter the password to access the Restricted Section:");
+            if (pass !== "reposicion") {
+                alert("Incorrect Password. Access Denied.");
+                return;
+            }
+            isRecoveryMode = true;
+            document.body.classList.add('recovery-mode');
+            document.getElementById('home-icon').className = "fas fa-skull";
+            document.getElementById('home-icon').style.color = "var(--rec-primary)";
+            document.getElementById('home-title').innerText = "The Restricted Section";
+            document.getElementById('home-slogan').innerText = "Recovery Exam - Units 1 & 2";
+            document.getElementById('normal-select-group').classList.add('hidden');
+            document.getElementById('recovery-select-group').classList.remove('hidden');
+            document.getElementById('startBtn').innerText = "Start The Gauntlet";
+            document.getElementById('msg').innerText = "Must score 8.0+ to pass.";
+            document.getElementById('msg').style.color = "var(--rec-primary)";
+        } else {
+            isRecoveryMode = false;
+            document.body.classList.remove('recovery-mode');
+            document.getElementById('home-icon').className = "fas fa-shield-snake";
+            document.getElementById('home-icon').style.color = "var(--slytherin-green)";
+            document.getElementById('home-title').innerText = "Pazport to English";
+            document.getElementById('home-slogan').innerText = "The Portal of Ambition and Knowledge";
+            document.getElementById('normal-select-group').classList.remove('hidden');
+            document.getElementById('recovery-select-group').classList.add('hidden');
+            document.getElementById('startBtn').innerText = "Enter the Dungeons";
+            document.getElementById('msg').innerText = "";
+            document.getElementById('msg').style.color = "var(--slytherin-green)";
+        }
+    }
+
     function start() {
         state.name = document.getElementById('studentName').value.trim();
-        state.unit = document.getElementById('unitSelect').value;
         if(!state.name) return alert("Identify yourself!");
-        document.getElementById('userGreet').innerText = "Wizard: " + state.name;
-        show('menu');
+
+        if (isRecoveryMode) {
+            const grade = document.getElementById('recoverySelect').value;
+            if(!grade) return alert("Select your grade.");
+            recState.questions = DB_RECOVERY[grade].sort(() => 0.5 - Math.random());
+            recState.currentIdx = 0; recState.score = 0; state.unit = grade;
+            show('screen-recovery-quiz');
+            renderRecQuestion();
+        } else {
+            state.unit = document.getElementById('unitSelect').value;
+            document.getElementById('userGreet').innerText = "Wizard: " + state.name;
+            show('screen-menu');
+        }
     }
 
     function show(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-        document.getElementById('screen-' + id).classList.remove('hidden');
-        if(id === 'menu') {
+        document.getElementById(id).classList.remove('hidden');
+        if(id === 'screen-menu') {
             if(state.done.scrolls) document.getElementById('s-scrolls').classList.remove('hidden');
             if(state.done.quiz) document.getElementById('s-quiz').classList.remove('hidden');
             if(state.done.chamber) document.getElementById('s-chamber').classList.remove('hidden');
         }
     }
 
+    /* --- NORMAL MODE ACTIVITIES --- */
     function go(type) {
-        show('act');
+        show('screen-act');
         const area = document.getElementById('act-content');
         const data = DB[state.unit];
 
@@ -310,7 +439,7 @@
                 </div>
                 <button class="btn" onclick="nextS(${i})">${i === data.words.length-1 ? 'Unlock' : 'Next'}</button>`;
             };
-            window.nextS = (idx) => { if(idx < data.words.length-1){ i++; draw(); } else { state.done.scrolls = true; show('menu'); } };
+            window.nextS = (idx) => { if(idx < data.words.length-1){ i++; draw(); } else { state.done.scrolls = true; show('screen-menu'); } };
             draw();
         }
 
@@ -328,7 +457,7 @@
                     d.onclick = () => {
                         if(o === correct) {
                             d.classList.add('correct');
-                            setTimeout(() => { i++; i < data.words.length ? drawQ() : (state.done.quiz = true, show('menu')); }, 800);
+                            setTimeout(() => { i++; i < data.words.length ? drawQ() : (state.done.quiz = true, show('screen-menu')); }, 800);
                         } else d.classList.add('wrong');
                     };
                     document.getElementById('ql').appendChild(d);
@@ -348,7 +477,7 @@
             window.checkC = (idx) => {
                 const userAns = document.getElementById('ans').value.trim();
                 if(userAns.toLowerCase().replace(/\s+/g,' ').trim() === data.sentences[idx].c.toLowerCase().replace(/\s+/g,' ').trim()){
-                    i++; i < data.sentences.length ? drawC() : (state.done.chamber = true, show('menu'));
+                    i++; i < data.sentences.length ? drawC() : (state.done.chamber = true, show('screen-menu'));
                 } else alert("The spell fizzled! Check your spelling and order.");
             };
             drawC();
@@ -359,17 +488,91 @@
         if(!state.done.scrolls || !state.done.quiz || !state.done.chamber) return alert("You must complete all tasks first!");
         
         const now = new Date();
-        const timeString = now.toLocaleDateString() + " at " + now.toLocaleTimeString();
-        
+        document.getElementById('cert-main-title').innerText = "Mastery Achievement Report";
         document.getElementById('cert-name').innerText = state.name.toUpperCase();
         document.getElementById('cert-unit').innerText = state.unit;
-        document.getElementById('cert-time').innerText = "Issued: " + timeString;
+        document.getElementById('cert-unit').style.color = "var(--slytherin-green)";
+        document.getElementById('cert-time').innerText = "Issued: " + now.toLocaleDateString() + " at " + now.toLocaleTimeString();
         document.getElementById('cert-code').innerText = "ID: " + Math.random().toString(36).substring(2, 10).toUpperCase();
+        document.getElementById('rec-score-area').classList.add('hidden');
+        document.getElementById('finishBtn').innerText = "Finish Quest";
         
         localStorage.setItem(`${state.name.toLowerCase()}-${state.unit}`, "COMPLETED");
-        
-        show('cert');
+        show('screen-cert');
     }
+
+    /* --- RECOVERY MODE ACTIVITIES --- */
+    function renderRecQuestion() {
+        document.getElementById('rec-q-counter').innerText = `Question: ${recState.currentIdx + 1} / ${recState.questions.length}`;
+        document.getElementById('rec-score-counter').innerText = `Score: ${recState.score * 10}`;
+
+        const qData = recState.questions[recState.currentIdx];
+        const area = document.getElementById('rec-content');
+        let html = `<div style="font-size: 1.4rem; font-weight: bold; margin: 20px 0; padding: 20px; background: rgba(0,0,0,0.05); border-radius: 8px;">${qData.q}</div>`;
+        
+        if (qData.type === 'mc') {
+            let opts = [...qData.options].sort(() => 0.5 - Math.random());
+            opts.forEach(opt => {
+                html += `<button class="quiz-option" style="display:block; width:100%; max-width: 600px; margin: 10px auto;" onclick="checkRecAns('${opt.replace(/'/g, "\\'")}', '${qData.ans.replace(/'/g, "\\'")}')">${opt}</button>`;
+            });
+        } else {
+            html += `<input type="text" id="recTextAns" placeholder="Type exactly with punctuation..." autocomplete="off" style="width:100%; max-width:600px; display:block; margin: 0 auto; padding: 15px; font-size: 1.1rem; border: 2px solid var(--rec-primary); border-radius: 5px;">
+                     <button class="btn" style="margin-top: 20px;" onclick="checkRecText('${qData.ans.replace(/'/g, "\\'")}')">Submit Answer</button>`;
+        }
+        area.innerHTML = html;
+    }
+
+    function checkRecAns(selected, correct) {
+        if (selected === correct) recState.score++;
+        recNextQ();
+    }
+
+    function checkRecText(correct) {
+        const userAns = document.getElementById('recTextAns').value.trim().toLowerCase();
+        if (userAns === correct.toLowerCase()) recState.score++;
+        recNextQ();
+    }
+
+    function recNextQ() {
+        recState.currentIdx++;
+        if (recState.currentIdx < recState.questions.length) { renderRecQuestion(); } 
+        else { finishRecovery(); }
+    }
+
+    function finishRecovery() {
+        const finalGrade = (recState.score / recState.questions.length) * 10;
+        const now = new Date();
+        
+        document.getElementById('cert-main-title').innerText = "Recovery Report";
+        document.getElementById('cert-name').innerText = state.name.toUpperCase();
+        document.getElementById('cert-unit').innerText = state.unit + " Grade - Makeup Exam";
+        document.getElementById('cert-unit').style.color = "var(--rec-primary)";
+        document.getElementById('cert-time').innerText = "Issued: " + now.toLocaleDateString() + " at " + now.toLocaleTimeString();
+        
+        document.getElementById('rec-score-area').classList.remove('hidden');
+        const scoreEl = document.getElementById('cert-final-score');
+        const msgEl = document.getElementById('cert-msg');
+        const codeEl = document.getElementById('cert-code');
+        const btn = document.getElementById('finishBtn');
+
+        scoreEl.innerText = finalGrade.toFixed(1) + " / 10.0";
+
+        if (finalGrade >= 8.0) {
+            scoreEl.className = "score-pass";
+            msgEl.innerText = "SUCCESS! Take a screenshot and send it to your teacher.";
+            msgEl.style.color = "green";
+            codeEl.innerText = `Auth: RECOV-${Math.random().toString(36).substring(2,8).toUpperCase()}-${now.toLocaleDateString()}`;
+            btn.innerText = "Finish";
+        } else {
+            scoreEl.className = "score-fail";
+            msgEl.innerText = "FAILED. You need 8.0 to pass. Study and try again.";
+            msgEl.style.color = "red";
+            codeEl.innerText = "UNAUTHORIZED - INSUFFICIENT SCORE";
+            btn.innerText = "Try Again";
+        }
+        show('screen-cert');
+    }
+
     updateUnitList();
 </script>
 </body>
