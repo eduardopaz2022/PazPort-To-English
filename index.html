@@ -299,28 +299,74 @@
 
     const DB_RECOVERY = {
         "10th": [
+            // Vocabulary (12 questions)
             { type: "mc", q: "To stay away from doing something because you don't want to do it:", ans: "Avoid", options: ["Avoid", "Chase", "Attend", "Pick up"] },
             { type: "mc", q: "A physical harm to your body is called an:", ans: "Injury", options: ["Injury", "Threat", "Adventure", "Habit"] },
             { type: "mc", q: "To say 'no' to doing something:", ans: "Refuse", options: ["Refuse", "Imagine", "Avoid", "Visit"] },
+            { type: "mc", q: "To go to an event, like a concert or a class:", ans: "Attend", options: ["Attend", "Imagine", "Refuse", "Chase"] },
+            { type: "mc", q: "To form a picture or idea in your mind:", ans: "Imagine", options: ["Imagine", "Avoid", "Pick up", "Play"] },
+            { type: "mc", q: "If an activity involves a lot of danger, it is:", ans: "Risky", options: ["Risky", "Friendly", "Peaceful", "Boring"] },
+            { type: "mc", q: "To run after someone or something to catch them:", ans: "Chase", options: ["Chase", "Visit", "Avoid", "Imagine"] },
+            { type: "mc", q: "I don't like horror movies. They are just not my _______.", ans: "cup of tea", options: ["cup of tea", "piece of cake", "bowl of soup", "glass of water"] },
+            { type: "mc", q: "Can you _______ me up at 8:00 PM?", ans: "pick", options: ["pick", "take", "drop", "get"] },
+            { type: "mc", q: "To go see a place like a museum:", ans: "Visit", options: ["Visit", "Refuse", "Attend", "Play"] },
+            { type: "mc", q: "Someone who lives in the area where you are visiting is a(n):", ans: "Local", options: ["Local", "Tourist", "Alien", "Waiter"] },
+            { type: "mc", q: "I want to _______ soccer this weekend.", ans: "play", options: ["play", "chase", "attend", "go"] },
+            // Grammar: Gerunds vs Infinitives (10 questions)
             { type: "mc", q: "Perry tried _______ up chocolate.", ans: "to give", options: ["to give", "giving", "give", "gave"] },
             { type: "mc", q: "We avoid _______ sweets before dinner.", ans: "eating", options: ["eating", "to eat", "eat", "eaten"] },
             { type: "mc", q: "Can you imagine _______ that much money?", ans: "earning", options: ["earning", "to earn", "earn", "earned"] },
+            { type: "mc", q: "Sarah chose _______ to Paris for her vacation.", ans: "to go", options: ["to go", "going", "go", "went"] },
+            { type: "mc", q: "I refuse _______ to that dangerous place.", ans: "to go", options: ["to go", "going", "go", "goes"] },
+            { type: "mc", q: "Do you mind _______ me with this heavy box?", ans: "helping", options: ["helping", "to help", "help", "helped"] },
+            { type: "mc", q: "He finished _______ the report at midnight.", ans: "writing", options: ["writing", "to write", "write", "wrote"] },
+            { type: "mc", q: "They plan _______ a new car next year.", ans: "to buy", options: ["to buy", "buying", "buy", "bought"] },
+            { type: "mc", q: "She seriously considered _______ her job.", ans: "quitting", options: ["quitting", "to quit", "quit", "quits"] },
+            { type: "mc", q: "We agreed _______ a movie together tonight.", ans: "to see", options: ["to see", "seeing", "see", "saw"] },
+            // Unscramble sentences (8 questions)
             { type: "text", q: "Unscramble: activity. / risky / a / is / It", ans: "It is a risky activity." },
             { type: "text", q: "Unscramble: refused / Bryan / to / go.", ans: "Bryan refused to go." },
             { type: "text", q: "Unscramble: park. / the / to / going / am / I", ans: "I am going to the park." },
-            { type: "text", q: "Unscramble: up. / you / pick / can / I", ans: "I can pick you up." }
+            { type: "text", q: "Unscramble: up. / you / pick / can / I", ans: "I can pick you up." },
+            { type: "text", q: "Unscramble: winning? / imagine / you / Can", ans: "Can you imagine winning?" },
+            { type: "text", q: "Unscramble: museum. / a / visit / Let's", ans: "Let's visit a museum." },
+            { type: "text", q: "Unscramble: avoid / eating / We / sweets.", ans: "We avoid eating sweets." },
+            { type: "text", q: "Unscramble: tea. / of / cup / not / It's / my", ans: "It's not my cup of tea." }
         ],
         "11th": [
+            // Vocabulary (12 questions)
             { type: "mc", q: "A group of similar animals is called a:", ans: "Species", options: ["Species", "Charity", "Threat", "Extinct"] },
             { type: "mc", q: "Animals that are in danger of disappearing forever are:", ans: "Endangered", options: ["Endangered", "Accurate", "Extinct", "Safe"] },
             { type: "mc", q: "To say that someone is responsible for a mistake:", ans: "Blame", options: ["Blame", "Detect", "Predict", "Behave"] },
             { type: "mc", q: "Correct, exact, and without any mistakes:", ans: "Accurate", options: ["Accurate", "Extinct", "Endangered", "Risky"] },
+            { type: "mc", q: "If an animal no longer exists on Earth, it is:", ans: "Extinct", options: ["Extinct", "Wildlife", "Threatened", "Species"] },
+            { type: "mc", q: "Animals living in their natural habitat are called:", ans: "Wildlife", options: ["Wildlife", "Charity", "Threat", "Costumes"] },
+            { type: "mc", q: "An organization that gives help or money to those in need:", ans: "Charity", options: ["Charity", "Theory", "Species", "Threat"] },
+            { type: "mc", q: "A danger or risk to the environment is a:", ans: "Threat", options: ["Threat", "Species", "Charity", "Predict"] },
+            { type: "mc", q: "To discover or notice something (like dogs smelling diseases):", ans: "Detect", options: ["Detect", "Blame", "Behave", "Predict"] },
+            { type: "mc", q: "An idea intended to explain something:", ans: "Theory", options: ["Theory", "Threat", "Species", "Charity"] },
+            { type: "mc", q: "To say what will happen in the future before it occurs:", ans: "Predict", options: ["Predict", "Detect", "Blame", "Behave"] },
+            { type: "mc", q: "To act in a certain way:", ans: "Behave", options: ["Behave", "Blame", "Detect", "Predict"] },
+            // Grammar (10 questions)
             { type: "mc", q: "I _______ a lot more energy when I was younger.", ans: "had", options: ["had", "have", "have had", "has"] },
             { type: "mc", q: "The children _______ never traveled abroad.", ans: "have", options: ["have", "has", "had", "are"] },
+            { type: "mc", q: "Joe _______ studying for the exam yet.", ans: "hasn't finished", options: ["hasn't finished", "didn't finish", "don't finish", "isn't finished"] },
+            { type: "mc", q: "_______ you receive an e-mail from Shirley this morning?", ans: "Did", options: ["Did", "Have", "Has", "Do"] },
+            { type: "mc", q: "Thousands of people _______ their homes in the earthquake last year.", ans: "lost", options: ["lost", "have lost", "lose", "losing"] },
+            { type: "mc", q: "When I was a child, I _______ swim every day during the summer.", ans: "used to", options: ["used to", "use to", "am used to", "using to"] },
+            { type: "mc", q: "The panda bear _______ on the list since the 1990s.", ans: "has been", options: ["has been", "was", "were", "have been"] },
+            { type: "mc", q: "My favorite writer _______ be Charles Dickens.", ans: "used to", options: ["used to", "use to", "has been", "was"] },
+            { type: "mc", q: "We _______ to the beach last weekend.", ans: "went", options: ["went", "have gone", "go", "going"] },
+            { type: "mc", q: "The last male northern white rhino _______ in 2018.", ans: "died", options: ["died", "has died", "dies", "used to die"] },
+            // Unscramble sentences (8 questions)
             { type: "text", q: "Unscramble: extinct. / dinosaurs / are / The", ans: "The dinosaurs are extinct." },
             { type: "text", q: "Unscramble: protect / must / We / wildlife.", ans: "We must protect wildlife." },
             { type: "text", q: "Unscramble: earthquakes. / predict / Animals / can", ans: "Animals can predict earthquakes." },
-            { type: "text", q: "Unscramble: blame? / is / Who / to", ans: "Who is to blame?" }
+            { type: "text", q: "Unscramble: blame? / is / Who / to", ans: "Who is to blame?" },
+            { type: "text", q: "Unscramble: accurate. / test / is / The", ans: "The test is accurate." },
+            { type: "text", q: "Unscramble: swim. / to / used / I", ans: "I used to swim." },
+            { type: "text", q: "Unscramble: theory. / a / have / I", ans: "I have a theory." },
+            { type: "text", q: "Unscramble: strangely. / behave / Cats", ans: "Cats behave strangely." }
         ]
     };
 
@@ -504,7 +550,10 @@
     /* --- RECOVERY MODE ACTIVITIES --- */
     function renderRecQuestion() {
         document.getElementById('rec-q-counter').innerText = `Question: ${recState.currentIdx + 1} / ${recState.questions.length}`;
-        document.getElementById('rec-score-counter').innerText = `Score: ${recState.score * 10}`;
+        
+        // Dynamically calculate score out of 10 based on correct answers
+        const currentScoreOutOf10 = (recState.score / recState.questions.length) * 10;
+        document.getElementById('rec-score-counter').innerText = `Score: ${currentScoreOutOf10.toFixed(1)}`;
 
         const qData = recState.questions[recState.currentIdx];
         const area = document.getElementById('rec-content');
