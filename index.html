@@ -15,10 +15,11 @@
             --deep-black: #0a0a0a;
             --parchment: #F5F5DC;
             --light-parchment: #FFFEF7;
-            
-            /* Recovery Theme Variables */
-            --rec-primary: #4a0404; 
+            --rec-primary: #4a0404;
             --rec-border: rgba(200,0,0,0.3);
+            --iq-primary: #1a1a4e;
+            --iq-gold: #c9a84c;
+            --iq-border: rgba(201,168,76,0.4);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,7 +27,8 @@
         body {
             font-family: 'EB Garamond', serif;
             background-color: var(--deep-black);
-            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=1920&q=80');
+            background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                url('https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-attachment: fixed;
             background-position: center;
@@ -35,11 +37,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background-image 0.5s;
+            transition: background-image 0.6s ease;
         }
 
         body.recovery-mode {
-            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?auto=format&fit=crop&w=1920&q=80');
+            background-image: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.9)),
+                url('https://images.unsplash.com/photo-1519074069444-1ba4fff66d16?auto=format&fit=crop&w=1920&q=80');
+        }
+
+        body.iq-mode {
+            background-image: linear-gradient(rgba(0,0,0,0.88), rgba(0,0,0,0.88)),
+                url('https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=1920&q=80');
         }
 
         .container {
@@ -64,27 +72,43 @@
             box-shadow: 0 0 60px var(--rec-border);
         }
 
+        .iq-mode .container {
+            border-color: var(--iq-gold);
+            box-shadow: 0 0 70px var(--iq-border);
+        }
+
         @media (min-width: 1024px) {
             .container::before, .container::after {
                 content: ''; position: absolute; top: 0; bottom: 0; width: 100px;
                 background-image: url('https://cdn-icons-png.flaticon.com/512/4072/4072307.png');
                 background-repeat: space; background-size: 60px; opacity: 0.05; pointer-events: none;
             }
-            .container::before { left: 10px; border-right: 2px solid rgba(26, 71, 42, 0.1); }
-            .container::after { right: 10px; border-left: 2px solid rgba(26, 71, 42, 0.1); }
+            .container::before { left: 10px; border-right: 2px solid rgba(26,71,42,0.1); }
+            .container::after  { right: 10px; border-left: 2px solid rgba(26,71,42,0.1); }
             .screen { padding: 40px 120px !important; }
         }
 
         .screen { padding: 20px; text-align: center; width: 100%; box-sizing: border-box; }
         .hidden { display: none !important; }
 
-        h1 { font-family: 'Cinzel', serif; color: var(--slytherin-green); font-size: clamp(1.8rem, 5vw, 3.5rem); margin-bottom: 5px; text-shadow: 1px 1px 0px rgba(0,0,0,0.2); }
+        h1 {
+            font-family: 'Cinzel', serif; color: var(--slytherin-green);
+            font-size: clamp(1.8rem, 5vw, 3.5rem); margin-bottom: 5px;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
+        }
         .recovery-mode h1 { color: var(--rec-primary); }
 
-        .slogan { font-family: 'Cinzel', serif; color: #555; font-size: clamp(0.9rem, 2vw, 1.2rem); margin-bottom: 30px; font-weight: bold; letter-spacing: 1px; }
+        .slogan {
+            font-family: 'Cinzel', serif; color: #555;
+            font-size: clamp(0.9rem, 2vw, 1.2rem); margin-bottom: 30px;
+            font-weight: bold; letter-spacing: 1px;
+        }
 
         .input-group { max-width: 500px; margin: 15px auto; text-align: left; }
-        .input-group label { display: block; font-family: 'Cinzel', serif; color: var(--slytherin-green); font-weight: bold; margin-bottom: 5px; }
+        .input-group label {
+            display: block; font-family: 'Cinzel', serif;
+            color: var(--slytherin-green); font-weight: bold; margin-bottom: 5px;
+        }
         .recovery-mode .input-group label { color: var(--rec-primary); }
 
         input[type="text"], select {
@@ -97,18 +121,21 @@
         .btn {
             padding: 15px 40px; margin-top: 20px;
             background: linear-gradient(180deg, var(--slytherin-green), #0f2b19);
-            color: #d4af37 !important;
-            border: 2px solid #555; border-radius: 6px;
+            color: #d4af37 !important; border: 2px solid #555; border-radius: 6px;
             font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: bold;
-            cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-            transition: transform 0.2s;
+            cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.3); transition: transform 0.2s;
         }
         .recovery-mode .btn { background: linear-gradient(180deg, var(--rec-primary), #2a0202); }
+        .btn-iq {
+            background: linear-gradient(180deg, var(--iq-primary), #0d0d2e) !important;
+            color: var(--iq-gold) !important; border-color: var(--iq-gold) !important;
+        }
         .btn:active { transform: scale(0.98); }
         .btn:disabled { background: #555; color: #999 !important; cursor: not-allowed; }
 
-        .activity-grid { 
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+        /* ACTIVITY GRID */
+        .activity-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px; margin-top: 30px; max-width: 900px; margin-left: auto; margin-right: auto;
         }
         .activity-card {
@@ -120,72 +147,154 @@
         .activity-card i { font-size: 2.5rem; color: var(--slytherin-green); margin-bottom: 10px; }
         .seal { position: absolute; top: 10px; right: 10px; color: var(--slytherin-green); font-size: 1.5rem; }
 
+        /* IQ HUB CARDS */
+        .iq-hub-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px; margin-top: 30px; max-width: 800px; margin-left: auto; margin-right: auto;
+        }
+        .iq-hub-card {
+            background: white; border: 4px solid var(--iq-primary);
+            padding: 35px 25px; border-radius: 12px; cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 6px 20px rgba(26,26,78,0.15);
+            position: relative; overflow: hidden;
+        }
+        .iq-hub-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+            background: linear-gradient(90deg, var(--iq-primary), var(--iq-gold));
+        }
+        .iq-hub-card:hover { transform: translateY(-6px); box-shadow: 0 12px 30px rgba(26,26,78,0.25); border-color: var(--iq-gold); }
+        .iq-hub-card i { font-size: 3rem; color: var(--iq-primary); margin-bottom: 15px; }
+        .iq-hub-card h3 { font-family: 'Cinzel', serif; color: var(--iq-primary); font-size: 1.2rem; margin-bottom: 8px; }
+        .iq-hub-card p { color: #555; font-size: 1rem; line-height: 1.5; }
+        .card-badge {
+            display: inline-block; margin-top: 12px; padding: 4px 12px;
+            background: var(--iq-primary); color: var(--iq-gold);
+            font-family: 'Cinzel', serif; font-size: 0.75rem; border-radius: 20px;
+        }
+
+        /* FLASHCARD */
         .flashcard { width: 100%; max-width: 500px; height: 280px; margin: 20px auto; perspective: 1000px; cursor: pointer; }
         .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s; transform-style: preserve-3d; }
         .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
-        
         .front, .back {
             position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
             display: flex; align-items: center; justify-content: center; padding: 20px;
-            border-radius: 12px; border: 6px solid #555;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-radius: 12px; border: 6px solid #555; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
         }
-        
         .front { background-color: var(--slytherin-green); }
-        .front h3 { 
-            color: #FFFFFF !important;
-            font-size: 2.5rem; text-align: center; font-family: 'Cinzel', serif;
-            text-shadow: 2px 2px 0px #000;
-        }
-        
+        .front h3 { color: #FFF !important; font-size: 2.5rem; text-align: center; font-family: 'Cinzel', serif; text-shadow: 2px 2px 0px #000; }
         .back { background-color: var(--slytherin-silver); transform: rotateY(180deg); }
-        .back p { 
-            color: #000000 !important;
-            font-size: 1.4rem; text-align: center; font-weight: bold; line-height: 1.4;
-        }
+        .back p { color: #000 !important; font-size: 1.4rem; text-align: center; font-weight: bold; line-height: 1.4; }
 
+        /* QUIZ OPTIONS */
         .quiz-option {
             background: white; border: 2px solid var(--slytherin-green);
             padding: 15px; margin: 10px auto; max-width: 600px; border-radius: 8px;
-            font-size: 1.2rem; cursor: pointer; transition: 0.2s;
+            font-size: 1.2rem; cursor: pointer; transition: 0.2s; text-align: left;
         }
         .recovery-mode .quiz-option { border-color: var(--rec-primary); }
+        .iq-mode .quiz-option { border-color: var(--iq-primary); }
         .quiz-option:hover { background: #f0f0f0; }
         .correct { background: #d4edda !important; border-color: #28a745 !important; }
-        .wrong { background: #f8d7da !important; border-color: #dc3545 !important; }
+        .wrong   { background: #f8d7da !important; border-color: #dc3545 !important; }
 
+        /* CERTIFICATE */
         .cert-area {
             border: 10px double var(--slytherin-green);
-            padding: 30px; background: white; border-radius: 5px;
-            max-width: 700px; margin: 0 auto;
+            padding: 30px; background: white; border-radius: 5px; max-width: 700px; margin: 0 auto;
         }
         .recovery-mode .cert-area { border-color: var(--rec-primary); }
-        #cert-name { 
-            font-size: clamp(1.5rem, 6vw, 3rem); 
-            font-family: 'Cinzel', serif; text-decoration: underline; 
-            margin: 15px 0; display: block; color: #000; word-break: break-word;
+        #cert-name {
+            font-size: clamp(1.5rem, 6vw, 3rem); font-family: 'Cinzel', serif;
+            text-decoration: underline; margin: 15px 0; display: block; color: #000; word-break: break-word;
+        }
+        .score-pass { color: green; font-size: 2rem; font-family: 'Cinzel', serif; font-weight: bold; }
+        .score-fail { color: red;   font-size: 2rem; font-family: 'Cinzel', serif; font-weight: bold; }
+
+        /* HOME PORTAL LINKS */
+        .portal-links {
+            margin-top: 30px; display: flex; flex-wrap: wrap;
+            gap: 20px; justify-content: center; align-items: center;
+        }
+        .secret-link {
+            font-size: 0.9rem; color: #555; cursor: pointer;
+            transition: 0.3s; display: inline-block;
+        }
+        .secret-link:hover { color: var(--rec-primary); }
+        .iq-portal-link {
+            font-size: 0.95rem; color: var(--iq-primary); cursor: pointer;
+            transition: 0.3s; display: inline-block; font-family: 'Cinzel', serif;
+            font-weight: bold; border: 2px solid var(--iq-primary);
+            padding: 8px 18px; border-radius: 6px;
+            background: rgba(26,26,78,0.05);
+        }
+        .iq-portal-link:hover { background: var(--iq-primary); color: var(--iq-gold); }
+
+        /* IQ HUB HEADER */
+        .iq-hub-header {
+            background: linear-gradient(135deg, var(--iq-primary) 0%, #2d2d6e 100%);
+            margin: -20px -20px 30px -20px; padding: 35px 30px;
+        }
+        @media (min-width: 1024px) {
+            .iq-hub-header { margin: -40px -120px 35px -120px; padding: 40px 120px; }
+        }
+        .iq-hub-header h1 { color: var(--iq-gold) !important; font-size: clamp(1.5rem, 4vw, 2.8rem); text-shadow: none; }
+        .iq-hub-header p  { color: rgba(255,255,255,0.75); font-size: 1.1rem; margin-top: 8px; }
+
+        /* IQ EXAM BAR */
+        .iq-exam-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            font-weight: bold; font-family: 'Cinzel', serif;
+            border-bottom: 2px solid var(--iq-primary);
+            padding-bottom: 10px; margin-bottom: 15px;
+            font-size: 0.9rem; color: var(--iq-primary);
         }
 
-        /* Recovery Specific */
-        .score-pass { color: green; font-size: 2rem; font-family: 'Cinzel', serif; font-weight: bold; }
-        .score-fail { color: red; font-size: 2rem; font-family: 'Cinzel', serif; font-weight: bold; }
-        .secret-link { margin-top: 40px; font-size: 0.9rem; color: #555; cursor: pointer; transition: 0.3s; }
-        .secret-link:hover { color: var(--rec-primary); }
+        /* IQ PROGRESS BAR */
+        .iq-progress-bar-wrap {
+            max-width: 100%; margin: 0 auto 15px auto;
+            background: #ddd; border-radius: 10px; height: 8px; overflow: hidden;
+        }
+        .iq-progress-bar {
+            height: 100%; border-radius: 10px;
+            background: linear-gradient(90deg, var(--iq-primary), var(--iq-gold));
+            transition: width 0.4s ease;
+        }
+
+        /* IQ READING / SECTION */
+        .iq-reading-box {
+            background: var(--light-parchment); border: 2px solid var(--iq-primary);
+            border-left: 6px solid var(--iq-gold); border-radius: 8px;
+            padding: 20px; margin: 0 auto 25px auto; max-width: 700px;
+            text-align: left; font-size: 1.05rem; line-height: 1.8;
+        }
+        .iq-section-label {
+            font-family: 'Cinzel', serif; font-size: 0.9rem;
+            color: var(--iq-gold); background: var(--iq-primary);
+            padding: 6px 15px; border-radius: 4px;
+            margin: 0 auto 20px auto; text-align: left; display: block;
+        }
+        .iq-feedback { margin: 12px auto; max-width: 600px; font-weight: bold; font-size: 1rem; min-height: 1.4em; }
+        .iq-feedback.ok   { color: #28a745; }
+        .iq-feedback.fail { color: #dc3545; }
     </style>
 </head>
 <body>
 
 <div class="container">
+
+    <!-- HOME -->
     <section id="screen-home" class="screen">
-        <i class="fas fa-shield-snake" id="home-icon" style="font-size: 4rem; color: var(--slytherin-green); margin-bottom: 10px;"></i>
-        <h1 id="home-title">Pazport to English</h1>
-        <p class="slogan" id="home-slogan">The Portal of Ambition and Knowledge</p>
-        
+        <i class="fas fa-shield-snake" style="font-size:4rem; color:var(--slytherin-green); margin-bottom:10px;"></i>
+        <h1>Pazport to English</h1>
+        <p class="slogan">The Portal of Ambition and Knowledge</p>
+
         <div class="input-group">
             <label>Student Full Name</label>
             <input type="text" id="studentName" placeholder="Type your name here..." oninput="updateUnitList()">
         </div>
-        
+
         <div class="input-group" id="normal-select-group">
             <label>Select Your Quest</label>
             <select id="unitSelect" onchange="checkStatus()"></select>
@@ -195,19 +304,74 @@
             <label>Select Your Recovery Exam</label>
             <select id="recoverySelect">
                 <option value="">-- Choose Grade --</option>
-                <option value="10th">10th Grade (Units 1 & 2)</option>
-                <option value="11th">11th Grade (Units 1 & 2)</option>
+                <option value="10th">10th Grade (Units 1 &amp; 2)</option>
+                <option value="11th">11th Grade (Units 1 &amp; 2)</option>
             </select>
         </div>
-        
-        <button class="btn" id="startBtn" onclick="start()">Enter the Dungeons</button>
-        <p id="msg" style="margin-top:15px; font-weight:bold; color: var(--slytherin-green);"></p>
 
-        <div class="secret-link" onclick="toggleRecoveryMode()">
-            <i class="fas fa-lock"></i> Restricted Section Access
+        <button class="btn" id="startBtn" onclick="start()">Enter the Dungeons</button>
+        <p id="msg" style="margin-top:15px; font-weight:bold; color:var(--slytherin-green);"></p>
+
+        <div class="portal-links">
+            <div class="iq-portal-link" onclick="enterIQHub()">
+                <i class="fas fa-brain"></i>&nbsp; I.Q. Practice Hub — 9th Grade
+            </div>
+            <div class="secret-link" onclick="toggleRecoveryMode()">
+                <i class="fas fa-lock"></i> Restricted Section Access
+            </div>
         </div>
     </section>
 
+    <!-- IQ HUB LANDING PAGE -->
+    <section id="screen-iq-hub" class="screen hidden">
+        <div class="iq-hub-header">
+            <i class="fas fa-brain" style="font-size:3rem; color:var(--iq-gold); margin-bottom:10px; display:block;"></i>
+            <h1>I.Q. Practice Hub</h1>
+            <p>Your dedicated exam preparation centre &mdash; 9th Grade</p>
+        </div>
+
+        <p style="max-width:650px; margin:0 auto 25px auto; color:#444; font-size:1.1rem; line-height:1.75;">
+            Welcome to the <strong>I.Q. Practice Hub</strong>. This section is designed to help you prepare
+            for your period exam. Choose a practice mode below and sharpen your skills before the real challenge begins.
+        </p>
+
+        <div class="iq-hub-grid">
+            <div class="iq-hub-card" onclick="startCombinedPractice('owl')">
+                <i class="fas fa-feather-alt"></i>
+                <h3>O.W.L. Vocabulary &amp; Grammar</h3>
+                <p>A focused drill covering key vocabulary and grammar patterns from Units 1&ndash;3. Perfect for a quick review session.</p>
+                <span class="card-badge">10 Questions</span>
+            </div>
+            <div class="iq-hub-card" onclick="startCombinedPractice('full')">
+                <i class="fas fa-scroll"></i>
+                <h3>Full Exam Simulation</h3>
+                <p>Practice all 5 parts of the Period I Exam: Listening Comprehension, Numbers, Vocabulary, Grammar, and Reading.</p>
+                <span class="card-badge">50 Questions</span>
+            </div>
+        </div>
+
+        <button class="btn btn-iq" style="margin-top:35px;" onclick="leaveIQHub()">
+            &larr; Return to Entrance Hall
+        </button>
+    </section>
+
+    <!-- IQ EXAM SCREEN (shared for OWL + Full) -->
+    <section id="screen-iq-exam" class="screen hidden">
+        <div style="text-align:left; margin-bottom:10px;">
+            <button class="btn btn-iq" style="padding:5px 15px; margin:0; font-size:0.8rem;" onclick="show('iq-hub')">&larr; Back to Hub</button>
+        </div>
+        <div class="iq-exam-bar">
+            <span id="iq-q-counter">Question: 1 / 10</span>
+            <span id="iq-mode-label" style="font-size:0.8rem; opacity:0.7;">O.W.L. Mode</span>
+            <span id="iq-score-counter">Score: 0</span>
+        </div>
+        <div class="iq-progress-bar-wrap">
+            <div class="iq-progress-bar" id="iq-progress-bar" style="width:0%;"></div>
+        </div>
+        <div id="iq-content"></div>
+    </section>
+
+    <!-- MAIN MENU -->
     <section id="screen-menu" class="screen hidden">
         <h2 id="userGreet" style="font-family:'Cinzel'; color:#333;"></h2>
         <div class="activity-grid">
@@ -229,18 +393,11 @@
                 <h3>Sentence Chamber</h3>
                 <p>Unscramble the spell</p>
             </div>
-            
-            <div class="activity-card" id="card-exam" onclick="startExamPrep()">
-                <div id="s-exam" class="seal hidden"><i class="fas fa-snake"></i></div>
-                <i class="fas fa-file-signature"></i>
-                <h3>O.W.L. Mock Exam</h3>
-                <p>9th Grade Exam Prep</p>
-            </div>
-
         </div>
         <button class="btn" style="margin-top:40px;" onclick="claimCert()">Get Official Report</button>
     </section>
 
+    <!-- ACTIVITY SCREEN -->
     <section id="screen-act" class="screen hidden">
         <div style="text-align:left; margin-bottom:10px;">
             <button class="btn" style="padding:5px 15px; margin:0; font-size:0.8rem;" onclick="show('menu')">Back</button>
@@ -248,104 +405,736 @@
         <div id="act-content"></div>
     </section>
 
-    <section id="screen-mock-exam" class="screen hidden">
-        <div style="text-align:left; margin-bottom:10px;">
-            <button class="btn" style="padding:5px 15px; margin:0; font-size:0.8rem;" onclick="show('menu')">Flee</button>
-        </div>
-        <div style="display: flex; justify-content: space-between; font-weight: bold; font-family: 'Cinzel', serif; border-bottom: 2px solid var(--slytherin-green); padding-bottom: 10px; margin-bottom: 20px;">
-            <span id="mock-q-counter">Question: 1/10</span>
-            <span id="mock-score-counter">Score: 0</span>
-        </div>
-        <div id="mock-content"></div>
-    </section>
-
+    <!-- RECOVERY QUIZ -->
     <section id="screen-recovery-quiz" class="screen hidden">
-        <div style="display: flex; justify-content: space-between; font-weight: bold; font-family: 'Cinzel', serif; border-bottom: 2px solid var(--rec-primary); padding-bottom: 10px; margin-bottom: 20px;">
+        <div style="display:flex; justify-content:space-between; font-weight:bold; font-family:'Cinzel',serif;
+             border-bottom:2px solid var(--rec-primary); padding-bottom:10px; margin-bottom:20px;">
             <span id="rec-q-counter">Question: 1/10</span>
             <span id="rec-score-counter">Score: 0</span>
         </div>
         <div id="rec-content"></div>
     </section>
 
+    <!-- CERTIFICATE -->
     <section id="screen-cert" class="screen hidden">
         <div class="cert-area" id="cert-box">
-            <h1 id="cert-main-title" style="font-size: clamp(1.5rem, 5vw, 2.5rem);">Mastery Achievement Report</h1>
-            <p style="font-size: 1.2rem;">This document certifies that</p>
+            <h1 id="cert-main-title" style="font-size:clamp(1.5rem,5vw,2.5rem);">Mastery Achievement Report</h1>
+            <p style="font-size:1.2rem;">This document certifies that</p>
             <span id="cert-name"></span>
-            <p style="font-size: 1.2rem;">Has successfully completed:</p>
-            <h3 id="cert-unit" style="color:var(--slytherin-green); font-size: 1.5rem;"></h3>
-            
-            <div id="rec-score-area" class="hidden" style="margin-top: 20px;">
+            <p style="font-size:1.2rem;">Has successfully completed:</p>
+            <h3 id="cert-unit" style="color:var(--slytherin-green); font-size:1.5rem;"></h3>
+            <div id="rec-score-area" class="hidden" style="margin-top:20px;">
                 <p>Final Score:</p>
                 <div id="cert-final-score" class="score-pass"></div>
-                <p id="cert-msg" style="margin-top: 10px; font-weight: bold;"></p>
+                <p id="cert-msg" style="margin-top:10px; font-weight:bold;"></p>
             </div>
-
             <p id="cert-time" style="margin-top:20px; font-weight:bold; color:#555;"></p>
             <div id="cert-code" style="margin-top:10px; font-family:monospace; font-size:0.8rem; border:1px dashed #999; padding:5px; display:inline-block;"></div>
         </div>
         <button class="btn" id="finishBtn" onclick="location.reload()">Finish Quest</button>
     </section>
+
 </div>
 
 <script>
-    const DB = {
-        // --- 9TH GRADE (Unit 3) ---
-        "9th - Unit 3 (Part 1)": {
-            words: ["Deliver", "Order", "Waitress / Waiter", "Refund", "Change", "Corner"],
-            defs: ["To take goods or food to a person's home.", "To ask for food or drinks in a restaurant.", "A person whose job is to serve customers at their tables.", "Money returned to you because you are not happy with a product.", "The money returned to you when you pay more than the exact price.", "The place where two streets or roads meet."],
-            sentences: [
-                { s: "deliver / you / my / to / house? / Do", c: "Do you deliver to my house?" },
-                { s: "pizza. / want / order / a / to / I", c: "I want to order a pizza." },
-                { s: "friendly. / The / very / is / waitress", c: "The waitress is very friendly." },
-                { s: "refund, / I / please. / like / a / would", c: "I would like a refund, please." },
-                { s: "your / Here / change. / is", c: "Here is your change." },
-                { s: "corner. / shop / The / just / is / around / the", c: "The shop is just around the corner." }
-            ]
-        },
-        "9th - Unit 3 (Part 2)": {
-            words: ["Beef", "Fries", "Shake", "Junk Food", "Thin", "Habit"],
-            defs: ["The meat of a cow.", "Long, thin pieces of potato cooked in hot oil.", "A sweet drink made of milk, ice cream, and flavor.", "Food that is quick and easy to prepare but is bad for your health.", "Having very little fat on the body; not heavy.", "Something that you do regularly, often without thinking."],
-            sentences: [
-                { s: "burger / I / a / want / beef / extra / with / ketchup.", c: "I want a beef burger with extra ketchup." },
-                { s: "yours. / fries / These / are", c: "These fries are yours." },
-                { s: "small / I / want / strawberry / a / shake.", c: "I want a small strawberry shake." },
-                { s: "food / junk / causes / Eating / problems. / too / much", c: "Eating too much junk food causes problems." },
-                { s: "thin. / You / look", c: "You look thin." },
-                { s: "Ian / habit / his / of / biting / has / nails. / a", c: "Ian has a habit of biting his nails." }
-            ]
-        },
-        // --- 10TH GRADE (Unit 3) ---
-        "10th - Unit 3 (Part 1)": {
-            words: ["Work Out", "Recover", "Require", "Weak", "Lead", "Injure"],
-            defs: ["To exercise at the gym.", "To take a rest and get healthy again.", "To need something", "Not strong", "To be winning a game or competition.", "To feel pain or damage part of your body."],
-            sentences: [
-                { s: "out / gym. / working / I / the / at / was", c: "I was working out at the gym." },
-                { s: "back / recover / I / need / to / and / get / shape. / in", c: "I need to recover and get back in shape." },
-                { s: "lot / Basketball / requires / a / of / skill.", c: "Basketball requires a lot of skill." },
-                { s: "weak. / My / muscles / very / are", c: "My muscles are very weak." },
-                { s: "Miami / eight / Orlando / is / leading / by / points.", c: "Orlando is leading Miami by eight points." },
-                { s: "playing / injured / knee / I / my / hockey.", c: "I injured my knee playing hockey." }
-            ]
-        },
-        "10th - Unit 3 (Part 2)": {
-            words: ["Competition", "Goal", "Inspiration", "Professional", "Support", "Scared"],
-            defs: ["A contest where people try to win.", "An aim or something you want to achieve.", "Someone who makes you want to do better.", "Doing a sport or activity for pay.", "Cheering on a specific person or team.", "Feeling afraid or terrified of something."],
-            sentences: [
-                { s: "first / was / She / in / competition. / her", c: "She was in her first competition." },
-                { s: "goal. / followed / Bethany / her", c: "Bethany followed her goal." },
-                { s: "us / an / all. / is / inspiration / to / She", c: "She is an inspiration to us all." },
-                { s: "a / wants / be / to / He / surfer. / professional", c: "He wants to be a professional surfer." },
-                { s: "team. / our / We / local / support", c: "We support our local team." },
-                { s: "sharks. / scared / of / I / am / very", c: "I am very scared of sharks." }
-            ]
-        },
-        // --- 11TH GRADE (Unit 3) ---
-        "11th - Unit 3 (Part 1)": {
-            words: ["Masterpiece", "Exhibit", "Talent", "Landscape", "Appreciate", "Impress"],
-            defs: ["An artist's best piece of work.", "A collection of objects shown to the public.", "A natural ability to do something well.", "A picture of natural scenery like mountains or trees.", "To recognize the good qualities of something.", "To make someone feel admiration and respect."],
-            sentences: [
-                { s: "painting / a / This / beautiful / masterpiece. / is", c: "This painting is a beautiful masterpiece." },
-                { s: "go / Let's / new / exhibit. / the / to", c: "Let's go to the new exhibit." },
-                { s: "brother / a / natural / My / talent / music. / has / for", c: "My brother has a natural talent for music." },
-                {
+// ================================================================
+//  DATABASE — STANDARD UNITS
+// ================================================================
+const DB = {
+    "9th - Unit 3 (Part 1)": {
+        words: ["Deliver","Order","Waitress / Waiter","Refund","Change","Corner"],
+        defs:  ["To take goods or food to a person's home.",
+                "To ask for food or drinks in a restaurant.",
+                "A person whose job is to serve customers at their tables.",
+                "Money returned to you because you are not happy with a product.",
+                "The money returned to you when you pay more than the exact price.",
+                "The place where two streets or roads meet."],
+        sentences: [
+            { s:"deliver / you / my / to / house? / Do",           c:"Do you deliver to my house?" },
+            { s:"pizza. / want / order / a / to / I",              c:"I want to order a pizza." },
+            { s:"friendly. / The / very / is / waitress",          c:"The waitress is very friendly." },
+            { s:"refund, / I / please. / like / a / would",        c:"I would like a refund, please." },
+            { s:"your / Here / change. / is",                      c:"Here is your change." },
+            { s:"corner. / shop / The / just / is / around / the", c:"The shop is just around the corner." }
+        ]
+    },
+    "9th - Unit 3 (Part 2)": {
+        words: ["Beef","Fries","Shake","Junk Food","Thin","Habit"],
+        defs:  ["The meat of a cow.",
+                "Long, thin pieces of potato cooked in hot oil.",
+                "A sweet drink made of milk, ice cream, and flavor.",
+                "Food that is quick and easy to prepare but is bad for your health.",
+                "Having very little fat on the body; not heavy.",
+                "Something that you do regularly, often without thinking."],
+        sentences: [
+            { s:"burger / I / a / want / beef / extra / with / ketchup.", c:"I want a beef burger with extra ketchup." },
+            { s:"yours. / fries / These / are",                           c:"These fries are yours." },
+            { s:"small / I / want / strawberry / a / shake.",             c:"I want a small strawberry shake." },
+            { s:"food / junk / causes / Eating / problems. / too / much", c:"Eating too much junk food causes problems." },
+            { s:"thin. / You / look",                                     c:"You look thin." },
+            { s:"Ian / habit / his / of / biting / has / nails. / a",     c:"Ian has a habit of biting his nails." }
+        ]
+    },
+    "10th - Unit 3 (Part 1)": {
+        words: ["Work Out","Recover","Require","Weak","Lead","Injure"],
+        defs:  ["To exercise at the gym.",
+                "To take a rest and get healthy again.",
+                "To need something.",
+                "Not strong.",
+                "To be winning a game or competition.",
+                "To feel pain or damage part of your body."],
+        sentences: [
+            { s:"out / gym. / working / I / the / at / was",                c:"I was working out at the gym." },
+            { s:"back / recover / I / need / to / and / get / shape. / in", c:"I need to recover and get back in shape." },
+            { s:"lot / Basketball / requires / a / of / skill.",            c:"Basketball requires a lot of skill." },
+            { s:"weak. / My / muscles / very / are",                        c:"My muscles are very weak." },
+            { s:"Miami / eight / Orlando / is / leading / by / points.",    c:"Orlando is leading Miami by eight points." },
+            { s:"playing / injured / knee / I / my / hockey.",              c:"I injured my knee playing hockey." }
+        ]
+    },
+    "10th - Unit 3 (Part 2)": {
+        words: ["Competition","Goal","Inspiration","Professional","Support","Scared"],
+        defs:  ["A contest where people try to win.",
+                "An aim or something you want to achieve.",
+                "Someone who makes you want to do better.",
+                "Doing a sport or activity for pay.",
+                "Cheering on a specific person or team.",
+                "Feeling afraid or terrified of something."],
+        sentences: [
+            { s:"first / was / She / in / competition. / her",       c:"She was in her first competition." },
+            { s:"goal. / followed / Bethany / her",                  c:"Bethany followed her goal." },
+            { s:"us / an / all. / is / inspiration / to / She",      c:"She is an inspiration to us all." },
+            { s:"a / wants / be / to / He / surfer. / professional", c:"He wants to be a professional surfer." },
+            { s:"team. / our / We / local / support",                c:"We support our local team." },
+            { s:"sharks. / scared / of / I / am / very",             c:"I am very scared of sharks." }
+        ]
+    },
+    "11th - Unit 3 (Part 1)": {
+        words: ["Masterpiece","Exhibit","Talent","Landscape","Appreciate","Impress"],
+        defs:  ["An artist's best piece of work.",
+                "A collection of objects shown to the public.",
+                "A natural ability to do something well.",
+                "A picture of natural scenery like mountains or trees.",
+                "To recognize the good qualities of something.",
+                "To make someone feel admiration and respect."],
+        sentences: [
+            { s:"painting / a / This / beautiful / masterpiece. / is",     c:"This painting is a beautiful masterpiece." },
+            { s:"go / Let's / new / exhibit. / the / to",                  c:"Let's go to the new exhibit." },
+            { s:"brother / a / natural / My / talent / music. / has / for",c:"My brother has a natural talent for music." },
+            { s:"The / landscape / beautiful. / valley / in / the / is",   c:"The landscape in the valley is beautiful." },
+            { s:"art / truly / I / appreciate / great.",                   c:"I truly appreciate great art." },
+            { s:"performance / impressed / Her / everyone.",               c:"Her performance impressed everyone." }
+        ]
+    },
+    "11th - Unit 3 (Part 2)": {
+        words: ["Abstract","Canvas","Sculpture","Portrait","Gallery","Critic"],
+        defs:  ["Art that does not represent real objects.",
+                "A piece of cloth used by artists to paint on.",
+                "A 3D artwork made by carving or shaping materials.",
+                "A painting or drawing of a person.",
+                "A room or building where art is displayed.",
+                "A person who judges the quality of art or literature."],
+        sentences: [
+            { s:"abstract / hard / understand. / is / art / to",         c:"Abstract art is hard to understand." },
+            { s:"painted / on / He / large / a / canvas.",               c:"He painted on a large canvas." },
+            { s:"The / marble. / is / made / of / sculpture",            c:"The sculpture is made of marble." },
+            { s:"portrait / a / She / of / painted / her / mother.",     c:"She painted a portrait of her mother." },
+            { s:"gallery / downtown. / new / opened / The / a",          c:"The new gallery opened downtown." },
+            { s:"was / The / critic / the / impressed / by / painting.", c:"The critic was impressed by the painting." }
+        ]
+    }
+};
+
+// ================================================================
+//  DATABASE — RECOVERY
+// ================================================================
+const DB_RECOVERY = {
+    "10th": [
+        { type:"mc", q:"What does 'Work Out' mean?",                            opts:["To rest at home","To exercise at the gym","To eat healthy food","To sleep early"], a:1 },
+        { type:"mc", q:"Choose the correct sentence:",                          opts:["I was working out at the gym.","I were working out at gym.","I working out at the gym.","Working I out at the gym."], a:0 },
+        { type:"mc", q:"What does 'Recover' mean?",                             opts:["To get stronger quickly","To take a rest and get healthy again","To win a competition","To train hard"], a:1 },
+        { type:"mc", q:"What does 'Weak' mean?",                                opts:["Very strong","Not strong","Very fast","Very tall"], a:1 },
+        { type:"mc", q:"Fill in: 'Basketball ______ a lot of skill.'",          opts:["require","required","requires","requiring"], a:2 },
+        { type:"mc", q:"What does 'Lead' mean in sports?",                      opts:["To give up","To follow the others","To be winning a game","To lose a match"], a:2 },
+        { type:"mc", q:"What does 'Injure' mean?",                              opts:["To score a goal","To damage part of your body","To train harder","To recover fast"], a:1 },
+        { type:"mc", q:"What does 'Competition' mean?",                         opts:["A training session","A friendly game","A contest where people try to win","A professional sport"], a:2 },
+        { type:"mc", q:"What does 'Inspiration' mean?",                         opts:["A type of exercise","Someone who makes you want to do better","A sporting event","A recovery method"], a:1 },
+        { type:"mc", q:"What does 'Professional' mean?",                        opts:["Playing a sport for fun","Doing a sport or activity for pay","Volunteering in sports","Being an amateur"], a:1 }
+    ],
+    "11th": [
+        { type:"mc", q:"What does 'Masterpiece' mean?",  opts:["A common painting","An artist's best piece of work","A type of art gallery","A sculpture material"], a:1 },
+        { type:"mc", q:"What does 'Exhibit' mean?",      opts:["A type of painting","A collection of objects shown to the public","A picture of a person","An art tool"], a:1 },
+        { type:"mc", q:"What does 'Talent' mean?",       opts:["Hard work over time","A natural ability to do something well","A certificate of achievement","A type of gallery"], a:1 },
+        { type:"mc", q:"What does 'Landscape' mean?",    opts:["A painting of a person","A painting of city streets","A picture of natural scenery","An abstract painting"], a:2 },
+        { type:"mc", q:"What does 'Appreciate' mean?",   opts:["To ignore something","To criticize something","To recognize the good qualities of something","To copy an artwork"], a:2 },
+        { type:"mc", q:"What does 'Impress' mean?",      opts:["To disappoint someone","To confuse someone","To ignore someone","To make someone feel admiration and respect"], a:3 },
+        { type:"mc", q:"What does 'Abstract' mean?",     opts:["Art that represents real objects clearly","Art that does not represent real objects","A painting of a person","A landscape painting"], a:1 },
+        { type:"mc", q:"What does 'Canvas' mean?",       opts:["A type of paint","A piece of cloth used by artists to paint on","A 3D artwork","A picture frame"], a:1 },
+        { type:"mc", q:"What does 'Sculpture' mean?",    opts:["A 2D painting","A piece of cloth","A 3D artwork made by carving or shaping materials","A type of gallery"], a:2 },
+        { type:"mc", q:"What does 'Critic' mean?",       opts:["An artist who paints landscapes","A person who judges the quality of art","A student of art history","A gallery owner"], a:1 }
+    ]
+};
+
+// ================================================================
+//  IQ PRACTICE — O.W.L. SET (10 questions)
+// ================================================================
+const IQ_OWL = [
+    { type:"mc", section:"Vocabulary", reading:null, q:"What does 'Deliver' mean?",                  opts:["To ask for food in a restaurant","To take goods or food to a person's home","To return money","To meet at a corner"], a:1 },
+    { type:"mc", section:null,         reading:null, q:"What does 'Refund' mean?",                   opts:["The meat of a cow","Money returned because you are not happy with a product","A sweet drink","Long thin potato pieces"], a:1 },
+    { type:"mc", section:null,         reading:null, q:"What does 'Junk Food' mean?",                opts:["Healthy organic food","Food that is quick but bad for your health","The meat of a cow","A sweet shake"], a:1 },
+    { type:"mc", section:null,         reading:null, q:"What does 'Habit' mean?",                    opts:["Something you do regularly, often without thinking","A type of food","A place where streets meet","Money given back"], a:0 },
+    { type:"mc", section:null,         reading:null, q:"What does 'Beef' mean?",                     opts:["Fried potatoes","The meat of a cow","A sweet drink","Fast food"], a:1 },
+    { type:"mc", section:"Grammar",    reading:null, q:"The shop is just _____ the corner.",         opts:["around","below","inside","above"], a:0 },
+    { type:"mc", section:null,         reading:null, q:"Choose the correct sentence:",               opts:["I want order a pizza.","I want to order a pizza.","I wants to order a pizza.","I ordering a pizza."], a:1 },
+    { type:"mc", section:null,         reading:null, q:"_______ the milk tea. It's delicious.",      opts:["Try","Trying","To try","Should try"], a:0 },
+    { type:"mc", section:null,         reading:null, q:"There __________ a nice gym near my house.", opts:["is","are","many","much"], a:0 },
+    { type:"mc", section:null,         reading:null, q:"How ______ passengers are on the bus?",      opts:["is","much","are","many"], a:3 }
+];
+
+// ================================================================
+//  IQ PRACTICE — FULL EXAM SET (50 questions)
+// ================================================================
+const IQ_FULL = [
+    // Part 1
+    { type:"mc", section:"Part 1: Listening Comprehension", reading:null, q:"Where are Bob and Tim at the beginning of the conversation?",                              opts:["On the second floor","In the food court","In the basement","Outside the store"], a:1 },
+    { type:"mc", section:null, reading:null, q:"What item does Tim want to buy?",                                                                                        opts:["A pair of gloves","A T-shirt","A baseball cap","A pair of shoes"], a:2 },
+    { type:"mc", section:null, reading:null, q:"To find the stairs, which way should Tim turn at the food court?",                                                       opts:["Left","Right","Straight","Backward"], a:1 },
+    { type:"mc", section:null, reading:null, q:"Where are the baseball caps located on the second floor?",                                                               opts:["Near the T-shirts","Near the gloves","Near the stairs","Near the door"], a:1 },
+    { type:"mc", section:null, reading:null, q:"Why does Tim say Bob is 'terrible with directions'?",                                                                    opts:["Because Bob got lost in the basement","Because Bob doesn't know where the food court is","Because Bob forgot where the gloves were","Because Bob didn't want to go upstairs"], a:2 },
+    { type:"mc", section:null, reading:null, q:"What is Karen looking for before they leave the station?",                                                               opts:["Her bags","Her camera","Her map","Her train ticket"], a:2 },
+    { type:"mc", section:null, reading:null, q:"Why does Karen feel she needs a map?",                                                                                   opts:["Because Philip is lost","Because it is her first time in that area","Because she wants to find the beach","Because the station is very big"], a:1 },
+    { type:"mc", section:null, reading:null, q:"According to Philip, what can they see once they get out of the city?",                                                  opts:["Huge forests and green fields","Large beaches and oceans","Many department stores","Crowded streets and pollution"], a:0 },
+    { type:"mc", section:null, reading:null, q:"Which of the following is NOT mentioned as being in the area?",                                                          opts:["Small lakes","Waterfalls","Colorful flowers","Beaches"], a:3 },
+    { type:"mc", section:null, reading:null, q:"Why is pollution NOT a big problem in this area?",                                                                       opts:["Because there are no people there","Because it is a city","Because people respect nature","Because it is too cold for pollution"], a:2 },
+    // Part 2
+    { type:"mc", section:"Part 2: Numbers", reading:null, q:"Twelve",     opts:["20","12","2","22"],          a:1 },
+    { type:"mc", section:null, reading:null, q:"Thirteen",                opts:["30","33","13","3"],           a:2 },
+    { type:"mc", section:null, reading:null, q:"Forty",                   opts:["14","40","4","44"],           a:1 },
+    { type:"mc", section:null, reading:null, q:"Fifty",                   opts:["15","5","50","55"],           a:2 },
+    { type:"mc", section:null, reading:null, q:"One Hundred",             opts:["1,000","10,000","100","10"],  a:2 },
+    { type:"mc", section:null, reading:null, q:"Twenty",                  opts:["20","12","2","22"],           a:0 },
+    { type:"mc", section:null, reading:null, q:"Thirty",                  opts:["30","33","13","3"],           a:0 },
+    { type:"mc", section:null, reading:null, q:"Ninety-Nine",             opts:["9","19","99","29"],           a:2 },
+    { type:"mc", section:null, reading:null, q:"Four",                    opts:["40","14","4","44"],           a:2 },
+    { type:"mc", section:null, reading:null, q:"Eighteen",                opts:["8","18","88","28"],           a:1 },
+    // Part 3
+    { type:"mc", section:"Part 3: Pazport Vocabulary", reading:null, q:"The person who assists customers in-store.",              opts:["Clerk","Driver","Department Store","Customer"], a:0 },
+    { type:"mc", section:null, reading:null, q:"A room with toilets that is in a public place.",                                  opts:["Classroom","Restroom","Bedroom","Shop"], a:1 },
+    { type:"mc", section:null, reading:null, q:"A large area inside of a mall where restaurants sell food.",                      opts:["Shop","Store","Food Court","Food"], a:2 },
+    { type:"mc", section:null, reading:null, q:"A large area full of trees and plants.",                                          opts:["Island","Waterfall","Valley","Forest"], a:3 },
+    { type:"mc", section:null, reading:null, q:"A piece of land surrounded by water.",                                            opts:["Island","Waterfall","Valley","Forest"], a:0 },
+    { type:"mc", section:null, reading:null, q:"Water falling from a high place into a pool.",                                    opts:["Island","Waterfall","Valley","Forest"], a:1 },
+    { type:"mc", section:null, reading:null, q:"Low land between hills or mountains.",                                            opts:["Island","Waterfall","Valley","Forest"], a:2 },
+    { type:"mc", section:null, reading:null, q:"A very large expanse of sea.",                                                    opts:["Sea","Waterfall","Valley","Ocean"], a:3 },
+    { type:"mc", section:null, reading:null, q:"To take goods or food to a person's home or workplace.",                          opts:["Deliver","Order","Waitress / Waiter","Refund"], a:0 },
+    { type:"mc", section:null, reading:null, q:"To ask for food or drinks in a restaurant.",                                      opts:["Deliver","Order","Waitress / Waiter","Refund"], a:1 },
+    { type:"mc", section:null, reading:null, q:"A person whose job is to serve customers in a restaurant.",                       opts:["Deliver","Order","Waitress / Waiter","Refund"], a:2 },
+    { type:"mc", section:null, reading:null, q:"The money given when you weren't satisfied with the service.",                    opts:["Deliver","Order","Waitress / Waiter","Refund"], a:3 },
+    { type:"mc", section:null, reading:null, q:"The money returned when you pay more than the exact price.",                      opts:["Change","Beef","Fries","Shake"], a:0 },
+    { type:"mc", section:null, reading:null, q:"The meat of a cow.",                                                              opts:["Change","Beef","Fries","Shake"], a:1 },
+    { type:"mc", section:null, reading:null, q:"Food that is quick and easy to prepare but is bad for your health.",              opts:["Healthy food","Food court","Junk food","Fast food"], a:2 },
+    // Part 4
+    { type:"mc", section:"Part 4: Grammar", reading:null, q:"_______ the milk tea. It's delicious.",                             opts:["Try","Trying","To try","Should try"], a:0 },
+    { type:"mc", section:null, reading:null, q:"Please _______ your books to page 21.",                                          opts:["Opening","Open","Opens","To opening"], a:1 },
+    { type:"mc", section:null, reading:null, q:"I'm really tired. ____ go to the party tonight.",                                opts:["Let's not","Not","Never","Let not"], a:0 },
+    { type:"mc", section:null, reading:null, q:"It's very cold today, so ________ a warm coat.",                                 opts:["be bringing","bring","bringing","does bring"], a:1 },
+    { type:"mc", section:null, reading:null, q:"You should be quiet. _____ so loudly!",                                          opts:["Talk","Let's talk","Don't talk","No talk"], a:2 },
+    { type:"mc", section:null, reading:null, q:"There __________ a nice gym near my house.",                                     opts:["is","are","many","much"], a:0 },
+    { type:"mc", section:null, reading:null, q:"____ any department stores near here?",                                          opts:["There are","Are there","There is","Is there"], a:1 },
+    { type:"mc", section:null, reading:null, q:"How ______ passengers are on the bus?",                                          opts:["is","much","are","many"], a:3 },
+    { type:"mc", section:null, reading:null, q:"____ there a service fee?",                                                      opts:["Be","Do","Are","Is"], a:3 },
+    { type:"mc", section:null, reading:null, q:"There __ a few possible places for our trip.",                                   opts:["is","are","some","any"], a:1 },
+    // Part 5
+    {
+        type:"mc", section:"Part 5: Reading Comprehension",
+        reading:"<strong>Reading 1 &mdash; A New World of Shopping</strong><br><br>Do you like shopping? The biggest department store in the world is in South Korea. It is called Shinsegae, and it is in Centum City in Busan. The name means \"new world\" in Korean. The store is 14 stories tall. The space is enough to fit 2,300 houses. That's bigger than Macy's in New York. More than 6,000 people work there. It has books, clothes, toys, and a lot more. You can even ice-skate there or play golf on the golf course. There's a large roof garden too. It also has a restaurant called Cine de Chef, which serves great food and shows the newest movies. You can take the subway from Busan or the train from Seoul to get to Centum City.",
+        q:"What does the name 'Shinsegae' mean in English?",
+        opts:["Center City","Shopping World","New World","Big Building"], a:2
+    },
+    { type:"mc", section:null, reading:null, q:"How large is the store?",                                         opts:["As big as 10 football stadiums","Large enough to fit 2,300 houses","Smaller than Macy's in New York","The size of Seoul"], a:1 },
+    { type:"mc", section:null, reading:null, q:"How many people are employed at Shinsegae?",                      opts:["Exactly 2,300 people","Fewer than 1,000 people","More than 6,000 people","About 14,000 people"], a:2 },
+    { type:"mc", section:null, reading:null, q:"Which activity is NOT available at the store?",                   opts:["Ice-skating","Playing golf","Swimming in an Olympic pool","Watching movies while eating"], a:2 },
+    { type:"mc", section:null, reading:null, q:"How can someone travel to Centum City?",                          opts:["Only by walking from Busan","By subway from Busan or train from Seoul","By plane from anywhere","By a special store-owned bus"], a:1 },
+    {
+        type:"mc", section:null,
+        reading:"<strong>Reading 2 &mdash; Bad Food Habits: An Unhealthy Circle</strong><br><br>Most people are very busy. When they come home, their bodies need food for energy. Usually, though, these people will reach for fats, oils, and sweets. When we eat these junk foods, our brains make a special chemical. That chemical makes us feel good right away. However, it doesn't last long. An hour later, the chemical goes away. Then, we feel tired again. Most people fix this by eating more junk food. Of course, we know what happens an hour later. The circle never ends. Over time, these eating habits can cause big problems. People start having trouble with their sleep, focus, and memory. Many people even get upset easily.",
+        q:"Why do most people reach for fats and sweets when they get home?",
+        opts:["Because they are cheap","Because they are busy and their bodies need energy","Because they don't know how to cook","Because doctors recommend them"], a:1
+    },
+    { type:"mc", section:null, reading:null, q:"What happens in the brain after eating junk food?",               opts:["It shuts down to rest","It creates a special chemical that makes us feel good","It loses short-term memory","It signals a need for water"], a:1 },
+    { type:"mc", section:null, reading:null, q:"How long does the 'feel good' chemical last?",                    opts:["All day","Only a few minutes","About an hour","Two consecutive days"], a:2 },
+    { type:"mc", section:null, reading:null, q:"How do most people react when tired again an hour later?",         opts:["They take a nap","They drink a lot of water","They eat more junk food","They do intense exercise"], a:2 },
+    { type:"mc", section:null, reading:null, q:"Which is a long-term problem caused by these habits?",            opts:["Improved memory","Trouble with sleep, focus, and memory","Increased patience","A natural boost in energy"], a:1 }
+];
+
+// ================================================================
+//  STATE
+// ================================================================
+let state    = { name:"", unit:"", scores:{}, done:{} };
+let recState = { grade:"", questions:[], idx:0, score:0 };
+let iqState  = { mode:"", questions:[], idx:0, score:0 };
+let isRecoveryMode = false;
+
+// ================================================================
+//  INIT
+// ================================================================
+window.onload = function() { updateUnitList(); };
+
+function updateUnitList() {
+    const sel = document.getElementById('unitSelect');
+    sel.innerHTML = '';
+    Object.keys(DB).forEach(k => {
+        const opt = document.createElement('option');
+        opt.value = k; opt.textContent = k;
+        sel.appendChild(opt);
+    });
+    checkStatus();
+}
+
+function checkStatus() {
+    const name = document.getElementById('studentName').value.trim();
+    const unit = document.getElementById('unitSelect').value;
+    const msg  = document.getElementById('msg');
+    if (!name) { msg.textContent = ''; return; }
+    const key = name.toLowerCase() + '-' + unit;
+    if (localStorage.getItem(key) === 'COMPLETED') {
+        msg.textContent = '⚠️ You have already completed this quest.';
+        document.getElementById('startBtn').disabled = true;
+    } else {
+        msg.textContent = '';
+        document.getElementById('startBtn').disabled = false;
+    }
+}
+
+// ================================================================
+//  NAVIGATION
+// ================================================================
+function show(screen) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
+    document.getElementById('screen-' + screen).classList.remove('hidden');
+}
+
+// ================================================================
+//  IQ HUB — ENTRY / EXIT
+// ================================================================
+function enterIQHub() {
+    document.body.classList.add('iq-mode');
+    document.body.classList.remove('recovery-mode');
+    show('iq-hub');
+}
+
+function leaveIQHub() {
+    document.body.classList.remove('iq-mode');
+    show('home');
+}
+
+// ================================================================
+//  IQ PRACTICE — START
+// ================================================================
+function startCombinedPractice(mode) {
+    iqState = {
+        mode,
+        questions: mode === 'owl' ? [...IQ_OWL] : [...IQ_FULL],
+        idx: 0,
+        score: 0
+    };
+    document.getElementById('iq-mode-label').textContent =
+        mode === 'owl' ? 'O.W.L. Mode' : 'Full Exam Mode';
+    show('iq-exam');
+    renderIQQuestion();
+}
+
+function renderIQQuestion() {
+    const q   = iqState.questions[iqState.idx];
+    const tot = iqState.questions.length;
+    const pct = Math.round((iqState.idx / tot) * 100);
+
+    document.getElementById('iq-q-counter').textContent    = 'Question: ' + (iqState.idx + 1) + ' / ' + tot;
+    document.getElementById('iq-score-counter').textContent = 'Score: ' + iqState.score;
+    document.getElementById('iq-progress-bar').style.width  = pct + '%';
+
+    const container = document.getElementById('iq-content');
+    let html = '';
+
+    if (q.section) {
+        html += '<div class="iq-section-label"><i class="fas fa-feather-alt"></i> &nbsp;' + q.section + '</div>';
+    }
+    if (q.reading) {
+        html += '<div class="iq-reading-box">' + q.reading + '</div>';
+    }
+
+    html += '<p style="font-size:1.15rem; font-weight:bold; margin-bottom:20px; font-family:\'Cinzel\'; color:var(--iq-primary);">' + q.q + '</p>';
+    q.opts.forEach(function(o, i) {
+        html += '<div class="quiz-option" id="iqopt-' + i + '" onclick="checkIQOpt(' + i + ')">' + String.fromCharCode(65 + i) + '.&nbsp; ' + o + '</div>';
+    });
+    html += '<div id="iq-feedback" class="iq-feedback"></div>';
+
+    container.innerHTML = html;
+}
+
+function checkIQOpt(chosen) {
+    const q   = iqState.questions[iqState.idx];
+    const tot = iqState.questions.length;
+    document.querySelectorAll('[id^="iqopt-"]').forEach(function(el) {
+        el.onclick = null; el.style.cursor = 'default';
+    });
+    const fb = document.getElementById('iq-feedback');
+
+    if (chosen === q.a) {
+        iqState.score++;
+        document.getElementById('iqopt-' + chosen).classList.add('correct');
+        fb.textContent = '✅ Correct!';
+        fb.className   = 'iq-feedback ok';
+    } else {
+        document.getElementById('iqopt-' + chosen).classList.add('wrong');
+        document.getElementById('iqopt-' + q.a).classList.add('correct');
+        fb.textContent = '❌ Incorrect — the correct answer is highlighted.';
+        fb.className   = 'iq-feedback fail';
+    }
+    document.getElementById('iq-score-counter').textContent = 'Score: ' + iqState.score;
+
+    setTimeout(function() {
+        iqState.idx++;
+        if (iqState.idx < tot) {
+            renderIQQuestion();
+        } else {
+            finishIQPractice(tot);
+        }
+    }, 1400);
+}
+
+function finishIQPractice(tot) {
+    const pct = Math.round((iqState.score / tot) * 100);
+    document.getElementById('iq-progress-bar').style.width = '100%';
+    var msg = pct >= 80
+        ? '🏆 Excellent work, Wizard! You are well-prepared for your exam.'
+        : pct >= 60
+        ? '📖 Good effort! Review the sections where you struggled and try again.'
+        : '📚 Keep studying! Return to your Study Scrolls and then come back.';
+    document.getElementById('iq-content').innerHTML =
+        '<div style="padding:20px 0;">' +
+        '<i class="fas fa-star" style="font-size:3rem; color:var(--iq-gold); margin-bottom:15px; display:block;"></i>' +
+        '<h2 style="font-family:\'Cinzel\'; color:var(--iq-primary); margin-bottom:15px;">Practice Complete!</h2>' +
+        '<p style="font-size:1.3rem; margin-bottom:10px;">You scored <strong style="color:var(--iq-primary);">' + iqState.score + ' / ' + tot + '</strong> &nbsp;(' + pct + '%)</p>' +
+        '<p style="color:#555; font-size:1.05rem; margin-bottom:25px; max-width:500px; margin-left:auto; margin-right:auto;">' + msg + '</p>' +
+        '<button class="btn btn-iq" onclick="startCombinedPractice(\'' + iqState.mode + '\')" style="margin-right:10px;">Try Again</button>' +
+        '<button class="btn btn-iq" onclick="show(\'iq-hub\')">Choose Another Mode</button>' +
+        '<br><button class="btn btn-iq" onclick="leaveIQHub()" style="margin-top:10px;">Return to Entrance Hall</button>' +
+        '</div>';
+}
+
+// ================================================================
+//  RECOVERY MODE
+// ================================================================
+function toggleRecoveryMode() {
+    const pw = prompt("Enter the password for the Restricted Section:");
+    if (pw === null) return;
+    if (pw.toLowerCase() !== 'reposicion') {
+        alert("Access Denied. The password is incorrect.");
+        return;
+    }
+    isRecoveryMode = !isRecoveryMode;
+    document.body.classList.toggle('recovery-mode', isRecoveryMode);
+    document.body.classList.remove('iq-mode');
+    document.getElementById('normal-select-group').classList.toggle('hidden', isRecoveryMode);
+    document.getElementById('recovery-select-group').classList.toggle('hidden', !isRecoveryMode);
+    document.getElementById('msg').textContent = isRecoveryMode
+        ? '🔴 Restricted Section unlocked. Select a grade above.'
+        : '';
+}
+
+// ================================================================
+//  START (normal mode)
+// ================================================================
+function start() {
+    const name = document.getElementById('studentName').value.trim();
+    if (!name) { alert("Please enter your full name."); return; }
+
+    if (isRecoveryMode) {
+        const grade = document.getElementById('recoverySelect').value;
+        if (!grade) { alert("Please select a grade."); return; }
+        recState = { grade: grade, questions: DB_RECOVERY[grade].slice(), idx: 0, score: 0 };
+        state.name = name;
+        state.unit = grade + ' Recovery';
+        document.body.classList.remove('iq-mode');
+        startRecoveryQuiz();
+        return;
+    }
+
+    const unit = document.getElementById('unitSelect').value;
+    const key  = name.toLowerCase() + '-' + unit;
+    if (localStorage.getItem(key) === 'COMPLETED') {
+        alert("You have already completed this quest!"); return;
+    }
+
+    state.name   = name;
+    state.unit   = unit;
+    state.scores = {};
+    state.done   = {};
+
+    document.getElementById('userGreet').textContent = 'Welcome, ' + name + ' — ' + unit;
+    document.body.classList.remove('iq-mode', 'recovery-mode');
+    show('menu');
+}
+
+// ================================================================
+//  ACTIVITY ROUTER
+// ================================================================
+function go(activity) {
+    const data = DB[state.unit];
+    if (!data) { alert("No data found for this unit."); return; }
+    show('act');
+    const container = document.getElementById('act-content');
+    if      (activity === 'scrolls') renderScrolls(container, data);
+    else if (activity === 'quiz')    renderQuiz(container, data);
+    else if (activity === 'chamber') renderChamber(container, data);
+}
+
+// ================================================================
+//  STUDY SCROLLS
+// ================================================================
+function renderScrolls(container, data) {
+    let idx = 0;
+    window._scrollNav = function(dir) {
+        idx = Math.max(0, Math.min(data.words.length - 1, idx + dir));
+        updateCard();
+    };
+    function updateCard() {
+        document.getElementById('fc-word').textContent    = data.words[idx];
+        document.getElementById('fc-def').textContent     = data.defs[idx];
+        document.getElementById('fc-counter').textContent = (idx + 1) + ' / ' + data.words.length;
+        document.getElementById('fc-el').classList.remove('flipped');
+        document.getElementById('btn-prev').disabled = idx === 0;
+        document.getElementById('btn-next').disabled = idx === data.words.length - 1;
+        if (idx === data.words.length - 1) {
+            state.done['scrolls'] = true;
+            document.getElementById('s-scrolls').classList.remove('hidden');
+        }
+    }
+    container.innerHTML =
+        '<h2 style="font-family:\'Cinzel\'; color:var(--slytherin-green); margin-bottom:5px;">' +
+        'Study Scrolls &nbsp;<span id="fc-counter" style="font-size:1rem;"></span></h2>' +
+        '<p style="color:#555; margin-bottom:10px;">Click the card to reveal the definition.</p>' +
+        '<div class="flashcard" id="fc-el" onclick="this.classList.toggle(\'flipped\')">' +
+        '<div class="flashcard-inner">' +
+        '<div class="front"><h3 id="fc-word"></h3></div>' +
+        '<div class="back"><p id="fc-def"></p></div>' +
+        '</div></div>' +
+        '<div style="margin-top:10px;">' +
+        '<button id="btn-prev" class="btn" style="margin:5px;" onclick="_scrollNav(-1)">&#8592; Prev</button>' +
+        '<button id="btn-next" class="btn" style="margin:5px;" onclick="_scrollNav(1)">Next &#8594;</button>' +
+        '</div>';
+    updateCard();
+}
+
+// ================================================================
+//  DEFINITION QUIZ
+// ================================================================
+function renderQuiz(container, data) {
+    let idx = 0, score = 0, answered = false;
+    function render() {
+        const wordIdx    = idx;
+        const correctDef = data.defs[wordIdx];
+        const wrongPool  = data.defs.filter(function(_, i) { return i !== wordIdx; })
+                                    .sort(function() { return Math.random() - 0.5; }).slice(0, 3);
+        const opts       = [correctDef].concat(wrongPool).sort(function() { return Math.random() - 0.5; });
+        const correctOpt = opts.indexOf(correctDef);
+
+        var optHtml = '';
+        opts.forEach(function(o, i) {
+            optHtml += '<div class="quiz-option" id="qopt-' + i + '" onclick="checkQuizOpt(' + i + ',' + correctOpt + ',' + data.words.length + ')">' + o + '</div>';
+        });
+
+        container.innerHTML =
+            '<h2 style="font-family:\'Cinzel\'; color:var(--slytherin-green);">Definition Quiz &nbsp;<span style="font-size:1rem;">(' + (idx+1) + '/' + data.words.length + ')</span></h2>' +
+            '<p style="font-size:1.4rem; font-weight:bold; margin:20px 0;">What is the definition of: <em>"' + data.words[wordIdx] + '"</em>?</p>' +
+            '<div id="quiz-feedback" style="min-height:1.5em; font-weight:bold; margin-bottom:10px;"></div>' +
+            optHtml +
+            '<p style="margin-top:20px; color:#555;">Score: ' + score + '</p>';
+
+        window.checkQuizOpt = function(chosen, correct, total) {
+            if (answered) return;
+            answered = true;
+            const fb = document.getElementById('quiz-feedback');
+            if (chosen === correct) {
+                score++;
+                document.getElementById('qopt-' + chosen).classList.add('correct');
+                fb.textContent = '✅ Correct!'; fb.style.color = 'green';
+            } else {
+                document.getElementById('qopt-' + chosen).classList.add('wrong');
+                document.getElementById('qopt-' + correct).classList.add('correct');
+                fb.textContent = '❌ Wrong! The correct answer is highlighted.'; fb.style.color = 'red';
+            }
+            setTimeout(function() {
+                idx++; answered = false;
+                if (idx < data.words.length) { render(); }
+                else {
+                    state.scores['quiz'] = score;
+                    state.done['quiz']   = true;
+                    document.getElementById('s-quiz').classList.remove('hidden');
+                    container.innerHTML =
+                        '<h2 style="font-family:\'Cinzel\'; color:var(--slytherin-green);">Quiz Complete!</h2>' +
+                        '<p style="font-size:1.5rem; margin:20px 0;">You scored <strong>' + score + '/' + total + '</strong></p>' +
+                        '<button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                }
+            }, 1200);
+        };
+    }
+    render();
+}
+
+// ================================================================
+//  SENTENCE CHAMBER
+// ================================================================
+function renderChamber(container, data) {
+    let idx = 0, score = 0;
+    function render() {
+        const item = data.sentences[idx];
+        container.innerHTML =
+            '<h2 style="font-family:\'Cinzel\'; color:var(--slytherin-green);">Sentence Chamber &nbsp;<span style="font-size:1rem;">(' + (idx+1) + '/' + data.sentences.length + ')</span></h2>' +
+            '<p style="color:#555; margin:10px 0;">Unscramble the words and type the correct sentence:</p>' +
+            '<div style="background:var(--slytherin-green); color:#fff; padding:15px; border-radius:8px; margin:15px auto; max-width:600px; font-size:1.2rem; letter-spacing:1px;">' + item.s + '</div>' +
+            '<input type="text" id="chamber-input" placeholder="Type the correct sentence here..." style="max-width:600px; margin:10px auto; display:block;" onkeydown="if(event.key===\'Enter\') checkChamber()">' +
+            '<div id="chamber-feedback" style="min-height:1.5em; font-weight:bold; margin:10px 0;"></div>' +
+            '<button class="btn" onclick="checkChamber()">Cast Spell</button>' +
+            '<p style="margin-top:15px; color:#555;">Score: ' + score + '</p>';
+        document.getElementById('chamber-input').focus();
+
+        window.checkChamber = function() {
+            const input   = document.getElementById('chamber-input').value.trim();
+            const correct = item.c;
+            const fb      = document.getElementById('chamber-feedback');
+            if (input.toLowerCase() === correct.toLowerCase()) {
+                score++;
+                fb.textContent = '✅ Perfect spell!'; fb.style.color = 'green';
+            } else {
+                fb.innerHTML = '❌ Not quite. Correct: <em>' + correct + '</em>'; fb.style.color = 'red';
+            }
+            setTimeout(function() {
+                idx++;
+                if (idx < data.sentences.length) { render(); }
+                else {
+                    state.scores['chamber'] = score;
+                    state.done['chamber']   = true;
+                    document.getElementById('s-chamber').classList.remove('hidden');
+                    container.innerHTML =
+                        '<h2 style="font-family:\'Cinzel\'; color:var(--slytherin-green);">Chamber Complete!</h2>' +
+                        '<p style="font-size:1.5rem; margin:20px 0;">You scored <strong>' + score + '/' + data.sentences.length + '</strong></p>' +
+                        '<button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                }
+            }, 1500);
+        };
+    }
+    render();
+}
+
+// ================================================================
+//  RECOVERY QUIZ
+// ================================================================
+function startRecoveryQuiz() {
+    show('recovery-quiz');
+    renderRecoveryQuestion();
+}
+
+function renderRecoveryQuestion() {
+    const q   = recState.questions[recState.idx];
+    const tot = recState.questions.length;
+    document.getElementById('rec-q-counter').textContent     = 'Question: ' + (recState.idx + 1) + '/' + tot;
+    document.getElementById('rec-score-counter').textContent  = 'Score: ' + recState.score;
+    const container = document.getElementById('rec-content');
+
+    if (q.type === 'mc') {
+        var optHtml = '';
+        q.opts.forEach(function(o, i) {
+            optHtml += '<div class="quiz-option" id="ropt-' + i + '" onclick="checkRecOpt(' + i + ')">' + o + '</div>';
+        });
+        container.innerHTML =
+            '<p style="font-size:1.2rem; font-weight:bold; margin-bottom:20px; font-family:\'Cinzel\';">' + q.q + '</p>' + optHtml;
+    } else if (q.type === 'text') {
+        container.innerHTML =
+            '<p style="font-size:1.2rem; font-weight:bold; margin-bottom:20px; font-family:\'Cinzel\';">' + q.q + '</p>' +
+            '<input type="text" id="rec-text-input" placeholder="Type your answer..." style="max-width:500px; margin:10px auto; display:block;" onkeydown="if(event.key===\'Enter\') checkRecText()">' +
+            '<div id="rec-feedback" style="min-height:1.5em; font-weight:bold; margin:10px 0;"></div>' +
+            '<button class="btn" onclick="checkRecText()">Cast Spell</button>';
+    }
+}
+
+function checkRecOpt(chosen) {
+    const q   = recState.questions[recState.idx];
+    const tot = recState.questions.length;
+    document.querySelectorAll('[id^="ropt-"]').forEach(function(el) { el.onclick = null; });
+    if (chosen === q.a) {
+        recState.score++;
+        document.getElementById('ropt-' + chosen).classList.add('correct');
+    } else {
+        document.getElementById('ropt-' + chosen).classList.add('wrong');
+        document.getElementById('ropt-' + q.a).classList.add('correct');
+    }
+    setTimeout(function() { advanceRecovery(tot); }, 1200);
+}
+
+function checkRecText() {
+    const q     = recState.questions[recState.idx];
+    const tot   = recState.questions.length;
+    const input = document.getElementById('rec-text-input').value.trim();
+    const fb    = document.getElementById('rec-feedback');
+    if (input.toLowerCase() === q.a.toLowerCase()) {
+        recState.score++;
+        fb.textContent = '✅ Correct!'; fb.style.color = 'green';
+    } else {
+        fb.innerHTML = '❌ Correct answer: <em>' + q.a + '</em>'; fb.style.color = 'red';
+    }
+    setTimeout(function() { advanceRecovery(tot); }, 1500);
+}
+
+function advanceRecovery(tot) {
+    recState.idx++;
+    if (recState.idx < tot) { renderRecoveryQuestion(); }
+    else { finishRecovery(tot); }
+}
+
+function finishRecovery(tot) {
+    const raw   = recState.score;
+    const grade = parseFloat(((raw / tot) * 10).toFixed(2));
+    const pass  = grade >= 8.0;
+    show('cert');
+    document.getElementById('cert-main-title').textContent = 'Recovery Exam Report';
+    document.getElementById('cert-name').textContent       = state.name;
+    document.getElementById('cert-unit').textContent       = recState.grade + ' Grade — Recovery Exam';
+    document.getElementById('cert-time').textContent       = 'Completed: ' + new Date().toLocaleString();
+    document.getElementById('cert-code').textContent       = 'AUTH: REC-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    document.getElementById('rec-score-area').classList.remove('hidden');
+    const scoreEl = document.getElementById('cert-final-score');
+    scoreEl.textContent = grade.toFixed(2) + ' / 10';
+    scoreEl.className   = pass ? 'score-pass' : 'score-fail';
+    document.getElementById('cert-msg').textContent = pass
+        ? '🏆 Congratulations! You have passed the recovery exam.'
+        : '📚 You did not reach the passing grade of 8.0. Keep studying!';
+}
+
+// ================================================================
+//  CERTIFICATE (normal mode)
+// ================================================================
+function claimCert() {
+    const required = ['scrolls', 'quiz', 'chamber'];
+    const missing  = required.filter(function(k) { return !state.done[k]; });
+    if (missing.length > 0) {
+        const names = { scrolls:'Study Scrolls', quiz:'Definition Quiz', chamber:'Sentence Chamber' };
+        alert('You must complete the following first:\n' + missing.map(function(k) { return '• ' + names[k]; }).join('\n'));
+        return;
+    }
+    const key = state.name.toLowerCase() + '-' + state.unit;
+    localStorage.setItem(key, 'COMPLETED');
+    show('cert');
+    document.getElementById('rec-score-area').classList.add('hidden');
+    document.getElementById('cert-main-title').textContent = 'Mastery Achievement Report';
+    document.getElementById('cert-name').textContent       = state.name;
+    document.getElementById('cert-unit').textContent       = state.unit;
+    document.getElementById('cert-time').textContent       = 'Completed: ' + new Date().toLocaleString();
+    document.getElementById('cert-code').textContent       =
+        'AUTH: ' + Math.random().toString(36).substr(2, 9).toUpperCase() +
+        '-' + Date.now().toString(36).toUpperCase();
+}
+</script>
+</body>
+</html>
