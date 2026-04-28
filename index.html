@@ -189,9 +189,6 @@
 <body>
 <div class="container">
 
-<!-- ══════════════════════════════════════════
-     HOME
-══════════════════════════════════════════ -->
 <section id="screen-home" class="screen">
     <i class="fas fa-shield-snake" style="font-size:4rem;color:var(--slytherin-green);margin-bottom:10px;"></i>
     <h1>Pazport to English</h1>
@@ -227,9 +224,6 @@
     </div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     IQ HUB LANDING
-══════════════════════════════════════════ -->
 <section id="screen-iq-hub" class="screen hidden">
     <div class="iq-hub-header">
         <i class="fas fa-brain" style="font-size:3rem;color:var(--iq-gold);margin-bottom:10px;display:block;"></i>
@@ -252,9 +246,6 @@
     <button class="btn btn-iq" style="margin-top:35px;" onclick="leaveIQHub()">&larr; Return to Entrance Hall</button>
 </section>
 
-<!-- ══════════════════════════════════════════
-     IQ EXAM SCREEN
-══════════════════════════════════════════ -->
 <section id="screen-iq-exam" class="screen hidden">
     <div style="text-align:left;margin-bottom:10px;">
         <button class="btn btn-iq" style="padding:5px 15px;margin:0;font-size:0.8rem;" onclick="show('iq-hub')">&larr; Back to Hub</button>
@@ -270,9 +261,6 @@
     <div id="iq-content"></div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     MAIN MENU
-══════════════════════════════════════════ -->
 <section id="screen-menu" class="screen hidden">
     <h2 id="userGreet" style="font-family:'Cinzel';color:#333;"></h2>
     <div class="activity-grid">
@@ -292,9 +280,6 @@
     <button class="btn" style="margin-top:40px;" onclick="claimCert()">Get Official Report</button>
 </section>
 
-<!-- ══════════════════════════════════════════
-     ACTIVITY (scrolls / quiz / chamber)
-══════════════════════════════════════════ -->
 <section id="screen-act" class="screen hidden">
     <div style="text-align:left;margin-bottom:10px;">
         <button class="btn" style="padding:5px 15px;margin:0;font-size:0.8rem;" onclick="show('menu')">Back</button>
@@ -302,9 +287,6 @@
     <div id="act-content"></div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     RECOVERY QUIZ
-══════════════════════════════════════════ -->
 <section id="screen-recovery-quiz" class="screen hidden">
     <div style="display:flex;justify-content:space-between;font-weight:bold;font-family:'Cinzel',serif;border-bottom:2px solid var(--rec-primary);padding-bottom:10px;margin-bottom:20px;">
         <span id="rec-q-counter">Question: 1/10</span>
@@ -313,9 +295,6 @@
     <div id="rec-content"></div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     CERTIFICATE
-══════════════════════════════════════════ -->
 <section id="screen-cert" class="screen hidden">
     <div class="cert-area" id="cert-box">
         <h1 id="cert-main-title" style="font-size:clamp(1.5rem,5vw,2.5rem);">Mastery Achievement Report</h1>
@@ -334,9 +313,7 @@
     <button class="btn" id="finishBtn" onclick="location.reload()">Finish Quest</button>
 </section>
 
-</div><!-- /container -->
-
-<script>
+</div><script>
 // ================================================================
 //  DATABASE — STANDARD UNITS
 // ================================================================
@@ -350,8 +327,8 @@ const DB = {
                 "The money returned to you when you pay more than the exact price.",
                 "The place where two streets or roads meet."],
         sentences: [
-            { s:"deliver / you / my / to / house? / Do",           c:"Do you deliver to my house?" },
-            { s:"pizza. / want / order / a / to / I",              c:"I want to order a pizza." },
+            { s:"deliver / you / my / to / house? / Do",            c:"Do you deliver to my house?" },
+            { s:"pizza. / want / order / a / to / I",               c:"I want to order a pizza." },
             { s:"friendly. / The / very / is / waitress",          c:"The waitress is very friendly." },
             { s:"refund, / I / please. / like / a / would",        c:"I would like a refund, please." },
             { s:"your / Here / change. / is",                      c:"Here is your change." },
@@ -430,16 +407,16 @@ const DB = {
 // ================================================================
 const DB_RECOVERY = {
     "10th": [
-        { type:"mc", q:"What does 'Work Out' mean?",                   opts:["To rest at home","To exercise at the gym","To eat healthy food","To sleep early"], a:1 },
-        { type:"mc", q:"Choose the correct sentence:",                 opts:["I was working out at the gym.","I were working out at gym.","I working out at the gym.","Working I out at the gym."], a:0 },
-        { type:"mc", q:"What does 'Recover' mean?",                    opts:["To get stronger quickly","To take a rest and get healthy again","To win a competition","To train hard"], a:1 },
-        { type:"mc", q:"What does 'Weak' mean?",                       opts:["Very strong","Not strong","Very fast","Very tall"], a:1 },
+        { type:"mc", q:"What does 'Work Out' mean?",                    opts:["To rest at home","To exercise at the gym","To eat healthy food","To sleep early"], a:1 },
+        { type:"mc", q:"Choose the correct sentence:",                  opts:["I was working out at the gym.","I were working out at gym.","I working out at the gym.","Working I out at the gym."], a:0 },
+        { type:"mc", q:"What does 'Recover' mean?",                     opts:["To get stronger quickly","To take a rest and get healthy again","To win a competition","To train hard"], a:1 },
+        { type:"mc", q:"What does 'Weak' mean?",                        opts:["Very strong","Not strong","Very fast","Very tall"], a:1 },
         { type:"mc", q:"Fill in: 'Basketball ______ a lot of skill.'", opts:["require","required","requires","requiring"], a:2 },
-        { type:"mc", q:"What does 'Lead' mean in sports?",             opts:["To give up","To follow the others","To be winning a game","To lose a match"], a:2 },
-        { type:"mc", q:"What does 'Injure' mean?",                     opts:["To score a goal","To damage part of your body","To train harder","To recover fast"], a:1 },
-        { type:"mc", q:"What does 'Competition' mean?",                opts:["A training session","A friendly game","A contest where people try to win","A professional sport"], a:2 },
-        { type:"mc", q:"What does 'Inspiration' mean?",                opts:["A type of exercise","Someone who makes you want to do better","A sporting event","A recovery method"], a:1 },
-        { type:"mc", q:"What does 'Professional' mean?",               opts:["Playing a sport for fun","Doing a sport or activity for pay","Volunteering in sports","Being an amateur"], a:1 }
+        { type:"mc", q:"What does 'Lead' mean in sports?",              opts:["To give up","To follow the others","To be winning a game","To lose a match"], a:2 },
+        { type:"mc", q:"What does 'Injure' mean?",                      opts:["To score a goal","To damage part of your body","To train harder","To recover fast"], a:1 },
+        { type:"mc", q:"What does 'Competition' mean?",                 opts:["A training session","A friendly game","A contest where people try to win","A professional sport"], a:2 },
+        { type:"mc", q:"What does 'Inspiration' mean?",                 opts:["A type of exercise","Someone who makes you want to do better","A sporting event","A recovery method"], a:1 },
+        { type:"mc", q:"What does 'Professional' mean?",                opts:["Playing a sport for fun","Doing a sport or activity for pay","Volunteering in sports","Being an amateur"], a:1 }
     ],
     "11th": [
         { type:"mc", q:"What does 'Masterpiece' mean?",  opts:["A common painting","An artist's best piece of work","A type of art gallery","A sculpture material"], a:1 },
@@ -457,20 +434,6 @@ const DB_RECOVERY = {
 
 // ================================================================
 //  IQ FULL EXAM — 50 QUESTIONS
-//  Structure:
-//    Part 1  — O.W.L. Vocabulary  (q 0-9,  10 questions)
-//    Part 2  — Numbers            (q 10-19, 10 questions)
-//    Part 3  — Pazport Vocab      (q 20-29, 10 questions)
-//    Part 4  — Grammar            (q 30-39, 10 questions, each with 'exp' explanation)
-//    Part 5  — Reading            (q 40-49, 10 questions, reading passage persists per text)
-//
-//  Each question:
-//    section  : string | null   (shown as section header when not null)
-//    reading  : string | null   (passage shown for every question that references it)
-//    q        : question text
-//    opts     : answer options array
-//    a        : index of correct option
-//    exp      : explanation string | null  (shown after correct answer on grammar Qs)
 // ================================================================
 
 // Reading passages stored separately so we can reference them
@@ -498,7 +461,6 @@ const READING_JUNK =
 const IQ_FULL = [
 
     // ── PART 1: O.W.L. VOCABULARY ──────────────────────────────────────
-    // (formerly the standalone OWL mode — now Part 1 of the full exam)
     { section:"Part 1: O.W.L. Vocabulary", reading:null,
       q:"What does 'Deliver' mean?",
       opts:["To ask for food in a restaurant","To take goods or food to a person's home","To return money to a customer","To meet someone at a corner"],
@@ -1144,7 +1106,7 @@ function finishRecovery(tot) {
 }
 
 // ================================================================
-//  CERTIFICATE — normal mode
+//  CERTIFICATE — normal mode & ENVÍO A GOOGLE SHEETS
 // ================================================================
 function claimCert() {
     var required = ['scrolls','quiz','chamber'];
@@ -1154,6 +1116,27 @@ function claimCert() {
         alert('You must complete the following first:\n' + missing.map(function(k) { return '• ' + names[k]; }).join('\n'));
         return;
     }
+
+    // --- NUEVO CÓDIGO PARA GOOGLE SHEETS ---
+    var urlGoogleScript = "https://script.google.com/macros/s/AKfycbzmug793SljC14vQ0l88smAa0TrgmKFA646miiD2cXn7ApZokKY-Aa0us2t_1eK2lxzTQ/exec"; 
+    
+    var formData = new FormData();
+    formData.append("name", state.name);
+    formData.append("unit", state.unit);
+    
+    // Sumamos el puntaje del quiz y del chamber para mandarlo al Excel
+    var totalScore = (state.scores['quiz'] || 0) + (state.scores['chamber'] || 0);
+    formData.append("score", "Completado - Score: " + totalScore); 
+
+    fetch(urlGoogleScript, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors" // Evita bloqueos de seguridad del navegador
+    }).then(() => {
+        console.log("Datos enviados a tu base de datos secreta");
+    }).catch(error => console.error("Error mágico:", error));
+    // --- FIN DEL NUEVO CÓDIGO ---
+
     var key = state.name.toLowerCase() + '-' + state.unit;
     localStorage.setItem(key, 'COMPLETED');
     show('cert');
