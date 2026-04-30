@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pazport to English</title>
-    <!-- Modern, readable fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
@@ -151,8 +150,6 @@
         #review-badge { display: none; background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; margin: 0 auto 20px auto; width: max-content; }
         
         .reading-box { background: #f1f5f9; padding: 20px; border-left: 4px solid var(--primary-blue); margin: 0 auto 25px auto; max-width: 600px; text-align: left; font-size: 0.95rem; line-height: 1.6; border-radius: 4px; color: var(--text-main); }
-        
-        /* Word Bank Visual display for Blanks */
         .blanks-word-bank { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 auto 25px auto; max-width: 500px; }
         .blanks-word { background: #e2e8f0; color: #475569; padding: 6px 14px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; }
     </style>
@@ -188,7 +185,7 @@
     </div>
 
     <button class="btn" id="startBtn" onclick="start()" disabled>Start Quest</button>
-    <p id="msg" style="margin-top:15px; font-weight:500; color:var(--danger); font-size:0.9rem;"></p>
+    <p id="msg" style="margin-top:15px; font-weight:500; color:var(--warning); font-size:0.9rem;"></p>
 </section>
 
 <section id="screen-menu" class="screen hidden">
@@ -264,9 +261,6 @@
 </div>
 
 <script>
-// ================================================================
-//  QUOTES
-// ================================================================
 const motivationalQuotes = [
     "“The secret of getting ahead is getting started.” – Mark Twain",
     "“Mistakes are proof that you are trying.”",
@@ -282,9 +276,6 @@ function setWeeklyQuote() {
     document.getElementById('motivational-quote').textContent = motivationalQuotes[quoteIndex];
 }
 
-// ================================================================
-//  DATABASE
-// ================================================================
 const DB = {
     "10th - Unit 4": {
         type: "normal",
@@ -301,30 +292,29 @@ const DB = {
             "Water falling in drops from the clouds.",
             "An object you hold over your head to stay dry in the rain."
         ],
-        // Sentences with strictly Simple Future (Subject + will/won't + verb + simple complement)
         examples: [
             "The water will be boiling.",
-            "It will be drizzling soon.",
+            "It won't be drizzling today.",
             "It will be pouring tonight.",
-            "The river will be flooding.",
+            "The street won't be flooding.",
             "The heat will be terrible.",
-            "It will be hot tomorrow.",
-            "I will wear a scarf.",
-            "She will need gloves.",
+            "It won't be hot tomorrow.",
+            "I will wear a red scarf.",
+            "She won't need warm gloves.",
             "It will be raining later.",
-            "He will bring an umbrella."
+            "He won't bring an umbrella."
         ],
         cloze: [
             "The water will be ________.",
-            "It will be ________ soon.",
+            "It won't be ________ today.",
             "It will be ________ tonight.",
-            "The river will be ________.",
+            "The street won't be ________.",
             "The ________ will be terrible.",
-            "It will be ________ tomorrow.",
-            "I will wear a ________.",
-            "She will need ________.",
+            "It won't be ________ tomorrow.",
+            "I will wear a red ________.",
+            "She won't need warm ________.",
             "It will be ________ later.",
-            "He will bring an ________."
+            "He won't bring an ________."
         ],
         hints: [
             "Extremely hot water.",
@@ -340,50 +330,35 @@ const DB = {
         ],
         sentences: [
             { s:"water / boiling. / The / will / be", c:"The water will be boiling." },
-            { s:"drizzling / It / soon. / will / be", c:"It will be drizzling soon." },
+            { s:"today. / drizzling / It / won't / be", c:"It won't be drizzling today." },
             { s:"pouring / tonight. / It / will / be", c:"It will be pouring tonight." },
-            { s:"river / flooding. / The / will / be", c:"The river will be flooding." },
+            { s:"street / flooding. / The / won't / be", c:"The street won't be flooding." },
             { s:"terrible. / heat / The / will / be", c:"The heat will be terrible." },
-            { s:"be / tomorrow. / It / will / hot", c:"It will be hot tomorrow." },
-            { s:"wear / scarf. / I / will / a", c:"I will wear a scarf." },
-            { s:"need / gloves. / She / will", c:"She will need gloves." },
+            { s:"be / tomorrow. / It / won't / hot", c:"It won't be hot tomorrow." },
+            { s:"wear / scarf. / I / will / a / red", c:"I will wear a red scarf." },
+            { s:"need / gloves. / She / won't / warm", c:"She won't need warm gloves." },
             { s:"raining / later. / It / will / be", c:"It will be raining later." },
-            { s:"umbrella. / He / bring / will / an", c:"He will bring an umbrella." }
+            { s:"umbrella. / He / bring / won't / an", c:"He won't bring an umbrella." }
         ]
     },
     "9th - Recovery Exam": {
         type: "exam",
         questions: [
             { q: "Choose the correct number: Twelve", opts: ["20", "12", "2", "22"], a: 1 },
-            { q: "Choose the correct number: Thirteen", opts: ["30", "33", "13", "3"], a: 2 },
             { q: "Choose the correct number: Forty", opts: ["14", "40", "4", "44"], a: 1 },
-            { q: "Choose the correct number: Fifty", opts: ["15", "5", "50", "55"], a: 2 },
             { q: "Choose the correct number: One hundred", opts: ["1,000", "10,000", "100", "10"], a: 2 },
-            { q: "Choose the correct number: Twenty", opts: ["20", "12", "2", "22"], a: 0 },
-            { q: "Choose the correct number: Thirty", opts: ["30", "33", "13", "3"], a: 0 },
-            { q: "Choose the correct number: Ninety-Nine", opts: ["9", "19", "99", "29"], a: 2 },
-            { q: "Choose the correct number: Four", opts: ["40", "14", "4", "44"], a: 2 },
-            { q: "Choose the correct number: Eighteen", opts: ["8", "18", "88", "28"], a: 1 },
             { q: "The person who assists customers in-store.", opts: ["Clerk", "Driver", "Department Store", "Customer"], a: 0 },
-            { q: "A room with toilets that is in a public place.", opts: ["Classroom", "Restroom", "Bedroom", "Shop"], a: 1 },
             { q: "A large area inside of a mall where restaurants sell food.", opts: ["Shop", "Store", "Food Court", "Food"], a: 2 },
-            { q: "A large area full of trees and plants.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 3 },
-            { q: "A piece of land surrounded by water.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 0 },
-            { q: "Water falling from a high place into a pool.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 1 },
-            { q: "Low land between hills or mountains.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 2 },
-            { q: "A very large expanse of sea.", opts: ["Sea", "Waterfall", "Valley", "Ocean"], a: 3 },
-            { q: "To take goods or food to a person's home or workplace.", opts: ["Deliver", "Order", "Waitress/Waiter", "Refund"], a: 0 },
-            { q: "To ask for food or drinks in a restaurant.", opts: ["Deliver", "Order", "Waitress/Waiter", "Refund"], a: 1 },
-            { q: "_______ the milk tea. It's delicious.", opts: ["Try", "Trying", "To try", "Should try"], a: 0 },
-            { q: "Good morning, students. Please _______ your books to page 21.", opts: ["Opening", "Open", "Opens", "To opening"], a: 1 },
+            { q: "Food that is quick and easy to prepare but is bad for your health.", opts: ["Healthy food", "Food court", "Junk food", "Fast food"], a: 2 },
+            { q: "The money returned to you when you pay more than the exact price.", opts: ["Change", "Beef", "Fries", "Shake"], a: 0 },
+            { q: "Please _______ your books to page 21.", opts: ["Opening", "Open", "Opens", "To open"], a: 1 },
             { q: "I'm really tired. _______ go to the party tonight.", opts: ["Let's not", "Not", "Never", "Let not"], a: 0 },
-            { q: "It's very cold today, so _______ a warm coat.", opts: ["be bringing", "bring", "bringing", "does bring"], a: 1 },
             { q: "You should be quiet in the library. _______ so loudly!", opts: ["Talk", "Let's talk", "Don't talk", "No talk"], a: 2 },
-            { text: "Do you like shopping? The biggest department store in the world is in South Korea. It is called Shinsegae, and it is in Centum City in Busan. The name means 'new world' in Korean. The store is 14 stories tall. The space is enough to fit 2,300 houses. That's bigger than Macy's in New York. More than 6,000 people work there. It has books, clothes, toys, and a lot more. You can even ice-skate there or play golf on the golf course. There's a large roof garden too. It also has a new type of restaurant. Cine de Chef serves great food and shows the newest movies. It's easy to get there. You can take the subway from Busan or the train from Seoul to get to Centum City.", q: "What does the name 'Shinsegae' mean in English?", opts: ["Center City", "Shopping World", "New World", "Big Building"], a: 2 },
-            { text: "Do you like shopping? The biggest department store...", q: "How large is the store compared to other objects?", opts: ["As big as 10 football stadiums", "Large enough to fit 2,300 houses", "Smaller than Macy's in New York", "The size of the entire city of Seoul"], a: 1 },
-            { text: "Do you like shopping? The biggest department store...", q: "How many people are employed at Shinsegae?", opts: ["Exactly 2,300 people", "Fewer than 1,000 people", "More than 6,000 people", "About 14,000 people"], a: 2 },
-            { text: "Do you like shopping? The biggest department store...", q: "Which activity is NOT mentioned as something you can do at the store?", opts: ["Ice-skating", "Playing golf", "Swimming in an Olympic pool", "Watching movies while eating"], a: 2 },
-            { text: "Most people are very busy. When they come home, their bodies need food for energy. Usually, though, these people will reach for fats, oils, and sweets. When we eat these junk foods, our brains make a special chemical. That chemical makes us feel good right away. However, it doesn't last long. An hour later, the chemical goes away. Then, we feel tired again. Most people fix this by eating more junk food. Of course, we know what happens an hour later. The circle never ends. Over time, these eating habits can cause big problems. People start having trouble with their sleep, focus, and memory. Many people even get upset easily.", q: "Which of the following is a long-term problem caused by these habits?", opts: ["Improved memory.", "Trouble with sleep, focus, and memory.", "Increased patience with others.", "A natural boost in energy."], a: 1 }
+            { q: "_______ any department stores near here?", opts: ["There are", "Are there", "There is", "Is there"], a: 1 },
+            { q: "How _______ passengers are on the bus?", opts: ["is", "much", "are", "many"], a: 3 },
+            { q: "What does the name 'Shinsegae' mean in English?", opts: ["Center City", "Shopping World", "New World", "Big Building"], a: 2 },
+            { q: "Why do most people reach for fats and sweets when they get home?", opts: ["Because they are cheap.", "Because they are busy and their bodies need energy.", "Because they don't know how to cook.", "Because doctors recommend them."], a: 1 },
+            { q: "What happens in the brain immediately after eating junk food?", opts: ["It shuts down to rest.", "It creates a special chemical that makes us feel good.", "It loses short-term memory.", "It immediately signals a need for water."], a: 1 }
         ]
     }
 };
@@ -452,7 +427,6 @@ function checkStatus() {
         btn.textContent = "Review Mode 🔁";
         btn.style.backgroundColor = "var(--warning)";
         msg.textContent = 'You completed this previously. Score will not be saved.';
-        msg.style.color = "var(--warning)";
     } else {
         isReviewMode = false;
         btn.disabled = false;
@@ -558,9 +532,6 @@ function speak(text) {
     window.speechSynthesis.speak(u);
 }
 
-// ================================================================
-//  NORMAL ACTIVITIES
-// ================================================================
 function renderScrolls(container, data) {
     var idx = 0;
     container.innerHTML =
@@ -598,13 +569,15 @@ function renderScrolls(container, data) {
 }
 
 function renderQuiz(container, data) {
-    var qPos = 0; var hasFailedCurrent = false;
+    var qPos = 0; 
+    var failCount = 0;
+
     function render() {
         var wordIdx = qPos; var correctDef = data.defs[wordIdx];
         var wrongPool = data.defs.filter(function(_, i) { return i !== wordIdx; }).sort(function() { return Math.random()-0.5; }).slice(0,3);
         var opts = [correctDef].concat(wrongPool).sort(function() { return Math.random()-0.5; });
         var correctOpt = opts.indexOf(correctDef);
-        hasFailedCurrent = false;
+        failCount = 0;
 
         container.innerHTML =
             '<h2>Definition Quiz <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.words.length+')</span></h2>' +
@@ -616,32 +589,37 @@ function renderQuiz(container, data) {
         window.checkQuizOpt = function(chosen, correct) {
             var chosenEl = document.getElementById('qopt-'+chosen);
             if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
+            
             if (chosen === correct) {
                 chosenEl.classList.add('correct');
-                if (!hasFailedCurrent) state.firstTryPoints++; 
+                if (failCount < 2) state.firstTryPoints++; 
                 document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
                 setTimeout(function() {
                     qPos++;
                     if (qPos < data.words.length) { render(); } else {
                         state.done['quiz'] = true; document.getElementById('s-quiz').classList.remove('hidden'); updateXPBar();
-                        container.innerHTML = '<h2>Quiz Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Excellent work. You mastered all definitions.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                        container.innerHTML = '<h2>Quiz Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Excellent work.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
                     }
                 }, 1000);
-            } else { hasFailedCurrent = true; chosenEl.classList.add('wrong'); document.getElementById('hint-box').classList.add('active'); }
+            } else { 
+                failCount++; 
+                chosenEl.classList.add('wrong'); 
+                document.getElementById('hint-box').classList.add('active'); 
+            }
         };
     }
     render();
 }
 
 function renderChamber(container, data) {
-    var idx = 0; var hasFailedCurrent = false; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
+    var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
     function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
 
     function render() {
         var item = data.sentences[idx];
         tokens = item.c.match(/\S+/g) || []; 
         shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; }));
-        selectedIndices = []; hasFailedCurrent = false;
+        selectedIndices = []; failCount = 0;
 
         container.innerHTML =
             '<h2>Sentence Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.sentences.length+')</span></h2>' +
@@ -671,7 +649,7 @@ function renderChamber(container, data) {
         if (selectedIndices.length === 0) return;
         var answerArray = []; for (var k = 0; k < selectedIndices.length; k++) { answerArray.push(tokens[selectedIndices[k]]); }
         if (answerArray.join(' ').toLowerCase() === data.sentences[idx].c.toLowerCase()) {
-            if (!hasFailedCurrent) state.firstTryPoints++;
+            if (failCount < 2) state.firstTryPoints++;
             document.getElementById('answer-row').style.borderColor = 'var(--success)'; document.getElementById('answer-row').style.backgroundColor = '#d1fae5';
             setTimeout(function() {
                 idx++;
@@ -680,19 +658,21 @@ function renderChamber(container, data) {
                     container.innerHTML = '<h2>Sentence Builder Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great syntax skills!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
                 }
             }, 1000);
-        } else { hasFailedCurrent = true; document.getElementById('hint-box').classList.add('active'); clearTiles(); }
+        } else { 
+            failCount++; 
+            document.getElementById('hint-box').classList.add('active'); 
+            clearTiles(); 
+        }
     }
     render();
 }
 
 function renderBlanks(container, data) {
-    var idx = 0; var hasFailedCurrent = false;
-    
-    // Shuffle the words for the word bank display just once per section run
+    var idx = 0; var failCount = 0;
     var shuffledWords = data.words.slice().sort(function() { return Math.random()-0.5; });
 
     function render() {
-        var word = data.words[idx]; hasFailedCurrent = false;
+        var word = data.words[idx]; failCount = 0;
         
         var wordBankHtml = '<div class="blanks-word-bank">';
         shuffledWords.forEach(function(w) { wordBankHtml += '<span class="blanks-word">' + w + '</span>'; });
@@ -711,7 +691,7 @@ function renderBlanks(container, data) {
         window.checkBlank = function() {
             var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim(); if(!input) return;
             if (input.toLowerCase() === word.toLowerCase()) {
-                if (!hasFailedCurrent) state.firstTryPoints++;
+                if (failCount < 2) state.firstTryPoints++;
                 inputEl.style.borderColor = 'var(--success)'; inputEl.style.backgroundColor = '#d1fae5';
                 setTimeout(function() {
                     idx++;
@@ -720,15 +700,17 @@ function renderBlanks(container, data) {
                         container.innerHTML = '<h2>Fill in the Blanks Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Spelling and context mastered.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
                     }
                 }, 1000);
-            } else { hasFailedCurrent = true; inputEl.value = ''; inputEl.style.borderColor = 'var(--danger)'; document.getElementById('hint-box').classList.add('active'); inputEl.focus(); }
+            } else { 
+                failCount++; 
+                inputEl.value = ''; inputEl.style.borderColor = 'var(--danger)'; 
+                document.getElementById('hint-box').classList.add('active'); 
+                inputEl.focus(); 
+            }
         };
     }
     render();
 }
 
-// ================================================================
-//  EXAM MODE
-// ================================================================
 function renderRecoveryExam(container, data) {
     var qPos = 0;
     var score = 0;
@@ -784,9 +766,6 @@ function renderRecoveryExam(container, data) {
     render();
 }
 
-// ================================================================
-//  CERTIFICATE + SEND TO GOOGLE SHEETS
-// ================================================================
 function claimCert() {
     var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
     var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
