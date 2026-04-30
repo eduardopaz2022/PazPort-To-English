@@ -145,12 +145,18 @@
         .final-grade-circle { width: 120px; height: 120px; border-radius: 50%; background: var(--primary-blue); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto; box-shadow: 0 10px 20px rgba(37,99,235,0.2); }
         .final-grade-circle span { font-size: 2.5rem; font-weight: 800; font-family: 'Poppins', sans-serif; line-height: 1; }
         .final-grade-circle small { font-size: 0.8rem; opacity: 0.8; margin-top: 4px; }
+        
         #review-badge { display: none; background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; margin: 0 auto 20px auto; width: max-content; }
+        
+        .reading-box { background: #f1f5f9; padding: 20px; border-left: 4px solid var(--primary-blue); margin: 0 auto 25px auto; max-width: 600px; text-align: left; font-size: 0.95rem; line-height: 1.6; border-radius: 4px; color: var(--text-main); }
     </style>
 </head>
 <body>
 <div class="container" id="main-container">
 
+<!-- ══════════════════════════════════════════════════
+     HOME
+═══════════════════════════════════════════════════ -->
 <section id="screen-home" class="screen">
     <h1>Pazport to English</h1>
     <div class="quote-box" id="motivational-quote"></div>
@@ -168,6 +174,8 @@
             <option value="9B">9th Grade - B</option>
             <option value="10A">10th Grade - A</option>
             <option value="10B">10th Grade - B</option>
+            <option value="11A">11th Grade - A</option>
+            <option value="11B">11th Grade - B</option>
         </select>
     </div>
 
@@ -180,6 +188,9 @@
     <p id="msg" style="margin-top:15px; font-weight:500; font-size:0.95rem;"></p>
 </section>
 
+<!-- ══════════════════════════════════════════════════
+     ACTIVITY MENU
+═══════════════════════════════════════════════════ -->
 <section id="screen-menu" class="screen hidden">
     <h2 id="userGreet" style="color:var(--text-main); margin-bottom:4px;"></h2>
     <p style="color:var(--text-muted); font-size:1rem; margin-bottom:0;">Complete all activities to unlock your final grade.</p>
@@ -222,6 +233,9 @@
     <button class="btn" style="margin-top:40px; width:100%; max-width:300px; display:inline-block;" id="btn-report" onclick="claimCert()" disabled>Complete all to Submit</button>
 </section>
 
+<!-- ══════════════════════════════════════════════════
+     ACTIVITY SCREEN
+═══════════════════════════════════════════════════ -->
 <section id="screen-act" class="screen hidden">
     <div style="text-align:left; margin-bottom:20px;" id="act-back-btn-container">
         <button class="btn" style="padding:8px 16px; margin:0; font-size:0.9rem; background:#cbd5e1; color:#0f172a;" onclick="show('menu')"><i class="fas fa-arrow-left"></i> Back to Menu</button>
@@ -229,6 +243,9 @@
     <div id="act-content"></div>
 </section>
 
+<!-- ══════════════════════════════════════════════════
+     CERTIFICATE
+═══════════════════════════════════════════════════ -->
 <section id="screen-cert" class="screen hidden">
     <div class="cert-area">
         <i class="fas fa-award" style="font-size:4rem; color:var(--primary-blue); margin-bottom:10px;"></i>
@@ -290,71 +307,88 @@ const DB = {
             "Water falling in drops from the clouds.",
             "An object you hold over your head to stay dry in the rain."
         ],
-        // Auto-generated fields to prevent app breakage in normal flow
         examples: [
-            "Be careful, the water is boiling.",
-            "It's lightly drizzling outside.",
-            "We can't go out, it's pouring rain.",
-            "The heavy rain is flooding the streets.",
-            "The heat in summer is intense.",
-            "It is a very hot day.",
-            "She wrapped a scarf around her neck.",
-            "Put on your gloves to stay warm.",
-            "It is raining today.",
-            "Take an umbrella so you don't get wet."
+            "The water is boiling.",
+            "It is drizzling today.",
+            "It is pouring rain.",
+            "The street is flooding.",
+            "The heat is terrible.",
+            "The coffee is very hot.",
+            "I have a red scarf.",
+            "I am wearing warm gloves.",
+            "It is raining outside.",
+            "I need an umbrella."
         ],
         cloze: [
-            "Be careful, the water is ________.",
-            "It's lightly ________ outside.",
-            "We can't go out, it's ________ rain.",
-            "The heavy rain is ________ the streets.",
-            "The ________ in summer is intense.",
-            "It is a very ________ day.",
-            "She wrapped a ________ around her neck.",
-            "Put on your ________ to stay warm.",
+            "The water is ________.",
             "It is ________ today.",
-            "Take an ________ so you don't get wet."
+            "It is ________ rain.",
+            "The street is ________.",
+            "The ________ is terrible.",
+            "The coffee is very ________.",
+            "I have a red ________.",
+            "I am wearing warm ________.",
+            "It is ________ outside.",
+            "I need an ________."
         ],
         hints: [
-            "Extremely hot water.",
+            "Extremely hot liquid.",
             "Light rain.",
-            "Very heavy rain.",
-            "Water covering the streets.",
+            "Heavy rain.",
+            "Water covering the street.",
             "Noun for high temperature.",
             "Adjective for high temperature.",
             "Worn around the neck.",
-            "Worn on the hands.",
-            "Water falling from clouds.",
-            "Used to stay dry in the rain."
+            "Worn on hands.",
+            "Water from clouds.",
+            "Used to stay dry."
         ],
         sentences: [
-            { s:"boiling / tomorrow. / It / will / be",                            c:"It will be boiling tomorrow." },
-            { s:"won't / Saturday. / It / on / rain",                              c:"It won't rain on Saturday." },
-            { s:"school / The / will / in / flood / May.",                         c:"The school will flood in May." },
-            { s:"wear / scarf! / sunny, / It / be / a / will / so",                c:"It will be sunny, so wear a scarf!" },
-            { s:"heat / El Salvador / The / terrible. / in / is",                  c:"The heat in El Salvador is terrible." },
-            { s:"pouring / Tomorrow / be / rain. / will / it",                     c:"Tomorrow it will be pouring rain." },
-            { s:"drizzling, / umbrella. / need / It / is / an / I / so / won't",   c:"It is drizzling, so I won't need an umbrella." }
+            { s:"is / The / boiling. / water", c:"The water is boiling." },
+            { s:"today. / is / It / drizzling", c:"It is drizzling today." },
+            { s:"pouring / It / rain. / is", c:"It is pouring rain." },
+            { s:"street / flooding. / The / is", c:"The street is flooding." },
+            { s:"is / terrible. / heat / The", c:"The heat is terrible." },
+            { s:"very / coffee / is / The / hot.", c:"The coffee is very hot." },
+            { s:"red / I / scarf. / a / have", c:"I have a red scarf." },
+            { s:"gloves. / am / wearing / I / warm", c:"I am wearing warm gloves." },
+            { s:"outside. / raining / It / is", c:"It is raining outside." },
+            { s:"need / umbrella. / an / I", c:"I need an umbrella." }
         ]
     },
     "9th - Recovery Exam": {
         type: "exam",
         questions: [
             { q: "Choose the correct number: Twelve", opts: ["20", "12", "2", "22"], a: 1 },
+            { q: "Choose the correct number: Thirteen", opts: ["30", "33", "13", "3"], a: 2 },
             { q: "Choose the correct number: Forty", opts: ["14", "40", "4", "44"], a: 1 },
+            { q: "Choose the correct number: Fifty", opts: ["15", "5", "50", "55"], a: 2 },
             { q: "Choose the correct number: One hundred", opts: ["1,000", "10,000", "100", "10"], a: 2 },
+            { q: "Choose the correct number: Twenty", opts: ["20", "12", "2", "22"], a: 0 },
+            { q: "Choose the correct number: Thirty", opts: ["30", "33", "13", "3"], a: 0 },
+            { q: "Choose the correct number: Ninety-Nine", opts: ["9", "19", "99", "29"], a: 2 },
+            { q: "Choose the correct number: Four", opts: ["40", "14", "4", "44"], a: 2 },
+            { q: "Choose the correct number: Eighteen", opts: ["8", "18", "88", "28"], a: 1 },
             { q: "The person who assists customers in-store.", opts: ["Clerk", "Driver", "Department Store", "Customer"], a: 0 },
+            { q: "A room with toilets that is in a public place.", opts: ["Classroom", "Restroom", "Bedroom", "Shop"], a: 1 },
             { q: "A large area inside of a mall where restaurants sell food.", opts: ["Shop", "Store", "Food Court", "Food"], a: 2 },
-            { q: "Food that is quick and easy to prepare but is bad for your health.", opts: ["Healthy food", "Food court", "Junk food", "Fast food"], a: 2 },
-            { q: "The money returned to you when you pay more than the exact price.", opts: ["Change", "Beef", "Fries", "Shake"], a: 0 },
-            { q: "Please _______ your books to page 21.", opts: ["Opening", "Open", "Opens", "To open"], a: 1 },
+            { q: "A large area full of trees and plants.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 3 },
+            { q: "A piece of land surrounded by water.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 0 },
+            { q: "Water falling from a high place into a pool.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 1 },
+            { q: "Low land between hills or mountains.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 2 },
+            { q: "A very large expanse of sea.", opts: ["Sea", "Waterfall", "Valley", "Ocean"], a: 3 },
+            { q: "To take goods or food to a person's home or workplace.", opts: ["Deliver", "Order", "Waitress/Waiter", "Refund"], a: 0 },
+            { q: "To ask for food or drinks in a restaurant.", opts: ["Deliver", "Order", "Waitress/Waiter", "Refund"], a: 1 },
+            { q: "_______ the milk tea. It's delicious.", opts: ["Try", "Trying", "To try", "Should try"], a: 0 },
+            { q: "Good morning, students. Please _______ your books to page 21.", opts: ["Opening", "Open", "Opens", "To opening"], a: 1 },
             { q: "I'm really tired. _______ go to the party tonight.", opts: ["Let's not", "Not", "Never", "Let not"], a: 0 },
+            { q: "It's very cold today, so _______ a warm coat.", opts: ["be bringing", "bring", "bringing", "does bring"], a: 1 },
             { q: "You should be quiet in the library. _______ so loudly!", opts: ["Talk", "Let's talk", "Don't talk", "No talk"], a: 2 },
-            { q: "_______ any department stores near here?", opts: ["There are", "Are there", "There is", "Is there"], a: 1 },
-            { q: "How _______ passengers are on the bus?", opts: ["is", "much", "are", "many"], a: 3 },
-            { q: "What does the name 'Shinsegae' mean in English?", opts: ["Center City", "Shopping World", "New World", "Big Building"], a: 2 },
-            { q: "Why do most people reach for fats and sweets when they get home?", opts: ["Because they are cheap.", "Because they are busy and their bodies need energy.", "Because they don't know how to cook.", "Because doctors recommend them."], a: 1 },
-            { q: "What happens in the brain immediately after eating junk food?", opts: ["It shuts down to rest.", "It creates a special chemical that makes us feel good.", "It loses short-term memory.", "It immediately signals a need for water."], a: 1 }
+            { text: "Most people are very busy. When they come home, their bodies need food for energy. Usually, though, these people will reach for fats, oils, and sweets. When we eat these junk foods, our brains make a special chemical. That chemical makes us feel good right away. However, it doesn't last long. An hour later, the chemical goes away. Then, we feel tired again. Most people fix this by eating more junk food. Of course, we know what happens an hour later. The circle never ends. Over time, these eating habits can cause big problems. People start having trouble with their sleep, focus, and memory. Many people even get upset easily.", q: "Why do most people reach for fats and sweets when they get home?", opts: ["Because they are cheap.", "Because they are busy and their bodies need energy.", "Because they don't know how to cook.", "Because doctors recommend them."], a: 1 },
+            { text: "Most people are very busy. When they come home...", q: "What happens in the brain immediately after eating junk food?", opts: ["It shuts down to rest.", "It creates a special chemical that makes us feel good.", "It loses short-term memory.", "It immediately signals a need for water."], a: 1 },
+            { text: "Most people are very busy. When they come home...", q: "How long does the 'feel good' chemical last?", opts: ["All day.", "Only a few minutes.", "About an hour.", "Two consecutive days."], a: 2 },
+            { text: "Most people are very busy. When they come home...", q: "How do most people react when they feel tired again an hour later?", opts: ["They take a nap.", "They drink a lot of water.", "They eat more junk food.", "They do intense exercise."], a: 2 },
+            { text: "Most people are very busy. When they come home...", q: "Which of the following is a long-term problem caused by these habits?", opts: ["Improved memory.", "Trouble with sleep, focus, and memory.", "Increased patience with others.", "A natural boost in energy."], a: 1 }
         ]
     }
 };
@@ -364,22 +398,39 @@ let isReviewMode = false;
 
 window.onload = function() {
     setWeeklyQuote();
-    var sel = document.getElementById('unitSelect');
-    sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
-    Object.keys(DB).forEach(function(k) {
-        var opt = document.createElement('option'); opt.value = k; opt.textContent = k;
-        sel.appendChild(opt);
-    });
 };
 
 function updateCascade() {
     var section = document.getElementById('sectionSelect').value;
     var unitGroup = document.getElementById('unit-group');
+    var sel = document.getElementById('unitSelect');
+    
     if (section) {
         unitGroup.classList.remove('hidden');
+        
+        var gradePrefix = "";
+        if (section.startsWith("9")) gradePrefix = "9th";
+        else if (section.startsWith("10")) gradePrefix = "10th";
+        else if (section.startsWith("11")) gradePrefix = "11th";
+
+        sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
+        Object.keys(DB).forEach(function(k) {
+            if (k.startsWith(gradePrefix)) {
+                var opt = document.createElement('option'); 
+                opt.value = k; 
+                opt.textContent = k;
+                sel.appendChild(opt);
+            }
+        });
+
+        if (sel.options.length === 1) {
+            var opt = document.createElement('option');
+            opt.value = ""; opt.textContent = "-- No quests available --";
+            sel.appendChild(opt);
+        }
     } else {
         unitGroup.classList.add('hidden');
-        document.getElementById('unitSelect').value = '';
+        sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
     }
     checkStatus();
 }
@@ -501,7 +552,6 @@ function goExam() {
     show('act');
     var container = document.getElementById('act-content');
     container.innerHTML = '';
-    // Hide standard back button to prevent escaping the exam accidentally
     document.getElementById('act-back-btn-container').style.display = 'none';
     renderRecoveryExam(container, data);
 }
@@ -686,9 +736,15 @@ function renderRecoveryExam(container, data) {
             return '<div class="quiz-option" id="eopt-'+i+'" onclick="window.checkExamOpt('+i+','+qObj.a+')">' + o + '</div>';
         }).join('');
 
+        var readingHtml = '';
+        if (qObj.text) {
+            readingHtml = '<div class="reading-box">' + qObj.text + '</div>';
+        }
+
         container.innerHTML =
             '<h2 style="color:var(--danger);">Recovery Exam <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.questions.length+')</span></h2>' +
             '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="background:var(--danger); width:'+pct+'%;"></div></div></div>' +
+            readingHtml +
             '<p style="font-size:1.3rem; margin:20px 0; font-weight:600; color:var(--text-main);">' + qObj.q + '</p>' +
             optHtml +
             '<div id="next-box" style="display:none; margin-top:20px;"><button class="btn" onclick="window.nextExamQ()">Next Question <i class="fas fa-arrow-right"></i></button></div>';
