@@ -188,7 +188,7 @@
     </div>
 
     <button class="btn" id="startBtn" onclick="start()" disabled>Start Quest</button>
-    <p id="msg" style="margin-top:15px; font-weight:500; font-size:0.95rem;"></p>
+    <p id="msg" style="margin-top:15px; font-weight:500; color:var(--danger); font-size:0.9rem;"></p>
 </section>
 
 <section id="screen-menu" class="screen hidden">
@@ -301,35 +301,35 @@ const DB = {
             "Water falling in drops from the clouds.",
             "An object you hold over your head to stay dry in the rain."
         ],
-        // Sentences with strong context and simple future grammar (no commas/conjunctions)
+        // Sentences with strictly Simple Future (Subject + will/won't + verb + simple complement)
         examples: [
-            "The bubbling water will be boiling.",
-            "A light rain will be drizzling.",
-            "A heavy rain will be pouring.",
-            "The river water will be flooding.",
-            "The summer heat will make you sweat.",
-            "The fire will make the room hot.",
-            "You will wear a scarf on your neck.",
-            "You will wear warm gloves on your hands.",
-            "The gray clouds will be raining.",
-            "You will stay dry under your umbrella."
+            "The water will be boiling.",
+            "It will be drizzling soon.",
+            "It will be pouring tonight.",
+            "The river will be flooding.",
+            "The heat will be terrible.",
+            "It will be hot tomorrow.",
+            "I will wear a scarf.",
+            "She will need gloves.",
+            "It will be raining later.",
+            "He will bring an umbrella."
         ],
         cloze: [
-            "The bubbling water will be ________.",
-            "A light rain will be ________.",
-            "A heavy rain will be ________.",
-            "The river water will be ________.",
-            "The summer ________ will make you sweat.",
-            "The fire will make the room ________.",
-            "You will wear a ________ on your neck.",
-            "You will wear warm ________ on your hands.",
-            "The gray clouds will be ________.",
-            "You will stay dry under your ________."
+            "The water will be ________.",
+            "It will be ________ soon.",
+            "It will be ________ tonight.",
+            "The river will be ________.",
+            "The ________ will be terrible.",
+            "It will be ________ tomorrow.",
+            "I will wear a ________.",
+            "She will need ________.",
+            "It will be ________ later.",
+            "He will bring an ________."
         ],
         hints: [
             "Extremely hot water.",
-            "Very light rain.",
-            "Very heavy rain.",
+            "Light rain.",
+            "Heavy rain.",
             "Water covering dry land.",
             "Noun for high temperature.",
             "Adjective for high temperature.",
@@ -339,16 +339,16 @@ const DB = {
             "Used to stay dry."
         ],
         sentences: [
-            { s:"water / boiling. / bubbling / The / will / be", c:"The bubbling water will be boiling." },
-            { s:"rain / A / drizzling. / light / will / be", c:"A light rain will be drizzling." },
-            { s:"pouring. / rain / heavy / will / be / A", c:"A heavy rain will be pouring." },
-            { s:"river / flooding. / The / will / water / be", c:"The river water will be flooding." },
-            { s:"heat / sweat. / The / will / summer / make / you", c:"The summer heat will make you sweat." },
-            { s:"room / The / hot. / fire / will / the / make", c:"The fire will make the room hot." },
-            { s:"neck. / a / wear / will / You / scarf / on / your", c:"You will wear a scarf on your neck." },
-            { s:"hands. / gloves / warm / You / will / wear / on / your", c:"You will wear warm gloves on your hands." },
-            { s:"gray / raining. / The / will / clouds / be", c:"The gray clouds will be raining." },
-            { s:"stay / You / umbrella. / under / will / dry / your", c:"You will stay dry under your umbrella." }
+            { s:"water / boiling. / The / will / be", c:"The water will be boiling." },
+            { s:"drizzling / It / soon. / will / be", c:"It will be drizzling soon." },
+            { s:"pouring / tonight. / It / will / be", c:"It will be pouring tonight." },
+            { s:"river / flooding. / The / will / be", c:"The river will be flooding." },
+            { s:"terrible. / heat / The / will / be", c:"The heat will be terrible." },
+            { s:"be / tomorrow. / It / will / hot", c:"It will be hot tomorrow." },
+            { s:"wear / scarf. / I / will / a", c:"I will wear a scarf." },
+            { s:"need / gloves. / She / will", c:"She will need gloves." },
+            { s:"raining / later. / It / will / be", c:"It will be raining later." },
+            { s:"umbrella. / He / bring / will / an", c:"He will bring an umbrella." }
         ]
     },
     "9th - Recovery Exam": {
@@ -687,7 +687,7 @@ function renderChamber(container, data) {
 
 function renderBlanks(container, data) {
     var idx = 0; var hasFailedCurrent = false;
-
+    
     // Shuffle the words for the word bank display just once per section run
     var shuffledWords = data.words.slice().sort(function() { return Math.random()-0.5; });
 
