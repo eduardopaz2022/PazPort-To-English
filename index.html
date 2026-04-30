@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pazport to English</title>
+    <!-- Modern, readable fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
@@ -51,6 +52,7 @@
         .hidden { display: none !important; }
 
         h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+        
         h1 { color: var(--primary-blue); font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 10px; font-weight: 800; letter-spacing: -0.5px; }
         
         .quote-box {
@@ -149,6 +151,10 @@
         #review-badge { display: none; background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; margin: 0 auto 20px auto; width: max-content; }
         
         .reading-box { background: #f1f5f9; padding: 20px; border-left: 4px solid var(--primary-blue); margin: 0 auto 25px auto; max-width: 600px; text-align: left; font-size: 0.95rem; line-height: 1.6; border-radius: 4px; color: var(--text-main); }
+        
+        /* Word Bank Visual display for Blanks */
+        .blanks-word-bank { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 auto 25px auto; max-width: 500px; }
+        .blanks-word { background: #e2e8f0; color: #475569; padding: 6px 14px; border-radius: 20px; font-size: 0.9rem; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -182,7 +188,7 @@
     </div>
 
     <button class="btn" id="startBtn" onclick="start()" disabled>Start Quest</button>
-    <p id="msg" style="margin-top:15px; font-weight:500; color:var(--danger); font-size:0.9rem;"></p>
+    <p id="msg" style="margin-top:15px; font-weight:500; font-size:0.95rem;"></p>
 </section>
 
 <section id="screen-menu" class="screen hidden">
@@ -258,6 +264,9 @@
 </div>
 
 <script>
+// ================================================================
+//  QUOTES
+// ================================================================
 const motivationalQuotes = [
     "“The secret of getting ahead is getting started.” – Mark Twain",
     "“Mistakes are proof that you are trying.”",
@@ -273,6 +282,9 @@ function setWeeklyQuote() {
     document.getElementById('motivational-quote').textContent = motivationalQuotes[quoteIndex];
 }
 
+// ================================================================
+//  DATABASE
+// ================================================================
 const DB = {
     "10th - Unit 4": {
         type: "normal",
@@ -289,53 +301,54 @@ const DB = {
             "Water falling in drops from the clouds.",
             "An object you hold over your head to stay dry in the rain."
         ],
+        // Sentences with strong context and simple future grammar (no commas/conjunctions)
         examples: [
-            "It will be boiling tomorrow.",
-            "It will be drizzling today.",
-            "It will be pouring tonight.",
-            "The river will flood soon.",
-            "The heat will be terrible.",
-            "It will be hot later.",
-            "I will wear a scarf.",
-            "He will need warm gloves.",
-            "It will rain on Sunday.",
-            "She will bring an umbrella."
+            "The bubbling water will be boiling.",
+            "A light rain will be drizzling.",
+            "A heavy rain will be pouring.",
+            "The river water will be flooding.",
+            "The summer heat will make you sweat.",
+            "The fire will make the room hot.",
+            "You will wear a scarf on your neck.",
+            "You will wear warm gloves on your hands.",
+            "The gray clouds will be raining.",
+            "You will stay dry under your umbrella."
         ],
         cloze: [
-            "It will be ________ tomorrow.",
-            "It will be ________ today.",
-            "It will be ________ tonight.",
-            "The river will ________ soon.",
-            "The ________ will be terrible.",
-            "It will be ________ later.",
-            "I will wear a ________.",
-            "He will need warm ________.",
-            "It will ________ on Sunday.",
-            "She will bring an ________."
+            "The bubbling water will be ________.",
+            "A light rain will be ________.",
+            "A heavy rain will be ________.",
+            "The river water will be ________.",
+            "The summer ________ will make you sweat.",
+            "The fire will make the room ________.",
+            "You will wear a ________ on your neck.",
+            "You will wear warm ________ on your hands.",
+            "The gray clouds will be ________.",
+            "You will stay dry under your ________."
         ],
         hints: [
-            "Extremely hot weather.",
+            "Extremely hot water.",
             "Very light rain.",
             "Very heavy rain.",
             "Water covering dry land.",
             "Noun for high temperature.",
             "Adjective for high temperature.",
             "Worn around the neck.",
-            "Worn on the hands.",
+            "Worn on hands.",
             "Water falling from clouds.",
-            "Used to stay dry in the rain."
+            "Used to stay dry."
         ],
         sentences: [
-            { s:"boiling / tomorrow. / It / will / be",                            c:"It will be boiling tomorrow." },
-            { s:"rain / Saturday. / It / won't / on",                              c:"It won't rain on Saturday." },
-            { s:"flood / The / will / river / soon.",                              c:"The river will flood soon." },
-            { s:"wear / scarf! / I / will / a",                                    c:"I will wear a scarf!" },
-            { s:"heat / terrible. / The / will / be",                              c:"The heat will be terrible." },
-            { s:"pouring / Tomorrow / will / it / be",                             c:"Tomorrow it will be pouring." },
-            { s:"drizzling / today. / It / be / will",                             c:"It will be drizzling today." },
-            { s:"need / umbrella. / will / He / an",                               c:"He will need an umbrella." },
-            { s:"be / later. / will / hot / It",                                   c:"It will be hot later." },
-            { s:"gloves. / wear / She / will / warm",                              c:"She will wear warm gloves." }
+            { s:"water / boiling. / bubbling / The / will / be", c:"The bubbling water will be boiling." },
+            { s:"rain / A / drizzling. / light / will / be", c:"A light rain will be drizzling." },
+            { s:"pouring. / rain / heavy / will / be / A", c:"A heavy rain will be pouring." },
+            { s:"river / flooding. / The / will / water / be", c:"The river water will be flooding." },
+            { s:"heat / sweat. / The / will / summer / make / you", c:"The summer heat will make you sweat." },
+            { s:"room / The / hot. / fire / will / the / make", c:"The fire will make the room hot." },
+            { s:"neck. / a / wear / will / You / scarf / on / your", c:"You will wear a scarf on your neck." },
+            { s:"hands. / gloves / warm / You / will / wear / on / your", c:"You will wear warm gloves on your hands." },
+            { s:"gray / raining. / The / will / clouds / be", c:"The gray clouds will be raining." },
+            { s:"stay / You / umbrella. / under / will / dry / your", c:"You will stay dry under your umbrella." }
         ]
     },
     "9th - Recovery Exam": {
@@ -366,11 +379,11 @@ const DB = {
             { q: "I'm really tired. _______ go to the party tonight.", opts: ["Let's not", "Not", "Never", "Let not"], a: 0 },
             { q: "It's very cold today, so _______ a warm coat.", opts: ["be bringing", "bring", "bringing", "does bring"], a: 1 },
             { q: "You should be quiet in the library. _______ so loudly!", opts: ["Talk", "Let's talk", "Don't talk", "No talk"], a: 2 },
-            { text: "Most people are very busy. When they come home, their bodies need food for energy. Usually, though, these people will reach for fats, oils, and sweets. When we eat these junk foods, our brains make a special chemical. That chemical makes us feel good right away. However, it doesn't last long. An hour later, the chemical goes away. Then, we feel tired again. Most people fix this by eating more junk food. Of course, we know what happens an hour later. The circle never ends. Over time, these eating habits can cause big problems. People start having trouble with their sleep, focus, and memory. Many people even get upset easily.", q: "Why do most people reach for fats and sweets when they get home?", opts: ["Because they are cheap.", "Because they are busy and their bodies need energy.", "Because they don't know how to cook.", "Because doctors recommend them."], a: 1 },
-            { text: "Most people are very busy. When they come home...", q: "What happens in the brain immediately after eating junk food?", opts: ["It shuts down to rest.", "It creates a special chemical that makes us feel good.", "It loses short-term memory.", "It immediately signals a need for water."], a: 1 },
-            { text: "Most people are very busy. When they come home...", q: "How long does the 'feel good' chemical last?", opts: ["All day.", "Only a few minutes.", "About an hour.", "Two consecutive days."], a: 2 },
-            { text: "Most people are very busy. When they come home...", q: "How do most people react when they feel tired again an hour later?", opts: ["They take a nap.", "They drink a lot of water.", "They eat more junk food.", "They do intense exercise."], a: 2 },
-            { text: "Most people are very busy. When they come home...", q: "Which of the following is a long-term problem caused by these habits?", opts: ["Improved memory.", "Trouble with sleep, focus, and memory.", "Increased patience with others.", "A natural boost in energy."], a: 1 }
+            { text: "Do you like shopping? The biggest department store in the world is in South Korea. It is called Shinsegae, and it is in Centum City in Busan. The name means 'new world' in Korean. The store is 14 stories tall. The space is enough to fit 2,300 houses. That's bigger than Macy's in New York. More than 6,000 people work there. It has books, clothes, toys, and a lot more. You can even ice-skate there or play golf on the golf course. There's a large roof garden too. It also has a new type of restaurant. Cine de Chef serves great food and shows the newest movies. It's easy to get there. You can take the subway from Busan or the train from Seoul to get to Centum City.", q: "What does the name 'Shinsegae' mean in English?", opts: ["Center City", "Shopping World", "New World", "Big Building"], a: 2 },
+            { text: "Do you like shopping? The biggest department store...", q: "How large is the store compared to other objects?", opts: ["As big as 10 football stadiums", "Large enough to fit 2,300 houses", "Smaller than Macy's in New York", "The size of the entire city of Seoul"], a: 1 },
+            { text: "Do you like shopping? The biggest department store...", q: "How many people are employed at Shinsegae?", opts: ["Exactly 2,300 people", "Fewer than 1,000 people", "More than 6,000 people", "About 14,000 people"], a: 2 },
+            { text: "Do you like shopping? The biggest department store...", q: "Which activity is NOT mentioned as something you can do at the store?", opts: ["Ice-skating", "Playing golf", "Swimming in an Olympic pool", "Watching movies while eating"], a: 2 },
+            { text: "Most people are very busy. When they come home, their bodies need food for energy. Usually, though, these people will reach for fats, oils, and sweets. When we eat these junk foods, our brains make a special chemical. That chemical makes us feel good right away. However, it doesn't last long. An hour later, the chemical goes away. Then, we feel tired again. Most people fix this by eating more junk food. Of course, we know what happens an hour later. The circle never ends. Over time, these eating habits can cause big problems. People start having trouble with their sleep, focus, and memory. Many people even get upset easily.", q: "Which of the following is a long-term problem caused by these habits?", opts: ["Improved memory.", "Trouble with sleep, focus, and memory.", "Increased patience with others.", "A natural boost in energy."], a: 1 }
         ]
     }
 };
@@ -380,12 +393,6 @@ let isReviewMode = false;
 
 window.onload = function() {
     setWeeklyQuote();
-    var sel = document.getElementById('unitSelect');
-    sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
-    Object.keys(DB).forEach(function(k) {
-        var opt = document.createElement('option'); opt.value = k; opt.textContent = k;
-        sel.appendChild(opt);
-    });
 };
 
 function updateCascade() {
@@ -551,6 +558,9 @@ function speak(text) {
     window.speechSynthesis.speak(u);
 }
 
+// ================================================================
+//  NORMAL ACTIVITIES
+// ================================================================
 function renderScrolls(container, data) {
     var idx = 0;
     container.innerHTML =
@@ -677,12 +687,22 @@ function renderChamber(container, data) {
 
 function renderBlanks(container, data) {
     var idx = 0; var hasFailedCurrent = false;
+
+    // Shuffle the words for the word bank display just once per section run
+    var shuffledWords = data.words.slice().sort(function() { return Math.random()-0.5; });
+
     function render() {
         var word = data.words[idx]; hasFailedCurrent = false;
+        
+        var wordBankHtml = '<div class="blanks-word-bank">';
+        shuffledWords.forEach(function(w) { wordBankHtml += '<span class="blanks-word">' + w + '</span>'; });
+        wordBankHtml += '</div>';
+
         container.innerHTML =
             '<h2>Fill in the Blanks <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.words.length+')</span></h2>' +
             '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.words.length) * 100)+'%;"></div></div></div>' +
-            '<p style="font-size:1.3rem; margin:30px auto; max-width:600px; color:var(--text-main); font-weight:500;">' + data.cloze[idx] + '</p>' +
+            wordBankHtml + 
+            '<p style="font-size:1.3rem; margin:20px auto; max-width:600px; color:var(--text-main); font-weight:500;">' + data.cloze[idx] + '</p>' +
             '<input type="text" id="blank-input" placeholder="Type the missing word..." autocomplete="off" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
             '<div id="hint-box" class="hint-box" style="max-width:350px;"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + data.hints[idx] + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>';
 
@@ -706,6 +726,9 @@ function renderBlanks(container, data) {
     render();
 }
 
+// ================================================================
+//  EXAM MODE
+// ================================================================
 function renderRecoveryExam(container, data) {
     var qPos = 0;
     var score = 0;
@@ -761,6 +784,9 @@ function renderRecoveryExam(container, data) {
     render();
 }
 
+// ================================================================
+//  CERTIFICATE + SEND TO GOOGLE SHEETS
+// ================================================================
 function claimCert() {
     var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
     var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
