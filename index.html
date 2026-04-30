@@ -154,9 +154,6 @@
 <body>
 <div class="container" id="main-container">
 
-<!-- ══════════════════════════════════════════════════
-     HOME
-═══════════════════════════════════════════════════ -->
 <section id="screen-home" class="screen">
     <h1>Pazport to English</h1>
     <div class="quote-box" id="motivational-quote"></div>
@@ -185,12 +182,9 @@
     </div>
 
     <button class="btn" id="startBtn" onclick="start()" disabled>Start Quest</button>
-    <p id="msg" style="margin-top:15px; font-weight:500; font-size:0.95rem;"></p>
+    <p id="msg" style="margin-top:15px; font-weight:500; color:var(--danger); font-size:0.9rem;"></p>
 </section>
 
-<!-- ══════════════════════════════════════════════════
-     ACTIVITY MENU
-═══════════════════════════════════════════════════ -->
 <section id="screen-menu" class="screen hidden">
     <h2 id="userGreet" style="color:var(--text-main); margin-bottom:4px;"></h2>
     <p style="color:var(--text-muted); font-size:1rem; margin-bottom:0;">Complete all activities to unlock your final grade.</p>
@@ -233,9 +227,6 @@
     <button class="btn" style="margin-top:40px; width:100%; max-width:300px; display:inline-block;" id="btn-report" onclick="claimCert()" disabled>Complete all to Submit</button>
 </section>
 
-<!-- ══════════════════════════════════════════════════
-     ACTIVITY SCREEN
-═══════════════════════════════════════════════════ -->
 <section id="screen-act" class="screen hidden">
     <div style="text-align:left; margin-bottom:20px;" id="act-back-btn-container">
         <button class="btn" style="padding:8px 16px; margin:0; font-size:0.9rem; background:#cbd5e1; color:#0f172a;" onclick="show('menu')"><i class="fas fa-arrow-left"></i> Back to Menu</button>
@@ -243,9 +234,6 @@
     <div id="act-content"></div>
 </section>
 
-<!-- ══════════════════════════════════════════════════
-     CERTIFICATE
-═══════════════════════════════════════════════════ -->
 <section id="screen-cert" class="screen hidden">
     <div class="cert-area">
         <i class="fas fa-award" style="font-size:4rem; color:var(--primary-blue); margin-bottom:10px;"></i>
@@ -270,9 +258,6 @@
 </div>
 
 <script>
-// ================================================================
-//  QUOTES
-// ================================================================
 const motivationalQuotes = [
     "“The secret of getting ahead is getting started.” – Mark Twain",
     "“Mistakes are proof that you are trying.”",
@@ -288,9 +273,6 @@ function setWeeklyQuote() {
     document.getElementById('motivational-quote').textContent = motivationalQuotes[quoteIndex];
 }
 
-// ================================================================
-//  DATABASE
-// ================================================================
 const DB = {
     "10th - Unit 4": {
         type: "normal",
@@ -308,52 +290,52 @@ const DB = {
             "An object you hold over your head to stay dry in the rain."
         ],
         examples: [
-            "The water is boiling.",
-            "It is drizzling today.",
-            "It is pouring rain.",
-            "The street is flooding.",
-            "The heat is terrible.",
-            "The coffee is very hot.",
-            "I have a red scarf.",
-            "I am wearing warm gloves.",
-            "It is raining outside.",
-            "I need an umbrella."
+            "It will be boiling tomorrow.",
+            "It will be drizzling today.",
+            "It will be pouring tonight.",
+            "The river will flood soon.",
+            "The heat will be terrible.",
+            "It will be hot later.",
+            "I will wear a scarf.",
+            "He will need warm gloves.",
+            "It will rain on Sunday.",
+            "She will bring an umbrella."
         ],
         cloze: [
-            "The water is ________.",
-            "It is ________ today.",
-            "It is ________ rain.",
-            "The street is ________.",
-            "The ________ is terrible.",
-            "The coffee is very ________.",
-            "I have a red ________.",
-            "I am wearing warm ________.",
-            "It is ________ outside.",
-            "I need an ________."
+            "It will be ________ tomorrow.",
+            "It will be ________ today.",
+            "It will be ________ tonight.",
+            "The river will ________ soon.",
+            "The ________ will be terrible.",
+            "It will be ________ later.",
+            "I will wear a ________.",
+            "He will need warm ________.",
+            "It will ________ on Sunday.",
+            "She will bring an ________."
         ],
         hints: [
-            "Extremely hot liquid.",
-            "Light rain.",
-            "Heavy rain.",
-            "Water covering the street.",
+            "Extremely hot weather.",
+            "Very light rain.",
+            "Very heavy rain.",
+            "Water covering dry land.",
             "Noun for high temperature.",
             "Adjective for high temperature.",
             "Worn around the neck.",
-            "Worn on hands.",
-            "Water from clouds.",
-            "Used to stay dry."
+            "Worn on the hands.",
+            "Water falling from clouds.",
+            "Used to stay dry in the rain."
         ],
         sentences: [
-            { s:"is / The / boiling. / water", c:"The water is boiling." },
-            { s:"today. / is / It / drizzling", c:"It is drizzling today." },
-            { s:"pouring / It / rain. / is", c:"It is pouring rain." },
-            { s:"street / flooding. / The / is", c:"The street is flooding." },
-            { s:"is / terrible. / heat / The", c:"The heat is terrible." },
-            { s:"very / coffee / is / The / hot.", c:"The coffee is very hot." },
-            { s:"red / I / scarf. / a / have", c:"I have a red scarf." },
-            { s:"gloves. / am / wearing / I / warm", c:"I am wearing warm gloves." },
-            { s:"outside. / raining / It / is", c:"It is raining outside." },
-            { s:"need / umbrella. / an / I", c:"I need an umbrella." }
+            { s:"boiling / tomorrow. / It / will / be",                            c:"It will be boiling tomorrow." },
+            { s:"rain / Saturday. / It / won't / on",                              c:"It won't rain on Saturday." },
+            { s:"flood / The / will / river / soon.",                              c:"The river will flood soon." },
+            { s:"wear / scarf! / I / will / a",                                    c:"I will wear a scarf!" },
+            { s:"heat / terrible. / The / will / be",                              c:"The heat will be terrible." },
+            { s:"pouring / Tomorrow / will / it / be",                             c:"Tomorrow it will be pouring." },
+            { s:"drizzling / today. / It / be / will",                             c:"It will be drizzling today." },
+            { s:"need / umbrella. / will / He / an",                               c:"He will need an umbrella." },
+            { s:"be / later. / will / hot / It",                                   c:"It will be hot later." },
+            { s:"gloves. / wear / She / will / warm",                              c:"She will wear warm gloves." }
         ]
     },
     "9th - Recovery Exam": {
@@ -398,6 +380,12 @@ let isReviewMode = false;
 
 window.onload = function() {
     setWeeklyQuote();
+    var sel = document.getElementById('unitSelect');
+    sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
+    Object.keys(DB).forEach(function(k) {
+        var opt = document.createElement('option'); opt.value = k; opt.textContent = k;
+        sel.appendChild(opt);
+    });
 };
 
 function updateCascade() {
@@ -563,9 +551,6 @@ function speak(text) {
     window.speechSynthesis.speak(u);
 }
 
-// ================================================================
-//  NORMAL ACTIVITIES
-// ================================================================
 function renderScrolls(container, data) {
     var idx = 0;
     container.innerHTML =
@@ -721,9 +706,6 @@ function renderBlanks(container, data) {
     render();
 }
 
-// ================================================================
-//  EXAM MODE
-// ================================================================
 function renderRecoveryExam(container, data) {
     var qPos = 0;
     var score = 0;
@@ -779,9 +761,6 @@ function renderRecoveryExam(container, data) {
     render();
 }
 
-// ================================================================
-//  CERTIFICATE + SEND TO GOOGLE SHEETS
-// ================================================================
 function claimCert() {
     var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
     var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
