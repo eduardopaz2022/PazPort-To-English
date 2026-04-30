@@ -51,7 +51,6 @@
         .hidden { display: none !important; }
 
         h1, h2, h3 { font-family: 'Poppins', sans-serif; }
-        
         h1 { color: var(--primary-blue); font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 10px; font-weight: 800; letter-spacing: -0.5px; }
         
         .quote-box {
@@ -134,34 +133,19 @@
         .hint-box.active { display: block; }
 
         .word-bank { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px auto; max-width: 600px; min-height: 60px; padding: 15px; border: 2px dashed #cbd5e1; border-radius: 12px; background: #f8fafc; }
-        .word-tile {
-            background: #fff; color: var(--text-main);
-            padding: 10px 18px; border-radius: 8px;
-            font-size: 1.05rem; font-weight: 500; cursor: pointer; user-select: none;
-            border: 2px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-            transition: transform 0.1s;
-        }
+        .word-tile { background: #fff; color: var(--text-main); padding: 10px 18px; border-radius: 8px; font-size: 1.05rem; font-weight: 500; cursor: pointer; user-select: none; border: 2px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: transform 0.1s; }
         .word-tile:hover { transform: translateY(-2px); border-color: var(--primary-blue); }
         .word-tile.used { opacity: 0.3; pointer-events: none; }
         
         .answer-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 15px auto; max-width: 600px; min-height: 60px; padding: 10px; border-bottom: 2px solid var(--primary-blue); }
-        .answer-tile {
-            background: var(--primary-blue); color: #fff;
-            padding: 10px 18px; border-radius: 8px;
-            font-size: 1.05rem; font-weight: 500; cursor: pointer; user-select: none;
-            border: 2px solid var(--primary-blue);
-        }
+        .answer-tile { background: var(--primary-blue); color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 1.05rem; font-weight: 500; cursor: pointer; user-select: none; border: 2px solid var(--primary-blue); }
 
         .cert-area { border: 2px solid #e2e8f0; padding: 40px; background: white; border-radius: 16px; max-width: 700px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
         #cert-name { font-size: clamp(1.8rem, 5vw, 2.5rem); font-family: 'Poppins', sans-serif; color: var(--primary-blue); margin: 10px 0 20px 0; display: block; font-weight: 700; }
-        .final-grade-circle {
-            width: 120px; height: 120px; border-radius: 50%;
-            background: var(--primary-blue); color: white;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            margin: 20px auto; box-shadow: 0 10px 20px rgba(37,99,235,0.2);
-        }
+        .final-grade-circle { width: 120px; height: 120px; border-radius: 50%; background: var(--primary-blue); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto; box-shadow: 0 10px 20px rgba(37,99,235,0.2); }
         .final-grade-circle span { font-size: 2.5rem; font-weight: 800; font-family: 'Poppins', sans-serif; line-height: 1; }
         .final-grade-circle small { font-size: 0.8rem; opacity: 0.8; margin-top: 4px; }
+        #review-badge { display: none; background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; margin: 0 auto 20px auto; width: max-content; }
     </style>
 </head>
 <body>
@@ -177,25 +161,23 @@
     </div>
     
     <div class="input-group">
-        <label>Grade & Section</label>
+        <label>Select your Grade and Section</label>
         <select id="sectionSelect" onchange="updateCascade()">
             <option value="">-- Select Section --</option>
-            <option value="9th Grade - A">9th Grade - A</option>
-            <option value="9th Grade - B">9th Grade - B</option>
-            <option value="10th Grade - A">10th Grade - A</option>
-            <option value="10th Grade - B">10th Grade - B</option>
-            <option value="11th Grade - A">11th Grade - A</option>
-            <option value="11th Grade - B">11th Grade - B</option>
+            <option value="9A">9th Grade - A</option>
+            <option value="9B">9th Grade - B</option>
+            <option value="10A">10th Grade - A</option>
+            <option value="10B">10th Grade - B</option>
         </select>
     </div>
 
     <div class="input-group hidden" id="unit-group">
-        <label>Select Unit</label>
+        <label>Select Unit / Activity</label>
         <select id="unitSelect" onchange="checkStatus()"></select>
     </div>
 
     <button class="btn" id="startBtn" onclick="start()" disabled>Start Quest</button>
-    <p id="msg" style="margin-top:15px; font-weight:500; color:var(--danger); font-size:0.9rem;"></p>
+    <p id="msg" style="margin-top:15px; font-weight:500; font-size:0.95rem;"></p>
 </section>
 
 <section id="screen-menu" class="screen hidden">
@@ -241,7 +223,7 @@
 </section>
 
 <section id="screen-act" class="screen hidden">
-    <div style="text-align:left; margin-bottom:20px;">
+    <div style="text-align:left; margin-bottom:20px;" id="act-back-btn-container">
         <button class="btn" style="padding:8px 16px; margin:0; font-size:0.9rem; background:#cbd5e1; color:#0f172a;" onclick="show('menu')"><i class="fas fa-arrow-left"></i> Back to Menu</button>
     </div>
     <div id="act-content"></div>
@@ -250,7 +232,8 @@
 <section id="screen-cert" class="screen hidden">
     <div class="cert-area">
         <i class="fas fa-award" style="font-size:4rem; color:var(--primary-blue); margin-bottom:10px;"></i>
-        <h1 style="font-size:2rem;">Quest Completed!</h1>
+        <div id="review-badge"><i class="fas fa-info-circle"></i> Review Mode - Score not saved</div>
+        <h1 style="font-size:2rem;" id="cert-title">Quest Completed!</h1>
         <p style="font-size:1.1rem; color:var(--text-muted);">This certifies that</p>
         <span id="cert-name"></span>
         <p style="font-size:1.1rem; color:var(--text-muted); margin-top:10px;">has successfully completed</p>
@@ -271,51 +254,78 @@
 
 <script>
 // ================================================================
+//  QUOTES
+// ================================================================
+const motivationalQuotes = [
+    "“The secret of getting ahead is getting started.” – Mark Twain",
+    "“Mistakes are proof that you are trying.”",
+    "“Believe you can and you're halfway there.” – Theodore Roosevelt",
+    "“It always seems impossible until it's done.” – Nelson Mandela",
+    "“Don't watch the clock; do what it does. Keep going.” – Sam Levenson",
+    "“A little progress each day adds up to big results.”"
+];
+
+function setWeeklyQuote() {
+    let weekNumber = Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7));
+    let quoteIndex = weekNumber % motivationalQuotes.length;
+    document.getElementById('motivational-quote').textContent = motivationalQuotes[quoteIndex];
+}
+
+// ================================================================
 //  DATABASE
 // ================================================================
 const DB = {
     "10th - Unit 4": {
-        words: ["Boiling", "Drizzling", "Pouring", "Flooding", "Windy", "Sunny", "Heat", "Scarf"],
+        type: "normal",
+        words: ["Boiling", "Drizzling", "Pouring", "Flooding", "Heat", "Hot", "Scarf", "Gloves", "Raining", "Umbrella"],
         defs:  [
-            "Extremely hot, like water bubbling.",
+            "Extremely hot.",
             "A fine, light rain falling from the sky.",
             "To rain very hard and heavily.",
             "When a lot of water rises and covers normally dry land.",
-            "Having a lot of strong wind blowing.",
-            "Bright with strong sunlight.",
             "The noun we use to talk about the condition of being hot.",
-            "A warm piece of cloth worn around the neck."
+            "Having a high temperature.",
+            "A warm piece of cloth worn around the neck.",
+            "Clothing you wear on your hands to keep them warm.",
+            "Water falling in drops from the clouds.",
+            "An object you hold over your head to stay dry in the rain."
         ],
-        // Generado para evitar fallos en Scrolls y Fill the Blanks
+        // Auto-generated fields to prevent app breakage in normal flow
         examples: [
-            "Be careful, the soup is boiling.",
-            "It is drizzling outside right now.",
-            "We can't go out, it is pouring rain.",
+            "Be careful, the water is boiling.",
+            "It's lightly drizzling outside.",
+            "We can't go out, it's pouring rain.",
             "The heavy rain is flooding the streets.",
-            "It is too windy to use an umbrella.",
-            "It's a beautiful sunny day.",
-            "The heat in summer is unbearable.",
-            "She wrapped a scarf around her neck."
+            "The heat in summer is intense.",
+            "It is a very hot day.",
+            "She wrapped a scarf around her neck.",
+            "Put on your gloves to stay warm.",
+            "It is raining today.",
+            "Take an umbrella so you don't get wet."
         ],
         cloze: [
-            "Be careful, the soup is ________.",
-            "It is ________ outside right now.",
-            "We can't go out, it is ________ rain.",
+            "Be careful, the water is ________.",
+            "It's lightly ________ outside.",
+            "We can't go out, it's ________ rain.",
             "The heavy rain is ________ the streets.",
-            "It is too ________ to use an umbrella.",
-            "It's a beautiful ________ day.",
-            "The ________ in summer is unbearable.",
-            "She wrapped a ________ around her neck."
+            "The ________ in summer is intense.",
+            "It is a very ________ day.",
+            "She wrapped a ________ around her neck.",
+            "Put on your ________ to stay warm.",
+            "It is ________ today.",
+            "Take an ________ so you don't get wet."
         ],
         hints: [
-            "Extremely hot liquid or weather.",
-            "Very light rain.",
+            "Extremely hot water.",
+            "Light rain.",
             "Very heavy rain.",
-            "Excess water covering dry land.",
-            "Strong air moving.",
-            "Bright daylight.",
-            "High temperature (noun).",
-            "Worn around the neck."
+            "Water covering the streets.",
+            "Noun for high temperature.",
+            "Adjective for high temperature.",
+            "Worn around the neck.",
+            "Worn on the hands.",
+            "Water falling from clouds.",
+            "Used to stay dry in the rain."
         ],
         sentences: [
             { s:"boiling / tomorrow. / It / will / be",                            c:"It will be boiling tomorrow." },
@@ -326,26 +336,36 @@ const DB = {
             { s:"pouring / Tomorrow / be / rain. / will / it",                     c:"Tomorrow it will be pouring rain." },
             { s:"drizzling, / umbrella. / need / It / is / an / I / so / won't",   c:"It is drizzling, so I won't need an umbrella." }
         ]
+    },
+    "9th - Recovery Exam": {
+        type: "exam",
+        questions: [
+            { q: "Choose the correct number: Twelve", opts: ["20", "12", "2", "22"], a: 1 },
+            { q: "Choose the correct number: Forty", opts: ["14", "40", "4", "44"], a: 1 },
+            { q: "Choose the correct number: One hundred", opts: ["1,000", "10,000", "100", "10"], a: 2 },
+            { q: "The person who assists customers in-store.", opts: ["Clerk", "Driver", "Department Store", "Customer"], a: 0 },
+            { q: "A large area inside of a mall where restaurants sell food.", opts: ["Shop", "Store", "Food Court", "Food"], a: 2 },
+            { q: "Food that is quick and easy to prepare but is bad for your health.", opts: ["Healthy food", "Food court", "Junk food", "Fast food"], a: 2 },
+            { q: "The money returned to you when you pay more than the exact price.", opts: ["Change", "Beef", "Fries", "Shake"], a: 0 },
+            { q: "Please _______ your books to page 21.", opts: ["Opening", "Open", "Opens", "To open"], a: 1 },
+            { q: "I'm really tired. _______ go to the party tonight.", opts: ["Let's not", "Not", "Never", "Let not"], a: 0 },
+            { q: "You should be quiet in the library. _______ so loudly!", opts: ["Talk", "Let's talk", "Don't talk", "No talk"], a: 2 },
+            { q: "_______ any department stores near here?", opts: ["There are", "Are there", "There is", "Is there"], a: 1 },
+            { q: "How _______ passengers are on the bus?", opts: ["is", "much", "are", "many"], a: 3 },
+            { q: "What does the name 'Shinsegae' mean in English?", opts: ["Center City", "Shopping World", "New World", "Big Building"], a: 2 },
+            { q: "Why do most people reach for fats and sweets when they get home?", opts: ["Because they are cheap.", "Because they are busy and their bodies need energy.", "Because they don't know how to cook.", "Because doctors recommend them."], a: 1 },
+            { q: "What happens in the brain immediately after eating junk food?", opts: ["It shuts down to rest.", "It creates a special chemical that makes us feel good.", "It loses short-term memory.", "It immediately signals a need for water."], a: 1 }
+        ]
     }
 };
 
-const motivationalQuotes = [
-    "“The secret of getting ahead is getting started.” – Mark Twain",
-    "“Mistakes are proof that you are trying.”",
-    "“Believe you can and you're halfway there.” – Theodore Roosevelt",
-    "“It always seems impossible until it's done.” – Nelson Mandela",
-    "“Don't watch the clock; do what it does. Keep going.” – Sam Levenson",
-    "“A little progress each day adds up to big results.”"
-];
-
 let state = { name:"", section:"", unit:"", scores:{}, done:{}, firstTryPoints: 0, totalPossiblePoints: 0 };
+let isReviewMode = false;
 
 window.onload = function() {
-    let weekIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7)) % motivationalQuotes.length;
-    document.getElementById('motivational-quote').textContent = motivationalQuotes[weekIndex];
-    
+    setWeeklyQuote();
     var sel = document.getElementById('unitSelect');
-    sel.innerHTML = '<option value="">-- Select Unit --</option>';
+    sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
     Object.keys(DB).forEach(function(k) {
         var opt = document.createElement('option'); opt.value = k; opt.textContent = k;
         sel.appendChild(opt);
@@ -372,15 +392,27 @@ function checkStatus() {
     var msg = document.getElementById('msg');
     
     if (!name || !section || !unit) { 
-        btn.disabled = true; msg.textContent = ''; return; 
+        btn.disabled = true; 
+        btn.textContent = "Start Quest";
+        btn.style.backgroundColor = "var(--primary-blue)";
+        msg.textContent = ''; 
+        return; 
     }
 
     var key = name.toLowerCase() + '-' + section + '-' + unit;
     if (localStorage.getItem(key) === 'COMPLETED') {
-        msg.textContent = '⚠️ You have already completed and submitted this quest.';
-        btn.disabled = true;
+        isReviewMode = true;
+        btn.disabled = false;
+        btn.textContent = "Review Mode 🔁";
+        btn.style.backgroundColor = "var(--warning)";
+        msg.textContent = 'You completed this previously. Score will not be saved.';
+        msg.style.color = "var(--warning)";
     } else {
-        msg.textContent = ''; btn.disabled = false;
+        isReviewMode = false;
+        btn.disabled = false;
+        btn.textContent = "Start Quest";
+        btn.style.backgroundColor = "var(--primary-blue)";
+        msg.textContent = ''; 
     }
 }
 
@@ -433,11 +465,22 @@ function start() {
     var section = document.getElementById('sectionSelect').value;
     var unit = document.getElementById('unitSelect').value;
     var data = DB[unit];
-    var totalPoints = data.words.length * 2 + data.sentences.length; 
+    
+    var totalPoints = 0;
+    if (data.type === "normal") {
+        totalPoints = data.words.length * 2 + data.sentences.length; 
+    } else if (data.type === "exam") {
+        totalPoints = data.questions.length;
+    }
     
     state = { name: name, section: section, unit: unit, scores: {}, done: {}, firstTryPoints: 0, totalPossiblePoints: totalPoints };
     document.getElementById('userGreet').textContent = 'Welcome, ' + name.split(' ')[0];
-    show('menu');
+    
+    if (data.type === "exam") {
+        goExam();
+    } else {
+        show('menu');
+    }
 }
 
 function go(activity) {
@@ -445,10 +488,22 @@ function go(activity) {
     show('act');
     var container = document.getElementById('act-content');
     container.innerHTML = ''; 
+    document.getElementById('act-back-btn-container').style.display = 'block';
+
     if      (activity === 'scrolls')   renderScrolls(container, data);
     else if (activity === 'quiz')      renderQuiz(container, data);
     else if (activity === 'chamber')   renderChamber(container, data);
     else if (activity === 'blanks')    renderBlanks(container, data);
+}
+
+function goExam() {
+    var data = DB[state.unit];
+    show('act');
+    var container = document.getElementById('act-content');
+    container.innerHTML = '';
+    // Hide standard back button to prevent escaping the exam accidentally
+    document.getElementById('act-back-btn-container').style.display = 'none';
+    renderRecoveryExam(container, data);
 }
 
 function speak(text) {
@@ -458,6 +513,9 @@ function speak(text) {
     window.speechSynthesis.speak(u);
 }
 
+// ================================================================
+//  NORMAL ACTIVITIES
+// ================================================================
 function renderScrolls(container, data) {
     var idx = 0;
     container.innerHTML =
@@ -613,23 +671,100 @@ function renderBlanks(container, data) {
     render();
 }
 
+// ================================================================
+//  EXAM MODE
+// ================================================================
+function renderRecoveryExam(container, data) {
+    var qPos = 0;
+    var score = 0;
+
+    function render() {
+        var qObj = data.questions[qPos];
+        var pct = Math.round((qPos / data.questions.length) * 100);
+        
+        var optHtml = qObj.opts.map(function(o,i) {
+            return '<div class="quiz-option" id="eopt-'+i+'" onclick="window.checkExamOpt('+i+','+qObj.a+')">' + o + '</div>';
+        }).join('');
+
+        container.innerHTML =
+            '<h2 style="color:var(--danger);">Recovery Exam <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.questions.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="background:var(--danger); width:'+pct+'%;"></div></div></div>' +
+            '<p style="font-size:1.3rem; margin:20px 0; font-weight:600; color:var(--text-main);">' + qObj.q + '</p>' +
+            optHtml +
+            '<div id="next-box" style="display:none; margin-top:20px;"><button class="btn" onclick="window.nextExamQ()">Next Question <i class="fas fa-arrow-right"></i></button></div>';
+
+        window.checkExamOpt = function(chosen, correct) {
+            if(document.querySelector('.quiz-option.correct') || document.querySelector('.quiz-option.wrong')) return;
+            
+            var chosenEl = document.getElementById('eopt-'+chosen);
+            var correctEl = document.getElementById('eopt-'+correct);
+
+            if (chosen === correct) {
+                chosenEl.classList.add('correct');
+                score++;
+            } else {
+                chosenEl.classList.add('wrong');
+                correctEl.classList.add('correct');
+            }
+            
+            document.getElementById('next-box').style.display = 'block';
+        };
+
+        window.nextExamQ = function() {
+            qPos++;
+            if (qPos < data.questions.length) {
+                render();
+            } else {
+                state.firstTryPoints = score;
+                claimCert(); 
+            }
+        };
+    }
+    render();
+}
+
+// ================================================================
+//  CERTIFICATE + SEND TO GOOGLE SHEETS
+// ================================================================
 function claimCert() {
     var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
     var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
 
-    var urlGoogleScript = "https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec";
-    var formData = new FormData();
-    formData.append("name", state.name); formData.append("section", state.section); formData.append("unit", state.unit); formData.append("score", finalGrade); 
-    
-    fetch(urlGoogleScript, { method:"POST", body:formData, mode:"no-cors" }).catch(e => console.error("Error submitting grade:", e));
-    localStorage.setItem(state.name.toLowerCase() + '-' + state.section + '-' + state.unit, 'COMPLETED');
+    var isExam = DB[state.unit].type === "exam";
+
+    if (!isReviewMode) {
+        var urlGoogleScript = "https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec";
+        var formData = new FormData();
+        formData.append("name", state.name); 
+        formData.append("section", state.section); 
+        formData.append("unit", state.unit); 
+        formData.append("score", finalGrade); 
+        
+        fetch(urlGoogleScript, { method:"POST", body:formData, mode:"no-cors" }).catch(e => console.error("Error submitting grade:", e));
+        localStorage.setItem(state.name.toLowerCase() + '-' + state.section + '-' + state.unit, 'COMPLETED');
+    }
 
     show('cert');
-    document.getElementById('cert-name').textContent = state.name; document.getElementById('cert-unit').textContent = state.unit; document.getElementById('cert-final-grade').textContent = finalGrade;
+    document.getElementById('cert-name').textContent = state.name; 
+    document.getElementById('cert-unit').textContent = state.unit; 
+    document.getElementById('cert-final-grade').textContent = finalGrade;
+    
+    if (isExam) {
+        document.getElementById('cert-title').textContent = "Exam Completed!";
+    } else {
+        document.getElementById('cert-title').textContent = "Quest Completed!";
+    }
+
+    if (isReviewMode) {
+        document.getElementById('review-badge').style.display = 'block';
+    } else {
+        document.getElementById('review-badge').style.display = 'none';
+    }
     
     var circle = document.getElementById('grade-circle');
     if (finalGrade >= 8.0) { circle.style.backgroundColor = 'var(--success)'; } else if (finalGrade >= 6.0) { circle.style.backgroundColor = 'var(--warning)'; } else { circle.style.backgroundColor = 'var(--danger)'; }
-    document.getElementById('cert-time').textContent = 'Submitted: ' + new Date().toLocaleString(); document.getElementById('cert-code').textContent = 'AUTH: ' + Math.random().toString(36).substr(2,9).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
+    document.getElementById('cert-time').textContent = 'Completed: ' + new Date().toLocaleString(); 
+    document.getElementById('cert-code').textContent = 'AUTH: ' + Math.random().toString(36).substr(2,9).toUpperCase() + '-' + Date.now().toString(36).toUpperCase();
 }
 </script>
 </body>
