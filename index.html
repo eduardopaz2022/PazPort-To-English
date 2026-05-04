@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google" content="notranslate">
     <title>Pazport to English</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -261,23 +262,33 @@
 </div>
 
 <script>
+// ================================================================
+//  QUOTES
+// ================================================================
 const motivationalQuotes = [
     "“The secret of getting ahead is getting started.” – Mark Twain",
     "“Mistakes are proof that you are trying.”",
     "“Believe you can and you're halfway there.” – Theodore Roosevelt",
     "“It always seems impossible until it's done.” – Nelson Mandela",
     "“Don't watch the clock; do what it does. Keep going.” – Sam Levenson",
-    "“A little progress each day adds up to big results.”"
+    "“A little progress each day adds up to big results.”",
+    "“You don't have to be great to start, but you have to start to be great.” – Zig Ziglar",
+    "“The expert in anything was once a beginner.” – Helen Hayes",
+    "“Success is the sum of small efforts, repeated day in and day out.” – Robert Collier",
+    "“Strive for progress, not perfection.”"
 ];
 
-function setWeeklyQuote() {
-    let weekNumber = Math.floor(Date.now() / (1000 * 60 * 60 * 24 * 7));
-    let quoteIndex = weekNumber % motivationalQuotes.length;
+function setDailyQuote() {
+    let dayNumber = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+    let quoteIndex = dayNumber % motivationalQuotes.length;
     document.getElementById('motivational-quote').textContent = motivationalQuotes[quoteIndex];
 }
 
+// ================================================================
+//  DATABASE
+// ================================================================
 const DB = {
-    "10th - Unit 4 Part 1": {
+    "10th - Unit 4": {
         type: "normal",
         words: ["Boiling", "Drizzling", "Pouring", "Flooding", "Heat", "Hot", "Scarf", "Gloves", "Raining", "Umbrella"],
         defs:  [
@@ -293,72 +304,91 @@ const DB = {
             "An object you hold over your head to stay dry in the rain."
         ],
         examples: [
-            "The water will be boiling.",
-            "It won't be drizzling today.",
-            "It will be pouring tonight.",
-            "The street won't be flooding.",
-            "The heat will be terrible.",
-            "It won't be hot tomorrow.",
-            "I will wear a red scarf.",
-            "She won't need warm gloves.",
-            "It will be raining later.",
-            "He won't bring an umbrella."
+            "The bubbling water will be boiling.",
+            "The light rain will be drizzling.",
+            "The heavy storm will be pouring.",
+            "The full river will be flooding.",
+            "The summer heat will be terrible.",
+            "The sunny day will be hot.",
+            "Your cold neck will need a scarf.",
+            "Your cold hands will need gloves.",
+            "The gray clouds will be raining.",
+            "The dry boy will bring an umbrella."
         ],
         cloze: [
-            "The water will be ________.",
-            "It won't be ________ today.",
-            "It will be ________ tonight.",
-            "The street won't be ________.",
-            "The ________ will be terrible.",
-            "It won't be ________ tomorrow.",
-            "I will wear a red ________.",
-            "She won't need warm ________.",
-            "It will be ________ later.",
-            "He won't bring an ________."
+            "The bubbling water will be ________.",
+            "The light rain will be ________.",
+            "The heavy storm will be ________.",
+            "The full river will be ________.",
+            "The summer ________ will be terrible.",
+            "The sunny day will be ________.",
+            "Your cold neck will need a ________.",
+            "Your cold hands will need ________.",
+            "The gray clouds will be ________.",
+            "The dry boy will bring an ________."
         ],
         hints: [
-            "Extremely hot water.",
-            "Light rain.",
-            "Heavy rain.",
-            "Water covering dry land.",
+            "Extremely hot liquid.",
+            "Very light rain.",
+            "Very heavy rain.",
+            "Water rising over dry land.",
             "Noun for high temperature.",
             "Adjective for high temperature.",
-            "Worn around the neck.",
-            "Worn on hands.",
+            "Clothing for the neck.",
+            "Clothing for the hands.",
             "Water falling from clouds.",
-            "Used to stay dry."
+            "Used to stay dry in rain."
         ],
         sentences: [
-            { s:"water / boiling. / The / will / be", c:"The water will be boiling." },
-            { s:"today. / drizzling / It / won't / be", c:"It won't be drizzling today." },
-            { s:"pouring / tonight. / It / will / be", c:"It will be pouring tonight." },
-            { s:"street / flooding. / The / won't / be", c:"The street won't be flooding." },
-            { s:"terrible. / heat / The / will / be", c:"The heat will be terrible." },
-            { s:"be / tomorrow. / It / won't / hot", c:"It won't be hot tomorrow." },
-            { s:"wear / scarf. / I / will / a / red", c:"I will wear a red scarf." },
-            { s:"need / gloves. / She / won't / warm", c:"She won't need warm gloves." },
-            { s:"raining / later. / It / will / be", c:"It will be raining later." },
-            { s:"umbrella. / He / bring / won't / an", c:"He won't bring an umbrella." }
+            { s:"water / boiling. / bubbling / The / will / be", c:"The bubbling water will be boiling." },
+            { s:"drizzling. / light / rain / The / will / be", c:"The light rain will be drizzling." },
+            { s:"pouring. / storm / heavy / The / will / be", c:"The heavy storm will be pouring." },
+            { s:"river / flooding. / full / The / will / be", c:"The full river will be flooding." },
+            { s:"heat / terrible. / summer / The / will / be", c:"The summer heat will be terrible." },
+            { s:"day / sunny / The / will / be / hot.", c:"The sunny day will be hot." },
+            { s:"neck / need / cold / Your / will / scarf. / a", c:"Your cold neck will need a scarf." },
+            { s:"hands / need / gloves. / cold / Your / will", c:"Your cold hands will need gloves." },
+            { s:"gray / raining. / The / clouds / will / be", c:"The gray clouds will be raining." },
+            { s:"boy / bring / umbrella. / dry / The / will / an", c:"The dry boy will bring an umbrella." }
         ]
     },
     "9th - Recovery Exam": {
         type: "exam",
         questions: [
+            // Numbers (10 questions)
             { q: "Choose the correct number: Twelve", opts: ["20", "12", "2", "22"], a: 1 },
+            { q: "Choose the correct number: Thirteen", opts: ["30", "33", "13", "3"], a: 2 },
             { q: "Choose the correct number: Forty", opts: ["14", "40", "4", "44"], a: 1 },
+            { q: "Choose the correct number: Fifty", opts: ["15", "5", "50", "55"], a: 2 },
             { q: "Choose the correct number: One hundred", opts: ["1,000", "10,000", "100", "10"], a: 2 },
+            { q: "Choose the correct number: Twenty", opts: ["20", "12", "2", "22"], a: 0 },
+            { q: "Choose the correct number: Thirty", opts: ["30", "33", "13", "3"], a: 0 },
+            { q: "Choose the correct number: Ninety-Nine", opts: ["9", "19", "99", "29"], a: 2 },
+            { q: "Choose the correct number: Four", opts: ["40", "14", "4", "44"], a: 2 },
+            { q: "Choose the correct number: Eighteen", opts: ["8", "18", "88", "28"], a: 1 },
+            // Vocabulary (10 questions)
             { q: "The person who assists customers in-store.", opts: ["Clerk", "Driver", "Department Store", "Customer"], a: 0 },
+            { q: "A room with toilets that is in a public place.", opts: ["Classroom", "Restroom", "Bedroom", "Shop"], a: 1 },
             { q: "A large area inside of a mall where restaurants sell food.", opts: ["Shop", "Store", "Food Court", "Food"], a: 2 },
-            { q: "Food that is quick and easy to prepare but is bad for your health.", opts: ["Healthy food", "Food court", "Junk food", "Fast food"], a: 2 },
-            { q: "The money returned to you when you pay more than the exact price.", opts: ["Change", "Beef", "Fries", "Shake"], a: 0 },
-            { q: "Please _______ your books to page 21.", opts: ["Opening", "Open", "Opens", "To open"], a: 1 },
+            { q: "A large area full of trees and plants.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 3 },
+            { q: "A piece of land surrounded by water.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 0 },
+            { q: "Water falling from a high place into a pool.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 1 },
+            { q: "Low land between hills or mountains.", opts: ["Island", "Waterfall", "Valley", "Forest"], a: 2 },
+            { q: "A very large expanse of sea.", opts: ["Sea", "Waterfall", "Valley", "Ocean"], a: 3 },
+            { q: "To take goods or food to a person's home or workplace.", opts: ["Deliver", "Order", "Waitress/Waiter", "Refund"], a: 0 },
+            { q: "To ask for food or drinks in a restaurant.", opts: ["Deliver", "Order", "Waitress/Waiter", "Refund"], a: 1 },
+            // Grammar (5 questions)
+            { q: "_______ the milk tea. It's delicious.", opts: ["Try", "Trying", "To try", "Should try"], a: 0 },
+            { q: "Good morning, students. Please _______ your books to page 21.", opts: ["Opening", "Open", "Opens", "To opening"], a: 1 },
             { q: "I'm really tired. _______ go to the party tonight.", opts: ["Let's not", "Not", "Never", "Let not"], a: 0 },
+            { q: "It's very cold today, so _______ a warm coat.", opts: ["be bringing", "bring", "bringing", "does bring"], a: 1 },
             { q: "You should be quiet in the library. _______ so loudly!", opts: ["Talk", "Let's talk", "Don't talk", "No talk"], a: 2 },
-            { q: "_______ any department stores near here?", opts: ["There are", "Are there", "There is", "Is there"], a: 1 },
-            { q: "How _______ passengers are on the bus?", opts: ["is", "much", "are", "many"], a: 3 },
-            { q: "What does the name 'Shinsegae' mean in English?", opts: ["Center City", "Shopping World", "New World", "Big Building"], a: 2 },
-            { q: "Why do most people reach for fats and sweets when they get home?", opts: ["Because they are cheap.", "Because they are busy and their bodies need energy.", "Because they don't know how to cook.", "Because doctors recommend them."], a: 1 },
-            { q: "What happens in the brain immediately after eating junk food?", opts: ["It shuts down to rest.", "It creates a special chemical that makes us feel good.", "It loses short-term memory.", "It immediately signals a need for water."], a: 1 }
+            // Readings (5 questions)
+            { text: "Do you like shopping? The biggest department store in the world is in South Korea. It is called Shinsegae, and it is in Centum City in Busan. The name means 'new world' in Korean. The store is 14 stories tall. The space is enough to fit 2,300 houses. That's bigger than Macy's in New York. More than 6,000 people work there. It has books, clothes, toys, and a lot more. You can even ice-skate there or play golf on the golf course. There's a large roof garden too. It also has a new type of restaurant. Cine de Chef serves great food and shows the newest movies. It's easy to get there. You can take the subway from Busan or the train from Seoul to get to Centum City.", q: "What does the name 'Shinsegae' mean in English?", opts: ["Center City", "Shopping World", "New World", "Big Building"], a: 2 },
+            { text: "Do you like shopping? The biggest department store in the world is in South Korea. It is called Shinsegae, and it is in Centum City in Busan. The name means 'new world' in Korean. The store is 14 stories tall. The space is enough to fit 2,300 houses. That's bigger than Macy's in New York. More than 6,000 people work there. It has books, clothes, toys, and a lot more. You can even ice-skate there or play golf on the golf course. There's a large roof garden too. It also has a new type of restaurant. Cine de Chef serves great food and shows the newest movies. It's easy to get there. You can take the subway from Busan or the train from Seoul to get to Centum City.", q: "How large is the store compared to other objects?", opts: ["As big as 10 football stadiums", "Large enough to fit 2,300 houses", "Smaller than Macy's in New York", "The size of the entire city of Seoul"], a: 1 },
+            { text: "Most people are very busy. When they come home, their bodies need food for energy. Usually, though, these people will reach for fats, oils, and sweets. When we eat these junk foods, our brains make a special chemical. That chemical makes us feel good right away. However, it doesn't last long. An hour later, the chemical goes away. Then, we feel tired again. Most people fix this by eating more junk food. Of course, we know what happens an hour later. The circle never ends. Over time, these eating habits can cause big problems. People start having trouble with their sleep, focus, and memory. Many people even get upset easily.", q: "Why do most people reach for fats and sweets when they get home?", opts: ["Because they are cheap.", "Because they are busy and their bodies need energy.", "Because they don't know how to cook.", "Because doctors recommend them."], a: 1 },
+            { text: "Most people are very busy. When they come home, their bodies need food for energy. Usually, though, these people will reach for fats, oils, and sweets. When we eat these junk foods, our brains make a special chemical. That chemical makes us feel good right away. However, it doesn't last long. An hour later, the chemical goes away. Then, we feel tired again. Most people fix this by eating more junk food. Of course, we know what happens an hour later. The circle never ends. Over time, these eating habits can cause big problems. People start having trouble with their sleep, focus, and memory. Many people even get upset easily.", q: "What happens in the brain immediately after eating junk food?", opts: ["It shuts down to rest.", "It creates a special chemical that makes us feel good.", "It loses short-term memory.", "It immediately signals a need for water."], a: 1 },
+            { text: "Most people are very busy. When they come home, their bodies need food for energy. Usually, though, these people will reach for fats, oils, and sweets. When we eat these junk foods, our brains make a special chemical. That chemical makes us feel good right away. However, it doesn't last long. An hour later, the chemical goes away. Then, we feel tired again. Most people fix this by eating more junk food. Of course, we know what happens an hour later. The circle never ends. Over time, these eating habits can cause big problems. People start having trouble with their sleep, focus, and memory. Many people even get upset easily.", q: "Which of the following is a long-term problem caused by these habits?", opts: ["Improved memory.", "Trouble with sleep, focus, and memory.", "Increased patience with others.", "A natural boost in energy."], a: 1 }
         ]
     }
 };
@@ -367,7 +397,7 @@ let state = { name:"", section:"", unit:"", scores:{}, done:{}, firstTryPoints: 
 let isReviewMode = false;
 
 window.onload = function() {
-    setWeeklyQuote();
+    setDailyQuote();
 };
 
 function updateCascade() {
@@ -377,7 +407,6 @@ function updateCascade() {
     
     if (section) {
         unitGroup.classList.remove('hidden');
-        
         var gradePrefix = "";
         if (section.startsWith("9")) gradePrefix = "9th";
         else if (section.startsWith("10")) gradePrefix = "10th";
@@ -392,7 +421,6 @@ function updateCascade() {
                 sel.appendChild(opt);
             }
         });
-
         if (sel.options.length === 1) {
             var opt = document.createElement('option');
             opt.value = ""; opt.textContent = "-- No quests available --";
@@ -445,7 +473,6 @@ function show(screen) {
 function updateXPBar() {
     var activities = ['scrolls','quiz','chamber','blanks'];
     var done = activities.filter(function(a) { return state.done[a]; }).length;
-    
     document.getElementById('xp-fill').style.width = (done / activities.length * 100) + '%';
     document.getElementById('xp-text').textContent = done + ' / ' + activities.length + ' activities';
 
@@ -487,20 +514,13 @@ function start() {
     var data = DB[unit];
     
     var totalPoints = 0;
-    if (data.type === "normal") {
-        totalPoints = data.words.length * 2 + data.sentences.length; 
-    } else if (data.type === "exam") {
-        totalPoints = data.questions.length;
-    }
+    if (data.type === "normal") { totalPoints = data.words.length * 2 + data.sentences.length; } 
+    else if (data.type === "exam") { totalPoints = data.questions.length; }
     
     state = { name: name, section: section, unit: unit, scores: {}, done: {}, firstTryPoints: 0, totalPossiblePoints: totalPoints };
     document.getElementById('userGreet').textContent = 'Welcome, ' + name.split(' ')[0];
     
-    if (data.type === "exam") {
-        goExam();
-    } else {
-        show('menu');
-    }
+    if (data.type === "exam") { goExam(); } else { show('menu'); }
 }
 
 function go(activity) {
@@ -569,9 +589,7 @@ function renderScrolls(container, data) {
 }
 
 function renderQuiz(container, data) {
-    var qPos = 0; 
-    var failCount = 0;
-
+    var qPos = 0; var failCount = 0;
     function render() {
         var wordIdx = qPos; var correctDef = data.defs[wordIdx];
         var wrongPool = data.defs.filter(function(_, i) { return i !== wordIdx; }).sort(function() { return Math.random()-0.5; }).slice(0,3);
@@ -589,7 +607,6 @@ function renderQuiz(container, data) {
         window.checkQuizOpt = function(chosen, correct) {
             var chosenEl = document.getElementById('qopt-'+chosen);
             if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
-            
             if (chosen === correct) {
                 chosenEl.classList.add('correct');
                 if (failCount < 2) state.firstTryPoints++; 
@@ -598,14 +615,10 @@ function renderQuiz(container, data) {
                     qPos++;
                     if (qPos < data.words.length) { render(); } else {
                         state.done['quiz'] = true; document.getElementById('s-quiz').classList.remove('hidden'); updateXPBar();
-                        container.innerHTML = '<h2>Quiz Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Excellent work.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                        container.innerHTML = '<h2>Quiz Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Excellent work. You mastered all definitions.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
                     }
                 }, 1000);
-            } else { 
-                failCount++; 
-                chosenEl.classList.add('wrong'); 
-                document.getElementById('hint-box').classList.add('active'); 
-            }
+            } else { failCount++; chosenEl.classList.add('wrong'); document.getElementById('hint-box').classList.add('active'); }
         };
     }
     render();
@@ -658,11 +671,7 @@ function renderChamber(container, data) {
                     container.innerHTML = '<h2>Sentence Builder Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great syntax skills!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
                 }
             }, 1000);
-        } else { 
-            failCount++; 
-            document.getElementById('hint-box').classList.add('active'); 
-            clearTiles(); 
-        }
+        } else { failCount++; document.getElementById('hint-box').classList.add('active'); clearTiles(); }
     }
     render();
 }
@@ -700,12 +709,7 @@ function renderBlanks(container, data) {
                         container.innerHTML = '<h2>Fill in the Blanks Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Spelling and context mastered.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
                     }
                 }, 1000);
-            } else { 
-                failCount++; 
-                inputEl.value = ''; inputEl.style.borderColor = 'var(--danger)'; 
-                document.getElementById('hint-box').classList.add('active'); 
-                inputEl.focus(); 
-            }
+            } else { failCount++; inputEl.value = ''; inputEl.style.borderColor = 'var(--danger)'; document.getElementById('hint-box').classList.add('active'); inputEl.focus(); }
         };
     }
     render();
@@ -759,10 +763,35 @@ function renderRecoveryExam(container, data) {
                 render();
             } else {
                 state.firstTryPoints = score;
-                claimCert(); 
+                showExamResults();
             }
         };
     }
+
+    function showExamResults() {
+        var rawScore = (state.firstTryPoints / data.questions.length) * 10;
+        var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
+
+        container.innerHTML = 
+            '<h2 style="color:var(--danger);">Exam Finished</h2>' +
+            '<div class="final-grade-circle" style="background:var(--danger); box-shadow:0 10px 20px rgba(220,38,38,0.2);">' +
+                '<span>' + finalGrade + '</span><small>Grade</small>' +
+            '</div>' +
+            '<p style="font-size:1.1rem; color:var(--text-muted); margin-bottom: 20px;">You can try again to improve your score, or submit it now.</p>' +
+            '<div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">' +
+                '<button class="btn" style="background:var(--warning);" onclick="window.retryExam()"><i class="fas fa-redo"></i> Try Again</button>' +
+                '<button class="btn" style="background:var(--success);" onclick="window.submitExam()"><i class="fas fa-paper-plane"></i> Submit Grade</button>' +
+            '</div>';
+    }
+
+    window.retryExam = function() {
+        qPos = 0; score = 0; render();
+    };
+
+    window.submitExam = function() {
+        claimCert();
+    };
+
     render();
 }
 
