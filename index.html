@@ -28,6 +28,8 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
+            background-image: radial-gradient(rgba(37, 99, 235, 0.1) 2px, transparent 2px);
+            background-size: 30px 30px;
             color: var(--text-main);
             min-height: 100vh;
             padding: 20px 10px;
@@ -47,7 +49,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
             font-size: 40vw;
-            color: rgba(37, 99, 235, 0.04);
+            color: rgba(37, 99, 235, 0.08); /* Opacidad aumentada para ser visible */
             z-index: -1;
             pointer-events: none;
         }
@@ -324,7 +326,6 @@ const DB = {
             "Doing something 100% of the time.",
             "Doing something 0% of the time."
         ],
-        // Ultra-simple Present Simple sentences
         examples: [
             "I always make my bed.",
             "I often use a pillow.",
@@ -389,7 +390,6 @@ const DB = {
             "Water falling in drops from the clouds.",
             "An object you hold over your head to stay dry in the rain."
         ],
-        // Ultra-simple Future sentences
         examples: [
             "The water will be boiling.",
             "It won't be drizzling today.",
@@ -397,8 +397,8 @@ const DB = {
             "The street won't be flooding.",
             "The heat will be terrible.",
             "It won't be hot tomorrow.",
-            "I will wear a scarf.",
-            "She won't need gloves.",
+            "I will wear a red scarf.",
+            "She won't need warm gloves.",
             "It will be raining later.",
             "He won't bring an umbrella."
         ],
@@ -409,8 +409,8 @@ const DB = {
             "The street won't be ________.",
             "The ________ will be terrible.",
             "It won't be ________ tomorrow.",
-            "I will wear a ________.",
-            "She won't need ________.",
+            "I will wear a red ________.",
+            "She won't need warm ________.",
             "It will be ________ later.",
             "He won't bring an ________."
         ],
@@ -433,8 +433,8 @@ const DB = {
             { s:"street / flooding. / The / won't / be", c:"The street won't be flooding." },
             { s:"terrible. / heat / The / will / be", c:"The heat will be terrible." },
             { s:"be / tomorrow. / It / won't / hot", c:"It won't be hot tomorrow." },
-            { s:"wear / scarf. / I / will / a", c:"I will wear a scarf." },
-            { s:"need / gloves. / She / won't", c:"She won't need gloves." },
+            { s:"wear / scarf. / I / will / a / red", c:"I will wear a red scarf." },
+            { s:"need / gloves. / She / won't / warm", c:"She won't need warm gloves." },
             { s:"raining / later. / It / will / be", c:"It will be raining later." },
             { s:"umbrella. / He / bring / won't / an", c:"He won't bring an umbrella." }
         ]
@@ -478,7 +478,7 @@ const DB = {
 
 let state = { name:"", section:"", unit:"", scores:{}, done:{}, firstTryPoints: 0, totalPossiblePoints: 0 };
 let isReviewMode = false;
-let usedBlanksWords = []; // Array to track correctly used words
+let usedBlanksWords = [];
 
 window.onload = function() {
     setDailyQuote();
@@ -602,7 +602,7 @@ function start() {
     else if (data.type === "exam") { totalPoints = data.questions.length; }
     
     state = { name: name, section: section, unit: unit, scores: {}, done: {}, firstTryPoints: 0, totalPossiblePoints: totalPoints };
-    usedBlanksWords = []; // Reset used words on start
+    usedBlanksWords = []; 
     document.getElementById('userGreet').textContent = 'Welcome, ' + name.split(' ')[0];
     
     if (data.type === "exam") { goExam(); } else { show('menu'); }
@@ -637,9 +637,6 @@ function speak(text) {
     window.speechSynthesis.speak(u);
 }
 
-// ----------------------------------------------------
-// STUDY SCROLLS
-// ----------------------------------------------------
 function renderScrolls(container, data) {
     var idx = 0;
     container.innerHTML =
@@ -676,9 +673,6 @@ function renderScrolls(container, data) {
     updateCard();
 }
 
-// ----------------------------------------------------
-// QUIZ
-// ----------------------------------------------------
 function renderQuiz(container, data) {
     var qPos = 0; var failCount = 0;
     function render() {
@@ -715,9 +709,6 @@ function renderQuiz(container, data) {
     render();
 }
 
-// ----------------------------------------------------
-// SENTENCE CHAMBER
-// ----------------------------------------------------
 function renderChamber(container, data) {
     var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
     function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
@@ -770,9 +761,6 @@ function renderChamber(container, data) {
     render();
 }
 
-// ----------------------------------------------------
-// FILL IN THE BLANKS (With Dynamic Word Bank)
-// ----------------------------------------------------
 function renderBlanks(container, data) {
     var idx = 0; var failCount = 0;
     var shuffledWords = data.words.slice().sort(function() { return Math.random()-0.5; });
@@ -802,7 +790,6 @@ function renderBlanks(container, data) {
             if (input.toLowerCase() === word.toLowerCase()) {
                 if (failCount < 2) state.firstTryPoints++;
                 
-                // Add word to used list and cross it out visually
                 usedBlanksWords.push(word.toLowerCase());
                 document.querySelectorAll('.blanks-word').forEach(el => {
                     if (el.textContent.toLowerCase() === word.toLowerCase()) el.classList.add('used');
@@ -822,9 +809,6 @@ function renderBlanks(container, data) {
     render();
 }
 
-// ----------------------------------------------------
-// EXAM MODE
-// ----------------------------------------------------
 function renderRecoveryExam(container, data) {
     var qPos = 0;
     var score = 0;
