@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
             --primary-blue: #2563eb;
@@ -19,7 +21,9 @@
             --text-main: #0f172a;
             --text-muted: #64748b;
             --success: #10b981;
+            --success-bright: #34d399; 
             --danger: #ef4444;
+            --danger-soft: #fecaca; 
             --warning: #f59e0b;
         }
 
@@ -28,8 +32,8 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            background-image: radial-gradient(rgba(37, 99, 235, 0.1) 2px, transparent 2px);
-            background-size: 30px 30px;
+            /* Nuevo fondo académico de patrón sutil que funciona perfecto con o sin zoom */
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232563eb' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             color: var(--text-main);
             min-height: 100vh;
             padding: 20px 10px;
@@ -39,31 +43,14 @@
             position: relative;
         }
 
-        /* Desktop Academic Watermark Background */
-        body::before {
-            content: '\f19d'; /* Graduation Cap Icon */
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 40vw;
-            color: rgba(37, 99, 235, 0.08); /* Opacidad aumentada para ser visible */
-            z-index: -1;
-            pointer-events: none;
-        }
-
         .container {
             width: 100%; max-width: 1000px;
             background-color: var(--card-bg);
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            overflow: hidden;
-            min-height: 85vh;
+            overflow: hidden; min-height: 85vh;
             display: flex; flex-direction: column;
-            padding: 40px 20px;
-            z-index: 10;
+            padding: 40px 20px; z-index: 10;
         }
 
         @media (min-width: 768px) { .container { padding: 50px; } }
@@ -72,7 +59,6 @@
         .hidden { display: none !important; }
 
         h1, h2, h3 { font-family: 'Poppins', sans-serif; }
-        
         h1 { color: var(--primary-blue); font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 10px; font-weight: 800; letter-spacing: -0.5px; }
         
         .quote-box {
@@ -90,7 +76,7 @@
             width: 100%; padding: 14px;
             border: 2px solid #e2e8f0; border-radius: 8px;
             font-size: 1rem; font-family: 'Inter', sans-serif;
-            transition: border-color 0.2s; background: #fff;
+            transition: all 0.2s; background: #fff;
         }
         input[type="text"]:focus, select:focus { outline: none; border-color: var(--primary-blue); }
 
@@ -148,8 +134,8 @@
             transition: all 0.2s; text-align: left; font-weight: 500;
         }
         .quiz-option:hover { border-color: var(--primary-blue); background: #f8fafc; }
-        .quiz-option.correct { background: #d1fae5 !important; border-color: var(--success) !important; color: #065f46; cursor: default; }
-        .quiz-option.wrong   { background: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b; cursor: default; opacity: 0.6; }
+        .quiz-option.correct { background: #d1fae5 !important; border-color: var(--success-bright) !important; color: #065f46; cursor: default; }
+        .quiz-option.wrong   { background: var(--danger-soft) !important; border-color: var(--danger) !important; color: #991b1b; cursor: default; }
 
         .hint-box { background: #fffbeb; border-left: 4px solid var(--warning); color: #92400e; padding: 12px 16px; margin: 15px auto; border-radius: 4px; max-width: 600px; font-size: 0.95rem; display: none; text-align: left; }
         .hint-box.active { display: block; }
@@ -171,16 +157,25 @@
         #review-badge { display: none; background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; margin: 0 auto 20px auto; width: max-content; }
         
         .reading-box { background: #f1f5f9; padding: 20px; border-left: 4px solid var(--primary-blue); margin: 0 auto 25px auto; max-width: 600px; text-align: left; font-size: 0.95rem; line-height: 1.6; border-radius: 4px; color: var(--text-main); }
-        
-        /* Dynamic Word Bank for Blanks */
         .blanks-word-bank { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 auto 25px auto; max-width: 500px; padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; }
         .blanks-word { background: #e2e8f0; color: #475569; padding: 8px 16px; border-radius: 20px; font-size: 0.95rem; font-weight: 600; transition: all 0.3s ease; }
         .blanks-word.used { text-decoration: line-through; opacity: 0.3; background: #cbd5e1; }
+
+        /* Haptic/Visual UI Feedback Class */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+        .input-correct { background-color: #d1fae5 !important; border-color: var(--success-bright) !important; color: #065f46; }
+        .input-wrong { background-color: var(--danger-soft) !important; border-color: var(--danger) !important; color: #991b1b; }
     </style>
 </head>
 <body>
 <div class="container" id="main-container">
 
+<!-- HOME -->
 <section id="screen-home" class="screen">
     <h1>Pazport to English</h1>
     <div class="quote-box" id="motivational-quote"></div>
@@ -212,6 +207,7 @@
     <p id="msg" style="margin-top:15px; font-weight:500; color:var(--warning); font-size:0.9rem;"></p>
 </section>
 
+<!-- MENU -->
 <section id="screen-menu" class="screen hidden">
     <h2 id="userGreet" style="color:var(--text-main); margin-bottom:4px;"></h2>
     <p style="color:var(--text-muted); font-size:1rem; margin-bottom:0;">Complete all activities to unlock your final grade.</p>
@@ -225,35 +221,36 @@
         <div class="activity-card" id="card-scrolls" onclick="go('scrolls')">
             <div id="s-scrolls" class="seal hidden"><i class="fas fa-check-circle"></i></div>
             <i class="fas fa-layer-group"></i>
-            <h3>Study Scrolls</h3>
-            <p>Memorize vocabulary</p>
+            <h3 id="card-title-1">Study Scrolls</h3>
+            <p id="card-desc-1">Memorize vocabulary</p>
         </div>
         <div class="activity-card locked-card" id="card-quiz" onclick="gateCheck('quiz')">
             <div id="s-quiz" class="seal hidden"><i class="fas fa-check-circle"></i></div>
             <div class="lock-badge" id="lock-quiz"><i class="fas fa-lock"></i></div>
             <i class="fas fa-list-ul"></i>
-            <h3>Definition Quiz</h3>
-            <p>Match the meaning</p>
+            <h3 id="card-title-2">Definition Quiz</h3>
+            <p id="card-desc-2">Match the meaning</p>
         </div>
         <div class="activity-card locked-card" id="card-chamber" onclick="gateCheck('chamber')">
             <div id="s-chamber" class="seal hidden"><i class="fas fa-check-circle"></i></div>
             <div class="lock-badge" id="lock-chamber"><i class="fas fa-lock"></i></div>
             <i class="fas fa-align-left"></i>
-            <h3>Sentence Builder</h3>
-            <p>Order the words</p>
+            <h3 id="card-title-3">Sentence Builder</h3>
+            <p id="card-desc-3">Order the words</p>
         </div>
         <div class="activity-card locked-card" id="card-blanks" onclick="gateCheck('blanks')">
             <div id="s-blanks" class="seal hidden"><i class="fas fa-check-circle"></i></div>
             <div class="lock-badge" id="lock-blanks"><i class="fas fa-lock"></i></div>
             <i class="fas fa-keyboard"></i>
-            <h3>Fill the Blanks</h3>
-            <p>Type missing words</p>
+            <h3 id="card-title-4">Fill the Blanks</h3>
+            <p id="card-desc-4">Type missing words</p>
         </div>
     </div>
     
     <button class="btn" style="margin-top:40px; width:100%; max-width:300px; display:inline-block;" id="btn-report" onclick="claimCert()" disabled>Complete all to Submit</button>
 </section>
 
+<!-- ACTIVITY -->
 <section id="screen-act" class="screen hidden">
     <div style="text-align:left; margin-bottom:20px;" id="act-back-btn-container">
         <button class="btn" style="padding:8px 16px; margin:0; font-size:0.9rem; background:#cbd5e1; color:#0f172a;" onclick="show('menu')"><i class="fas fa-arrow-left"></i> Back to Menu</button>
@@ -261,6 +258,7 @@
     <div id="act-content"></div>
 </section>
 
+<!-- CERTIFICATE -->
 <section id="screen-cert" class="screen hidden">
     <div class="cert-area">
         <i class="fas fa-award" style="font-size:4rem; color:var(--primary-blue); margin-bottom:10px;"></i>
@@ -285,6 +283,26 @@
 </div>
 
 <script>
+// ================================================================
+//  AUDIO GENERATOR (SOFT DING / BLOOP)
+// ================================================================
+function playDing() {
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(800, ctx.currentTime); 
+        gain.gain.setValueAtTime(0.3, ctx.currentTime); // Much softer volume (30%)
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15); // Shorter, like a drop
+        osc.start(ctx.currentTime);
+        osc.stop(ctx.currentTime + 0.15);
+    } catch(e) { console.log("Audio not supported or blocked."); }
+}
+
 // ================================================================
 //  QUOTES (10 Rotating)
 // ================================================================
@@ -327,104 +345,48 @@ const DB = {
             "Doing something 0% of the time."
         ],
         examples: [
-            "I always make my bed.",
-            "I often use a pillow.",
-            "We sometimes wash the blanket.",
-            "She often changes the sheet.",
-            "He never cleans the mirror.",
-            "I often open the closet.",
-            "I seldom open the curtains.",
-            "They normally wear slippers.",
-            "I always eat food.",
-            "I never sleep at school."
+            "I always make my bed.", "I often use a pillow.", "We sometimes wash the blanket.", "She often changes the sheet.", "He never cleans the mirror.",
+            "I often open the closet.", "I seldom open the curtains.", "They normally wear slippers.", "I always eat food.", "I never sleep at school."
         ],
         cloze: [
-            "I always make my ________.",
-            "I often use a ________.",
-            "We sometimes wash the ________.",
-            "She often changes the ________.",
-            "He never cleans the ________.",
-            "I often open the ________.",
-            "I seldom open the ________.",
-            "They normally wear ________.",
-            "I ________ eat food.",
-            "I ________ sleep at school."
+            "I always make my ________.", "I often use a ________.", "We sometimes wash the ________.", "She often changes the ________.", "He never cleans the ________.",
+            "I often open the ________.", "I seldom open the ________.", "They normally wear ________.", "I ________ eat food.", "I ________ sleep at school."
         ],
         hints: [
-            "Furniture for sleeping.",
-            "Soft object for head.",
-            "Warm cover for bed.",
-            "Thin cloth on bed.",
-            "Glass to see yourself.",
-            "Place for clothes.",
-            "Cloth for windows.",
-            "Shoes for inside.",
-            "100% of the time.",
-            "0% of the time."
+            "Furniture for sleeping.", "Soft object for head.", "Warm cover for bed.", "Thin cloth on bed.", "Glass to see yourself.",
+            "Place for clothes.", "Cloth for windows.", "Shoes for inside.", "100% of the time.", "0% of the time."
         ],
         sentences: [
-            { s:"bed. / always / make / I / my",                             c:"I always make my bed." },
-            { s:"pillow. / use / often / I / a",                             c:"I often use a pillow." },
-            { s:"wash / sometimes / We / blanket. / the",                    c:"We sometimes wash the blanket." },
-            { s:"often / sheet. / changes / She / the",                      c:"She often changes the sheet." },
-            { s:"cleans / never / He / mirror. / the",                       c:"He never cleans the mirror." },
-            { s:"open / often / I / closet. / the",                          c:"I often open the closet." },
-            { s:"open / seldom / I / curtains. / the",                       c:"I seldom open the curtains." },
-            { s:"wear / They / normally / slippers.",                        c:"They normally wear slippers." },
-            { s:"always / food. / I / eat",                                  c:"I always eat food." },
-            { s:"school. / at / sleep / I / never",                          c:"I never sleep at school." }
+            { s:"bed. / always / make / I / my", c:"I always make my bed." },
+            { s:"pillow. / use / often / I / a", c:"I often use a pillow." },
+            { s:"wash / sometimes / We / blanket. / the", c:"We sometimes wash the blanket." },
+            { s:"often / sheet. / changes / She / the", c:"She often changes the sheet." },
+            { s:"cleans / never / He / mirror. / the", c:"He never cleans the mirror." },
+            { s:"open / often / I / closet. / the", c:"I often open the closet." },
+            { s:"open / seldom / I / curtains. / the", c:"I seldom open the curtains." },
+            { s:"wear / They / normally / slippers.", c:"They normally wear slippers." },
+            { s:"always / food. / I / eat", c:"I always eat food." },
+            { s:"school. / at / sleep / I / never", c:"I never sleep at school." }
         ]
     },
     "10th - Unit 4": {
         type: "normal",
         words: ["Boiling", "Drizzling", "Pouring", "Flooding", "Heat", "Hot", "Scarf", "Gloves", "Raining", "Umbrella"],
         defs:  [
-            "Extremely hot.",
-            "A fine, light rain falling from the sky.",
-            "To rain very hard and heavily.",
-            "When a lot of water rises and covers normally dry land.",
-            "The noun we use to talk about the condition of being hot.",
-            "Having a high temperature.",
-            "A warm piece of cloth worn around the neck.",
-            "Clothing you wear on your hands to keep them warm.",
-            "Water falling in drops from the clouds.",
-            "An object you hold over your head to stay dry in the rain."
+            "Extremely hot.", "A fine, light rain falling from the sky.", "To rain very hard and heavily.", "When a lot of water rises and covers normally dry land.", "The noun we use to talk about the condition of being hot.",
+            "Having a high temperature.", "A warm piece of cloth worn around the neck.", "Clothing you wear on your hands to keep them warm.", "Water falling in drops from the clouds.", "An object you hold over your head to stay dry in the rain."
         ],
         examples: [
-            "The water will be boiling.",
-            "It won't be drizzling today.",
-            "It will be pouring tonight.",
-            "The street won't be flooding.",
-            "The heat will be terrible.",
-            "It won't be hot tomorrow.",
-            "I will wear a red scarf.",
-            "She won't need warm gloves.",
-            "It will be raining later.",
-            "He won't bring an umbrella."
+            "The water will be boiling.", "It won't be drizzling today.", "It will be pouring tonight.", "The street won't be flooding.", "The heat will be terrible.",
+            "It won't be hot tomorrow.", "I will wear a red scarf.", "She won't need warm gloves.", "It will be raining later.", "He won't bring an umbrella."
         ],
         cloze: [
-            "The water will be ________.",
-            "It won't be ________ today.",
-            "It will be ________ tonight.",
-            "The street won't be ________.",
-            "The ________ will be terrible.",
-            "It won't be ________ tomorrow.",
-            "I will wear a red ________.",
-            "She won't need warm ________.",
-            "It will be ________ later.",
-            "He won't bring an ________."
+            "The water will be ________.", "It won't be ________ today.", "It will be ________ tonight.", "The street won't be ________.", "The ________ will be terrible.",
+            "It won't be ________ tomorrow.", "I will wear a red ________.", "She won't need warm ________.", "It will be ________ later.", "He won't bring an ________."
         ],
         hints: [
-            "Extremely hot water.",
-            "Light rain.",
-            "Heavy rain.",
-            "Water covering dry land.",
-            "Noun for high temperature.",
-            "Adjective for high temperature.",
-            "Worn around the neck.",
-            "Worn on hands.",
-            "Water falling from clouds.",
-            "Used to stay dry."
+            "Extremely hot water.", "Light rain.", "Heavy rain.", "Water covering dry land.", "Noun for high temperature.",
+            "Adjective for high temperature.", "Worn around the neck.", "Worn on hands.", "Water falling from clouds.", "Used to stay dry."
         ],
         sentences: [
             { s:"water / boiling. / The / will / be", c:"The water will be boiling." },
@@ -437,6 +399,39 @@ const DB = {
             { s:"need / gloves. / She / won't / warm", c:"She won't need warm gloves." },
             { s:"raining / later. / It / will / be", c:"It will be raining later." },
             { s:"umbrella. / He / bring / won't / an", c:"He won't bring an umbrella." }
+        ]
+    },
+    // NEW 11TH GRADE DATA (CONDITIONALS)
+    "11th - Conditionals Review": {
+        type: "conditional_review",
+        scrolls: [
+            { word: "Zero Conditional", def: "Used for facts and general truths. Both verbs are in Present Simple.", ex: "If you eat five pupusas, you get sleepy." },
+            { word: "First Conditional", def: "Used for real or possible situations in the future. If + Present Simple, ... Will + Verb.", ex: "If I pass the test, my parents will buy me pizza." },
+            { word: "Second Conditional", def: "Used for hypothetical, crazy or imaginary situations. If + Past Simple, ... Would + Verb.", ex: "If I had a flying car, I would avoid the traffic." }
+        ],
+        quiz: [
+            { q: "If aliens invaded the school, I would hide in the cafeteria.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 2, hint: "Notice 'invaded' (past) and 'would hide'." },
+            { q: "If you eat five pupusas, you get sleepy.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 0, hint: "Is this a biological fact? (Present + Present)" },
+            { q: "If the traffic is heavy today, the teacher will be late.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 1, hint: "A real possibility in the future (will)." },
+            { q: "If I were the principal, I would cancel all exams.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 2, hint: "An imaginary, crazy situation." },
+            { q: "If students don't sleep, they look like zombies.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 0, hint: "A general truth about students." },
+            { q: "If I pass the Avanzo test, my parents will buy me a pizza.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 1, hint: "A real possibility." }
+        ],
+        chamber: [
+            { s: "eat / pupusas, / you / sleepy. / If / five / you / get", c: "If you eat five pupusas, you get sleepy." },
+            { s: "sleep, / don't / students / If / zombies. / like / look / they", c: "If students don't sleep, they look like zombies." },
+            { s: "Avanzo / the / test, / pass / I / If / pizza. / a / me / buy / will / parents / my", c: "If I pass the Avanzo test, my parents will buy me a pizza." },
+            { s: "today, / heavy / is / traffic / the / If / late. / be / will / teacher / the", c: "If the traffic is heavy today, the teacher will be late." },
+            { s: "principal, / the / were / I / If / exams. / all / cancel / would / I", c: "If I were the principal, I would cancel all exams." },
+            { s: "car, / flying / a / had / I / If / traffic. / the / avoid / would / I", c: "If I had a flying car, I would avoid the traffic." }
+        ],
+        blanks: [
+            { text: "If you eat five pupusas, you _____ (get) sleepy.", answer: "get", hint: "Zero Conditional (Fact). Use Present Simple." },
+            { text: "If students don't sleep, they _____ (look) like zombies.", answer: "look", hint: "Zero Conditional (Fact). Use Present Simple." },
+            { text: "If I pass the Avanzo test, my parents _____ (buy) me a pizza.", answer: "will buy", hint: "First Conditional (Possible). Use will + verb." },
+            { text: "If the traffic is heavy today, the teacher _____ (be) late.", answer: "will be", hint: "First Conditional (Possible). Use will + verb." },
+            { text: "If I _____ (be) the principal, I would cancel all exams.", answer: "were", hint: "Second Conditional (Imaginary). Use past tense of 'be' (were for all subjects in conditionals)." },
+            { text: "If I had a flying car, I _____ (avoid) the traffic.", answer: "would avoid", hint: "Second Conditional (Imaginary). Use would + verb." }
         ]
     },
     "9th - Recovery Exam": {
@@ -554,6 +549,27 @@ function show(screen) {
     if (screen === 'menu') updateXPBar();
 }
 
+function adaptUIForConditionals() {
+    var data = DB[state.unit];
+    if(data && data.type === "conditional_review") {
+        document.getElementById("card-title-1").textContent = "Grammar Rules";
+        document.getElementById("card-desc-1").textContent = "Review the structures";
+        document.getElementById("card-title-2").textContent = "Situation Match";
+        document.getElementById("card-desc-2").textContent = "Identify Conditional";
+        document.getElementById("card-title-3").textContent = "Conditional Builder";
+        document.getElementById("card-title-4").textContent = "Grammar Challenge";
+        document.getElementById("card-desc-4").textContent = "Conjugate the verb";
+    } else {
+        document.getElementById("card-title-1").textContent = "Study Scrolls";
+        document.getElementById("card-desc-1").textContent = "Memorize vocabulary";
+        document.getElementById("card-title-2").textContent = "Definition Quiz";
+        document.getElementById("card-desc-2").textContent = "Match the meaning";
+        document.getElementById("card-title-3").textContent = "Sentence Builder";
+        document.getElementById("card-title-4").textContent = "Fill the Blanks";
+        document.getElementById("card-desc-4").textContent = "Type missing words";
+    }
+}
+
 function updateXPBar() {
     var activities = ['scrolls','quiz','chamber','blanks'];
     var done = activities.filter(function(a) { return state.done[a]; }).length;
@@ -587,7 +603,8 @@ function unlockCard(activity, condition) {
 }
 
 function gateCheck(activity) {
-    var prereq = { quiz:'Study Scrolls', chamber:'Definition Quiz', blanks:'Sentence Builder' };
+    var data = DB[document.getElementById('unitSelect').value];
+    var prereq = { quiz:'Study Scrolls / Grammar Rules', chamber:'Quiz / Situation Match', blanks:'Sentence Builder' };
     alert('🔒 Complete "' + prereq[activity] + '" first to unlock this activity.');
 }
 
@@ -598,14 +615,27 @@ function start() {
     var data = DB[unit];
     
     var totalPoints = 0;
-    if (data.type === "normal") { totalPoints = data.words.length * 2 + data.sentences.length; } 
-    else if (data.type === "exam") { totalPoints = data.questions.length; }
+    if (data.type === "normal") { 
+        totalPoints = data.words.length * 2 + data.sentences.length; 
+    } else if (data.type === "conditional_review") {
+        totalPoints = data.quiz.length + data.chamber.length + data.blanks.length;
+    } else if (data.type === "exam") { 
+        totalPoints = data.questions.length; 
+    }
     
     state = { name: name, section: section, unit: unit, scores: {}, done: {}, firstTryPoints: 0, totalPossiblePoints: totalPoints };
     usedBlanksWords = []; 
     document.getElementById('userGreet').textContent = 'Welcome, ' + name.split(' ')[0];
     
+    adaptUIForConditionals();
+
     if (data.type === "exam") { goExam(); } else { show('menu'); }
+}
+
+function triggerConfetti() {
+    if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+    }
 }
 
 function go(activity) {
@@ -615,10 +645,17 @@ function go(activity) {
     container.innerHTML = ''; 
     document.getElementById('act-back-btn-container').style.display = 'block';
 
-    if      (activity === 'scrolls')   renderScrolls(container, data);
-    else if (activity === 'quiz')      renderQuiz(container, data);
-    else if (activity === 'chamber')   renderChamber(container, data);
-    else if (activity === 'blanks')    renderBlanks(container, data);
+    if (data.type === "conditional_review") {
+        if      (activity === 'scrolls')   renderCondScrolls(container, data);
+        else if (activity === 'quiz')      renderCondQuiz(container, data);
+        else if (activity === 'chamber')   renderCondChamber(container, data);
+        else if (activity === 'blanks')    renderCondBlanks(container, data);
+    } else {
+        if      (activity === 'scrolls')   renderScrolls(container, data);
+        else if (activity === 'quiz')      renderQuiz(container, data);
+        else if (activity === 'chamber')   renderChamber(container, data);
+        else if (activity === 'blanks')    renderBlanks(container, data);
+    }
 }
 
 function goExam() {
@@ -630,13 +667,189 @@ function goExam() {
     renderRecoveryExam(container, data);
 }
 
-function speak(text) {
-    if (!window.speechSynthesis) return;
-    window.speechSynthesis.cancel();
-    var u = new SpeechSynthesisUtterance(text); u.lang = 'en-US'; u.rate = 0.85;
-    window.speechSynthesis.speak(u);
+// ================================================================
+//  CONDITIONALS REVIEW ACTIVITIES (11th Grade)
+// ================================================================
+function renderCondScrolls(container, data) {
+    var idx = 0;
+    container.innerHTML =
+        '<h2>Grammar Rules <span id="fc-counter" style="font-size:1rem; color:var(--text-muted); font-weight:normal;"></span></h2>' +
+        '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" id="scroll-pct" style="width:0%;"></div></div></div>' +
+        '<p style="color:var(--text-muted); margin-bottom:10px;">Tap the card to reveal the usage.</p>' +
+        '<div class="flashcard" id="fc-el">' +
+          '<div class="flashcard-inner"><div class="front"><h3 id="fc-word" style="font-size:2rem;"></h3></div>' +
+            '<div class="back"><p id="fc-def"></p><p class="example-sentence" id="fc-example"></p></div></div></div>' +
+        '<div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">' +
+          '<button id="btn-prev" class="btn" style="margin:0;"><i class="fas fa-arrow-left"></i> Prev</button>' +
+          '<button id="btn-next" class="btn" style="margin:0;">Next <i class="fas fa-arrow-right"></i></button>' +
+        '</div>';
+
+    document.getElementById('fc-el').onclick = function() { this.classList.toggle('flipped'); };
+    document.getElementById('btn-prev').onclick = function() { if(idx > 0) { idx--; updateCard(); } };
+    document.getElementById('btn-next').onclick = function() { if(idx < data.scrolls.length - 1) { idx++; updateCard(); } };
+
+    function updateCard() {
+        document.getElementById('scroll-pct').style.width = Math.round((idx / (data.scrolls.length - 1)) * 100) + '%';
+        document.getElementById('fc-word').textContent = data.scrolls[idx].word;
+        document.getElementById('fc-def').textContent = data.scrolls[idx].def;
+        document.getElementById('fc-example').textContent = '📖 ' + data.scrolls[idx].ex;
+        document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + data.scrolls.length + ')';
+        document.getElementById('fc-el').classList.remove('flipped');
+        
+        document.getElementById('btn-prev').disabled = (idx === 0);
+        document.getElementById('btn-next').disabled = (idx === data.scrolls.length - 1);
+        
+        if (idx === data.scrolls.length - 1) { state.done['scrolls'] = true; document.getElementById('s-scrolls').classList.remove('hidden'); updateXPBar(); }
+    }
+    updateCard();
 }
 
+function renderCondQuiz(container, data) {
+    var qPos = 0; var failCount = 0; var activityFailures = 0;
+    function render() {
+        var qObj = data.quiz[qPos];
+        failCount = 0;
+
+        container.innerHTML =
+            '<h2>Situation Match <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.quiz.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.quiz.length) * 100)+'%;"></div></div></div>' +
+            '<p style="font-size:1.3rem; margin:20px 0;">Which conditional is this sentence?</p>' +
+            '<div style="background:#f1f5f9; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + qObj.q + '"</div>' +
+            qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('') +
+            '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
+
+        window.checkQuizOpt = function(chosen, correct) {
+            var chosenEl = document.getElementById('qopt-'+chosen);
+            if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
+            if (chosen === correct) {
+                playDing();
+                chosenEl.classList.add('correct');
+                if (failCount < 2) { state.firstTryPoints++; }
+                document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
+                setTimeout(function() {
+                    qPos++;
+                    if (qPos < data.quiz.length) { render(); } else {
+                        state.done['quiz'] = true; document.getElementById('s-quiz').classList.remove('hidden'); updateXPBar();
+                        if (activityFailures === 0) triggerConfetti();
+                        container.innerHTML = '<h2>Module Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great job identifying situations!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                    }
+                }, 1000);
+            } else { 
+                failCount++; activityFailures++;
+                chosenEl.classList.add('wrong'); 
+                chosenEl.classList.remove('shake');
+                void chosenEl.offsetWidth; // trigger reflow
+                chosenEl.classList.add('shake');
+                document.getElementById('hint-box').classList.add('active'); 
+            }
+        };
+    }
+    render();
+}
+
+function renderCondChamber(container, data) {
+    var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
+    var sList = data.sentences || data.chamber;
+    function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
+
+    function render() {
+        var item = sList[idx];
+        tokens = item.c.match(/\S+/g) || []; 
+        shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; }));
+        selectedIndices = []; failCount = 0;
+
+        container.innerHTML =
+            '<h2>Conditional Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+sList.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div>' +
+            '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order to build the sentence:</p>' +
+            '<div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div>' +
+            '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"><i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct. Try again.</div>' +
+            '<div style="display:flex; justify-content:center; gap:10px; margin-top:20px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0; background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>';
+
+        document.getElementById('chk-ans-btn').onclick = checkChamberTiles; document.getElementById('clr-ans-btn').onclick = clearTiles;
+        buildHtml();
+    }
+
+    function buildHtml() {
+        var bankHtml = '';
+        for (var i = 0; i < shuffledIndices.length; i++) { var realIndex = shuffledIndices[i]; var isUsed = selectedIndices.includes(realIndex); bankHtml += '<div class="word-tile' + (isUsed ? ' used' : '') + '" onclick="window.pickTile(' + realIndex + ')">' + tokens[realIndex] + '</div>'; }
+        var answerHtml = '';
+        for (var j = 0; j < selectedIndices.length; j++) { var rIndex = selectedIndices[j]; answerHtml += '<div class="answer-tile" onclick="window.removeTile(' + rIndex + ')">' + tokens[rIndex] + '</div>'; }
+        document.getElementById('word-bank').innerHTML = bankHtml; document.getElementById('answer-row').innerHTML = answerHtml;
+    }
+
+    window.pickTile = function(realIndex) { if (selectedIndices.includes(realIndex)) return; selectedIndices.push(realIndex); buildHtml(); };
+    window.removeTile = function(realIndex) { selectedIndices = selectedIndices.filter(function(x) { return x !== realIndex; }); buildHtml(); };
+    function clearTiles() { selectedIndices = []; buildHtml(); }
+
+    function checkChamberTiles() {
+        if (selectedIndices.length === 0) return;
+        var answerArray = []; for (var k = 0; k < selectedIndices.length; k++) { answerArray.push(tokens[selectedIndices[k]]); }
+        if (answerArray.join(' ').toLowerCase() === sList[idx].c.toLowerCase()) {
+            playDing();
+            if (failCount < 2) state.firstTryPoints++;
+            document.getElementById('answer-row').style.borderColor = 'var(--success-bright)'; document.getElementById('answer-row').style.backgroundColor = '#d1fae5';
+            setTimeout(function() {
+                idx++;
+                if (idx < sList.length) { render(); } else {
+                    state.done['chamber'] = true; document.getElementById('s-chamber').classList.remove('hidden'); updateXPBar();
+                    container.innerHTML = '<h2>Sentence Builder Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great syntax skills!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                }
+            }, 1000);
+        } else { failCount++; document.getElementById('hint-box').classList.add('active'); clearTiles(); }
+    }
+    render();
+}
+
+function renderCondBlanks(container, data) {
+    var idx = 0; var failCount = 0; var activityFailures = 0;
+
+    function render() {
+        var qObj = data.blanks[idx]; failCount = 0;
+        
+        container.innerHTML =
+            '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.blanks.length) * 100)+'%;"></div></div></div>' +
+            '<p style="font-size:1.3rem; margin:30px auto; max-width:600px; color:var(--text-main); font-weight:500;">' + qObj.text + '</p>' +
+            '<input type="text" id="blank-input" placeholder="Conjugate the verb..." autocomplete="off" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
+            '<div id="hint-box" class="hint-box" style="max-width:350px;"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>';
+
+        setTimeout(() => { document.getElementById('blank-input').focus(); }, 100);
+
+        window.checkBlank = function() {
+            var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim().toLowerCase(); if(!input) return;
+            if (input === qObj.answer.toLowerCase()) {
+                playDing();
+                if (failCount < 2) state.firstTryPoints++;
+                inputEl.classList.remove('input-wrong', 'shake');
+                inputEl.classList.add('input-correct');
+                
+                setTimeout(function() {
+                    idx++;
+                    if (idx < data.blanks.length) { render(); } else {
+                        state.done['blanks'] = true; document.getElementById('s-blanks').classList.remove('hidden'); updateXPBar();
+                        if(activityFailures === 0) triggerConfetti();
+                        container.innerHTML = '<h2>Grammar Challenge Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Conjugation mastered.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                    }
+                }, 1000);
+            } else { 
+                failCount++; activityFailures++;
+                inputEl.value = ''; 
+                inputEl.classList.remove('shake', 'input-correct');
+                inputEl.classList.add('input-wrong');
+                void inputEl.offsetWidth; // trigger reflow
+                inputEl.classList.add('shake');
+                document.getElementById('hint-box').classList.add('active'); 
+                inputEl.focus(); 
+            }
+        };
+    }
+    render();
+}
+
+// ================================================================
+//  NORMAL ACTIVITIES
+// ================================================================
 function renderScrolls(container, data) {
     var idx = 0;
     container.innerHTML =
@@ -674,7 +887,7 @@ function renderScrolls(container, data) {
 }
 
 function renderQuiz(container, data) {
-    var qPos = 0; var failCount = 0;
+    var qPos = 0; var failCount = 0; var activityFailures = 0;
     function render() {
         var wordIdx = qPos; var correctDef = data.defs[wordIdx];
         var wrongPool = data.defs.filter(function(_, i) { return i !== wordIdx; }).sort(function() { return Math.random()-0.5; }).slice(0,3);
@@ -693,6 +906,7 @@ function renderQuiz(container, data) {
             var chosenEl = document.getElementById('qopt-'+chosen);
             if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
             if (chosen === correct) {
+                playDing();
                 chosenEl.classList.add('correct');
                 if (failCount < 2) state.firstTryPoints++; 
                 document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
@@ -700,10 +914,18 @@ function renderQuiz(container, data) {
                     qPos++;
                     if (qPos < data.words.length) { render(); } else {
                         state.done['quiz'] = true; document.getElementById('s-quiz').classList.remove('hidden'); updateXPBar();
+                        if(activityFailures === 0) triggerConfetti();
                         container.innerHTML = '<h2>Quiz Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Excellent work. You mastered all definitions.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
                     }
                 }, 1000);
-            } else { failCount++; chosenEl.classList.add('wrong'); document.getElementById('hint-box').classList.add('active'); }
+            } else { 
+                failCount++; activityFailures++;
+                chosenEl.classList.add('wrong'); 
+                chosenEl.classList.remove('shake');
+                void chosenEl.offsetWidth;
+                chosenEl.classList.add('shake');
+                document.getElementById('hint-box').classList.add('active'); 
+            }
         };
     }
     render();
@@ -711,17 +933,18 @@ function renderQuiz(container, data) {
 
 function renderChamber(container, data) {
     var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
+    var sList = data.sentences || data.chamber;
     function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
 
     function render() {
-        var item = data.sentences[idx];
+        var item = sList[idx];
         tokens = item.c.match(/\S+/g) || []; 
         shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; }));
         selectedIndices = []; failCount = 0;
 
         container.innerHTML =
-            '<h2>Sentence Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.sentences.length+')</span></h2>' +
-            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.sentences.length) * 100)+'%;"></div></div></div>' +
+            '<h2>Sentence Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+sList.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div>' +
             '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order to build the sentence:</p>' +
             '<div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div>' +
             '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"><i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct. Try again.</div>' +
@@ -746,12 +969,13 @@ function renderChamber(container, data) {
     function checkChamberTiles() {
         if (selectedIndices.length === 0) return;
         var answerArray = []; for (var k = 0; k < selectedIndices.length; k++) { answerArray.push(tokens[selectedIndices[k]]); }
-        if (answerArray.join(' ').toLowerCase() === data.sentences[idx].c.toLowerCase()) {
+        if (answerArray.join(' ').toLowerCase() === sList[idx].c.toLowerCase()) {
+            playDing();
             if (failCount < 2) state.firstTryPoints++;
-            document.getElementById('answer-row').style.borderColor = 'var(--success)'; document.getElementById('answer-row').style.backgroundColor = '#d1fae5';
+            document.getElementById('answer-row').style.borderColor = 'var(--success-bright)'; document.getElementById('answer-row').style.backgroundColor = '#d1fae5';
             setTimeout(function() {
                 idx++;
-                if (idx < data.sentences.length) { render(); } else {
+                if (idx < sList.length) { render(); } else {
                     state.done['chamber'] = true; document.getElementById('s-chamber').classList.remove('hidden'); updateXPBar();
                     container.innerHTML = '<h2>Sentence Builder Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great syntax skills!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
                 }
@@ -762,7 +986,7 @@ function renderChamber(container, data) {
 }
 
 function renderBlanks(container, data) {
-    var idx = 0; var failCount = 0;
+    var idx = 0; var failCount = 0; var activityFailures = 0;
     var shuffledWords = data.words.slice().sort(function() { return Math.random()-0.5; });
 
     function render() {
@@ -788,6 +1012,7 @@ function renderBlanks(container, data) {
         window.checkBlank = function() {
             var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim(); if(!input) return;
             if (input.toLowerCase() === word.toLowerCase()) {
+                playDing();
                 if (failCount < 2) state.firstTryPoints++;
                 
                 usedBlanksWords.push(word.toLowerCase());
@@ -795,15 +1020,26 @@ function renderBlanks(container, data) {
                     if (el.textContent.toLowerCase() === word.toLowerCase()) el.classList.add('used');
                 });
 
-                inputEl.style.borderColor = 'var(--success)'; inputEl.style.backgroundColor = '#d1fae5';
+                inputEl.classList.remove('input-wrong', 'shake');
+                inputEl.classList.add('input-correct');
                 setTimeout(function() {
                     idx++;
                     if (idx < data.words.length) { render(); } else {
                         state.done['blanks'] = true; document.getElementById('s-blanks').classList.remove('hidden'); updateXPBar();
+                        if(activityFailures === 0) triggerConfetti();
                         container.innerHTML = '<h2>Fill in the Blanks Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Spelling and context mastered.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
                     }
                 }, 1000);
-            } else { failCount++; inputEl.value = ''; inputEl.style.borderColor = 'var(--danger)'; document.getElementById('hint-box').classList.add('active'); inputEl.focus(); }
+            } else { 
+                failCount++; activityFailures++;
+                inputEl.value = ''; 
+                inputEl.classList.remove('input-correct', 'shake');
+                inputEl.classList.add('input-wrong');
+                void inputEl.offsetWidth; // Reflow
+                inputEl.classList.add('shake');
+                document.getElementById('hint-box').classList.add('active'); 
+                inputEl.focus(); 
+            }
         };
     }
     render();
@@ -841,10 +1077,12 @@ function renderRecoveryExam(container, data) {
             var correctEl = document.getElementById('eopt-'+correct);
 
             if (chosen === correct) {
+                playDing();
                 chosenEl.classList.add('correct');
                 score++;
             } else {
                 chosenEl.classList.add('wrong');
+                chosenEl.classList.add('shake');
                 correctEl.classList.add('correct');
             }
             
@@ -916,6 +1154,7 @@ function claimCert() {
         document.getElementById('cert-title').textContent = "Exam Completed!";
     } else {
         document.getElementById('cert-title').textContent = "Quest Completed!";
+        if (finalGrade == 10.0) triggerConfetti();
     }
 
     if (isReviewMode) {
