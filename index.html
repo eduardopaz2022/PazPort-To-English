@@ -326,6 +326,7 @@ function setDailyQuote() {
 const DB = {
     "9th - Unit 4": {
         type: "normal",
+        grammarHint: "Structure: <b>Subject + Adverb of Frequency + Verb</b>. (Example: I always make my bed).",
         words: ["Bed", "Pillow", "Blanket", "Sheet", "Mirror", "Closet", "Curtains", "Slippers", "Always", "Never"],
         defs:  [
             "A piece of furniture where you sleep.",
@@ -367,6 +368,7 @@ const DB = {
     // NEW 9TH GRADE DATA (PART 2)
     "9th - Unit 4 Part 2": {
         type: "normal",
+        grammarHint: "Structure: <b>Subject + Verb (Be) + Adverb of Place/Time</b>. (Example: The armchair is there).",
         words: ["Armchair", "Sofa", "Cushions", "Television", "Window", "Remote control", "Shelf", "Wastebasket", "Paintings", "Wall clock"],
         defs: [
             "A comfortable chair with sides that support your arms.",
@@ -381,28 +383,28 @@ const DB = {
             "A device on the wall that shows the time."
         ],
         examples: [
-            "I will sit in the armchair now.",
-            "We bought a new sofa yesterday.",
-            "Put the cushions there, please.",
-            "Watch television inside the house.",
-            "Look outside the window today.",
-            "Bring the remote control here soon.",
-            "He will clean the shelf later.",
-            "Take the wastebasket downstairs early.",
-            "The new paintings are upstairs.",
-            "Fix the wall clock tomorrow."
+            "The armchair is here now.",
+            "The sofa was downstairs yesterday.",
+            "The cushions are there today.",
+            "The television is upstairs now.",
+            "The window is here.",
+            "The remote control is inside.",
+            "The shelf was there yesterday.",
+            "The wastebasket is outside today.",
+            "The paintings will be there tomorrow.",
+            "The wall clock is downstairs early."
         ],
         cloze: [
-            "I will sit in the ________ now.",
-            "We bought a new ________ yesterday.",
-            "Put the ________ there, please.",
-            "Watch ________ inside the house.",
-            "Look outside the ________ today.",
-            "Bring the ________ here soon.",
-            "He will clean the ________ later.",
-            "Take the ________ downstairs early.",
-            "The new ________ are upstairs.",
-            "Fix the ________ tomorrow."
+            "The ________ is here now.",
+            "The ________ was downstairs yesterday.",
+            "The ________ are there today.",
+            "The ________ is upstairs now.",
+            "The ________ is here.",
+            "The ________ is inside.",
+            "The ________ was there yesterday.",
+            "The ________ is outside today.",
+            "The ________ will be there tomorrow.",
+            "The ________ is downstairs early."
         ],
         hints: [
             "Comfortable chair for one person.",
@@ -417,20 +419,21 @@ const DB = {
             "Tells the time on a wall."
         ],
         sentences: [
-            { s:"armchair / now. / I / sit / will / in / the", c:"I will sit in the armchair now." },
-            { s:"yesterday. / We / a / new / sofa / bought", c:"We bought a new sofa yesterday." },
-            { s:"there, / please. / Put / the / cushions", c:"Put the cushions there, please." },
-            { s:"television / the / inside / Watch / house.", c:"Watch television inside the house." },
-            { s:"Look / outside / the / window / today.", c:"Look outside the window today." },
-            { s:"Bring / remote / control / here / the / soon.", c:"Bring the remote control here soon." },
-            { s:"later. / clean / He / will / the / shelf", c:"He will clean the shelf later." },
-            { s:"early. / Take / the / wastebasket / downstairs", c:"Take the wastebasket downstairs early." },
-            { s:"paintings / are / upstairs. / The / new", c:"The new paintings are upstairs." },
-            { s:"tomorrow. / Fix / the / wall / clock", c:"Fix the wall clock tomorrow." }
+            { s:"armchair / is / The / here / now.", c:"The armchair is here now." },
+            { s:"was / sofa / downstairs / The / yesterday.", c:"The sofa was downstairs yesterday." },
+            { s:"cushions / are / there / The / today.", c:"The cushions are there today." },
+            { s:"television / The / is / upstairs / now.", c:"The television is upstairs now." },
+            { s:"window / is / The / here.", c:"The window is here." },
+            { s:"inside. / remote / control / The / is", c:"The remote control is inside." },
+            { s:"shelf / there / The / was / yesterday.", c:"The shelf was there yesterday." },
+            { s:"wastebasket / The / is / outside / today.", c:"The wastebasket is outside today." },
+            { s:"paintings / will / there / The / be / tomorrow.", c:"The paintings will be there tomorrow." },
+            { s:"wall / clock / is / The / downstairs / early.", c:"The wall clock is downstairs early." }
         ]
     },
     "10th - Unit 4": {
         type: "normal",
+        grammarHint: "Structure for Future: <b>Subject + Will / Won't + Be + Adjective</b>. (Example: It will be hot).",
         words: ["Boiling", "Drizzling", "Pouring", "Flooding", "Heat", "Hot", "Scarf", "Gloves", "Raining", "Umbrella"],
         defs:  [
             "Extremely hot.", "A fine, light rain falling from the sky.", "To rain very hard and heavily.", "When a lot of water rises and covers normally dry land.", "The noun we use to talk about the condition of being hot.",
@@ -463,6 +466,7 @@ const DB = {
     },
     "10th - Unit 4 Part 2": {
         type: "normal",
+        grammarHint: "Structure: <b>Subject + Will / Won't + Be + Adjective</b>. For questions: <b>Will + Subject + Be + Adjective?</b>",
         words: ["Sunny", "Windy", "Cold", "Cloudy", "Clear sky", "Thunderstorm", "Thunder", "Lightning", "Dry", "Humid"],
         defs: [
             "When the sun is shining and there are no clouds.",
@@ -528,6 +532,7 @@ const DB = {
     // 11TH GRADE DATA (CONDITIONALS)
     "11th - Conditionals Review": {
         type: "conditional_review",
+        grammarHint: "Zero (Facts): <b>Present + Present</b>. First (Possible): <b>Present + Will</b>. Second (Imaginary): <b>Past + Would</b>.",
         scrolls: [
             { word: "Zero Conditional", def: "Used for facts and general truths. Both verbs are in Present Simple.", ex: "If you eat five pupusas, you get sleepy." },
             { word: "First Conditional", def: "Used for real or possible situations in the future. If + Present Simple, ... Will + Verb.", ex: "If I pass the test, my parents will buy me pizza." },
@@ -718,7 +723,7 @@ function start() {
     
     adaptUIForConditionals();
 
-    if (data.type === "exam") { goExam(); } else { show('menu'); }
+    show('menu');
 }
 
 function triggerConfetti() {
@@ -745,15 +750,6 @@ function go(activity) {
         else if (activity === 'chamber')   renderChamber(container, data);
         else if (activity === 'blanks')    renderBlanks(container, data);
     }
-}
-
-function goExam() {
-    var data = DB[state.unit];
-    show('act');
-    var container = document.getElementById('act-content');
-    container.innerHTML = '';
-    document.getElementById('act-back-btn-container').style.display = 'none';
-    renderRecoveryExam(container, data);
 }
 
 // ================================================================
@@ -851,7 +847,7 @@ function renderCondChamber(container, data) {
             '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div>' +
             '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order to build the sentence:</p>' +
             '<div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div>' +
-            '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"><i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct. Try again.</div>' +
+            '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"></div>' +
             '<div style="display:flex; justify-content:center; gap:10px; margin-top:20px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0; background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>';
 
         document.getElementById('chk-ans-btn').onclick = checkChamberTiles; document.getElementById('clr-ans-btn').onclick = clearTiles;
@@ -883,7 +879,17 @@ function renderCondChamber(container, data) {
                     container.innerHTML = '<h2>Sentence Builder Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great syntax skills!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
                 }
             }, 1000);
-        } else { failCount++; document.getElementById('hint-box').classList.add('active'); clearTiles(); }
+        } else { 
+            failCount++; 
+            var hintBox = document.getElementById('hint-box');
+            if (failCount >= 2 && data.grammarHint) {
+                hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct.<hr style="border:none; border-top:1px solid #fecaca; margin:10px 0;"><i class="fas fa-lightbulb"></i> <strong>Grammar Tip:</strong> ' + data.grammarHint;
+            } else {
+                hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct. Try again.';
+            }
+            hintBox.classList.add('active'); 
+            clearTiles(); 
+        }
     }
     render();
 }
@@ -1036,7 +1042,7 @@ function renderChamber(container, data) {
             '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div>' +
             '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order to build the sentence:</p>' +
             '<div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div>' +
-            '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"><i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct. Try again.</div>' +
+            '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"></div>' +
             '<div style="display:flex; justify-content:center; gap:10px; margin-top:20px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0; background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>';
 
         document.getElementById('chk-ans-btn').onclick = checkChamberTiles; document.getElementById('clr-ans-btn').onclick = clearTiles;
@@ -1068,7 +1074,17 @@ function renderChamber(container, data) {
                     container.innerHTML = '<h2>Sentence Builder Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great syntax skills!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
                 }
             }, 1000);
-        } else { failCount++; document.getElementById('hint-box').classList.add('active'); clearTiles(); }
+        } else { 
+            failCount++; 
+            var hintBox = document.getElementById('hint-box');
+            if (failCount >= 2 && data.grammarHint) {
+                hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct.<hr style="border:none; border-top:1px solid #fecaca; margin:10px 0;"><i class="fas fa-lightbulb"></i> <strong>Grammar Tip:</strong> ' + data.grammarHint;
+            } else {
+                hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct. Try again.';
+            }
+            hintBox.classList.add('active'); 
+            clearTiles(); 
+        }
     }
     render();
 }
@@ -1136,9 +1152,8 @@ function claimCert() {
     var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
     var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
 
-    var isExam = DB[state.unit].type === "exam";
-
     if (!isReviewMode) {
+        // 👇 CAMBIA ESTE ENLACE POR EL TUYO ORIGINAL 👇
         var urlGoogleScript = "https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec";
         
         var formData = new FormData();
@@ -1156,12 +1171,8 @@ function claimCert() {
     document.getElementById('cert-unit').textContent = state.unit; 
     document.getElementById('cert-final-grade').textContent = finalGrade;
     
-    if (isExam) {
-        document.getElementById('cert-title').textContent = "Exam Completed!";
-    } else {
-        document.getElementById('cert-title').textContent = "Quest Completed!";
-        if (finalGrade == 10.0) triggerConfetti();
-    }
+    document.getElementById('cert-title').textContent = "Quest Completed!";
+    if (finalGrade == 10.0) triggerConfetti();
 
     if (isReviewMode) {
         document.getElementById('review-badge').style.display = 'block';
