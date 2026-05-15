@@ -30,7 +30,6 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            /* Fondo académico de patrón sutil que funciona perfecto con o sin zoom */
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232563eb' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             color: var(--text-main);
             min-height: 100vh;
@@ -119,7 +118,7 @@
         .front { border-color: var(--primary-blue); }
         .front h3 { color: var(--primary-blue); font-size: 2.5rem; text-align: center; }
         .back { transform: rotateY(180deg); background: #f8fafc; border-color: #cbd5e1; }
-        .back p { color: var(--text-main); font-size: 1.3rem; text-align: center; font-weight: 600; line-height: 1.4; }
+        .back p { color: var(--text-main); font-size: 1.1rem; text-align: center; font-weight: 600; line-height: 1.4; }
         .back .example-sentence { font-size: 1.05rem; color: var(--text-muted); font-style: italic; font-weight: normal; margin-top: 15px; background: #fff; padding: 15px; border-radius: 8px; width: 100%; }
 
         .tts-btn { background: #eff6ff; border: none; color: var(--primary-blue); border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; margin: 0 auto 15px; transition: background 0.2s; }
@@ -154,12 +153,16 @@
         
         #review-badge { display: none; background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; margin: 0 auto 20px auto; width: max-content; }
         
-        .reading-box { background: #f1f5f9; padding: 20px; border-left: 4px solid var(--primary-blue); margin: 0 auto 25px auto; max-width: 600px; text-align: left; font-size: 0.95rem; line-height: 1.6; border-radius: 4px; color: var(--text-main); }
-        
-        /* Dynamic Word Bank for Blanks */
-        .blanks-word-bank { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 0 auto 25px auto; max-width: 500px; padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; }
-        .blanks-word { background: #e2e8f0; color: #475569; padding: 8px 16px; border-radius: 20px; font-size: 0.95rem; font-weight: 600; transition: all 0.3s ease; }
-        .blanks-word.used { text-decoration: line-through; opacity: 0.3; background: #cbd5e1; }
+        /* Auto-Study Guide Class */
+        .self-study-guide {
+            background: #eff6ff; border: 2px solid var(--primary-blue); 
+            border-radius: 12px; padding: 20px; margin: 20px auto 30px auto; 
+            max-width: 800px; text-align: left;
+        }
+        .self-study-guide h3 { color: var(--primary-blue); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .self-study-guide p { font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px; color: var(--text-main); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
         /* Haptic/Visual UI Feedback Class */
         @keyframes shake {
@@ -209,6 +212,8 @@
 <section id="screen-menu" class="screen hidden">
     <h2 id="userGreet" style="color:var(--text-main); margin-bottom:4px;"></h2>
     <p style="color:var(--text-muted); font-size:1rem; margin-bottom:0;">Complete all activities to unlock your final grade.</p>
+
+    <div id="self-study-section" class="hidden"></div>
 
     <div class="xp-wrap">
         <div class="xp-label"><span>Overall Progress</span><span id="xp-text">0 / 4 activities</span></div>
@@ -280,13 +285,17 @@
 
 <script>
 // ================================================================
-//  TEXT-TO-SPEECH (ROBUST FIX)
+//  AUDIO DISABLED PER REQUEST
+// ================================================================
+function playDing() {
+    // Sound disabled
+}
+
+// ================================================================
+//  TEXT-TO-SPEECH
 // ================================================================
 function speak(text) {
-    if (!('speechSynthesis' in window)) {
-        console.log("Speech synthesis not supported.");
-        return;
-    }
+    if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text); 
     u.lang = 'en-US'; 
@@ -299,7 +308,7 @@ function speak(text) {
 }
 
 // ================================================================
-//  QUOTES (10 Rotating)
+//  QUOTES
 // ================================================================
 const motivationalQuotes = [
     "“The secret of getting ahead is getting started.” – Mark Twain",
@@ -308,10 +317,7 @@ const motivationalQuotes = [
     "“It always seems impossible until it's done.” – Nelson Mandela",
     "“Don't watch the clock; do what it does. Keep going.” – Sam Levenson",
     "“A little progress each day adds up to big results.”",
-    "“You don't have to be great to start, but you have to start to be great.” – Zig Ziglar",
-    "“The expert in anything was once a beginner.” – Helen Hayes",
-    "“Success is the sum of small efforts, repeated day in and day out.” – Robert Collier",
-    "“Strive for progress, not perfection.”"
+    "“You don't have to be great to start, but you have to start to be great.” – Zig Ziglar"
 ];
 
 function setDailyQuote() {
@@ -324,7 +330,7 @@ function setDailyQuote() {
 //  DATABASE
 // ================================================================
 const DB = {
-    "9th - Unit 4 Part 1": {
+    "9th - Unit 4": {
         type: "normal",
         grammarHint: "Structure: <b>Subject + Adverb of Frequency + Verb</b>. (Example: I always make my bed).",
         words: ["Bed", "Pillow", "Blanket", "Sheet", "Mirror", "Closet", "Curtains", "Slippers", "Always", "Never"],
@@ -365,7 +371,6 @@ const DB = {
             { s:"school. / at / sleep / I / never", c:"I never sleep at school." }
         ]
     },
-    // NEW 9TH GRADE DATA (PART 2)
     "9th - Unit 4 Part 2": {
         type: "normal",
         grammarHint: "Structure: <b>Subject + Verb (Be) + Adverb of Place/Time</b>. (Example: The armchair is there).",
@@ -529,38 +534,88 @@ const DB = {
             { s:"be / humid. / air / The / will", c:"The air will be humid." }
         ]
     },
-    // 11TH GRADE DATA (CONDITIONALS)
-    "11th - Conditionals Review": {
-        type: "conditional_review",
-        grammarHint: "Zero (Facts): <b>Present + Present</b>. First (Possible): <b>Present + Will</b>. Second (Imaginary): <b>Past + Would</b>.",
-        scrolls: [
-            { word: "Zero Conditional", def: "Used for facts and general truths. Both verbs are in Present Simple.", ex: "If you eat five pupusas, you get sleepy." },
-            { word: "First Conditional", def: "Used for real or possible situations in the future. If + Present Simple, ... Will + Verb.", ex: "If I pass the test, my parents will buy me pizza." },
-            { word: "Second Conditional", def: "Used for hypothetical, crazy or imaginary situations. If + Past Simple, ... Would + Verb.", ex: "If I had a flying car, I would avoid the traffic." }
+    // NEW 11TH GRADE DATA - SELF STUDY MODE (45 MINS)
+    "11th - TV & Present Perfect Cont.": {
+        type: "normal",
+        hasVideoLesson: true,
+        grammarHint: "Structure: <b>Subject + Have/Has been + Verb-ing + Complement</b>. Use 'have' for I/You/We/They and 'has' for He/She/It.",
+        words: [
+            "Binge-watching", "Season finale", "Spoilers", "Screen", "Cliffhanger", 
+            "Main character", "Streaming", "Episode", "Broadcasting", "Plot twist",
+            "Have been", "Has been", "Watching", "Waiting", "Discussing"
         ],
-        quiz: [
-            { q: "If aliens invaded the school, I would hide in the cafeteria.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 2, hint: "Notice 'invaded' (past) and 'would hide'." },
-            { q: "If you eat five pupusas, you get sleepy.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 0, hint: "Is this a biological fact? (Present + Present)" },
-            { q: "If the traffic is heavy today, the teacher will be late.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 1, hint: "A real possibility in the future (will)." },
-            { q: "If I were the principal, I would cancel all exams.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 2, hint: "An imaginary, crazy situation." },
-            { q: "If students don't sleep, they look like zombies.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 0, hint: "A general truth about students." },
-            { q: "If I pass the Avanzo test, my parents will buy me a pizza.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 1, hint: "A real possibility." }
+        defs: [
+            "Ver muchos episodios sin parar. (Watching many episodes without stopping).",
+            "El último episodio de la temporada. (The last episode of a season).",
+            "Información que arruina la sorpresa. (Information that ruins a surprise).",
+            "La pantalla. (The flat surface where you watch videos).",
+            "Un final que te deja en suspenso. (A suspenseful ending).",
+            "El protagonista. (The primary person in a story).",
+            "Ver videos por internet. (Watching videos online).",
+            "Un capítulo de la serie. (One part of a TV series).",
+            "Transmitir un programa. (Transmitting a program on TV).",
+            "Un giro sorpresivo en la historia. (A surprise change in the story).",
+            "He / Hemos / Han estado... (Auxiliary for I/You/We/They).",
+            "Él / Ella ha estado... (Auxiliary for He/She/It).",
+            "Viendo. (Looking at a screen - ing form).",
+            "Esperando. (Staying in a place - ing form).",
+            "Discutiendo/Hablando. (Talking about something - ing form)."
         ],
-        chamber: [
-            { s: "eat / pupusas, / you / sleepy. / If / five / you / get", c: "If you eat five pupusas, you get sleepy." },
-            { s: "sleep, / don't / students / If / zombies. / like / look / they", c: "If students don't sleep, they look like zombies." },
-            { s: "Avanzo / the / test, / pass / I / If / pizza. / a / me / buy / will / parents / my", c: "If I pass the Avanzo test, my parents will buy me a pizza." },
-            { s: "today, / heavy / is / traffic / the / If / late. / be / will / teacher / the", c: "If the traffic is heavy today, the teacher will be late." },
-            { s: "principal, / the / were / I / If / exams. / all / cancel / would / I", c: "If I were the principal, I would cancel all exams." },
-            { s: "car, / flying / a / had / I / If / traffic. / the / avoid / would / I", c: "If I had a flying car, I would avoid the traffic." }
+        examples: [
+            "I have been binge-watching series.",
+            "We have been waiting for the season finale.",
+            "He has been reading spoilers.",
+            "You have been looking at the screen.",
+            "They have been watching the cliffhanger.",
+            "The main character has been running.",
+            "I have been streaming the show.",
+            "She has been downloading the episode.",
+            "The channel has been broadcasting it.",
+            "We have been analyzing the plot twist.",
+            "They have been playing games.",
+            "She has been studying English.",
+            "I have been watching TV.",
+            "You have been waiting here.",
+            "We have been discussing the movie."
         ],
-        blanks: [
-            { text: "If you eat five pupusas, you _____ (get) sleepy.", answer: "get", hint: "Zero Conditional (Fact). Use Present Simple." },
-            { text: "If students don't sleep, they _____ (look) like zombies.", answer: "look", hint: "Zero Conditional (Fact). Use Present Simple." },
-            { text: "If I pass the Avanzo test, my parents _____ (buy) me a pizza.", answer: "will buy", hint: "First Conditional (Possible). Use will + verb." },
-            { text: "If the traffic is heavy today, the teacher _____ (be) late.", answer: "will be", hint: "First Conditional (Possible). Use will + verb." },
-            { text: "If I _____ (be) the principal, I would cancel all exams.", answer: "were", hint: "Second Conditional (Imaginary). Use past tense of 'be' (were for all subjects in conditionals)." },
-            { text: "If I had a flying car, I _____ (avoid) the traffic.", answer: "would avoid", hint: "Second Conditional (Imaginary). Use would + verb." }
+        cloze: [
+            "I have been ________ series. (Ver sin parar)",
+            "We have been waiting for the season ________. (Último capítulo)",
+            "He has been reading ________. (Arruina sorpresas)",
+            "You have been looking at the ________. (Pantalla)",
+            "They have been watching the ________. (Final de suspenso)",
+            "The main ________ has been running. (Protagonista)",
+            "I have been ________ the show. (Ver online)",
+            "She has been downloading the ________. (Capítulo)",
+            "The channel has been ________ it. (Transmitiendo)",
+            "We have been analyzing the plot ________. (Giro sorpresa)",
+            "They ________ playing games. (Auxiliar plural)",
+            "She ________ studying English. (Auxiliar singular)",
+            "I have been ________ TV. (Viendo)",
+            "You have been ________ here. (Esperando)",
+            "We have been ________ the movie. (Discutiendo)"
+        ],
+        hints: [
+            "Watching without stopping.", "Last chapter.", "Ruins the surprise.", "TV surface.", "Suspense ending.", 
+            "Primary person.", "Watching online.", "One chapter.", "Transmitting.", "Surprise change.",
+            "Use for They.", "Use for She.", "Looking at.", "Staying.", "Talking about."
+        ],
+        sentences: [
+            { s:"I / have / been / binge-watching / series.", c:"I have been binge-watching series." },
+            { s:"We / have / been / waiting / for / the / season / finale.", c:"We have been waiting for the season finale." },
+            { s:"He / has / been / reading / spoilers.", c:"He has been reading spoilers." },
+            { s:"You / have / been / looking / at / the / screen.", c:"You have been looking at the screen." },
+            { s:"They / have / been / watching / the / cliffhanger.", c:"They have been watching the cliffhanger." },
+            { s:"The / main / character / has / been / running.", c:"The main character has been running." },
+            { s:"I / have / been / streaming / the / show.", c:"I have been streaming the show." },
+            { s:"She / has / been / downloading / the / episode.", c:"She has been downloading the episode." },
+            { s:"The / channel / has / been / broadcasting / it.", c:"The channel has been broadcasting it." },
+            { s:"We / have / been / analyzing / the / plot / twist.", c:"We have been analyzing the plot twist." },
+            { s:"They / have / been / playing / games.", c:"They have been playing games." },
+            { s:"She / has / been / studying / English.", c:"She has been studying English." },
+            { s:"I / have / been / watching / TV.", c:"I have been watching TV." },
+            { s:"You / have / been / waiting / here.", c:"You have been waiting here." },
+            { s:"We / have / been / discussing / the / movie.", c:"We have been discussing the movie." }
         ]
     }
 };
@@ -643,27 +698,6 @@ function show(screen) {
     if (screen === 'menu') updateXPBar();
 }
 
-function adaptUIForConditionals() {
-    var data = DB[state.unit];
-    if(data && data.type === "conditional_review") {
-        document.getElementById("card-title-1").textContent = "Grammar Rules";
-        document.getElementById("card-desc-1").textContent = "Review the structures";
-        document.getElementById("card-title-2").textContent = "Situation Match";
-        document.getElementById("card-desc-2").textContent = "Identify Conditional";
-        document.getElementById("card-title-3").textContent = "Conditional Builder";
-        document.getElementById("card-title-4").textContent = "Grammar Challenge";
-        document.getElementById("card-desc-4").textContent = "Conjugate the verb";
-    } else {
-        document.getElementById("card-title-1").textContent = "Study Scrolls";
-        document.getElementById("card-desc-1").textContent = "Memorize vocabulary";
-        document.getElementById("card-title-2").textContent = "Definition Quiz";
-        document.getElementById("card-desc-2").textContent = "Match the meaning";
-        document.getElementById("card-title-3").textContent = "Sentence Builder";
-        document.getElementById("card-title-4").textContent = "Fill the Blanks";
-        document.getElementById("card-desc-4").textContent = "Type missing words";
-    }
-}
-
 function updateXPBar() {
     var activities = ['scrolls','quiz','chamber','blanks'];
     var done = activities.filter(function(a) { return state.done[a]; }).length;
@@ -698,8 +732,7 @@ function unlockCard(activity, condition) {
 
 function gateCheck(activity) {
     var data = DB[document.getElementById('unitSelect').value];
-    var prereq = { quiz:'Study Scrolls / Grammar Rules', chamber:'Quiz / Situation Match', blanks:'Sentence Builder' };
-    alert('🔒 Complete "' + prereq[activity] + '" first to unlock this activity.');
+    alert('🔒 Complete the previous activity first to unlock this one.');
 }
 
 function start() {
@@ -708,20 +741,33 @@ function start() {
     var unit = document.getElementById('unitSelect').value;
     var data = DB[unit];
     
-    var totalPoints = 0;
-    if (data.type === "normal") { 
-        totalPoints = data.words.length * 2 + data.sentences.length; 
-    } else if (data.type === "conditional_review") {
-        totalPoints = data.quiz.length + data.chamber.length + data.blanks.length;
-    } else if (data.type === "exam") { 
-        totalPoints = data.questions.length; 
-    }
+    var totalPoints = data.words.length * 2 + data.sentences.length; 
     
     state = { name: name, section: section, unit: unit, scores: {}, done: {}, firstTryPoints: 0, totalPossiblePoints: totalPoints };
     usedBlanksWords = []; 
     document.getElementById('userGreet').textContent = 'Welcome, ' + name.split(' ')[0];
     
-    adaptUIForConditionals();
+    // Inject Self-Study Guide if applicable
+    var studySection = document.getElementById('self-study-section');
+    if (data.hasVideoLesson) {
+        studySection.innerHTML = `
+            <div class="self-study-guide">
+                <h3><i class="fas fa-chalkboard-teacher"></i> Today's Lesson: Present Perfect Continuous</h3>
+                <p>
+                    <strong>¿Para qué se usa?</strong> Para acciones que empezaron en el pasado y <strong>todavía continúan</strong> ahora mismo sin detenerse.<br>
+                    <strong>Structure:</strong> Subject + Have/Has been + Verb(-ing) + Complement.<br>
+                    <em>Ejemplo:</em> I have been watching Netflix. (He estado viendo Netflix).
+                </p>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/1v0E2xU8W5Y" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        `;
+        studySection.classList.remove('hidden');
+    } else {
+        studySection.innerHTML = '';
+        studySection.classList.add('hidden');
+    }
 
     show('menu');
 }
@@ -739,208 +785,14 @@ function go(activity) {
     container.innerHTML = ''; 
     document.getElementById('act-back-btn-container').style.display = 'block';
 
-    if (data.type === "conditional_review") {
-        if      (activity === 'scrolls')   renderCondScrolls(container, data);
-        else if (activity === 'quiz')      renderCondQuiz(container, data);
-        else if (activity === 'chamber')   renderCondChamber(container, data);
-        else if (activity === 'blanks')    renderCondBlanks(container, data);
-    } else {
-        if      (activity === 'scrolls')   renderScrolls(container, data);
-        else if (activity === 'quiz')      renderQuiz(container, data);
-        else if (activity === 'chamber')   renderChamber(container, data);
-        else if (activity === 'blanks')    renderBlanks(container, data);
-    }
+    if      (activity === 'scrolls')   renderScrolls(container, data);
+    else if (activity === 'quiz')      renderQuiz(container, data);
+    else if (activity === 'chamber')   renderChamber(container, data);
+    else if (activity === 'blanks')    renderBlanks(container, data);
 }
 
 // ================================================================
-//  CONDITIONALS REVIEW ACTIVITIES (11th Grade)
-// ================================================================
-function renderCondScrolls(container, data) {
-    var idx = 0;
-    container.innerHTML =
-        '<h2>Grammar Rules <span id="fc-counter" style="font-size:1rem; color:var(--text-muted); font-weight:normal;"></span></h2>' +
-        '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" id="scroll-pct" style="width:0%;"></div></div></div>' +
-        '<p style="color:var(--text-muted); margin-bottom:10px;">Tap the card to reveal the usage.</p>' +
-        '<div class="flashcard" id="fc-el">' +
-          '<div class="flashcard-inner"><div class="front"><h3 id="fc-word" style="font-size:2rem;"></h3></div>' +
-            '<div class="back"><p id="fc-def"></p><p class="example-sentence" id="fc-example"></p></div></div></div>' +
-        '<div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">' +
-          '<button id="btn-prev" class="btn" style="margin:0;"><i class="fas fa-arrow-left"></i> Prev</button>' +
-          '<button id="btn-next" class="btn" style="margin:0;">Next <i class="fas fa-arrow-right"></i></button>' +
-        '</div>';
-
-    document.getElementById('fc-el').onclick = function() { this.classList.toggle('flipped'); };
-    document.getElementById('btn-prev').onclick = function() { if(idx > 0) { idx--; updateCard(); } };
-    document.getElementById('btn-next').onclick = function() { if(idx < data.scrolls.length - 1) { idx++; updateCard(); } };
-
-    function updateCard() {
-        document.getElementById('scroll-pct').style.width = Math.round((idx / (data.scrolls.length - 1)) * 100) + '%';
-        document.getElementById('fc-word').textContent = data.scrolls[idx].word;
-        document.getElementById('fc-def').textContent = data.scrolls[idx].def;
-        document.getElementById('fc-example').textContent = '📖 ' + data.scrolls[idx].ex;
-        document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + data.scrolls.length + ')';
-        document.getElementById('fc-el').classList.remove('flipped');
-        
-        document.getElementById('btn-prev').disabled = (idx === 0);
-        document.getElementById('btn-next').disabled = (idx === data.scrolls.length - 1);
-        
-        if (idx === data.scrolls.length - 1) { state.done['scrolls'] = true; document.getElementById('s-scrolls').classList.remove('hidden'); updateXPBar(); }
-    }
-    updateCard();
-}
-
-function renderCondQuiz(container, data) {
-    var qPos = 0; var failCount = 0; var activityFailures = 0;
-    function render() {
-        var qObj = data.quiz[qPos];
-        failCount = 0;
-
-        container.innerHTML =
-            '<h2>Situation Match <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.quiz.length+')</span></h2>' +
-            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.quiz.length) * 100)+'%;"></div></div></div>' +
-            '<p style="font-size:1.3rem; margin:20px 0;">Which conditional is this sentence?</p>' +
-            '<div style="background:#f1f5f9; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + qObj.q + '"</div>' +
-            qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('') +
-            '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
-
-        window.checkQuizOpt = function(chosen, correct) {
-            var chosenEl = document.getElementById('qopt-'+chosen);
-            if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
-            if (chosen === correct) {
-                chosenEl.classList.add('correct');
-                if (failCount < 2) { state.firstTryPoints++; }
-                document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
-                setTimeout(function() {
-                    qPos++;
-                    if (qPos < data.quiz.length) { render(); } else {
-                        state.done['quiz'] = true; document.getElementById('s-quiz').classList.remove('hidden'); updateXPBar();
-                        if (activityFailures === 0) triggerConfetti();
-                        container.innerHTML = '<h2>Module Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great job identifying situations!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
-                    }
-                }, 1000);
-            } else { 
-                failCount++; activityFailures++;
-                chosenEl.classList.add('wrong'); 
-                chosenEl.classList.remove('shake');
-                void chosenEl.offsetWidth; // trigger reflow
-                chosenEl.classList.add('shake');
-                document.getElementById('hint-box').classList.add('active'); 
-            }
-        };
-    }
-    render();
-}
-
-function renderCondChamber(container, data) {
-    var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
-    var sList = data.sentences || data.chamber;
-    function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
-
-    function render() {
-        var item = sList[idx];
-        tokens = item.c.match(/\S+/g) || []; 
-        shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; }));
-        selectedIndices = []; failCount = 0;
-
-        container.innerHTML =
-            '<h2>Conditional Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+sList.length+')</span></h2>' +
-            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div>' +
-            '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order to build the sentence:</p>' +
-            '<div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div>' +
-            '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"></div>' +
-            '<div style="display:flex; justify-content:center; gap:10px; margin-top:20px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0; background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>';
-
-        document.getElementById('chk-ans-btn').onclick = checkChamberTiles; document.getElementById('clr-ans-btn').onclick = clearTiles;
-        buildHtml();
-    }
-
-    function buildHtml() {
-        var bankHtml = '';
-        for (var i = 0; i < shuffledIndices.length; i++) { var realIndex = shuffledIndices[i]; var isUsed = selectedIndices.includes(realIndex); bankHtml += '<div class="word-tile' + (isUsed ? ' used' : '') + '" onclick="window.pickTile(' + realIndex + ')">' + tokens[realIndex] + '</div>'; }
-        var answerHtml = '';
-        for (var j = 0; j < selectedIndices.length; j++) { var rIndex = selectedIndices[j]; answerHtml += '<div class="answer-tile" onclick="window.removeTile(' + rIndex + ')">' + tokens[rIndex] + '</div>'; }
-        document.getElementById('word-bank').innerHTML = bankHtml; document.getElementById('answer-row').innerHTML = answerHtml;
-    }
-
-    window.pickTile = function(realIndex) { if (selectedIndices.includes(realIndex)) return; selectedIndices.push(realIndex); buildHtml(); };
-    window.removeTile = function(realIndex) { selectedIndices = selectedIndices.filter(function(x) { return x !== realIndex; }); buildHtml(); };
-    function clearTiles() { selectedIndices = []; buildHtml(); }
-
-    function checkChamberTiles() {
-        if (selectedIndices.length === 0) return;
-        var answerArray = []; for (var k = 0; k < selectedIndices.length; k++) { answerArray.push(tokens[selectedIndices[k]]); }
-        if (answerArray.join(' ').toLowerCase() === sList[idx].c.toLowerCase()) {
-            if (failCount < 2) state.firstTryPoints++;
-            document.getElementById('answer-row').style.borderColor = 'var(--success-bright)'; document.getElementById('answer-row').style.backgroundColor = '#d1fae5';
-            setTimeout(function() {
-                idx++;
-                if (idx < sList.length) { render(); } else {
-                    state.done['chamber'] = true; document.getElementById('s-chamber').classList.remove('hidden'); updateXPBar();
-                    container.innerHTML = '<h2>Sentence Builder Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great syntax skills!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
-                }
-            }, 1000);
-        } else { 
-            failCount++; 
-            var hintBox = document.getElementById('hint-box');
-            if (failCount >= 2 && data.grammarHint) {
-                hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct.<hr style="border:none; border-top:1px solid #fecaca; margin:10px 0;"><i class="fas fa-lightbulb"></i> <strong>Grammar Tip:</strong> ' + data.grammarHint;
-            } else {
-                hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct. Try again.';
-            }
-            hintBox.classList.add('active'); 
-            clearTiles(); 
-        }
-    }
-    render();
-}
-
-function renderCondBlanks(container, data) {
-    var idx = 0; var failCount = 0; var activityFailures = 0;
-
-    function render() {
-        var qObj = data.blanks[idx]; failCount = 0;
-        
-        container.innerHTML =
-            '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
-            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.blanks.length) * 100)+'%;"></div></div></div>' +
-            '<p style="font-size:1.3rem; margin:30px auto; max-width:600px; color:var(--text-main); font-weight:500;">' + qObj.text + '</p>' +
-            '<input type="text" id="blank-input" placeholder="Conjugate the verb..." autocomplete="off" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
-            '<div id="hint-box" class="hint-box" style="max-width:350px;"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>';
-
-        setTimeout(() => { document.getElementById('blank-input').focus(); }, 100);
-
-        window.checkBlank = function() {
-            var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim().toLowerCase(); if(!input) return;
-            if (input === qObj.answer.toLowerCase()) {
-                if (failCount < 2) state.firstTryPoints++;
-                inputEl.classList.remove('input-wrong', 'shake');
-                inputEl.classList.add('input-correct');
-                
-                setTimeout(function() {
-                    idx++;
-                    if (idx < data.blanks.length) { render(); } else {
-                        state.done['blanks'] = true; document.getElementById('s-blanks').classList.remove('hidden'); updateXPBar();
-                        if(activityFailures === 0) triggerConfetti();
-                        container.innerHTML = '<h2>Grammar Challenge Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Conjugation mastered.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
-                    }
-                }, 1000);
-            } else { 
-                failCount++; activityFailures++;
-                inputEl.value = ''; 
-                inputEl.classList.remove('shake', 'input-correct');
-                inputEl.classList.add('input-wrong');
-                void inputEl.offsetWidth; // trigger reflow
-                inputEl.classList.add('shake');
-                document.getElementById('hint-box').classList.add('active'); 
-                inputEl.focus(); 
-            }
-        };
-    }
-    render();
-}
-
-// ================================================================
-//  NORMAL ACTIVITIES
+//  ACTIVITIES
 // ================================================================
 function renderScrolls(container, data) {
     var idx = 0;
@@ -971,7 +823,6 @@ function renderScrolls(container, data) {
         document.getElementById('btn-prev').disabled = (idx === 0);
         document.getElementById('btn-next').disabled = (idx === data.words.length - 1);
         
-        // Asignación de la función speak
         document.getElementById('tts-btn').onclick = function(e) { 
             e.stopPropagation(); 
             speak(data.words[idx]); 
@@ -1028,7 +879,7 @@ function renderQuiz(container, data) {
 
 function renderChamber(container, data) {
     var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
-    var sList = data.sentences || data.chamber;
+    var sList = data.sentences;
     function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
 
     function render() {
@@ -1154,7 +1005,7 @@ function claimCert() {
 
     if (!isReviewMode) {
         // 👇 CAMBIA ESTE ENLACE POR EL TUYO ORIGINAL 👇
-        var urlGoogleScript = "https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec";
+        var urlGoogleScript = "https://www.youtube.com/watch?v=tBkP83OYtKg";
         
         var formData = new FormData();
         formData.append("name", state.name); 
