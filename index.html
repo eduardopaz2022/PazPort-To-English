@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="google" content="notranslate">
     <title>Pazport to English</title>
+    <!-- Modern, readable fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
         :root {
@@ -30,7 +32,6 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            /* Fondo académico de patrón sutil que funciona perfecto con o sin zoom */
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232563eb' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             color: var(--text-main);
             min-height: 100vh;
@@ -154,6 +155,8 @@
         
         #review-badge { display: none; background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; margin: 0 auto 20px auto; width: max-content; }
         
+        .reading-box { background: #f1f5f9; padding: 20px; border-left: 4px solid var(--primary-blue); margin: 0 auto 25px auto; max-width: 600px; text-align: left; font-size: 0.95rem; line-height: 1.6; border-radius: 4px; color: var(--text-main); }
+        
         /* Auto-Study Guide Class */
         .self-study-guide {
             background: #eff6ff; border: 2px solid var(--primary-blue); 
@@ -165,14 +168,13 @@
         .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* Dynamic Word Bank for Blanks - UPDATED TO FIX SPACING */
         .blanks-word-bank { 
             display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; 
             margin: 0 auto 25px auto; max-width: 800px; padding: 20px; 
             background: #f8fafc; border-radius: 12px; border: 2px dashed #cbd5e1; 
         }
         .blanks-word { 
-            display: inline-block; /* Forces elements to respect padding and margin properly */
+            display: inline-block;
             background: #e2e8f0; color: #475569; padding: 8px 16px; margin: 4px;
             border-radius: 20px; font-size: 0.95rem; font-weight: 600; 
             transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -183,7 +185,6 @@
             box-shadow: none; border-color: transparent;
         }
 
-        /* Haptic/Visual UI Feedback Class */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             20%, 60% { transform: translateX(-8px); }
@@ -197,6 +198,7 @@
 <body>
 <div class="container" id="main-container">
 
+<!-- HOME -->
 <section id="screen-home" class="screen">
     <h1>Pazport to English</h1>
     <div class="quote-box" id="motivational-quote"></div>
@@ -228,10 +230,12 @@
     <p id="msg" style="margin-top:15px; font-weight:500; color:var(--warning); font-size:0.9rem;"></p>
 </section>
 
+<!-- MENU -->
 <section id="screen-menu" class="screen hidden">
     <h2 id="userGreet" style="color:var(--text-main); margin-bottom:4px;"></h2>
     <p style="color:var(--text-muted); font-size:1rem; margin-bottom:0;">Complete all activities to unlock your final grade.</p>
 
+    <!-- SELF STUDY GUIDE FOR 11TH GRADE (INJECTED DYNAMICALLY) -->
     <div id="self-study-section" class="hidden"></div>
 
     <div class="xp-wrap">
@@ -272,6 +276,7 @@
     <button class="btn" style="margin-top:40px; width:100%; max-width:300px; display:inline-block;" id="btn-report" onclick="claimCert()" disabled>Complete all to Submit</button>
 </section>
 
+<!-- ACTIVITY -->
 <section id="screen-act" class="screen hidden">
     <div style="text-align:left; margin-bottom:20px;" id="act-back-btn-container">
         <button class="btn" style="padding:8px 16px; margin:0; font-size:0.9rem; background:#cbd5e1; color:#0f172a;" onclick="show('menu')"><i class="fas fa-arrow-left"></i> Back to Menu</button>
@@ -279,6 +284,7 @@
     <div id="act-content"></div>
 </section>
 
+<!-- CERTIFICATE -->
 <section id="screen-cert" class="screen hidden">
     <div class="cert-area">
         <i class="fas fa-award" style="font-size:4rem; color:var(--primary-blue); margin-bottom:10px;"></i>
@@ -348,6 +354,12 @@ function setDailyQuote() {
 // ================================================================
 //  DATABASE
 // ================================================================
+const audio10 = "Good afternoon, students! Please listen to the updates for the San Miguel Action Games. Tomorrow morning, it won't be a clear sky. There will be heavy rain and strong winds, so it will be very cold. You must wear thick jackets. Because of the storm, we won't play tennis outside. We will play basketball inside the sports center. Remember, you shouldn't go running near the river, it's very dangerous. If you feel sick, you shouldn't play. If someone breaks a bone, the nurses will help them. Finally, a famous swimmer, Coach Miller, will arrive at 9:30 AM to inspire us. If you don't follow the rules, you won't participate.";
+const reading10 = "The Sahara Desert Marathon is an extreme race. It happens in April. Runners go 300 kilometers across dry sand. In the morning, the temperature reaches 50 degrees Celsius! Runners MUST carry their own food and five liters of water. Last year, a 28-year-old nurse named Jessica won. The prize was $20,000. Next year, organizers expect over 400 people.";
+
+const audio11 = "Hey, Sarah! I am exhausted today. I have been working on my photography project all weekend. It's an abstract portrait, but it's taking forever! Also, I haven't slept much because I have been binge-watching 'The Midnight Detective' on HBO. The main character is a brilliant inspector. If I were her, I wouldn't trust the suspect! The season finale was broadcast on Sunday, and it had a crazy plot twist. If I don't get a second season, I will be so mad. I have to finish my photos now. Catch you at 9:00 AM!";
+const reading11 = "The Ultimate Binge-Watching Challenge.<br><br>Alejandro is trying to break a world record. He has been watching TV for 85 hours! He is watching a sci-fi series called 'The Galaxy Canvas'. His sister has been giving him coffee and pizza. If he falls asleep, he loses the challenge. 'If I were a normal person, I would be sleeping right now,' Alejandro said. But if he completes 100 hours, he will win $50,000! The competition finishes tomorrow morning.";
+
 const DB = {
     "9th - Unit 4": {
         type: "normal",
@@ -553,7 +565,64 @@ const DB = {
             { s:"be / humid. / air / The / will", c:"The air will be humid." }
         ]
     },
-    // 11TH GRADE DATA - SELF STUDY MODE (45 MINS)
+    // NEW 10TH MOCK EXAM
+    "10th - Mock Exam": {
+        type: "exam",
+        questions: [
+            // LISTENING
+            { section: "Part I: Listening Comprehension", audioText: audio10, q: "1. What will the weather be like tomorrow morning?", opts: ["Clear sky and sunny", "Heavy rain and wind", "Dry and boiling hot", "Just cloudy"], a: 1 },
+            { audioText: audio10, q: "2. What MUST the students wear?", opts: ["Special running shoes", "Normal school uniform", "Thick jackets", "Winter gloves"], a: 2 },
+            { audioText: audio10, q: "3. Because of the storm, what sport will they play inside?", opts: ["Basketball", "Soccer", "Gymnastics", "Tennis"], a: 0 },
+            { audioText: audio10, q: "4. Why shouldn't they go running near the river?", opts: ["Because it is very dangerous.", "Because the river is dry.", "Because they have to play basketball.", "Because the nurses are there."], a: 0 },
+            { audioText: audio10, q: "5. Who will arrive at 9:30 AM?", opts: ["A famous swimmer named Coach Miller", "The principal of the school", "A professional soccer player", "A doctor from the hospital"], a: 0 },
+            // VOCAB / GRAMMAR
+            { section: "Part II: Vocabulary & Grammar", q: "6. The water is very, very hot. It is...", opts: ["Drizzling", "Humid", "Boiling", "Freezing"], a: 2 },
+            { q: "7. It is raining lightly from the sky. It is...", opts: ["Pouring", "Drizzling", "Clear sky", "Flooding"], a: 1 },
+            { q: "8. I ________ wear a thick scarf because it's very cold.", opts: ["won't", "will", "am", "shouldn't"], a: 1 },
+            { q: "9. You ________ eat a lot of junk food every single day.", opts: ["should", "will", "shouldn't", "are"], a: 2 },
+            { q: "10. If you cut your hand, the medical team ________ help you.", opts: ["won't", "shouldn't", "is", "will"], a: 2 },
+            // READING
+            { section: "Part III: Reading Comprehension", readingText: reading10, q: "11. When does the Sahara Desert Marathon happen?", opts: ["In June", "In October", "In April", "In May"], a: 2 },
+            { readingText: reading10, q: "12. What temperature does it reach in the morning?", opts: ["24 degrees Celsius", "30 degrees Celsius", "50 degrees Celsius", "100 degrees Celsius"], a: 2 },
+            { readingText: reading10, q: "13. What MUST runners carry during the race?", opts: ["A heavy backpack and money", "Food and five liters of water", "Special raincoats", "A medical kit"], a: 1 },
+            { readingText: reading10, q: "14. Who won the race last year?", opts: ["A 28-year-old nurse named Jessica", "Coach Carter", "A doctor from another country", "Nobody finished"], a: 0 },
+            { readingText: reading10, q: "15. How much was the prize for winning?", opts: ["$500", "$10,000", "$20,000", "$30,000"], a: 2 }
+        ]
+    },
+    // 11TH GRADE DATA
+    "11th - Conditionals Review": {
+        type: "conditional_review",
+        grammarHint: "Zero (Facts): <b>Present + Present</b>. First (Possible): <b>Present + Will</b>. Second (Imaginary): <b>Past + Would</b>.",
+        scrolls: [
+            { word: "Zero Conditional", def: "Used for facts and general truths. Both verbs are in Present Simple.", ex: "If you eat five pupusas, you get sleepy." },
+            { word: "First Conditional", def: "Used for real or possible situations in the future. If + Present Simple, ... Will + Verb.", ex: "If I pass the test, my parents will buy me pizza." },
+            { word: "Second Conditional", def: "Used for hypothetical, crazy or imaginary situations. If + Past Simple, ... Would + Verb.", ex: "If I had a flying car, I would avoid the traffic." }
+        ],
+        quiz: [
+            { q: "If aliens invaded the school, I would hide in the cafeteria.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 2, hint: "Notice 'invaded' (past) and 'would hide'." },
+            { q: "If you eat five pupusas, you get sleepy.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 0, hint: "Is this a biological fact? (Present + Present)" },
+            { q: "If the traffic is heavy today, the teacher will be late.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 1, hint: "A real possibility in the future (will)." },
+            { q: "If I were the principal, I would cancel all exams.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 2, hint: "An imaginary, crazy situation." },
+            { q: "If students don't sleep, they look like zombies.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 0, hint: "A general truth about students." },
+            { q: "If I pass the Avanzo test, my parents will buy me a pizza.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 1, hint: "A real possibility." }
+        ],
+        chamber: [
+            { s: "eat / pupusas, / you / sleepy. / If / five / you / get", c: "If you eat five pupusas, you get sleepy." },
+            { s: "sleep, / don't / students / If / zombies. / like / look / they", c: "If students don't sleep, they look like zombies." },
+            { s: "Avanzo / the / test, / pass / I / If / pizza. / a / me / buy / will / parents / my", c: "If I pass the Avanzo test, my parents will buy me a pizza." },
+            { s: "today, / heavy / is / traffic / the / If / late. / be / will / teacher / the", c: "If the traffic is heavy today, the teacher will be late." },
+            { s: "principal, / the / were / I / If / exams. / all / cancel / would / I", c: "If I were the principal, I would cancel all exams." },
+            { s: "car, / flying / a / had / I / If / traffic. / the / avoid / would / I", c: "If I had a flying car, I would avoid the traffic." }
+        ],
+        blanks: [
+            { text: "If you eat five pupusas, you _____ (get) sleepy.", answer: "get", hint: "Zero Conditional (Fact). Use Present Simple." },
+            { text: "If students don't sleep, they _____ (look) like zombies.", answer: "look", hint: "Zero Conditional (Fact). Use Present Simple." },
+            { text: "If I pass the Avanzo test, my parents _____ (buy) me a pizza.", answer: "will buy", hint: "First Conditional (Possible). Use will + verb." },
+            { text: "If the traffic is heavy today, the teacher _____ (be) late.", answer: "will be", hint: "First Conditional (Possible). Use will + verb." },
+            { text: "If I _____ (be) the principal, I would cancel all exams.", answer: "were", hint: "Second Conditional (Imaginary). Use past tense of 'be' (were for all subjects in conditionals)." },
+            { text: "If I had a flying car, I _____ (avoid) the traffic.", answer: "would avoid", hint: "Second Conditional (Imaginary). Use would + verb." }
+        ]
+    },
     "11th - TV & Present Perfect Cont.": {
         type: "normal",
         hasVideoLesson: true,
@@ -635,6 +704,30 @@ const DB = {
             { s:"I / have / been / watching / TV.", c:"I have been watching TV." },
             { s:"You / have / been / waiting / here.", c:"You have been waiting here." },
             { s:"We / have / been / discussing / the / movie.", c:"We have been discussing the movie." }
+        ]
+    },
+    // NEW 11TH MOCK EXAM
+    "11th - Mock Exam": {
+        type: "exam",
+        questions: [
+            // LISTENING
+            { section: "Part I: Listening Comprehension", audioText: audio11, q: "1. Why is Sarah's friend so exhausted today?", opts: ["Because of a soccer match", "Because of a photography project", "Because of a math test", "Because he went to a party"], a: 1 },
+            { audioText: audio11, q: "2. What has the person been doing on HBO?", opts: ["Sleeping all day", "Watching a documentary", "Binge-watching a show", "Painting a canvas"], a: 2 },
+            { audioText: audio11, q: "3. Who is the main character in the show?", opts: ["A crazy artist", "A brilliant inspector", "A professional photographer", "A high school student"], a: 1 },
+            { audioText: audio11, q: "4. What conditional is used in: 'If I were her, I wouldn't trust the suspect!'?", opts: ["Zero Conditional", "First Conditional", "Second Conditional", "Third Conditional"], a: 2 },
+            { audioText: audio11, q: "5. When was the season finale broadcast?", opts: ["On Monday", "On Sunday", "Yesterday", "Tomorrow morning"], a: 1 },
+            // VOCAB / GRAMMAR
+            { section: "Part II: Vocabulary & Grammar", q: "6. We ________ waiting for the new episode for three hours!", opts: ["has been", "have been", "are", "were"], a: 1 },
+            { q: "7. She ________ studying art since this morning.", opts: ["has been", "have been", "is", "have"], a: 0 },
+            { q: "8. (Zero Conditional) If you mix red and blue, you ________ purple.", opts: ["would get", "will get", "get", "got"], a: 2 },
+            { q: "9. (First Conditional) If it rains tomorrow, we ________ stay home.", opts: ["will", "would", "are", "do"], a: 0 },
+            { q: "10. An ending that leaves you in suspense is called a...", opts: ["Plot twist", "Cliffhanger", "Spoiler", "Main character"], a: 1 },
+            // READING
+            { section: "Part III: Reading Comprehension", readingText: reading11, q: "11. What is Alejandro trying to do?", opts: ["Finish his art project", "Break a world record by watching TV", "Write a new sci-fi book", "Sleep for 100 hours"], a: 1 },
+            { readingText: reading11, q: "12. Who has been giving him coffee and pizza?", opts: ["His friends", "His parents", "His sister", "The main character"], a: 2 },
+            { readingText: reading11, q: "13. What happens if Alejandro falls asleep?", opts: ["He wins $50,000", "He loses the challenge", "He wakes up in the future", "He gets more coffee"], a: 1 },
+            { readingText: reading11, q: "14. What conditional is 'If he completes 100 hours, he will win $50,000'?", opts: ["Zero Conditional", "First Conditional", "Second Conditional", "Third Conditional"], a: 1 },
+            { readingText: reading11, q: "15. How much money will he win if he completes the challenge?", opts: ["$10,000", "$45,000", "$50,000", "$100,000"], a: 2 }
         ]
     }
 };
@@ -750,7 +843,6 @@ function unlockCard(activity, condition) {
 }
 
 function gateCheck(activity) {
-    var data = DB[document.getElementById('unitSelect').value];
     alert('🔒 Complete the previous activity first to unlock this one.');
 }
 
@@ -760,35 +852,61 @@ function start() {
     var unit = document.getElementById('unitSelect').value;
     var data = DB[unit];
     
-    var totalPoints = data.words.length * 2 + data.sentences.length; 
+    var totalPoints = 0;
+    if (data.type === "normal" || data.type === "conditional_review") { 
+        totalPoints = (data.words ? data.words.length * 2 : data.quiz.length) + (data.sentences ? data.sentences.length : data.chamber.length) + (data.blanks ? data.blanks.length : 0); 
+    } else if (data.type === "exam") { 
+        totalPoints = data.questions.length; 
+    }
     
     state = { name: name, section: section, unit: unit, scores: {}, done: {}, firstTryPoints: 0, totalPossiblePoints: totalPoints };
     usedBlanksWords = []; 
     document.getElementById('userGreet').textContent = 'Welcome, ' + name.split(' ')[0];
     
-    // Inject Self-Study Guide if applicable
-    var studySection = document.getElementById('self-study-section');
-    if (data.hasVideoLesson) {
-        studySection.innerHTML = `
-            <div class="self-study-guide">
-                <h3><i class="fas fa-chalkboard-teacher"></i> Today's Lesson: Present Perfect Continuous</h3>
-                <p>
-                    <strong>¿Para qué se usa?</strong> Para acciones que empezaron en el pasado y <strong>todavía continúan</strong> ahora mismo sin detenerse.<br>
-                    <strong>Structure:</strong> Subject + Have/Has been + Verb(-ing) + Complement.<br>
-                    <em>Ejemplo:</em> I have been watching Netflix. (He estado viendo Netflix).
-                </p>
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/tBkP83OYtKg" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    if (data.type === "exam") { 
+        goExam(); 
+    } else { 
+        var studySection = document.getElementById('self-study-section');
+        if (data.hasVideoLesson) {
+            studySection.innerHTML = `
+                <div class="self-study-guide">
+                    <h3><i class="fas fa-chalkboard-teacher"></i> Today's Lesson: Present Perfect Continuous</h3>
+                    <p>
+                        <strong>¿Para qué se usa?</strong> Para acciones que empezaron en el pasado y <strong>todavía continúan</strong> ahora mismo sin detenerse.<br>
+                        <strong>Structure:</strong> Subject + Have/Has been + Verb(-ing) + Complement.<br>
+                        <em>Ejemplo:</em> I have been watching Netflix. (He estado viendo Netflix).
+                    </p>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/tBkP83OYtKg" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
                 </div>
-            </div>
-        `;
-        studySection.classList.remove('hidden');
-    } else {
-        studySection.innerHTML = '';
-        studySection.classList.add('hidden');
+            `;
+            studySection.classList.remove('hidden');
+        } else {
+            studySection.innerHTML = '';
+            studySection.classList.add('hidden');
+        }
+        
+        if(data.type === "conditional_review") {
+            document.getElementById("card-title-1").textContent = "Grammar Rules";
+            document.getElementById("card-desc-1").textContent = "Review the structures";
+            document.getElementById("card-title-2").textContent = "Situation Match";
+            document.getElementById("card-desc-2").textContent = "Identify Conditional";
+            document.getElementById("card-title-3").textContent = "Conditional Builder";
+            document.getElementById("card-title-4").textContent = "Grammar Challenge";
+            document.getElementById("card-desc-4").textContent = "Conjugate the verb";
+        } else {
+            document.getElementById("card-title-1").textContent = "Study Scrolls";
+            document.getElementById("card-desc-1").textContent = "Memorize vocabulary";
+            document.getElementById("card-title-2").textContent = "Definition Quiz";
+            document.getElementById("card-desc-2").textContent = "Match the meaning";
+            document.getElementById("card-title-3").textContent = "Sentence Builder";
+            document.getElementById("card-title-4").textContent = "Fill the Blanks";
+            document.getElementById("card-desc-4").textContent = "Type missing words";
+        }
+        
+        show('menu'); 
     }
-
-    show('menu');
 }
 
 function triggerConfetti() {
@@ -804,14 +922,314 @@ function go(activity) {
     container.innerHTML = ''; 
     document.getElementById('act-back-btn-container').style.display = 'block';
 
-    if      (activity === 'scrolls')   renderScrolls(container, data);
-    else if (activity === 'quiz')      renderQuiz(container, data);
-    else if (activity === 'chamber')   renderChamber(container, data);
-    else if (activity === 'blanks')    renderBlanks(container, data);
+    if (data.type === "conditional_review") {
+        if      (activity === 'scrolls')   renderCondScrolls(container, data);
+        else if (activity === 'quiz')      renderCondQuiz(container, data);
+        else if (activity === 'chamber')   renderCondChamber(container, data);
+        else if (activity === 'blanks')    renderCondBlanks(container, data);
+    } else {
+        if      (activity === 'scrolls')   renderScrolls(container, data);
+        else if (activity === 'quiz')      renderQuiz(container, data);
+        else if (activity === 'chamber')   renderChamber(container, data);
+        else if (activity === 'blanks')    renderBlanks(container, data);
+    }
+}
+
+function goExam() {
+    var data = DB[state.unit];
+    show('act');
+    var container = document.getElementById('act-content');
+    container.innerHTML = '';
+    document.getElementById('act-back-btn-container').style.display = 'none';
+    renderExam(container, data);
 }
 
 // ================================================================
-//  ACTIVITIES
+//  EXAM RENDERER (MOCK EXAMS)
+// ================================================================
+function renderExam(container, data) {
+    var qPos = 0;
+    var score = 0;
+
+    function render() {
+        var qObj = data.questions[qPos];
+        var pct = Math.round((qPos / data.questions.length) * 100);
+        
+        var optHtml = qObj.opts.map(function(o,i) {
+            return '<div class="quiz-option" id="eopt-'+i+'" onclick="window.checkExamOpt('+i+','+qObj.a+')">' + o + '</div>';
+        }).join('');
+
+        var sectionHtml = '';
+        if (qObj.section) {
+            sectionHtml = '<h3 style="color:var(--primary-blue); margin: 15px 0; text-transform:uppercase; font-size:1.1rem; letter-spacing:1px;">' + qObj.section + '</h3>';
+        }
+
+        var audioHtml = '';
+        if (qObj.audioText) {
+            window.currentAudioText = qObj.audioText;
+            audioHtml = '<div style="margin-bottom:20px; background:#f8fafc; padding:15px; border-radius:8px; border:2px dashed #cbd5e1;"><p style="font-weight:600; margin-bottom:10px; color:var(--text-main);"><i class="fas fa-headphones"></i> Listen to the audio to answer:</p><button class="btn" style="margin:0; padding:10px 20px; border-radius:50px; background:var(--primary-blue);" onclick="speak(window.currentAudioText)"><i class="fas fa-play"></i> Play Audio</button></div>';
+        }
+
+        var readingHtml = '';
+        if (qObj.readingText) {
+            readingHtml = '<div class="reading-box" style="margin-bottom:15px; background:#eff6ff; border-color:var(--primary-blue); font-size:0.95rem;"><strong><i class="fas fa-book-open"></i> Read the text:</strong><br><br>' + qObj.readingText + '</div>';
+        }
+
+        container.innerHTML =
+            '<h2 style="color:var(--primary-blue);">Mock Exam <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.questions.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="background:var(--primary-blue); width:'+pct+'%;"></div></div></div>' +
+            sectionHtml +
+            audioHtml +
+            readingHtml +
+            '<p style="font-size:1.2rem; margin:20px 0; font-weight:600; color:var(--text-main);">' + qObj.q + '</p>' +
+            optHtml +
+            '<div id="next-box" style="display:none; margin-top:20px;"><button class="btn" onclick="window.nextExamQ()">Next Question <i class="fas fa-arrow-right"></i></button></div>';
+
+        window.checkExamOpt = function(chosen, correct) {
+            if(document.querySelector('.quiz-option.correct') || document.querySelector('.quiz-option.wrong')) return;
+            
+            var chosenEl = document.getElementById('eopt-'+chosen);
+            var correctEl = document.getElementById('eopt-'+correct);
+
+            if (chosen === correct) {
+                chosenEl.classList.add('correct');
+                score++;
+            } else {
+                chosenEl.classList.add('wrong');
+                chosenEl.classList.add('shake');
+                correctEl.classList.add('correct');
+            }
+            
+            document.getElementById('next-box').style.display = 'block';
+        };
+
+        window.nextExamQ = function() {
+            qPos++;
+            if (qPos < data.questions.length) {
+                render();
+            } else {
+                state.firstTryPoints = score;
+                showExamResults();
+            }
+        };
+    }
+
+    function showExamResults() {
+        var rawScore = (state.firstTryPoints / data.questions.length) * 10;
+        var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
+
+        container.innerHTML = 
+            '<h2 style="color:var(--primary-blue);">Mock Exam Finished</h2>' +
+            '<div class="final-grade-circle" style="background:var(--primary-blue); box-shadow:0 10px 20px rgba(37,99,235,0.2);">' +
+                '<span>' + finalGrade + '</span><small>Grade</small>' +
+            '</div>' +
+            '<p style="font-size:1.1rem; color:var(--text-muted); margin-bottom: 20px;">You can try again to improve your score, or submit it now.</p>' +
+            '<div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">' +
+                '<button class="btn" style="background:var(--warning);" onclick="window.retryExam()"><i class="fas fa-redo"></i> Try Again</button>' +
+                '<button class="btn" style="background:var(--success);" onclick="window.submitExam()"><i class="fas fa-paper-plane"></i> Submit Grade</button>' +
+            '</div>';
+    }
+
+    window.retryExam = function() {
+        qPos = 0; score = 0; render();
+    };
+
+    window.submitExam = function() {
+        claimCert();
+    };
+
+    render();
+}
+
+// ================================================================
+//  CONDITIONALS REVIEW ACTIVITIES (11th Grade)
+// ================================================================
+function renderCondScrolls(container, data) {
+    var idx = 0;
+    container.innerHTML =
+        '<h2>Grammar Rules <span id="fc-counter" style="font-size:1rem; color:var(--text-muted); font-weight:normal;"></span></h2>' +
+        '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" id="scroll-pct" style="width:0%;"></div></div></div>' +
+        '<p style="color:var(--text-muted); margin-bottom:10px;">Tap the card to reveal the usage.</p>' +
+        '<div class="flashcard" id="fc-el">' +
+          '<div class="flashcard-inner"><div class="front"><h3 id="fc-word" style="font-size:2rem;"></h3></div>' +
+            '<div class="back"><p id="fc-def"></p><p class="example-sentence" id="fc-example"></p></div></div></div>' +
+        '<div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">' +
+          '<button id="btn-prev" class="btn" style="margin:0;"><i class="fas fa-arrow-left"></i> Prev</button>' +
+          '<button id="btn-next" class="btn" style="margin:0;">Next <i class="fas fa-arrow-right"></i></button>' +
+        '</div>';
+
+    document.getElementById('fc-el').onclick = function() { this.classList.toggle('flipped'); };
+    document.getElementById('btn-prev').onclick = function() { if(idx > 0) { idx--; updateCard(); } };
+    document.getElementById('btn-next').onclick = function() { if(idx < data.scrolls.length - 1) { idx++; updateCard(); } };
+
+    function updateCard() {
+        document.getElementById('scroll-pct').style.width = Math.round((idx / (data.scrolls.length - 1)) * 100) + '%';
+        document.getElementById('fc-word').textContent = data.scrolls[idx].word;
+        document.getElementById('fc-def').textContent = data.scrolls[idx].def;
+        document.getElementById('fc-example').textContent = '📖 ' + data.scrolls[idx].ex;
+        document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + data.scrolls.length + ')';
+        document.getElementById('fc-el').classList.remove('flipped');
+        
+        document.getElementById('btn-prev').disabled = (idx === 0);
+        document.getElementById('btn-next').disabled = (idx === data.scrolls.length - 1);
+        
+        if (idx === data.scrolls.length - 1) { state.done['scrolls'] = true; document.getElementById('s-scrolls').classList.remove('hidden'); updateXPBar(); }
+    }
+    updateCard();
+}
+
+function renderCondQuiz(container, data) {
+    var qPos = 0; var failCount = 0; var activityFailures = 0;
+    function render() {
+        var qObj = data.quiz[qPos];
+        failCount = 0;
+
+        container.innerHTML =
+            '<h2>Situation Match <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.quiz.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.quiz.length) * 100)+'%;"></div></div></div>' +
+            '<p style="font-size:1.3rem; margin:20px 0;">Which conditional is this sentence?</p>' +
+            '<div style="background:#f1f5f9; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + qObj.q + '"</div>' +
+            qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('') +
+            '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
+
+        window.checkQuizOpt = function(chosen, correct) {
+            var chosenEl = document.getElementById('qopt-'+chosen);
+            if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
+            if (chosen === correct) {
+                chosenEl.classList.add('correct');
+                if (failCount < 2) { state.firstTryPoints++; }
+                document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
+                setTimeout(function() {
+                    qPos++;
+                    if (qPos < data.quiz.length) { render(); } else {
+                        state.done['quiz'] = true; document.getElementById('s-quiz').classList.remove('hidden'); updateXPBar();
+                        if (activityFailures === 0) triggerConfetti();
+                        container.innerHTML = '<h2>Module Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great job identifying situations!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                    }
+                }, 1000);
+            } else { 
+                failCount++; activityFailures++;
+                chosenEl.classList.add('wrong'); 
+                chosenEl.classList.remove('shake');
+                void chosenEl.offsetWidth; 
+                chosenEl.classList.add('shake');
+                document.getElementById('hint-box').classList.add('active'); 
+            }
+        };
+    }
+    render();
+}
+
+function renderCondChamber(container, data) {
+    var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
+    var sList = data.chamber;
+    function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
+
+    function render() {
+        var item = sList[idx];
+        tokens = item.c.match(/\S+/g) || []; 
+        shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; }));
+        selectedIndices = []; failCount = 0;
+
+        container.innerHTML =
+            '<h2>Conditional Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+sList.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div>' +
+            '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order to build the sentence:</p>' +
+            '<div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div>' +
+            '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"></div>' +
+            '<div style="display:flex; justify-content:center; gap:10px; margin-top:20px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0; background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>';
+
+        document.getElementById('chk-ans-btn').onclick = checkChamberTiles; document.getElementById('clr-ans-btn').onclick = clearTiles;
+        buildHtml();
+    }
+
+    function buildHtml() {
+        var bankHtml = '';
+        for (var i = 0; i < shuffledIndices.length; i++) { var realIndex = shuffledIndices[i]; var isUsed = selectedIndices.includes(realIndex); bankHtml += '<div class="word-tile' + (isUsed ? ' used' : '') + '" onclick="window.pickTile(' + realIndex + ')">' + tokens[realIndex] + '</div>'; }
+        var answerHtml = '';
+        for (var j = 0; j < selectedIndices.length; j++) { var rIndex = selectedIndices[j]; answerHtml += '<div class="answer-tile" onclick="window.removeTile(' + rIndex + ')">' + tokens[rIndex] + '</div>'; }
+        document.getElementById('word-bank').innerHTML = bankHtml; document.getElementById('answer-row').innerHTML = answerHtml;
+    }
+
+    window.pickTile = function(realIndex) { if (selectedIndices.includes(realIndex)) return; selectedIndices.push(realIndex); buildHtml(); };
+    window.removeTile = function(realIndex) { selectedIndices = selectedIndices.filter(function(x) { return x !== realIndex; }); buildHtml(); };
+    function clearTiles() { selectedIndices = []; buildHtml(); }
+
+    function checkChamberTiles() {
+        if (selectedIndices.length === 0) return;
+        var answerArray = []; for (var k = 0; k < selectedIndices.length; k++) { answerArray.push(tokens[selectedIndices[k]]); }
+        if (answerArray.join(' ').toLowerCase() === sList[idx].c.toLowerCase()) {
+            if (failCount < 2) state.firstTryPoints++;
+            document.getElementById('answer-row').style.borderColor = 'var(--success-bright)'; document.getElementById('answer-row').style.backgroundColor = '#d1fae5';
+            setTimeout(function() {
+                idx++;
+                if (idx < sList.length) { render(); } else {
+                    state.done['chamber'] = true; document.getElementById('s-chamber').classList.remove('hidden'); updateXPBar();
+                    container.innerHTML = '<h2>Sentence Builder Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great syntax skills!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                }
+            }, 1000);
+        } else { 
+            failCount++; 
+            var hintBox = document.getElementById('hint-box');
+            if (failCount >= 2 && data.grammarHint) {
+                hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct.<hr style="border:none; border-top:1px solid #fecaca; margin:10px 0;"><i class="fas fa-lightbulb"></i> <strong>Grammar Tip:</strong> ' + data.grammarHint;
+            } else {
+                hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct. Try again.';
+            }
+            hintBox.classList.add('active'); 
+            clearTiles(); 
+        }
+    }
+    render();
+}
+
+function renderCondBlanks(container, data) {
+    var idx = 0; var failCount = 0; var activityFailures = 0;
+
+    function render() {
+        var qObj = data.blanks[idx]; failCount = 0;
+        
+        container.innerHTML =
+            '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.blanks.length) * 100)+'%;"></div></div></div>' +
+            '<p style="font-size:1.3rem; margin:30px auto; max-width:600px; color:var(--text-main); font-weight:500;">' + qObj.text + '</p>' +
+            '<input type="text" id="blank-input" placeholder="Conjugate the verb..." autocomplete="off" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
+            '<div id="hint-box" class="hint-box" style="max-width:350px;"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>';
+
+        setTimeout(() => { document.getElementById('blank-input').focus(); }, 100);
+
+        window.checkBlank = function() {
+            var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim().toLowerCase(); if(!input) return;
+            if (input === qObj.answer.toLowerCase()) {
+                if (failCount < 2) state.firstTryPoints++;
+                inputEl.classList.remove('input-wrong', 'shake');
+                inputEl.classList.add('input-correct');
+                
+                setTimeout(function() {
+                    idx++;
+                    if (idx < data.blanks.length) { render(); } else {
+                        state.done['blanks'] = true; document.getElementById('s-blanks').classList.remove('hidden'); updateXPBar();
+                        if(activityFailures === 0) triggerConfetti();
+                        container.innerHTML = '<h2>Grammar Challenge Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Conjugation mastered.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                    }
+                }, 1000);
+            } else { 
+                failCount++; activityFailures++;
+                inputEl.value = ''; 
+                inputEl.classList.remove('shake', 'input-correct');
+                inputEl.classList.add('input-wrong');
+                void inputEl.offsetWidth; // trigger reflow
+                inputEl.classList.add('shake');
+                document.getElementById('hint-box').classList.add('active'); 
+                inputEl.focus(); 
+            }
+        };
+    }
+    render();
+}
+
+// ================================================================
+//  NORMAL ACTIVITIES
 // ================================================================
 function renderScrolls(container, data) {
     var idx = 0;
