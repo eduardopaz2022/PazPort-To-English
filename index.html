@@ -161,28 +161,23 @@
             background: #f8fafc; border-radius: 12px; border: 2px dashed #cbd5e1; 
         }
         .blanks-word { 
-            display: inline-block;
-            background: #e2e8f0; color: #475569; padding: 8px 16px; margin: 4px;
+            display: inline-block; background: #e2e8f0; color: #475569; padding: 8px 16px; margin: 4px;
             border-radius: 20px; font-size: 0.95rem; font-weight: 600; 
-            transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            border: 1px solid #cbd5e1;
+            transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #cbd5e1;
         }
-        .blanks-word.used { 
-            text-decoration: line-through; opacity: 0.3; background: #cbd5e1; 
-            box-shadow: none; border-color: transparent;
-        }
+        .blanks-word.used { text-decoration: line-through; opacity: 0.3; background: #cbd5e1; box-shadow: none; border-color: transparent; }
 
-        .media-card {
-            background: #f8fafc; border: 2px dashed #cbd5e1; padding: 20px;
-            border-radius: 12px; max-width: 600px; margin: 0 auto 25px auto;
-            text-align: center;
+        .self-study-guide {
+            background: #eff6ff; border: 2px solid var(--primary-blue); 
+            border-radius: 12px; padding: 20px; margin: 20px auto 30px auto; 
+            max-width: 800px; text-align: left;
         }
+        .self-study-guide h3 { color: var(--primary-blue); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .self-study-guide p { font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px; color: var(--text-main); }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-8px); }
-            40%, 80% { transform: translateX(8px); }
-        }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-8px); } 40%, 80% { transform: translateX(8px); } }
         .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
         .input-correct { background-color: #d1fae5 !important; border-color: var(--success) !important; color: #065f46; }
         .input-wrong { background-color: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b; }
@@ -226,13 +221,15 @@
     <h2 id="userGreet" style="color:var(--text-main); margin-bottom:4px;"></h2>
     <p style="color:var(--text-muted); font-size:1rem; margin-bottom:0;">Complete all activities to unlock your final grade.</p>
 
+    <div id="self-study-section" class="hidden"></div>
+
     <div class="xp-wrap">
         <div class="xp-label"><span>Overall Progress</span><span id="xp-text">0 / 4 activities</span></div>
         <div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%;"></div></div>
     </div>
 
     <div class="activity-grid" id="activity-grid">
-        <div class="activity-card" id="card-1" onclick="go(0)">
+        <div class="activity-card" id="card-1" onclick="gateCheck(0)">
             <div id="s-1" class="seal hidden"><i class="fas fa-check-circle"></i></div>
             <i id="icon-1" class="fas fa-layer-group"></i>
             <h3 id="card-title-1">Study Scrolls</h3>
@@ -299,7 +296,10 @@ function speak(text) {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
     var u = new SpeechSynthesisUtterance(text); 
-    u.lang = 'en-US'; u.rate = 0.85; window.speechUtteranceHack = u; window.speechSynthesis.speak(u);
+    u.lang = 'en-US'; 
+    u.rate = 0.85;
+    window.speechUtteranceHack = u; 
+    window.speechSynthesis.speak(u);
 }
 
 const motivationalQuotes = [
@@ -316,221 +316,208 @@ function setDailyQuote() {
 }
 
 // ================================================================
-//  DATABASE DEFINITIVA
+//  DATABASE 
 // ================================================================
 const DB = {
-    // === NOVENO GRADO (3 PARTES) ===
+    // === NOVENO GRADO ===
     "9th - Unit 4 - Part 1": {
         type: "normal",
-        grammarHint: "Structure: <b>Subject + Action Verb</b>. Focus on the core meaning of our action verbs.",
-        words: ["Clean", "Mop", "Sweep", "Eat", "Sleep", "Close", "Wash", "Open", "Push", "Yell", "Order", "Take a shower"],
-        defs: [
-            "To remove dirt from something.", "To clean the floor using a wet cloth or tool.", "To clean the floor using a broom.", "To put food into your mouth and swallow it.",
-            "To rest in a state of natural unconsciousness.", "To move a door or window so that an opening is covered.", "To clean something with water and soap.", "To move a door or window so people can pass.",
-            "To apply force to move something away from you.", "To shout or speak in a very loud voice.", "To ask for food or products in a store or restaurant.", "To wash your body under falling water."
-        ],
-        examples: [
-            "I clean the classroom.", "They mop the wet floor.", "We sweep the kitchen floor.", "You eat breakfast daily.", "Children sleep at night.",
-            "Please close the wooden door.", "We wash our hands.", "They open the big window.", "Do not push the heavy table.", "Please do not yell in class.",
-            "I order food at the restaurant.", "I take a shower in the morning."
-        ],
-        cloze: [
-            "I ________ the classroom to remove dirt.", "They ________ the wet floor with a cloth.", "We ________ the kitchen floor with a broom.", "You ________ breakfast daily.",
-            "Children ________ at night to rest.", "Please ________ the wooden door.", "We ________ our hands with soap.", "They ________ the big window.",
-            "Do not ________ the heavy table.", "Please do not ________ in class.", "I ________ food at the restaurant.", "I ________ in the morning to get clean."
-        ],
-        hints: [
-            "Remove dirt.", "Clean with wet cloth.", "Clean with a broom.", "Consume food.", "Unconscious rest.", "Cover an opening.", "Clean with water.", "Uncover an opening.",
-            "Force away.", "Shout loudly.", "Request food.", "Wash your body."
-        ],
+        grammarHint: "Structure: <b>Subject + Adverb of Frequency + Verb</b>.",
+        words: ["Bed", "Pillow", "Blanket", "Sheet", "Mirror", "Closet", "Curtains", "Slippers", "Always", "Never"],
+        defs: ["A piece of furniture where you sleep.", "A soft object you put your head on when you sleep.", "A warm cover used on a bed.", "A large piece of thin cloth on a bed.", "A piece of glass where you can see your reflection.", "A space or piece of furniture to hang and store clothes.", "Pieces of cloth that cover a window.", "Soft, comfortable shoes you wear inside the house.", "Doing something 100% of the time.", "Doing something 0% of the time."],
+        examples: ["I always make my bed.", "I often use a pillow.", "We sometimes wash the blanket.", "She often changes the sheet.", "He never cleans the mirror.", "I often open the closet.", "I seldom open the curtains.", "They normally wear slippers.", "I always eat food.", "I never sleep at school."],
+        cloze: ["I always make my ________.", "I often use a ________.", "We sometimes wash the ________.", "She often changes the ________.", "He never cleans the ________.", "I often open the ________.", "I seldom open the ________.", "They normally wear ________.", "I ________ eat food.", "I ________ sleep at school."],
+        hints: ["Furniture for sleeping.", "Soft object for head.", "Warm cover for bed.", "Thin cloth on bed.", "Glass to see yourself.", "Place for clothes.", "Cloth for windows.", "Shoes for inside.", "100% of the time.", "0% of the time."],
         sentences: [
-            { s:"the / classroom. / clean / I", c:"I clean the classroom." },
-            { s:"mop / floor. / the / They / wet", c:"They mop the wet floor." },
-            { s:"floor. / kitchen / the / sweep / We", c:"We sweep the kitchen floor." },
-            { s:"daily. / breakfast / eat / You", c:"You eat breakfast daily." },
-            { s:"sleep / night. / at / Children", c:"Children sleep at night." },
-            { s:"door. / the / close / Please / wooden", c:"Please close the wooden door." },
-            { s:"hands. / our / wash / We", c:"We wash our hands." },
-            { s:"open / window. / big / the / They", c:"They open the big window." },
-            { s:"table. / push / the / heavy / Do / not", c:"Do not push the heavy table." },
-            { s:"in / yell / not / class. / Please / do", c:"Please do not yell in class." },
-            { s:"order / at / restaurant. / the / food / I", c:"I order food at the restaurant." },
-            { s:"shower / in / morning. / take / I / a / the", c:"I take a shower in the morning." }
+            { s:"bed. / always / make / I / my", c:"I always make my bed." }, { s:"pillow. / use / often / I / a", c:"I often use a pillow." }, { s:"wash / sometimes / We / blanket. / the", c:"We sometimes wash the blanket." }, { s:"often / sheet. / changes / She / the", c:"She often changes the sheet." }, { s:"cleans / never / He / mirror. / the", c:"He never cleans the mirror." }, { s:"open / often / I / closet. / the", c:"I often open the closet." }, { s:"open / seldom / I / curtains. / the", c:"I seldom open the curtains." }, { s:"wear / They / normally / slippers.", c:"They normally wear slippers." }, { s:"always / food. / I / eat", c:"I always eat food." }, { s:"school. / at / sleep / I / never", c:"I never sleep at school." }
         ]
     },
     "9th - Unit 4 - Part 2": {
         type: "normal",
-        grammarHint: "Structure: <b>Subject + Verb Be + Adverb of Place/Time</b>. (Example: The armchair is there).",
+        grammarHint: "Structure: <b>Subject + Verb (Be) + Adverb of Place/Time</b>.",
         words: ["Armchair", "Sofa", "Cushions", "Television", "Window", "Remote control", "Shelf", "Wastebasket", "Paintings", "Wall clock"],
-        defs: [
-            "A comfortable chair with sides that support your arms.",
-            "A long, comfortable seat for two or more people.",
-            "Soft bags of cloth used to make a seat more comfortable.",
-            "A machine with a screen used to watch programs.",
-            "An opening in a wall with glass to let light in.",
-            "A small device used to operate a TV from a distance.",
-            "A flat board attached to a wall to hold things.",
-            "A small container for holding trash.",
-            "Pictures made with paint to decorate a room.",
-            "A device on the wall that shows the time."
-        ],
-        examples: [
-            "The armchair is here now.",
-            "The sofa was downstairs yesterday.",
-            "The cushions are there today.",
-            "The television is upstairs now.",
-            "The window is here.",
-            "The remote control is inside.",
-            "The shelf was there yesterday.",
-            "The wastebasket is outside today.",
-            "The paintings will be there tomorrow.",
-            "The wall clock is downstairs early."
-        ],
-        cloze: [
-            "The ________ is here now.",
-            "The ________ was downstairs yesterday.",
-            "The ________ are there today.",
-            "The ________ is upstairs now.",
-            "The ________ is here.",
-            "The ________ is inside.",
-            "The ________ was there yesterday.",
-            "The ________ is outside today.",
-            "The ________ will be there tomorrow.",
-            "The ________ is downstairs early."
-        ],
-        hints: [
-            "Comfortable chair for one person.", "Long seat for many people.", "Soft things on a sofa.", "Machine to watch shows.", "Glass opening in a wall.",
-            "Device to change TV channels.", "Flat board on a wall for books.", "Small trash can.", "Colorful pictures on the wall.", "Tells the time on a wall."
-        ],
+        defs: ["A comfortable chair with sides that support your arms.", "A long, comfortable seat for two or more people.", "Soft bags of cloth used to make a seat more comfortable.", "A machine with a screen used to watch programs.", "An opening in a wall with glass to let light in.", "A small device used to operate a TV from a distance.", "A flat board attached to a wall to hold things.", "A small container for holding trash.", "Pictures made with paint to decorate a room.", "A device on the wall that shows the time."],
+        examples: ["The armchair is here now.", "The sofa was downstairs yesterday.", "The cushions are there today.", "The television is upstairs now.", "The window is here.", "The remote control is inside.", "The shelf was there yesterday.", "The wastebasket is outside today.", "The paintings will be there tomorrow.", "The wall clock is downstairs early."],
+        cloze: ["The ________ is here now.", "The ________ was downstairs yesterday.", "The ________ are there today.", "The ________ is upstairs now.", "The ________ is here.", "The ________ is inside.", "The ________ was there yesterday.", "The ________ is outside today.", "The ________ will be there tomorrow.", "The ________ is downstairs early."],
+        hints: ["Comfortable chair.", "Long seat.", "Soft things.", "Machine to watch shows.", "Glass opening.", "Change channels.", "Board on wall.", "Small trash can.", "Pictures.", "Tells time."],
         sentences: [
-            { s:"armchair / is / The / here / now.", c:"The armchair is here now." },
-            { s:"was / sofa / downstairs / The / yesterday.", c:"The sofa was downstairs yesterday." },
-            { s:"cushions / are / there / The / today.", c:"The cushions are there today." },
-            { s:"television / The / is / upstairs / now.", c:"The television is upstairs now." },
-            { s:"window / is / The / here.", c:"The window is here." },
-            { s:"inside. / remote / control / The / is", c:"The remote control is inside." },
-            { s:"shelf / there / The / was / yesterday.", c:"The shelf was there yesterday." },
-            { s:"wastebasket / The / is / outside / today.", c:"The wastebasket is outside today." },
-            { s:"paintings / will / there / The / be / tomorrow.", c:"The paintings will be there tomorrow." },
-            { s:"wall / clock / is / The / downstairs / early.", c:"The wall clock is downstairs early." }
+            { s:"armchair / is / The / here / now.", c:"The armchair is here now." }, { s:"was / sofa / downstairs / The / yesterday.", c:"The sofa was downstairs yesterday." }, { s:"cushions / are / there / The / today.", c:"The cushions are there today." }, { s:"television / The / is / upstairs / now.", c:"The television is upstairs now." }, { s:"window / is / The / here.", c:"The window is here." }, { s:"inside. / remote / control / The / is", c:"The remote control is inside." }, { s:"shelf / there / The / was / yesterday.", c:"The shelf was there yesterday." }, { s:"wastebasket / The / is / outside / today.", c:"The wastebasket is outside today." }, { s:"paintings / will / there / The / be / tomorrow.", c:"The paintings will be there tomorrow." }, { s:"wall / clock / is / The / downstairs / early.", c:"The wall clock is downstairs early." }
         ]
     },
     "9th - Unit 4 - Part 3": {
         type: "normal",
-        grammarHint: "Structure: <b>Subject + Verb Be + Adverb of Manner</b>. Remember that adverbs describe how something is done.",
-        words: ["Loudly", "Slowly", "Carefully", "Easily", "Quickly", "Well", "Badly", "Fast"],
-        defs: [
-            "With a lot of volume or noise.", "At a low speed; not fast.", "With great attention to avoid mistakes or danger.", "Without any difficulty or hard work.",
-            "At a high speed; very fast.", "In a good or satisfactory manner.", "In a poor, incorrect, or harmful manner.", "Moving or capable of moving at high speed."
-        ],
-        examples: [
-            "The voice is loudly.", "The turtle is slowly.", "The work is carefully.", "The quiz is easily.",
-            "The runner is quickly.", "The project is well.", "The score is badly.", "The car is fast."
-        ],
-        cloze: [
-            "The voice is ________; it has too much noise.", "The turtle is ________; it has low speed.", "The work is ________ to avoid any mistakes.", "The quiz is ________; there is no difficulty.",
-            "The runner is ________; he has high speed.", "The project is ________; it is very satisfactory.", "The score is ________; it is poor and incorrect.", "The car is ________; it moves rapidly."
-        ],
-        hints: [
-            "High volume.", "Low speed.", "With great attention.", "No difficulty.", "High speed.", "Satisfactory manner.", "Poor manner.", "Moving rapidly."
-        ],
+        grammarHint: "Structure: <b>Subject + Action Verb + Adverb of Manner</b>. (Example: I clean the window carefully).",
+        words: ["Clean", "Mop", "Sweep", "Eat", "Sleep", "Close", "Wash", "Open", "Push", "Yell", "Order", "Take a shower"],
+        defs: ["To remove dirt from something.", "To clean the floor using a wet cloth or tool.", "To clean the floor using a broom.", "To put food into your mouth and swallow it.", "To rest in a state of natural unconsciousness.", "To move a door or window so that an opening is covered.", "To clean something with water and soap.", "To move a door or window so people can pass.", "To apply force to move something away from you.", "To shout or speak in a very loud voice.", "To ask for food or products in a store or restaurant.", "To wash your body under falling water."],
+        examples: ["I clean the classroom.", "They mop the wet floor.", "We sweep the kitchen floor.", "You eat breakfast daily.", "Children sleep at night.", "Please close the wooden door.", "We wash our hands.", "They open the big window.", "Do not push the heavy table.", "Please do not yell in class.", "I order food at the restaurant.", "I take a shower in the morning."],
+        cloze: ["I ________ the classroom to remove dirt.", "They ________ the wet floor with a cloth.", "We ________ the kitchen floor with a broom.", "You ________ breakfast daily.", "Children ________ at night to rest.", "Please ________ the wooden door.", "We ________ our hands with soap.", "They ________ the big window.", "Do not ________ the heavy table.", "Please do not ________ in class.", "I ________ food at the restaurant.", "I ________ in the morning to get clean."],
+        hints: ["Remove dirt.", "Clean with wet cloth.", "Clean with a broom.", "Consume food.", "Unconscious rest.", "Cover an opening.", "Clean with water.", "Uncover an opening.", "Force away.", "Shout loudly.", "Request food.", "Wash your body."],
         sentences: [
-            { s:"is / voice / loudly. / The", c:"The voice is loudly." },
-            { s:"slowly. / turtle / is / The", c:"The turtle is slowly." },
-            { s:"carefully. / work / is / The", c:"The work is carefully." },
-            { s:"easily. / is / quiz / The", c:"The quiz is easily." },
-            { s:"is / quickly. / runner / The", c:"The runner is quickly." },
-            { s:"is / project / well. / The", c:"The project is well." },
-            { s:"badly. / score / is / The", c:"The score is badly." },
-            { s:"The / car / fast. / is", c:"The car is fast." }
+            { s:"window / carefully. / clean / I / the", c:"I clean the window carefully." }, { s:"floor / quickly. / mops / He / the", c:"He mops the floor quickly." }, { s:"fast. / room / sweep / They / the", c:"They sweep the room fast." }, { s:"slowly. / food / eat / You / the", c:"You eat the food slowly." }, { s:"night. / well / at / sleep / We", c:"We sleep well at night." }, { s:"easily. / door / She / the / closes", c:"She closes the door easily." }, { s:"car / I / badly. / wash / the", c:"I wash the car badly." }, { s:"do / loudly. / yell / not / Please", c:"Please do not yell loudly." }
         ]
     },
 
-    // === MOCK EXAMS (10TH & 11TH) ===
+    // === DECIMO GRADO ===
+    "10th - Unit 4": {
+        type: "normal",
+        grammarHint: "Structure for Future: <b>Subject + Will / Won't + Be + Adjective</b>.",
+        words: ["Boiling", "Drizzling", "Pouring", "Flooding", "Heat", "Hot", "Scarf", "Gloves", "Raining", "Umbrella"],
+        defs: ["Extremely hot.", "A fine, light rain falling from the sky.", "To rain very hard and heavily.", "When a lot of water rises and covers normally dry land.", "The noun we use to talk about the condition of being hot.", "Having a high temperature.", "A warm piece of cloth worn around the neck.", "Clothing you wear on your hands to keep them warm.", "Water falling in drops from the clouds.", "An object you hold over your head to stay dry in the rain."],
+        examples: ["The water will be boiling.", "It won't be drizzling today.", "It will be pouring tonight.", "The street won't be flooding.", "The heat will be terrible.", "It won't be hot tomorrow.", "I will wear a red scarf.", "She won't need warm gloves.", "It will be raining later.", "He won't bring an umbrella."],
+        cloze: ["The water will be ________.", "It won't be ________ today.", "It will be ________ tonight.", "The street won't be ________.", "The ________ will be terrible.", "It won't be ________ tomorrow.", "I will wear a red ________.", "She won't need warm ________.", "It will be ________ later.", "He won't bring an ________."],
+        hints: ["Extremely hot water.", "Light rain.", "Heavy rain.", "Water covering dry land.", "Noun for high temperature.", "Adjective for high temperature.", "Worn around the neck.", "Worn on hands.", "Water falling from clouds.", "Used to stay dry."],
+        sentences: [
+            { s:"water / boiling. / The / will / be", c:"The water will be boiling." }, { s:"today. / drizzling / It / won't / be", c:"It won't be drizzling today." }, { s:"pouring / tonight. / It / will / be", c:"It will be pouring tonight." }, { s:"street / flooding. / The / won't / be", c:"The street won't be flooding." }, { s:"terrible. / heat / The / will / be", c:"The heat will be terrible." }, { s:"be / tomorrow. / It / won't / hot", c:"It won't be hot tomorrow." }, { s:"wear / scarf. / I / will / a / red", c:"I will wear a red scarf." }, { s:"need / gloves. / She / won't / warm", c:"She won't need warm gloves." }, { s:"raining / later. / It / will / be", c:"It will be raining later." }, { s:"umbrella. / He / bring / won't / an", c:"He won't bring an umbrella." }
+        ]
+    },
+    "10th - Unit 4 Part 2": {
+        type: "normal",
+        grammarHint: "Structure: <b>Subject + Will / Won't + Be + Adjective</b>.",
+        words: ["Sunny", "Windy", "Cold", "Cloudy", "Clear sky", "Thunderstorm", "Thunder", "Lightning", "Dry", "Humid"],
+        defs: ["When the sun is shining and there are no clouds.", "When there is a lot of air moving fast outside.", "When the temperature is low.", "When the sky is full of clouds.", "When the sky is blue and clean.", "A heavy rain with loud noises.", "The loud 'boom' sound.", "The bright flash of electricity.", "When there is no water.", "When the air feels hot, wet, and sticky."],
+        examples: ["It will be sunny tomorrow.", "Will it be windy today?", "It won't be cold tonight.", "The sky will be cloudy.", "Will we have a clear sky?", "There won't be a thunderstorm.", "I will hear the thunder.", "Will you see the lightning?", "The grass won't be dry.", "The air will be humid."],
+        cloze: ["It will be ________ tomorrow.", "Will it be ________ today?", "It won't be ________ tonight.", "The sky will be ________.", "Will we have a ________?", "There won't be a ________.", "I will hear the ________.", "Will you see the ________?", "The grass won't be ________.", "The air will be ________."],
+        hints: ["Sun shining.", "Fast air.", "Low temperature.", "Full of clouds.", "Blue and clean.", "Rain + noises.", "Loud boom.", "Flash of electricity.", "No water.", "Hot, wet, sticky."],
+        sentences: [
+            { s:"sunny / tomorrow. / It / will / be", c:"It will be sunny tomorrow." }, { s:"be / today? / Will / it / windy", c:"Will it be windy today?" }, { s:"won't / tonight. / be / cold / It", c:"It won't be cold tonight." }, { s:"sky / cloudy. / The / will / be", c:"The sky will be cloudy." }, { s:"have / clear / sky? / a / we / Will", c:"Will we have a clear sky?" }, { s:"won't / thunderstorm. / be / a / There", c:"There won't be a thunderstorm." }, { s:"hear / thunder. / I / will / the", c:"I will hear the thunder." }, { s:"see / lightning? / Will / the / you", c:"Will you see the lightning?" }, { s:"grass / dry. / The / won't / be", c:"The grass won't be dry." }, { s:"be / humid. / air / The / will", c:"The air will be humid." }
+        ]
+    },
+
+    // === ONCEAVO GRADO ===
+    "11th - Conditionals Review": {
+        type: "conditional_review",
+        grammarHint: "Zero: <b>Present+Present</b>. First: <b>Present+Will</b>. Second: <b>Past+Would</b>.",
+        scrolls: [
+            { word: "Zero Conditional", def: "Used for facts and general truths. Both verbs are in Present Simple.", ex: "If you eat five pupusas, you get sleepy." },
+            { word: "First Conditional", def: "Used for real or possible situations in the future. If + Present Simple, ... Will + Verb.", ex: "If I pass the test, my parents will buy me pizza." },
+            { word: "Second Conditional", def: "Used for hypothetical, crazy or imaginary situations. If + Past Simple, ... Would + Verb.", ex: "If I had a flying car, I would avoid the traffic." }
+        ],
+        quiz: [
+            { q: "If aliens invaded the school, I would hide in the cafeteria.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 2, hint: "Notice 'invaded' (past) and 'would hide'." },
+            { q: "If you eat five pupusas, you get sleepy.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 0, hint: "Is this a biological fact? (Present + Present)" },
+            { q: "If the traffic is heavy today, the teacher will be late.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 1, hint: "A real possibility in the future (will)." },
+            { q: "If I were the principal, I would cancel all exams.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 2, hint: "An imaginary, crazy situation." },
+            { q: "If students don't sleep, they look like zombies.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 0, hint: "A general truth about students." },
+            { q: "If I pass the Avanzo test, my parents will buy me a pizza.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 1, hint: "A real possibility." }
+        ],
+        chamber: [
+            { s: "eat / pupusas, / you / sleepy. / If / five / you / get", c: "If you eat five pupusas, you get sleepy." },
+            { s: "sleep, / don't / students / If / zombies. / like / look / they", c: "If students don't sleep, they look like zombies." },
+            { s: "Avanzo / the / test, / pass / I / If / pizza. / a / me / buy / will / parents / my", c: "If I pass the Avanzo test, my parents will buy me a pizza." },
+            { s: "today, / heavy / is / traffic / the / If / late. / be / will / teacher / the", c: "If the traffic is heavy today, the teacher will be late." },
+            { s: "principal, / the / were / I / If / exams. / all / cancel / would / I", c: "If I were the principal, I would cancel all exams." },
+            { s: "car, / flying / a / had / I / If / traffic. / the / avoid / would / I", c: "If I had a flying car, I would avoid the traffic." }
+        ],
+        blanks: [
+            { text: "If you eat five pupusas, you _____ (get) sleepy.", answer: "get", hint: "Zero Conditional (Fact)." },
+            { text: "If students don't sleep, they _____ (look) like zombies.", answer: "look", hint: "Zero Conditional (Fact)." },
+            { text: "If I pass the Avanzo test, my parents _____ (buy) me a pizza.", answer: "will buy", hint: "First Conditional (Possible)." },
+            { text: "If the traffic is heavy today, the teacher _____ (be) late.", answer: "will be", hint: "First Conditional (Possible)." },
+            { text: "If I _____ (be) the principal, I would cancel all exams.", answer: "were", hint: "Second Conditional (Imaginary)." },
+            { text: "If I had a flying car, I _____ (avoid) the traffic.", answer: "would avoid", hint: "Second Conditional (Imaginary)." }
+        ]
+    },
+    "11th - TV & Present Perfect Cont.": {
+        type: "normal",
+        hasVideoLesson: true,
+        grammarHint: "Structure: <b>Subject + Have/Has been + Verb-ing + Complement</b>.",
+        words: ["Binge-watching", "Season finale", "Spoilers", "Screen", "Cliffhanger", "Main character", "Streaming", "Episode", "Broadcasting", "Plot twist", "Have been", "Has been", "Watching", "Waiting", "Discussing"],
+        defs: ["Ver muchos episodios sin parar.", "El último episodio de la temporada.", "Información que arruina la sorpresa.", "La pantalla.", "Un final que te deja en suspenso.", "El protagonista.", "Ver videos por internet.", "Un capítulo de la serie.", "Transmitir un programa.", "Un giro sorpresivo en la historia.", "He / Hemos / Han estado...", "Él / Ella ha estado...", "Viendo.", "Esperando.", "Discutiendo/Hablando."],
+        examples: ["I have been binge-watching series.", "We have been waiting for the season finale.", "He has been reading spoilers.", "You have been looking at the screen.", "They have been watching the cliffhanger.", "The main character has been running.", "I have been streaming the show.", "She has been downloading the episode.", "The channel has been broadcasting it.", "We have been analyzing the plot twist.", "They have been playing games.", "She has been studying English.", "I have been watching TV.", "You have been waiting here.", "We have been discussing the movie."],
+        cloze: ["I have been ________ series. (Ver sin parar)", "We have been waiting for the season ________. (Último capítulo)", "He has been reading ________. (Arruina sorpresas)", "You have been looking at the ________. (Pantalla)", "They have been watching the ________. (Final de suspenso)", "The main ________ has been running. (Protagonista)", "I have been ________ the show. (Ver online)", "She has been downloading the ________. (Capítulo)", "The channel has been ________ it. (Transmitiendo)", "We have been analyzing the plot ________. (Giro sorpresa)", "They ________ playing games. (Auxiliar plural)", "She ________ studying English. (Auxiliar singular)", "I have been ________ TV. (Viendo)", "You have been ________ here. (Esperando)", "We have been ________ the movie. (Discutiendo)"],
+        hints: ["Watching without stopping.", "Last chapter.", "Ruins the surprise.", "TV surface.", "Suspense ending.", "Primary person.", "Watching online.", "One chapter.", "Transmitting.", "Surprise change.", "Use for They.", "Use for She.", "Looking at.", "Staying.", "Talking about."],
+        sentences: [
+            { s:"I / have / been / binge-watching / series.", c:"I have been binge-watching series." }, { s:"We / have / been / waiting / for / the / season / finale.", c:"We have been waiting for the season finale." }, { s:"He / has / been / reading / spoilers.", c:"He has been reading spoilers." }, { s:"You / have / been / looking / at / the / screen.", c:"You have been looking at the screen." }, { s:"They / have / been / watching / the / cliffhanger.", c:"They have been watching the cliffhanger." }, { s:"The / main / character / has / been / running.", c:"The main character has been running." }, { s:"I / have / been / streaming / the / show.", c:"I have been streaming the show." }, { s:"She / has / been / downloading / the / episode.", c:"She has been downloading the episode." }, { s:"The / channel / has / been / broadcasting / it.", c:"The channel has been broadcasting it." }, { s:"We / have / been / analyzing / the / plot / twist.", c:"We have been analyzing the plot twist." }, { s:"They / have / been / playing / games.", c:"They have been playing games." }, { s:"She / has / been / studying / English.", c:"She has been studying English." }, { s:"I / have / been / watching / TV.", c:"I have been watching TV." }, { s:"You / have / been / waiting / here.", c:"You have been waiting here." }, { s:"We / have / been / discussing / the / movie.", c:"We have been discussing the movie." }
+        ]
+    },
+
+    // ================================================================
+    //  MOCK EXAMS COMPLETOS - 30 PREGUNTAS
+    // ================================================================
     "10th - Mock Exam": {
         type: "exam",
         audioFile: "10th Audio.mp3",
-        readingText: "The Sahara Desert Marathon is an extreme race that happens in April. Competitors run 300 kilometers across dry sand. In the morning, the temperature easily reaches 50 degrees Celsius! Runners must carry their own food and five liters of water. Last year, a 28-year-old nurse named Jessica won. The first-place prize was $20,000. Next year, organizers expect over 400 people.",
+        readingText: "The Sahara Desert Marathon is an extreme race. It happens in April. Runners go 250 kilometers across dry sand. In the morning, the temperature reaches 50 degrees Celsius! Runners MUST carry their own food and water. Last year, a 24-year-old named Sarah Jenkins won. The prize was $30,000. Next year, organizers expect over 250 people.",
         listening: [
-            { q: "1. What will the weather be like on Saturday morning according to the broadcast?", opts: ["It will be completely sunny and hot.", "There will be a clear sky with no air.", "There will be a massive thunderstorm and pouring rain.", "It will be drizzling lightly all day."], a: 2 },
-            { q: "2. What MUST the students wear during the Action Games?", opts: ["Thick woolen gloves", "Special protective raincoats", "Thick winter jackets", "Normal white shoes"], a: 1 },
-            { q: "3. Which sport will the students NOT play outside due to the weather conditions?", opts: ["Tennis", "Basketball", "Gymnastics", "Soccer"], a: 3 },
-            { q: "4. What activity is described as very dangerous during a thunderstorm?", opts: ["Doing gymnastics inside the gym", "Running around the school track", "Swimming in the pool", "Talking to Coach Carter"], a: 2 },
-            { q: "5. What condition must students fulfill to participate in the games?", opts: ["They have to buy a special umbrella.", "They have to be in good physical condition.", "They must know how to swim perfectly.", "They need to arrive before 8:00 AM."], a: 1 },
-            { q: "6. At what exact time will Coach Carter arrive at the facility?", opts: ["At 8:00 AM", "At 8:15 AM", "At 9:30 AM", "At 7:45 AM"], a: 1 },
-            { q: "7. What will happen to a student if they do not follow the game rules?", opts: ["They will get a prize.", "They won't play at all.", "The medical team will check them.", "They must do gymnastics."], a: 1 }
+            { q: "1. What will the weather be like on Saturday morning?", opts: ["Sunny and dry", "A clear sky", "A massive thunderstorm", "Boiling hot"], a: 2 },
+            { q: "2. What MUST the students wear because of the weather?", opts: ["Special shoes", "Normal shoes", "Raincoats", "Winter scarves"], a: 2 },
+            { q: "3. Because of the rain, what sport will they NOT do outside?", opts: ["Go swimming", "Play soccer", "Do gymnastics", "Play tennis"], a: 1 },
+            { q: "4. Why shouldn't the students go swimming?", opts: ["Because it is boring.", "Because the pool is closed.", "Because it is very dangerous during thunderstorms.", "Because they have to play basketball."], a: 2 },
+            { q: "5. If a student feels weak, what should they do?", opts: ["They shouldn't run.", "Run faster.", "Go swimming.", "Play soccer."], a: 0 },
+            { q: "6. Who will arrive at 8:15 AM?", opts: ["Sarah Jenkins", "Coach Carter", "A doctor", "Nobody"], a: 1 },
+            { q: "7. What happens if you don't follow the rules?", opts: ["You get a prize.", "You won't play.", "You do gymnastics.", "You go swimming."], a: 1 }
         ],
         vocabulary: [
-            { q: "8. Look at that dark cloud! It is not a clear sky; it will be ________ tonight.", opts: ["boiling", "pouring", "drizzling", "heat"], a: 1 },
-            { q: "9. The temperature is extremely high and the water is bubbling. It is...", opts: ["freezing", "flooding", "boiling", "humid"], a: 2 },
-            { q: "10. The street is full of water because it rained all night long. The city is...", opts: ["dry", "windy", "flooding", "sunny"], a: 2 },
-            { q: "11. It's beautiful and bright outside! The sun is shining, so it will be ________.", opts: ["cloudy", "cold", "sunny", "humid"], a: 2 },
-            { q: "12. The air feels very hot, wet, and sticky. The weather is...", opts: ["dry", "humid", "cold", "windy"], a: 1 },
-            { q: "13. There is a lot of rapid air moving fast outside. It is very...", opts: ["sunny", "dry", "clear sky", "windy"], a: 3 },
-            { q: "14. The sky is full of dark clouds and we cannot see the sun. It is...", opts: ["clear sky", "cloudy", "boiling", "dry"], a: 1 },
-            { q: "15. The loud 'boom' sound we hear during a storm is called...", opts: ["lightning", "thunder", "heat", "scarf"], a: 1 }
+            { q: "8. The water is very, very hot. It is...", opts: ["freezing", "boiling", "drizzling", "humid"], a: 1 },
+            { q: "9. It is raining lightly from the sky. It is...", opts: ["pouring", "flooding", "drizzling", "clear sky"], a: 2 },
+            { q: "10. The street is full of water. It is...", opts: ["dry", "windy", "flooding", "sunny"], a: 2 },
+            { q: "11. A warm piece of cloth worn around the neck is a...", opts: ["glove", "scarf", "umbrella", "heat"], a: 1 },
+            { q: "12. You hold this over your head to stay dry in the rain:", opts: ["scarf", "blanket", "pillow", "umbrella"], a: 3 },
+            { q: "13. Sun shining, no clouds. The weather is...", opts: ["cloudy", "sunny", "humid", "dry"], a: 1 },
+            { q: "14. Fast moving air outside. It is...", opts: ["windy", "dry", "clear sky", "hot"], a: 0 },
+            { q: "15. The bright flash of electricity in the sky is...", opts: ["thunder", "lightning", "heat", "scarf"], a: 1 }
         ],
         grammar: [
-            { q: "16. If the weather is freezing tomorrow, you ________ wear your gloves and scarf.", opts: ["should", "won't", "shouldn't", "are"], a: 0 },
+            { q: "16. If the weather is freezing tomorrow, you ________ wear your gloves and scarf.", opts: ["won't", "should", "shouldn't", "are"], a: 1 },
             { q: "17. You ________ eat a lot of junk food every single day.", opts: ["should", "will", "shouldn't", "are"], a: 2 },
-            { q: "18. I didn't bring my umbrella, so if it starts raining, I ________ get wet.", opts: ["would", "shouldn't", "will", "won't"], a: 2 },
+            { q: "18. I didn't bring my umbrella, so if it starts raining, I ________ get wet.", opts: ["would", "will", "shouldn't", "won't"], a: 1 },
             { q: "19. We ________ go running near the mountain if there is a massive thunderstorm.", opts: ["should", "will", "shouldn't", "are"], a: 2 },
-            { q: "20. The water ________ be boiling in a few minutes.", opts: ["will", "won't", "shouldn't", "are"], a: 0 },
-            { q: "21. Choose the correct question form for future prediction:", opts: ["It will be cold tomorrow?", "Will it be cold tomorrow?", "Will be it cold tomorrow?", "Cold it will be tomorrow?"], a: 1 },
+            { q: "20. The water ________ be boiling in a few minutes.", opts: ["won't", "shouldn't", "will", "are"], a: 2 },
+            { q: "21. Choose the correct question form:", opts: ["It will be cold tomorrow?", "Will it be cold tomorrow?", "Will be it cold tomorrow?", "Cold it will be tomorrow?"], a: 1 },
             { q: "22. If you cut your hand, the medical team ________ help you.", opts: ["won't", "shouldn't", "is", "will"], a: 3 },
-            { q: "23. If you injure your leg during the race, you ________ run any further.", opts: ["will", "should", "shouldn't", "are"], a: 2 }
+            { q: "23. If you injure your leg, you ________ run any further.", opts: ["will", "should", "shouldn't", "are"], a: 2 }
         ],
         reading: [
-            { q: "24. In which month does the Sahara Desert Marathon take place?", opts: ["April", "June", "September", "December"], a: 0 },
-            { q: "25. How many kilometers long is this extreme race across the sand?", opts: ["50 kilometers", "100 kilometers", "300 kilometers", "400 kilometers"], a: 2 },
-            { q: "26. What temperature does the desert easily reach in the morning hours?", opts: ["25 degrees Celsius", "35 degrees Celsius", "50 degrees Celsius", "12 degrees Celsius"], a: 2 },
-            { q: "27. What MUST competitors carry on their backs during the competition?", opts: ["Thick blankets and tools", "Food and five liters of water", "An umbrella and special raincoats", "Money and cellphones"], a: 1 },
-            { q: "28. What was the profession of last year's winner, Jessica?", opts: ["She was a professional swimmer.", "She was a high school teacher.", "She was a professional nurse.", "She was an athlete coach."], a: 2 },
-            { q: "29. How old was Jessica when she won the extreme marathon?", opts: ["18 years old", "20 years old", "28 years old", "40 years old"], a: 2 },
-            { q: "30. How much money did the first-place winner receive as a cash prize?", opts: ["$5,000", "$10,000", "$20,000", "$50,000"], a: 2 }
+            { q: "24. What is the author's purpose in this text?", opts: ["To scare the reader.", "To inform about an extreme desert race and its rules.", "How to do yoga.", "How to carry a backpack."], a: 1 },
+            { q: "25. In what month does the race happen?", opts: ["May", "June", "April", "October"], a: 2 },
+            { q: "26. How many kilometers do the athletes run?", opts: ["45", "250", "500", "30"], a: 1 },
+            { q: "27. What temperature does it reach in the morning?", opts: ["24 degrees", "30 degrees", "45 degrees", "50 degrees"], a: 3 },
+            { q: "28. What MUST the athletes carry?", opts: ["Money", "Food and water", "Special shoes", "A raincoat"], a: 1 },
+            { q: "29. Who won the race last year?", opts: ["Sarah Jenkins", "Coach Carter", "A doctor", "Nobody"], a: 0 },
+            { q: "30. How much money was the prize?", opts: ["$500", "$10,000", "$250", "$30,000"], a: 3 }
         ]
     },
     "11th - Mock Exam": {
         type: "exam",
         audioFile: "11th Audio.mp3",
-        readingText: "The Ultimate Television Challenge.<br><br>Alejandro is trying to break a world record. He has been watching TV for 85 hours without stopping! He is currently streaming a sci-fi series called 'The Galaxy Canvas'. His sister has been giving him coffee and pizza to help him stay awake. If he falls asleep, he will lose the challenge immediately. 'If I were a normal person, I would be sleeping in my bed right now,' Alejandro mentioned. But if he completes 100 hours, he will win $50,000! The competition finishes tomorrow morning.",
+        readingText: "The Ultimate Binge-Watching Challenge.<br><br>Alejandro is trying to break a world record. He has been watching TV for 85 hours! He is watching a sci-fi series called 'The Galaxy Canvas'. His sister has been giving him coffee and pizza. If he falls asleep, he loses the challenge. 'If I were a normal person, I would be sleeping right now,' Alejandro said. But if he completes 100 hours, he will win $50,000! The competition finishes tomorrow morning.",
         listening: [
-            { q: "1. Why is Daniel's friend feeling extremely tired today?", opts: ["Because he played soccer all weekend.", "Because he has been working on an art project.", "Because he had a math test.", "Because he went to a party."], a: 1 },
-            { q: "2. What style of art project is the student creating for the upcoming exhibit?", opts: ["A realistic sculpture", "A pop art painting", "An abstract masterpiece", "A digital photograph"], a: 2 },
-            { q: "3. Why hasn't the speaker slept much during the week?", opts: ["Because the bedroom was too hot.", "Because he has been binge-watching 'The Canvas Murders'.", "Because he was painting all night.", "Because he was reading spoilers."], a: 1 },
-            { q: "4. Who is the main character of the series 'The Canvas Murders'?", opts: ["A brilliant detective", "A high school principal", "A crazy artist", "A professional nurse"], a: 2 },
-            { q: "5. What would the speaker NOT do if he were the main character?", opts: ["Watch Netflix in the evening", "Paint those scary portraits", "Go to school at 8:00 AM", "Work on an abstract project"], a: 1 },
-            { q: "6. When was the season finale of the series broadcast on television?", opts: ["Yesterday", "Last Friday", "Tomorrow morning", "Next Sunday"], a: 0 },
-            { q: "7. How did the season finale end, causing the speaker to feel crazy?", opts: ["With a happy wedding", "On a massive cliffhanger", "With the death of the inspector", "With a simple explanation"], a: 1 }
+            { q: "1. Why is the person so tired today?", opts: ["Because she has been playing soccer.", "Because he went to a party yesterday.", "Because of his art project.", "Because they have been studying math."], a: 2 },
+            { q: "2. What kind of project is he making?", opts: ["A realistic sculpture.", "A short video.", "An abstract masterpiece.", "A science experiment."], a: 2 },
+            { q: "3. What has the person been doing on Netflix?", opts: ["Binge-watching a show.", "Watching a documentary.", "Sleeping all day.", "Painting a canvas."], a: 0 },
+            { q: "4. What is the name of the TV show?", opts: ["The Exhibit Murders.", "The Canvas Murders.", "The Abstract Main Character.", "The Season Finale."], a: 1 },
+            { q: "5. Who is the main character?", opts: ["A crazy artist.", "A brilliant detective.", "A photographer.", "A teacher."], a: 0 },
+            { q: "6. When was the season finale broadcast?", opts: ["Yesterday.", "Last Friday.", "Tomorrow.", "Next Sunday."], a: 0 },
+            { q: "7. How did the season finale end?", opts: ["With a massive cliffhanger.", "With a happy wedding.", "With a simple explanation.", "Very badly."], a: 0 }
         ],
         vocabulary: [
-            { q: "8. I hate when people tell me the ending of a movie! I really hate ________.", opts: ["main characters", "spoilers", "screens", "episodes"], a: 1 },
-            { q: "9. We watched five chapters without stopping! We spent the night ________.", opts: ["broadcasting", "streaming", "binge-watching", "waiting"], a: 2 },
-            { q: "10. The final chapter of a television season is called the...", opts: ["plot twist", "cliffhanger", "season finale", "episode"], a: 2 },
-            { q: "11. The flat glass surface where you watch your programs is the...", opts: ["canvas", "screen", "spoiler", "exhibit"], a: 1 },
-            { q: "12. A sudden, unexpected change in the direction of a story is a...", opts: ["cliffhanger", "main character", "plot twist", "episode"], a: 2 },
-            { q: "13. The primary person in a story or movie is the...", opts: ["main character", "broadcaster", "viewer", "season finale"], a: 0 },
-            { q: "14. The local channel is ________ the football game live right now.", opts: ["binge-watching", "broadcasting", "waiting", "discussing"], a: 1 },
-            { q: "15. I am currently ________ a sci-fi series online through my computer.", opts: ["streaming", "painting", "sleeping", "closing"], a: 0 }
+            { q: "8. Watching many episodes without stopping is called...", opts: ["Streaming", "Binge-watching", "Broadcasting", "Waiting"], a: 1 },
+            { q: "9. Information that ruins a surprise is a...", opts: ["Main character", "Spoiler", "Screen", "Episode"], a: 1 },
+            { q: "10. A suspenseful ending is a...", opts: ["Plot twist", "Cliffhanger", "Season finale", "Episode"], a: 1 },
+            { q: "11. The primary person in a story is the...", opts: ["Main character", "Broadcaster", "Viewer", "Season finale"], a: 0 },
+            { q: "12. Watching videos online is...", opts: ["Broadcasting", "Binge-watching", "Streaming", "Discussing"], a: 2 },
+            { q: "13. Transmitting a program on TV is...", opts: ["Streaming", "Broadcasting", "Waiting", "Closing"], a: 1 },
+            { q: "14. A surprise change in the story is a...", opts: ["Cliffhanger", "Main character", "Plot twist", "Episode"], a: 2 },
+            { q: "15. The flat surface where you watch videos is the...", opts: ["Canvas", "Spoiler", "Exhibit", "Screen"], a: 3 }
         ],
         grammar: [
-            { q: "16. Identify the correct Present Perfect Continuous structure: 'They ________ TV all night.'", opts: ["has been watching", "have been watching", "are watching", "have watching"], a: 1 },
+            { q: "16. They ________ watching TV all night.", opts: ["has been", "have been", "are watching", "have watching"], a: 1 },
             { q: "17. She ________ painting her new canvas since 9:00 AM.", opts: ["have been", "has been", "is been", "has"], a: 1 },
-            { q: "18. (Zero Conditional) If you heat ice, it ________ into water.", opts: ["turned", "would turn", "turns", "will turn"], a: 2 },
+            { q: "18. (Zero Conditional) If you heat ice, it ________ into water.", opts: ["would turn", "turned", "turns", "will turn"], a: 2 },
             { q: "19. (First Conditional) If I pass my English exam, my parents ________ be happy.", opts: ["would", "will", "are", "did"], a: 1 },
-            { q: "20. (Second Conditional) If I ________ a millionaire, I would buy a television network.", opts: ["am", "was", "were", "will be"], a: 2 },
+            { q: "20. (Second Conditional) If I ________ a millionaire, I would buy a network.", opts: ["am", "was", "were", "will be"], a: 2 },
             { q: "21. If I ________ more time, I would paint a beautiful masterpiece.", opts: ["have", "had", "will have", "would have"], a: 1 },
             { q: "22. You look tired. How long ________ you been studying tonight?", opts: ["has", "have", "are", "did"], a: 1 },
             { q: "23. If he doesn't see season 2 soon, he ________ go crazy.", opts: ["would", "is", "will", "did"], a: 2 }
         ],
         reading: [
-            { q: "24. What world record is Alejandro trying to break in this story?", opts: ["The longest painting marathon", "The ultimate binge-watching challenge", "The fastest pizza eating record", "The longest sleep challenge"], a: 1 },
-            { q: "25. For how many hours has Alejandro been watching television continuously?", opts: ["50 hours", "85 hours", "100 hours", "12 hours"], a: 1 },
-            { q: "26. What is the specific name of the sci-fi series he is currently streaming?", opts: ["The Canvas Murders", "The Midnight Detective", "The Galaxy Canvas", "The Ultimate Challenge"], a: 2 },
-            { q: "27. Who has been supporting Alejandro with coffee and pizza all week?", opts: ["His mother", "His teacher", "His sister", "His opponents"], a: 2 },
-            { q: "28. What happens immediately if Alejandro falls asleep during the challenge?", opts: ["He wins $50,000.", "He gets more pizza.", "He loses the challenge.", "The show finishes."], a: 2 },
-            { q: "29. Review this quote: 'If I were a normal person, I would be sleeping.' What conditional is it?", opts: ["Zero Conditional", "First Conditional", "Second Conditional", "Third Conditional"], a: 2 },
-            { q: "30. How much money will Alejandro win if he successfully reaches 100 hours?", opts: ["$10,000", "$20,000", "$50,000", "$85,000"], a: 2 }
+            { q: "24. Who has been giving Alejandro coffee and snacks?", opts: ["His parents", "The main character", "His sister", "A time-traveling artist"], a: 2 },
+            { q: "25. Read this quote: 'If I were a normal person, I would be sleeping right now.' What conditional is it?", opts: ["Zero Conditional", "First Conditional", "Second Conditional", "Third Conditional"], a: 2 },
+            { q: "26. Why is Alejandro NOT sleeping right now?", opts: ["Because sleeping is prohibited.", "Because he wants to win the prize money.", "Because he is a robot.", "Because he loves art."], a: 1 },
+            { q: "27. What is the name of the TV show he is watching?", opts: ["The Masterpiece", "The Binge-Watcher", "The Time Canvas", "The Galaxy Canvas"], a: 3 },
+            { q: "28. How much money will he win if he completes the challenge?", opts: ["$90,000", "$45,000", "$5,000", "$50,000"], a: 3 },
+            { q: "29. When does the competition finish?", opts: ["On Sunday at 8:00 PM.", "In 5 minutes.", "Tomorrow morning.", "In 90 hours."], a: 2 },
+            { q: "30. What happens if Alejandro falls asleep?", opts: ["He loses the challenge.", "He wins $50,000.", "The show finishes.", "He gets more pizza."], a: 0 }
         ]
     }
 };
@@ -540,9 +527,7 @@ let isReviewMode = false;
 let usedBlanksWords = [];
 let activitiesList = [];
 
-window.onload = function() {
-    setDailyQuote();
-};
+window.onload = function() { setDailyQuote(); };
 
 function updateCascade() {
     var section = document.getElementById('sectionSelect').value;
@@ -559,8 +544,7 @@ function updateCascade() {
         sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
         Object.keys(DB).forEach(function(k) {
             if (k.startsWith(gradePrefix)) {
-                var opt = document.createElement('option'); 
-                opt.value = k; opt.textContent = k; sel.appendChild(opt);
+                var opt = document.createElement('option'); opt.value = k; opt.textContent = k; sel.appendChild(opt);
             }
         });
     } else {
@@ -598,12 +582,20 @@ function start() {
     if (data.type === "normal" || data.type === "conditional_review") {
         totalPoints = (data.words.length * 2) + data.sentences.length;
         activitiesList = ['scrolls', 'quiz', 'chamber', 'blanks'];
-        document.getElementById("card-title-1").textContent = "Study Scrolls"; document.getElementById("card-desc-1").textContent = "Memorize vocabulary"; document.getElementById("icon-1").className = "fas fa-layer-group";
-        document.getElementById("card-title-2").textContent = "Definition Quiz"; document.getElementById("card-desc-2").textContent = "Match the meaning"; document.getElementById("icon-2").className = "fas fa-list-ul";
-        document.getElementById("card-title-3").textContent = "Sentence Builder"; document.getElementById("card-desc-3").textContent = "Order the words"; document.getElementById("icon-3").className = "fas fa-align-left";
-        document.getElementById("card-title-4").textContent = "Fill the Blanks"; document.getElementById("card-desc-4").textContent = "Type missing words"; document.getElementById("icon-4").className = "fas fa-keyboard";
+        document.getElementById("card-title-1").textContent = data.type === "conditional_review" ? "Grammar Rules" : "Study Scrolls";
+        document.getElementById("card-desc-1").textContent = data.type === "conditional_review" ? "Review structures" : "Memorize vocabulary";
+        document.getElementById("icon-1").className = "fas fa-layer-group";
+        document.getElementById("card-title-2").textContent = data.type === "conditional_review" ? "Situation Match" : "Definition Quiz";
+        document.getElementById("card-desc-2").textContent = data.type === "conditional_review" ? "Identify Conditional" : "Match the meaning";
+        document.getElementById("icon-2").className = "fas fa-list-ul";
+        document.getElementById("card-title-3").textContent = data.type === "conditional_review" ? "Conditional Builder" : "Sentence Builder";
+        document.getElementById("card-desc-3").textContent = "Order the words";
+        document.getElementById("icon-3").className = "fas fa-align-left";
+        document.getElementById("card-title-4").textContent = data.type === "conditional_review" ? "Grammar Challenge" : "Fill the Blanks";
+        document.getElementById("card-desc-4").textContent = data.type === "conditional_review" ? "Conjugate the verb" : "Type missing words";
+        document.getElementById("icon-4").className = "fas fa-keyboard";
     } else if (data.type === "exam") {
-        totalPoints = 30; // 30 preguntas
+        totalPoints = 30;
         activitiesList = ['listening', 'vocabulary', 'grammar', 'reading'];
         document.getElementById("card-title-1").textContent = "Listening"; document.getElementById("card-desc-1").textContent = "Audio comprehension"; document.getElementById("icon-1").className = "fas fa-headphones";
         document.getElementById("card-title-2").textContent = "Vocabulary"; document.getElementById("card-desc-2").textContent = "Definitions & Context"; document.getElementById("icon-2").className = "fas fa-spell-check";
@@ -615,6 +607,26 @@ function start() {
     usedBlanksWords = []; 
     document.getElementById('userGreet').textContent = 'Welcome, ' + name.split(' ')[0];
     
+    var studySection = document.getElementById('self-study-section');
+    if (data.hasVideoLesson) {
+        studySection.innerHTML = `
+            <div class="self-study-guide">
+                <h3><i class="fas fa-chalkboard-teacher"></i> Today's Lesson: Present Perfect Continuous</h3>
+                <p>
+                    <strong>¿Para qué se usa?</strong> Para acciones que empezaron en el pasado y <strong>todavía continúan</strong> ahora mismo sin detenerse.<br>
+                    <strong>Structure:</strong> Subject + Have/Has been + Verb(-ing) + Complement.<br>
+                    <em>Ejemplo:</em> I have been watching Netflix. (He estado viendo Netflix).
+                </p>
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/tBkP83OYtKg" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>`;
+        studySection.classList.remove('hidden');
+    } else {
+        studySection.innerHTML = '';
+        studySection.classList.add('hidden');
+    }
+
     show('menu'); 
 }
 
@@ -636,27 +648,24 @@ function updateXPBar() {
         submitBtn.disabled = true; submitBtn.style.background = '#cbd5e1'; submitBtn.textContent = "Complete all to Submit";
     }
 
-    // Actualizar estados visuales de las tarjetas
-    for (let i = 0; i < activitiesList.length; i++) {
-        let cardId = 'card-' + (i+1);
-        let lockId = 'lock-' + (i+1);
-        let sealId = 's-' + (i+1);
-        let card = document.getElementById(cardId);
-        let lock = document.getElementById(lockId);
-        let seal = document.getElementById(sealId);
+    for (var i = 0; i < activitiesList.length; i++) {
+        var card = document.getElementById('card-' + (i+1));
+        var lock = document.getElementById('lock-' + (i+1));
+        var seal = document.getElementById('s-' + (i+1));
+        var isUnlocked = (i === 0) ? true : state.done[activitiesList[i-1]];
         
-        // El nivel 1 siempre está desbloqueado. Los demás dependen del anterior.
-        let isUnlocked = (i === 0) ? true : state.done[activitiesList[i-1]];
-        
-        if (isUnlocked) {
-            card.classList.remove('locked-card');
-            if (lock) lock.style.display = 'none';
-        } else {
-            card.classList.add('locked-card');
-            if (lock) lock.style.display = 'block';
+        if (card) {
+            if (isUnlocked) {
+                card.classList.remove('locked-card');
+                if (lock) lock.style.display = 'none';
+            } else {
+                card.classList.add('locked-card');
+                if (lock) lock.style.display = 'block';
+            }
         }
-
-        if (state.done[activitiesList[i]]) { seal.classList.remove('hidden'); } else { seal.classList.add('hidden'); }
+        if (seal) {
+            if (state.done[activitiesList[i]]) seal.classList.remove('hidden'); else seal.classList.add('hidden');
+        }
     }
 }
 
@@ -669,8 +678,7 @@ function gateCheck(index) {
 }
 
 function go(index) {
-    if (index > 0 && !state.done[activitiesList[index-1]]) return; // Doble validación
-
+    if (index > 0 && !state.done[activitiesList[index-1]]) return; 
     var data = DB[state.unit];
     var activity = activitiesList[index];
     show('act');
@@ -688,12 +696,12 @@ function go(index) {
 }
 
 // ================================================================
-//  MOCK EXAM LOGIC (POR NIVELES)
+//  MOCK EXAM LOGIC (MECÁNICA CORREGIDA PARA NO CONGELAR)
 // ================================================================
 function renderExamSection(container, data, sectionName) {
     var qPos = 0;
     var failCount = 0;
-    var questionsArray = data[sectionName]; // Ej: data.listening, data.vocabulary
+    var questionsArray = data[sectionName];
 
     function render() {
         var qObj = questionsArray[qPos];
@@ -709,14 +717,9 @@ function renderExamSection(container, data, sectionName) {
 
         var audioHtml = '';
         if (sectionName === 'listening') {
-            audioHtml = `
-                <div class="media-card" style="background:#f8fafc; border:2px dashed #cbd5e1; padding:20px; border-radius:12px; margin-bottom:20px; text-align:center;">
-                    <p style="font-weight:600; margin-bottom:12px; color:var(--text-main);"><i class="fas fa-headphones text-blue-600"></i> Escucha el audio del examen:</p>
-                    <audio controls style="width:100%; max-width:400px; margin:0 auto;">
-                        <source src="${data.audioFile}" type="audio/mpeg">
-                        Tu navegador no soporta el reproductor de audio.
-                    </audio>
-                </div>`;
+            audioHtml = '<div class="media-card" style="background:#f8fafc; border:2px dashed #cbd5e1; padding:20px; border-radius:12px; margin-bottom:20px; text-align:center;">' +
+                        '<p style="font-weight:600; margin-bottom:12px; color:var(--text-main);"><i class="fas fa-headphones text-blue-600"></i> Listen to the audio for this section:</p>' +
+                        '<audio controls style="width:100%; max-width:400px; margin:0 auto;"><source src="' + data.audioFile + '" type="audio/mpeg">Tu navegador no soporta el reproductor de audio.</audio></div>';
         }
 
         var readingHtml = '';
@@ -735,7 +738,7 @@ function renderExamSection(container, data, sectionName) {
             
             if (chosen === correct) {
                 chosenEl.classList.add('correct');
-                if (failCount === 0) state.firstTryPoints++; // Solo gana punto a la primera
+                if (failCount === 0) state.firstTryPoints++; 
                 document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
                 
                 setTimeout(function() {
@@ -744,9 +747,9 @@ function renderExamSection(container, data, sectionName) {
                         render();
                     } else {
                         state.done[sectionName] = true; 
-                        updateXPBar();
+                        try { updateXPBar(); } catch(e) { console.error(e); }
                         if (sectionName === 'reading') triggerConfetti();
-                        container.innerHTML = '<h2>Level Completed!</h2><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                        container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Section Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                     }
                 }, 1000);
             } else {
@@ -824,7 +827,7 @@ function renderQuiz(container, data) {
                     qPos++;
                     if (qPos < data.words.length) { render(); } else {
                         state.done['quiz'] = true; updateXPBar();
-                        container.innerHTML = '<h2>Quiz Complete!</h2><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                        container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Quiz Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                     }
                 }, 1000);
             } else { 
@@ -869,7 +872,7 @@ function renderChamber(container, data) {
             if (failCount < 2) state.firstTryPoints++;
             document.getElementById('answer-row').style.borderColor = 'var(--success-bright)'; document.getElementById('answer-row').style.backgroundColor = '#d1fae5';
             setTimeout(function() {
-                idx++; if (idx < sList.length) { render(); } else { state.done['chamber'] = true; updateXPBar(); container.innerHTML = '<h2>Sentence Builder Complete!</h2><button class="btn" onclick="show(\'menu\')">Return to Menu</button>'; }
+                idx++; if (idx < sList.length) { render(); } else { state.done['chamber'] = true; updateXPBar(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Sentence Builder Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; }
             }, 1000);
         } else { 
             failCount++; var hintBox = document.getElementById('hint-box');
@@ -913,7 +916,7 @@ function renderBlanks(container, data) {
                 setTimeout(function() {
                     idx++; if (idx < data.words.length) { render(); } else {
                         state.done['blanks'] = true; updateXPBar(); triggerConfetti();
-                        container.innerHTML = '<h2>Fill in the Blanks Complete!</h2><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                        container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Fill in the Blanks Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                     }
                 }, 1000);
             } else { failCount++; inputEl.value = ''; inputEl.classList.add('input-wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); inputEl.focus(); }
@@ -922,10 +925,139 @@ function renderBlanks(container, data) {
     render();
 }
 
+function renderCondScrolls(container, data) {
+    var idx = 0;
+    container.innerHTML =
+        '<h2>Grammar Rules <span id="fc-counter" style="font-size:1rem; color:var(--text-muted); font-weight:normal;"></span></h2>' +
+        '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" id="scroll-pct" style="width:0%;"></div></div></div>' +
+        '<p style="color:var(--text-muted); margin-bottom:10px;">Tap the card to reveal the usage.</p>' +
+        '<div class="flashcard" id="fc-el">' +
+          '<div class="flashcard-inner"><div class="front"><h3 id="fc-word" style="font-size:2rem;"></h3></div>' +
+            '<div class="back"><p id="fc-def"></p><p class="example-sentence" id="fc-example"></p></div></div></div>' +
+        '<div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">' +
+          '<button id="btn-prev" class="btn" style="margin:0;"><i class="fas fa-arrow-left"></i> Prev</button>' +
+          '<button id="btn-next" class="btn" style="margin:0;">Next <i class="fas fa-arrow-right"></i></button>' +
+        '</div>';
+
+    document.getElementById('fc-el').onclick = function() { this.classList.toggle('flipped'); };
+    document.getElementById('btn-prev').onclick = function() { if(idx > 0) { idx--; updateCard(); } };
+    document.getElementById('btn-next').onclick = function() { if(idx < data.scrolls.length - 1) { idx++; updateCard(); } };
+
+    function updateCard() {
+        document.getElementById('scroll-pct').style.width = Math.round((idx / (data.scrolls.length - 1)) * 100) + '%';
+        document.getElementById('fc-word').textContent = data.scrolls[idx].word;
+        document.getElementById('fc-def').textContent = data.scrolls[idx].def;
+        document.getElementById('fc-example').textContent = '📖 ' + data.scrolls[idx].ex;
+        document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + data.scrolls.length + ')';
+        document.getElementById('fc-el').classList.remove('flipped');
+        document.getElementById('btn-prev').disabled = (idx === 0);
+        document.getElementById('btn-next').disabled = (idx === data.scrolls.length - 1);
+        if (idx === data.scrolls.length - 1) { state.done['scrolls'] = true; updateXPBar(); }
+    }
+    updateCard();
+}
+
+function renderCondQuiz(container, data) {
+    var qPos = 0; var failCount = 0; 
+    function render() {
+        var qObj = data.quiz[qPos]; failCount = 0;
+        container.innerHTML =
+            '<h2>Situation Match <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.quiz.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.quiz.length) * 100)+'%;"></div></div></div>' +
+            '<p style="font-size:1.3rem; margin:20px 0;">Which conditional is this sentence?</p>' +
+            '<div style="background:#f1f5f9; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + qObj.q + '"</div>' +
+            qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('') +
+            '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
+
+        window.checkQuizOpt = function(chosen, correct) {
+            var chosenEl = document.getElementById('qopt-'+chosen);
+            if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
+            if (chosen === correct) {
+                chosenEl.classList.add('correct');
+                if (failCount < 2) { state.firstTryPoints++; }
+                document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
+                setTimeout(function() {
+                    qPos++;
+                    if (qPos < data.quiz.length) { render(); } else {
+                        state.done['quiz'] = true; updateXPBar(); triggerConfetti();
+                        container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Module Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
+                    }
+                }, 1000);
+            } else { 
+                failCount++; chosenEl.classList.add('wrong'); chosenEl.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); 
+            }
+        };
+    }
+    render();
+}
+
+function renderCondChamber(container, data) {
+    var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
+    var sList = data.chamber;
+    function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
+
+    function render() {
+        var item = sList[idx]; tokens = item.c.match(/\S+/g) || []; shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; })); selectedIndices = []; failCount = 0;
+        container.innerHTML =
+            '<h2>Conditional Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+sList.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div>' +
+            '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order:</p>' +
+            '<div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div>' +
+            '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"></div>' +
+            '<div style="display:flex; justify-content:center; gap:10px; margin-top:20px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0; background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>';
+        document.getElementById('chk-ans-btn').onclick = checkChamberTiles; document.getElementById('clr-ans-btn').onclick = clearTiles; buildHtml();
+    }
+
+    function buildHtml() {
+        var bankHtml = ''; for (var i = 0; i < shuffledIndices.length; i++) { var realIndex = shuffledIndices[i]; var isUsed = selectedIndices.includes(realIndex); bankHtml += '<div class="word-tile' + (isUsed ? ' used' : '') + '" onclick="window.pickTile(' + realIndex + ')">' + tokens[realIndex] + '</div>'; }
+        var answerHtml = ''; for (var j = 0; j < selectedIndices.length; j++) { var rIndex = selectedIndices[j]; answerHtml += '<div class="answer-tile" onclick="window.removeTile(' + rIndex + ')">' + tokens[rIndex] + '</div>'; }
+        document.getElementById('word-bank').innerHTML = bankHtml; document.getElementById('answer-row').innerHTML = answerHtml;
+    }
+
+    window.pickTile = function(realIndex) { if (selectedIndices.includes(realIndex)) return; selectedIndices.push(realIndex); buildHtml(); };
+    window.removeTile = function(realIndex) { selectedIndices = selectedIndices.filter(function(x) { return x !== realIndex; }); buildHtml(); };
+    function clearTiles() { selectedIndices = []; buildHtml(); }
+
+    function checkChamberTiles() {
+        var answerArray = []; for (var k = 0; k < selectedIndices.length; k++) { answerArray.push(tokens[selectedIndices[k]]); }
+        if (answerArray.join(' ').toLowerCase() === sList[idx].c.toLowerCase()) {
+            if (failCount < 2) state.firstTryPoints++;
+            setTimeout(function() {
+                idx++; if (idx < sList.length) { render(); } else { state.done['chamber'] = true; updateXPBar(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Builder Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; }
+            }, 1000);
+        } else {
+            failCount++; var hintBox = document.getElementById('hint-box');
+            if (failCount >= 2 && data.grammarHint) { hintBox.innerHTML = '<i class="fas fa-lightbulb"></i> <strong>Grammar Tip:</strong> ' + data.grammarHint; }
+            else { hintBox.innerHTML = 'Incorrect layout. Try again.'; }
+            hintBox.classList.add('active'); clearTiles();
+        }
+    }
+    render();
+}
+
+function renderCondBlanks(container, data) {
+    var idx = 0; var failCount = 0;
+    function render() {
+        var qObj = data.blanks[idx]; failCount = 0;
+        container.innerHTML =
+            '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
+            '<p style="font-size:1.3rem; margin:30px auto; max-width:600px;">' + qObj.text + '</p>' +
+            '<input type="text" id="blank-input" placeholder="Conjugate..." style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
+            '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> ' + qObj.hint + '</div>';
+        window.checkBlank = function() {
+            var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim().toLowerCase();
+            if (input === qObj.answer.toLowerCase()) {
+                if (failCount < 2) state.firstTryPoints++;
+                setTimeout(function() { idx++; if (idx < data.blanks.length) { render(); } else { state.done['blanks'] = true; updateXPBar(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } }, 1000);
+            } else { failCount++; inputEl.classList.add('input-wrong'); inputEl.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); }
+        };
+    }
+    render();
+}
+
 function claimCert() {
     var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
     var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
-
     if (!isReviewMode) {
         var urlGoogleScript = "https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec";
         var formData = new FormData();
@@ -936,16 +1068,10 @@ function claimCert() {
         fetch(urlGoogleScript, { method:"POST", body:formData, mode:"no-cors" }).catch(e => console.error(e));
         localStorage.setItem(state.name.toLowerCase() + '-' + state.section + '-' + state.unit, 'COMPLETED');
     }
-
     show('cert');
     document.getElementById('cert-name').textContent = state.name; 
     document.getElementById('cert-unit').textContent = state.unit; 
     document.getElementById('cert-final-grade').textContent = finalGrade;
-    document.getElementById('cert-title').textContent = (DB[state.unit].type === "exam") ? "Exam Completed!" : "Quest Completed!";
-    if (finalGrade == 10.0) triggerConfetti();
-
-    if (isReviewMode) document.getElementById('review-badge').style.display = 'block'; else document.getElementById('review-badge').style.display = 'none';
-    
     var circle = document.getElementById('grade-circle');
     if (finalGrade >= 8.0) circle.style.backgroundColor = 'var(--success)'; else if (finalGrade >= 6.0) circle.style.backgroundColor = 'var(--warning)'; else circle.style.backgroundColor = 'var(--danger)';
     document.getElementById('cert-time').textContent = 'Completed: ' + new Date().toLocaleString(); 
