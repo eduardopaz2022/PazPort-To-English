@@ -1,74 +1,1225 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en" translate="no">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pazport - Plataforma Educativa</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="google" content="notranslate">
+    <title>Pazport to English</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <style>
-        body { background-color: #f8fafc; font-family: 'Inter', sans-serif; }
-        .card { background: white; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 24px; margin-bottom: 20px; }
-        .btn-blue { background-color: #2563eb; color: white; padding: 10px 20px; border-radius: 8px; font-weight: 600; }
-        .audio-player { width: 100%; margin-top: 10px; padding: 15px; background: #eff6ff; border-radius: 8px; border: 1px solid #bfdbfe; }
+        :root {
+            --primary-blue: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --success: #10b981;
+            --success-bright: #34d399; 
+            --danger: #ef4444;
+            --danger-soft: #fecaca; 
+            --warning: #f59e0b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232563eb' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .container {
+            width: 100%; max-width: 1000px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            overflow: hidden; min-height: 85vh;
+            display: flex; flex-direction: column;
+            padding: 40px 20px; z-index: 10;
+        }
+
+        @media (min-width: 768px) { .container { padding: 50px; } }
+
+        .screen { text-align: center; width: 100%; margin: auto; }
+        .hidden { display: none !important; }
+
+        h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+        h1 { color: var(--primary-blue); font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 10px; font-weight: 800; letter-spacing: -0.5px; }
+        
+        .quote-box {
+            background: #eff6ff; color: var(--primary-blue);
+            padding: 12px 20px; border-radius: 8px;
+            font-style: italic; font-weight: 500;
+            margin: 0 auto 30px auto; max-width: 600px;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .input-group { max-width: 400px; margin: 15px auto; text-align: left; transition: opacity 0.3s ease; }
+        .input-group label { display: block; font-family: 'Poppins', sans-serif; font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; }
+
+        input[type="text"], select {
+            width: 100%; padding: 14px;
+            border: 2px solid #e2e8f0; border-radius: 8px;
+            font-size: 1rem; font-family: 'Inter', sans-serif;
+            transition: all 0.2s; background: #fff; color: var(--text-main);
+        }
+        input[type="text"]:focus, select:focus { outline: none; border-color: var(--primary-blue); }
+
+        .btn {
+            padding: 14px 32px; margin-top: 20px;
+            background-color: var(--primary-blue);
+            color: white; border: none; border-radius: 8px;
+            font-family: 'Poppins', sans-serif; font-size: 1.1rem;
+            cursor: pointer; transition: background 0.2s, transform 0.1s;
+        }
+        .btn:hover:not(:disabled) { background-color: var(--primary-hover); }
+        .btn:active:not(:disabled) { transform: scale(0.98); }
+        .btn:disabled { background: #cbd5e1 !important; color: #64748b !important; cursor: not-allowed; }
+
+        .activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; max-width: 900px; margin-left: auto; margin-right: auto; }
+        .activity-card { 
+            background: #fff; border: 2px solid #e2e8f0; 
+            padding: 25px 20px; border-radius: 12px; cursor: pointer; 
+            position: relative; transition: all 0.2s; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .activity-card:hover { transform: translateY(-4px); border-color: var(--primary-blue); box-shadow: 0 10px 15px rgba(37,99,235,0.1); }
+        .activity-card i { font-size: 2.5rem; color: var(--primary-blue); margin-bottom: 15px; }
+        .activity-card h3 { color: var(--text-main); margin-bottom: 5px; font-size: 1.2rem; }
+        .activity-card p { color: var(--text-muted); font-size: 0.9rem; }
+        .activity-card.locked-card { opacity: 0.6; cursor: not-allowed; background: #f8fafc; }
+        .activity-card.locked-card:hover { transform: none; border-color: #e2e8f0; box-shadow: none; }
+        
+        .seal { position: absolute; top: 15px; right: 15px; color: var(--success); font-size: 1.5rem; }
+        .lock-badge { position: absolute; top: 15px; right: 15px; color: var(--text-muted); font-size: 1.2rem; }
+
+        .xp-wrap { max-width: 500px; margin: 20px auto 0; }
+        .xp-label { font-family: 'Poppins', sans-serif; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 8px; display: flex; justify-content: space-between; font-weight: 600; }
+        .xp-track, .activity-progress-track { background: #e2e8f0; border-radius: 20px; height: 10px; overflow: hidden; }
+        .xp-fill, .activity-progress-fill { height: 100%; border-radius: 20px; background-color: var(--primary-blue); transition: width 0.4s ease; }
+        .activity-progress { max-width: 600px; margin: 10px auto 20px; }
+
+        .flashcard { width: 100%; max-width: 500px; height: 300px; margin: 20px auto; perspective: 1000px; cursor: pointer; }
+        .flashcard-inner { position: relative; width: 100%; height: 100%; transition: transform 0.5s; transform-style: preserve-3d; }
+        .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+        .front, .back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 30px; border-radius: 16px; border: 2px solid #e2e8f0; box-shadow: 0 10px 25px rgba(0,0,0,0.05); background: #fff; }
+        .front { border-color: var(--primary-blue); }
+        .front h3 { color: var(--primary-blue); font-size: 2.5rem; text-align: center; }
+        .back { transform: rotateY(180deg); background: #f8fafc; border-color: #cbd5e1; }
+        .back p { color: var(--text-main); font-size: 1.2rem; text-align: center; font-weight: 600; line-height: 1.4; }
+        .back .example-sentence { font-size: 1.05rem; color: var(--text-muted); font-style: italic; font-weight: normal; margin-top: 15px; background: #fff; padding: 15px; border-radius: 8px; width: 100%; }
+
+        .tts-btn { background: #eff6ff; border: none; color: var(--primary-blue); border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.2rem; margin: 0 auto 15px; transition: background 0.2s; }
+        .tts-btn:hover { background: #dbeafe; }
+
+        .quiz-option { 
+            background: white; border: 2px solid #e2e8f0; 
+            padding: 16px 20px; margin: 12px auto; max-width: 600px; 
+            border-radius: 10px; font-size: 1.1rem; cursor: pointer; 
+            transition: all 0.2s; text-align: left; font-weight: 500;
+        }
+        .quiz-option:hover { border-color: var(--primary-blue); background: #f8fafc; }
+        .quiz-option.correct { background: #d1fae5 !important; border-color: var(--success) !important; color: #065f46 !important; cursor: default; }
+        .quiz-option.wrong   { background: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b !important; cursor: default; }
+
+        .hint-box { background: #fffbeb; border-left: 4px solid var(--warning); color: #92400e; padding: 12px 16px; margin: 15px auto; border-radius: 4px; max-width: 600px; font-size: 0.95rem; display: none; text-align: left; }
+        .hint-box.active { display: block; }
+
+        .word-bank { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px auto; max-width: 600px; min-height: 60px; padding: 15px; border: 2px dashed #cbd5e1; border-radius: 12px; background: #f8fafc; }
+        .word-tile { background: #fff; color: var(--text-main); padding: 10px 18px; border-radius: 8px; font-size: 1.05rem; font-weight: 500; cursor: pointer; user-select: none; border: 2px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: transform 0.1s; }
+        .word-tile:hover { transform: translateY(-2px); border-color: var(--primary-blue); }
+        .word-tile.used { opacity: 0.3; pointer-events: none; }
+        
+        .answer-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 15px auto; max-width: 600px; min-height: 60px; padding: 10px; border-bottom: 2px solid var(--primary-blue); }
+        .answer-tile { background: var(--primary-blue); color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 1.05rem; font-weight: 500; cursor: pointer; user-select: none; border: 2px solid var(--primary-blue); }
+
+        .cert-area { border: 2px solid #e2e8f0; padding: 40px; background: white; border-radius: 16px; max-width: 700px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        #cert-name { font-size: clamp(1.8rem, 5vw, 2.5rem); font-family: 'Poppins', sans-serif; color: var(--primary-blue); margin: 10px 0 20px 0; display: block; font-weight: 700; }
+        .final-grade-circle { width: 120px; height: 120px; border-radius: 50%; background: var(--primary-blue); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto; box-shadow: 0 10px 20px rgba(37,99,235,0.2); }
+        .final-grade-circle span { font-size: 2.5rem; font-weight: 800; font-family: 'Poppins', sans-serif; line-height: 1; }
+        .final-grade-circle small { font-size: 0.8rem; opacity: 0.8; margin-top: 4px; }
+        
+        #review-badge { display: none; background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; margin: 0 auto 20px auto; width: max-content; }
+        
+        .reading-box { background: #eff6ff; padding: 20px; border-left: 4px solid var(--primary-blue); margin: 0 auto 25px auto; max-width: 750px; text-align: left; font-size: 0.95rem; line-height: 1.6; border-radius: 8px; color: var(--text-main); border: 1px solid #bfdbfe; }
+        
+        .blanks-word-bank { 
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; 
+            margin: 0 auto 25px auto; max-width: 800px; padding: 20px; 
+            background: #f8fafc; border-radius: 12px; border: 2px dashed #cbd5e1; 
+        }
+        .blanks-word { 
+            display: inline-block;
+            background: #e2e8f0; color: #475569; padding: 8px 16px; margin: 4px;
+            border-radius: 20px; font-size: 0.95rem; font-weight: 600; 
+            transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border: 1px solid #cbd5e1;
+        }
+        .blanks-word.used { 
+            text-decoration: line-through; opacity: 0.3; background: #cbd5e1; 
+            box-shadow: none; border-color: transparent;
+        }
+
+        .media-card {
+            background: #f8fafc; border: 2px dashed #cbd5e1; padding: 20px;
+            border-radius: 12px; max-width: 600px; margin: 0 auto 25px auto;
+            text-align: center;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+        .input-correct { background-color: #d1fae5 !important; border-color: var(--success) !important; color: #065f46; }
+        .input-wrong { background-color: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b; }
     </style>
 </head>
-<body class="p-6">
+<body>
+<div class="container" id="main-container">
 
-    <div class="max-w-4xl mx-auto">
-        <h1 class="text-3xl font-bold text-blue-900 mb-8">Pazport - Bachillerato & Noveno</h1>
+<section id="screen-home" class="screen">
+    <h1>Pazport to English</h1>
+    <div class="quote-box" id="motivational-quote"></div>
 
-        <div class="card">
-            <h2 class="text-lg font-bold mb-4 text-gray-700">Selecciona tu nivel:</h2>
-            <select id="gradeSelect" class="w-full p-3 border rounded-lg mb-4">
-                <option value="9th">Noveno Grado (Práctica Part 1, 2 y 3)</option>
-                <option value="10th">Décimo - Mock Exam (30 Preguntas)</option>
-                <option value="11th">Onceavo - Mock Exam (30 Preguntas)</option>
-            </select>
-            <button onclick="renderPlatform()" class="w-full btn-blue hover:bg-blue-700 transition">Cargar Módulo</button>
-        </div>
-
-        <div id="contentArea" class="hidden">
-            <div id="audioContainer" class="card hidden">
-                <h3 class="font-bold text-blue-800">🎧 Listening Section:</h3>
-                <div class="audio-player" id="audioPlayer"></div>
-            </div>
-            
-            <div id="mainQuiz" class="card"></div>
-        </div>
+    <div class="input-group">
+        <label>Student Full Name</label>
+        <input type="text" id="studentName" placeholder="E.g., Juan Pérez..." oninput="checkStatus()">
+    </div>
+    
+    <div class="input-group">
+        <label>Select your Grade and Section</label>
+        <select id="sectionSelect" onchange="updateCascade()">
+            <option value="">-- Select Section --</option>
+            <option value="9A">9th Grade - A</option>
+            <option value="9B">9th Grade - B</option>
+            <option value="10A">10th Grade - A</option>
+            <option value="10B">10th Grade - B</option>
+            <option value="11A">11th Grade - A</option>
+            <option value="11B">11th Grade - B</option>
+        </select>
     </div>
 
-    <script>
-        // Enlaces de tus audios en Drive
-        const audioLinks = {
-            "10th": "https://docs.google.com/uc?export=download&id=18RXYY6EMlExuMW9Q5-XsFbAo39JNPo2J",
-            "11th": "https://docs.google.com/uc?export=download&id=1ylNOpRvdGVOptD9UFOrULEfX5-DeeLbB"
+    <div class="input-group hidden" id="unit-group">
+        <label>Select Unit / Activity</label>
+        <select id="unitSelect" onchange="checkStatus()"></select>
+    </div>
+
+    <button class="btn" id="startBtn" onclick="start()" disabled>Start Quest</button>
+    <p id="msg" style="margin-top:15px; font-weight:500; color:var(--warning); font-size:0.9rem;"></p>
+</section>
+
+<section id="screen-menu" class="screen hidden">
+    <h2 id="userGreet" style="color:var(--text-main); margin-bottom:4px;"></h2>
+    <p style="color:var(--text-muted); font-size:1rem; margin-bottom:0;">Complete all activities to unlock your final grade.</p>
+
+    <div class="xp-wrap">
+        <div class="xp-label"><span>Overall Progress</span><span id="xp-text">0 / 4 activities</span></div>
+        <div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%;"></div></div>
+    </div>
+
+    <div class="activity-grid" id="activity-grid">
+        <div class="activity-card" id="card-scrolls" onclick="go('scrolls')">
+            <div id="s-scrolls" class="seal hidden"><i class="fas fa-check-circle"></i></div>
+            <i class="fas fa-layer-group"></i>
+            <h3 id="card-title-1">Study Scrolls</h3>
+            <p id="card-desc-1">Memorize vocabulary</p>
+        </div>
+        <div class="activity-card locked-card" id="card-quiz" onclick="gateCheck('quiz')">
+            <div id="s-quiz" class="seal hidden"><i class="fas fa-check-circle"></i></div>
+            <div class="lock-badge" id="lock-quiz"><i class="fas fa-lock"></i></div>
+            <i class="fas fa-list-ul"></i>
+            <h3 id="card-title-2">Definition Quiz</h3>
+            <p id="card-desc-2">Match the meaning</p>
+        </div>
+        <div class="activity-card locked-card" id="card-chamber" onclick="gateCheck('chamber')">
+            <div id="s-chamber" class="seal hidden"><i class="fas fa-check-circle"></i></div>
+            <div class="lock-badge" id="lock-chamber"><i class="fas fa-lock"></i></div>
+            <i class="fas fa-align-left"></i>
+            <h3 id="card-title-3">Sentence Builder</h3>
+            <p id="card-desc-3">Order the words</p>
+        </div>
+        <div class="activity-card locked-card" id="card-blanks" onclick="gateCheck('blanks')">
+            <div id="s-blanks" class="seal hidden"><i class="fas fa-check-circle"></i></div>
+            <div class="lock-badge" id="lock-blanks"><i class="fas fa-lock"></i></div>
+            <i class="fas fa-keyboard"></i>
+            <h3 id="card-title-4">Fill the Blanks</h3>
+            <p id="card-desc-4">Type missing words</p>
+        </div>
+    </div>
+    
+    <button class="btn" style="margin-top:40px; width:100%; max-width:300px; display:inline-block;" id="btn-report" onclick="claimCert()" disabled>Complete all to Submit</button>
+</section>
+
+<section id="screen-act" class="screen hidden">
+    <div style="text-align:left; margin-bottom:20px;" id="act-back-btn-container">
+        <button class="btn" style="padding:8px 16px; margin:0; font-size:0.9rem; background:#cbd5e1; color:#0f172a;" onclick="show('menu')"><i class="fas fa-arrow-left"></i> Back to Menu</button>
+    </div>
+    <div id="act-content"></div>
+</section>
+
+<section id="screen-cert" class="screen hidden">
+    <div class="cert-area">
+        <i class="fas fa-award" style="font-size:4rem; color:var(--primary-blue); margin-bottom:10px;"></i>
+        <div id="review-badge"><i class="fas fa-info-circle"></i> Review Mode - Score not saved</div>
+        <h1 style="font-size:2rem;" id="cert-title">Quest Completed!</h1>
+        <p style="font-size:1.1rem; color:var(--text-muted);">This certifies that</p>
+        <span id="cert-name"></span>
+        <p style="font-size:1.1rem; color:var(--text-muted); margin-top:10px;">has successfully completed</p>
+        <h3 id="cert-unit" style="color:var(--text-main); font-size:1.3rem; margin-top:5px;"></h3>
+        
+        <div class="final-grade-circle" id="grade-circle">
+            <span id="cert-final-grade">10.0</span>
+            <small>Final Grade</small>
+        </div>
+        
+        <p id="cert-time" style="margin-top:20px; font-size:0.9rem; color:var(--text-muted);"></p>
+        <div id="cert-code" style="margin-top:10px; font-family:monospace; font-size:0.8rem; background:#f1f5f9; padding:8px; border-radius:4px; display:inline-block; color:var(--text-muted);"></div>
+    </div>
+    <button class="btn" style="margin-top:30px;" onclick="location.reload()">Return to Entrance</button>
+</section>
+
+</div>
+
+<script>
+function speak(text) {
+    if (!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(text); 
+    u.lang = 'en-US'; 
+    u.rate = 0.85;
+    window.speechUtteranceHack = u; 
+    window.speechSynthesis.speak(u);
+}
+
+const motivationalQuotes = [
+    "“The secret of getting ahead is getting started.” – Mark Twain",
+    "“Mistakes are proof that you are trying.”",
+    "“Believe you can and you're halfway there.” – Theodore Roosevelt",
+    "“It always seems impossible until it's done.” – Nelson Mandela",
+    "“Don't watch the clock; do what it does. Keep going.” – Sam Levenson",
+    "“A little progress each day adds up to big results.”",
+    "“Success is the sum of small efforts, repeated day in and day out.”"
+];
+
+function setDailyQuote() {
+    let dayNumber = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+    let quoteIndex = dayNumber % motivationalQuotes.length;
+    document.getElementById('motivational-quote').textContent = motivationalQuotes[quoteIndex];
+}
+
+// ================================================================
+//  DATABASE DEFINITIVA CON MOCK EXAMS (30 PREGUNTAS) Y 9NO FRAGMENTADO
+// ================================================================
+const audio10Text = "Good morning, students! Please listen carefully to the announcements for the Citalá Extreme Games this weekend. First, let's talk about the weather. On Saturday morning, it will not be a clear sky. In fact, it will be a massive thunderstorm, so it will be pouring rain! Because of this, you must wear your special raincoats. Now, let's talk about the sports. Because of the rain, we won't play soccer outside. Instead, we will do gymnastics inside the gym. Also, remember that you shouldn't go swimming in the pool during a thunderstorm, it is very dangerous! To participate, you have to be in good physical condition. If you feel weak, you shouldn't run. We don't want anyone to injure their legs. If somebody gets hurt, the medical team will help them recover. Also, a professional athlete named Coach Carter will visit us to be our inspiration. He will arrive at exactly 8:15 AM. Finally, the ultimate goal of these games is to support your opponents. If you don't follow the rules, you won't play. Good luck to everyone!";
+const reading10Text = "The Sahara Desert Marathon is an extreme race that happens in April. Competitors run 300 kilometers across dry sand. In the morning, the temperature easily reaches 50 degrees Celsius! Runners must carry their own food and five liters of water. Last year, a 28-year-old nurse named Jessica won. The first-place prize was $20,000. Next year, organizers expect over 400 people.";
+
+const audio11Text = "Hi, Daniel. I am so tired today. I have been working on my art project for the exhibit all week. It's supposed to be an abstract masterpiece, but it's really difficult! Also, I haven't slept much because I have been binge-watching 'The Canvas Murders' on Netflix. Have you seen it? The main character is a crazy artist. If I were him, I wouldn't paint those scary portraits! Anyway, the season finale was broadcast yesterday, and it ended on a massive cliffhanger. If I don't see season 2 soon, I will go crazy! Okay, I have to go paint my canvas. See you at school at 8:00 AM!";
+const reading11Text = "The Ultimate Television Challenge.<br><br>Alejandro is trying to break a world record. He has been watching TV for 85 hours without stopping! He is currently streaming a sci-fi series called 'The Galaxy Canvas'. His sister has been giving him coffee and pizza to help him stay awake. If he falls asleep, he will lose the challenge immediately. 'If I were a normal person, I would be sleeping in my bed right now,' Alejandro mentioned. But if he completes 100 hours, he will win $50,000! The competition finishes tomorrow morning.";
+
+const DB = {
+    "9th - Unit 4 Part 1 (Vocabulary)": {
+        type: "normal",
+        grammarHint: "Structure: <b>Subject + Action Verb</b>. Focus on the core meaning of our action verbs.",
+        words: ["Clean", "Mop", "Sweep", "Eat", "Sleep", "Close", "Wash", "Open", "Push", "Yell", "Order", "Take a shower"],
+        defs: [
+            "To remove dirt from something.", "To clean the floor using a wet cloth or tool.", "To clean the floor using a broom.", "To put food into your mouth and swallow it.",
+            "To rest in a state of natural unconsciousness.", "To move a door or window so that an opening is covered.", "To clean something with water and soap.", "To move a door or window so people can pass.",
+            "To apply force to move something away from you.", "To shout or speak in a very loud voice.", "To ask for food or products in a store or restaurant.", "To wash your body under falling water."
+        ],
+        examples: [
+            "I clean the classroom.", "They mop the wet floor.", "We sweep the kitchen floor.", "You eat breakfast daily.", "Children sleep at night.",
+            "Please close the wooden door.", "We wash our hands.", "They open the big window.", "Do not push the heavy table.", "Please do not yell in class.",
+            "I order food at the restaurant.", "I take a shower in the morning."
+        ],
+        cloze: [
+            "I ________ the classroom to remove dirt.", "They ________ the wet floor with a cloth.", "We ________ the kitchen floor with a broom.", "You ________ breakfast daily.",
+            "Children ________ at night to rest.", "Please ________ the wooden door.", "We ________ our hands with soap.", "They ________ the big window.",
+            "Do not ________ the heavy table.", "Please do not ________ in class.", "I ________ food at the restaurant.", "I ________ in the morning to get clean."
+        ],
+        hints: [
+            "Remove dirt.", "Clean with wet cloth.", "Clean with a broom.", "Consume food.", "Unconscious rest.", "Cover an opening.", "Clean with water.", "Uncover an opening.",
+            "Force away.", "Shout loudly.", "Request food.", "Wash your body."
+        ],
+        sentences: [
+            { s:"the / classroom. / clean / I", c:"I clean the classroom." },
+            { s:"mop / floor. / the / They / wet", c:"They mop the wet floor." },
+            { s:"floor. / kitchen / the / sweep / We", c:"We sweep the kitchen floor." },
+            { s:"daily. / breakfast / eat / You", c:"You eat breakfast daily." },
+            { s:"sleep / night. / at / Children", c:"Children sleep at night." },
+            { s:"door. / the / close / Please / wooden", c:"Please close the wooden door." },
+            { s:"hands. / our / wash / We", c:"We wash our hands." },
+            { s:"open / window. / big / the / They", c:"They open the big window." },
+            { s:"table. / push / the / heavy / Do / not", c:"Do not push the heavy table." },
+            { s:"in / yell / not / class. / Please / do", c:"Please do not yell in class." },
+            { s:"order / at / restaurant. / the / food / I", c:"I order food at the restaurant." },
+            { s:"shower / in / morning. / take / I / a / the", c:"I take a shower in the morning." }
+        ]
+    },
+    "9th - Unit 4 Part 2 (Adverbs of Manner)": {
+        type: "normal",
+        grammarHint: "Structure: <b>Subject + Verb Be + Adverb of Manner</b>. Remember that adverbs describe how something is done.",
+        words: ["Loudly", "Slowly", "Carefully", "Easily", "Quickly", "Well", "Badly", "Fast"],
+        defs: [
+            "With a lot of volume or noise.", "At a low speed; not fast.", "With great attention to avoid mistakes or danger.", "Without any difficulty or hard work.",
+            "At a high speed; very fast.", "In a good or satisfactory manner.", "In a poor, incorrect, or harmful manner.", "Moving or capable of moving at high speed."
+        ],
+        examples: [
+            "The voice is loudly.", "The turtle is slowly.", "The work is carefully.", "The quiz is easily.",
+            "The runner is quickly.", "The project is well.", "The score is badly.", "The car is fast."
+        ],
+        cloze: [
+            "The voice is ________; it has too much noise.", "The turtle is ________; it has low speed.", "The work is ________ to avoid any mistakes.", "The quiz is ________; there is no difficulty.",
+            "The runner is ________; he has high speed.", "The project is ________; it is very satisfactory.", "The score is ________; it is poor and incorrect.", "The car is ________; it moves rapidly."
+        ],
+        hints: [
+            "High volume.", "Low speed.", "With great attention.", "No difficulty.", "High speed.", "Satisfactory manner.", "Poor manner.", "Moving rapidly."
+        ],
+        sentences: [
+            { s:"is / voice / loudly. / The", c:"The voice is loudly." },
+            { s:"slowly. / turtle / is / The", c:"The turtle is slowly." },
+            { s:"carefully. / work / is / The", c:"The work is carefully." },
+            { s:"easily. / is / quiz / The", c:"The quiz is easily." },
+            { s:"is / quickly. / runner / The", c:"The runner is quickly." },
+            { s:"is / project / well. / The", c:"The project is well." },
+            { s:"badly. / score / is / The", c:"The score is badly." },
+            { s:"The / car / fast. / is", c:"The car is fast." }
+        ]
+    },
+    "9th - Unit 4 Part 3 (Integrated Practice)": {
+        type: "normal",
+        grammarHint: "Structure: <b>Subject + Action Verb + Adverb of Manner</b>. (Example: He sweeps the floor carefully).",
+        words: ["Sweep carefully", "Mop slowly", "Yell loudly", "Wash quickly", "Close easily", "Sleep well", "Order fast", "Clean badly"],
+        defs: [
+            "To use a broom with high attention.", "To wash the floor with a low speed.", "To shout with a massive volume.", "To clean things with water at high speed.",
+            "To cover an opening without any difficulty.", "To have a perfect and deep rest at night.", "To request your food very rapidly.", "To remove dirt in a very poor or wrong way."
+        ],
+        examples: [
+            "He sweeps the floor carefully.", "She mops the floor slowly.", "They yell in class loudly.", "We wash our hands quickly.",
+            "You close the window easily.", "The babies sleep tonight well.", "I order the food fast.", "He cleans his room badly."
+        ],
+        cloze: [
+            "He sweeps the floor ________.", "She mops the floor ________.", "They yell in class ________.", "We wash our hands ________.",
+            "You close the window ________.", "The babies sleep tonight ________.", "I order the food ________.", "He cleans his room ________."
+        ],
+        hints: [
+            "Broom + attention.", "Floor cloth + low speed.", "Shout + high volume.", "Water + high speed.", "Cover opening + easily.", "Rest + perfectly.", "Request food + rapidly.", "Remove dirt + poorly."
+        ],
+        sentences: [
+            { s:"sweeps / floor / carefully. / He / the", c:"He sweeps the floor carefully." },
+            { s:"mops / floor / slowly. / She / the", c:"She mops the floor slowly." },
+            { s:"yell / in / loudly. / They / class", c:"They yell in class loudly." },
+            { s:"quickly. / wash / hands / We / our", c:"We wash our hands quickly." },
+            { s:"window / easily. / close / You / the", c:"You close the window easily." },
+            { s:"sleep / well. / tonight / babies / The", c:"The babies sleep tonight well." },
+            { s:"the / fast. / I / food / order", c:"I order the food fast." },
+            { s:"room / badly. / cleans / his / He", c:"He cleans his room badly." }
+        ]
+    },
+    "10th - Unit 4": {
+        type: "normal",
+        grammarHint: "Structure: <b>Subject + Will / Won't + Be + Adjective</b>. Evaluates future prediction expressions.",
+        words: ["Boiling", "Drizzling", "Pouring", "Flooding", "Heat", "Hot", "Scarf", "Gloves", "Raining", "Umbrella"],
+        defs:  ["Extremely hot.", "A fine, light rain.", "To rain heavily.", "Water covering dry land.", "The condition of being hot.", "High temperature.", "Cloth around neck.", "Covers for hands.", "Water from clouds.", "Object to stay dry."],
+        examples: ["The water will be boiling.", "It won't be drizzling today.", "It will be pouring tonight.", "The street won't be flooding.", "The heat will be terrible.", "It won't be hot tomorrow.", "I will wear a red scarf.", "She won't need warm gloves.", "It will be raining later.", "He won't bring an umbrella."],
+        cloze: ["The water will be ________.", "It won't be ________ today.", "It will be ________ tonight.", "The street won't be ________.", "The ________ will be terrible.", "It won't be ________ tomorrow.", "I will wear a red ________.", "She won't need warm ________.", "It will be ________ later.", "He won't bring an ________."],
+        hints: ["Boiling.", "Drizzling.", "Pouring.", "Flooding.", "Heat.", "Hot.", "Scarf.", "Gloves.", "Raining.", "Umbrella."],
+        sentences: [
+            { s:"water / boiling. / The / will / be", c:"The water will be boiling." },
+            { s:"today. / drizzling / It / won't / be", c:"It won't be drizzling today." },
+            { s:"pouring / tonight. / It / will / be", c:"It will be pouring tonight." },
+            { s:"street / flooding. / The / won't / be", c:"The street won't be flooding." }
+        ]
+    },
+    "10th - Unit 4 Part 2": {
+        type: "normal",
+        grammarHint: "Structure: <b>Subject + Will / Won't + Be + Adjective</b>.",
+        words: ["Sunny", "Windy", "Cold", "Cloudy", "Clear sky", "Thunderstorm", "Thunder", "Lightning", "Dry", "Humid"],
+        defs: ["Sun shining, no clouds.", "Fast moving air.", "Low temperature.", "Full of clouds.", "Blue and clean sky.", "Rain with thunder and lightning.", "Loud boom sound.", "Bright electrical flash.", "No water or rain.", "Hot and wet air."],
+        examples: ["It will be sunny tomorrow.", "Will it be windy today?", "It won't be cold tonight.", "The sky will be cloudy.", "Will we have a clear sky?", "There won't be a thunderstorm.", "I will hear the thunder.", "Will you see the lightning?", "The grass won't be dry.", "The air will be humid."],
+        cloze: ["It will be ________ tomorrow.", "Will it be ________ today?", "It won't be ________ tonight.", "The sky will be ________.", "Will we have a ________?", "There won't be a ________.", "I will hear the ________.", "Will you see the ________?", "The grass won't be ________.", "The air will be ________."],
+        hints: ["Sunny.", "Windy.", "Cold.", "Cloudy.", "Clear sky.", "Thunderstorm.", "Thunder.", "Lightning.", "Dry.", "Humid."],
+        sentences: [
+            { s:"sunny / tomorrow. / It / will / be", c:"It will be sunny tomorrow." },
+            { s:"be / today? / Will / it / windy", c:"Will it be windy today?" }
+        ]
+    },
+    "11th - TV & Present Perfect Cont.": {
+        type: "normal",
+        hasVideoLesson: true,
+        grammarHint: "Structure: <b>Subject + Have/Has been + Verb-ing + Complement</b>.",
+        words: ["Binge-watching", "Season finale", "Spoilers", "Screen", "Cliffhanger", "Main character", "Streaming", "Episode", "Broadcasting", "Plot twist"],
+        defs: ["Watching many episodes.", "Last episode of season.", "Information ruining surprises.", "Flat viewing surface.", "Suspenseful ending.", "Primary character.", "Watching online.", "One single part.", "Transmitting show.", "Surprise story turn."],
+        examples: ["I have been binge-watching series.", "We are waiting for the season finale.", "He has been reading spoilers.", "Look at the screen.", "The cliffhanger was amazing.", "The main character has been running.", "I have been streaming the show.", "Download the episode.", "The channel is broadcasting it.", "We are analyzing the plot twist."],
+        cloze: ["I have been ________ series.", "We are waiting for the season ________.", "He has been reading ________.", "Look at the ________.", "The ________ was amazing.", "The main ________ has been running.", "I have been ________ the show.", "Download the ________.", "The channel is ________ it.", "We are analyzing the plot ________."],
+        hints: ["Binge.", "Finale.", "Spoilers.", "Screen.", "Cliffhanger.", "Character.", "Streaming.", "Episode.", "Broadcast.", "Twist."],
+        sentences: [
+            { s:"I / have / been / binge-watching / series.", c:"I have been binge-watching series." },
+            { s:"We / have / been / waiting / for / the / season / finale.", c:"We have been waiting for the season finale." }
+        ]
+    },
+    "11th - Conditionals Review": {
+        type: "conditional_review",
+        grammarHint: "0: Pres+Pres. 1: Pres+Will. 2: Past+Would.",
+        scrolls: [
+            { word: "Zero Conditional", def: "Facts/truths. Present + Present.", ex: "If you eat five pupusas, you get sleepy." },
+            { word: "First Conditional", def: "Real future options. Present + Will.", ex: "If I pass the test, my parents will buy me pizza." },
+            { word: "Second Conditional", def: "Imaginary/crazy ideas. Past + Would.", ex: "If I had a flying car, I would avoid the traffic." }
+        ],
+        quiz: [
+            { q: "If aliens invaded the school, I would hide in the cafeteria.", opts: ["Zero Conditional", "First Conditional", "Second Conditional"], a: 2, hint: "Past + Would" }
+        ],
+        chamber: [
+            { s:"eat / pupusas, / you / sleepy. / If / five / you / get", c:"If you eat five pupusas, you get sleepy." }
+        ],
+        blanks: [
+            { text: "If you eat five pupusas, you _____ (get) sleepy.", answer: "get", hint: "Zero Conditional" }
+        ]
+    },
+    // ================================================================
+    //  MOCK EXAMS COMPLETOS - 30 PREGUNTAS DIVIDIDAS POR SECCIONES
+    // ================================================================
+    "10th - Mock Exam": {
+        type: "exam",
+        driveAudioId: "18RXYY6EMlExuMW9Q5-XsFbAo39JNPo2J",
+        questions: [
+            // LISTENING (1-7)
+            { section: "Section I: Listening Comprehension", hasAudio: true, q: "1. What will the weather be like on Saturday morning according to the broadcast?", opts: ["It will be completely sunny and hot.", "There will be a clear sky with no air.", "There will be a massive thunderstorm and pouring rain.", "It will be drizzling lightly all day."], a: 2 },
+            { hasAudio: true, q: "2. What MUST the students wear during the Action Games?", opts: ["Thick woolen gloves", "Special protective raincoats", "Thick winter jackets", "Normal white shoes"], a: 1 },
+            { hasAudio: true, q: "3. Which sport will the students NOT play outside due to the weather conditions?", opts: ["Tennis", "Basketball", "Gymnastics", "Soccer"], a: 3 },
+            { hasAudio: true, q: "4. What activity is described as very dangerous during a thunderstorm?", opts: ["Doing gymnastics inside the gym", "Running around the school track", "Swimming in the pool", "Talking to Coach Carter"], a: 2 },
+            { hasAudio: true, q: "5. What condition must students fulfill to participate in the games?", opts: ["They have to buy a special umbrella.", "They have to be in good physical condition.", "They must know how to swim perfectly.", "They need to arrive before 8:00 AM."], a: 1 },
+            { hasAudio: true, q: "6. At what exact time will Coach Carter arrive at the facility?", opts: ["At 8:00 AM", "At 8:15 AM", "At 9:30 AM", "At 7:45 AM"], a: 1 },
+            { hasAudio: true, q: "7. What will happen to a student if they do not follow the game rules?", opts: ["They will get a prize.", "They won't play at all.", "The medical team will check them.", "They must do gymnastics."], a: 1 },
+            // VOCABULARY & GRAMMAR (8-22)
+            { section: "Section II: Vocabulary & Grammar", q: "8. Look at that dark cloud! It is not a clear sky; it will be ________ tonight.", opts: ["boiling", "pouring", "drizzling", "heat"], a: 1 },
+            { q: "9. The temperature is extremely high and the water is bubbling. It is...", opts: ["freezing", "flooding", "boiling", "humid"], a: 2 },
+            { q: "10. The street is full of water because it rained all night long. The city is...", opts: ["dry", "windy", "flooding", "sunny"], a: 2 },
+            { q: "11. If the weather is freezing tomorrow, you ________ wear your gloves and scarf.", opts: ["should", "won't", "shouldn't", "are"], a: 0 },
+            { q: "12. It's beautiful and bright outside! The sun is shining, so it will be ________.", opts: ["cloudy", "cold", "sunny", "humid"], a: 2 },
+            { q: "13. I didn't bring my umbrella, so if it starts raining, I ________ get wet.", opts: ["would", "shouldn't", "will", "won't"], a: 2 },
+            { q: "14. We ________ go running near the mountain if there is a massive thunderstorm.", opts: ["should", "will", "shouldn't", "are"], a: 2 },
+            { q: "15. The air feels very hot, wet, and sticky. The weather is...", opts: ["dry", "humid", "cold", "windy"], a: 1 },
+            { q: "16. Choose the correct question form for future prediction:", opts: ["It will be cold tomorrow?", "Will it be cold tomorrow?", "Will be it cold tomorrow?", "Cold it will be tomorrow?"], a: 1 },
+            { q: "17. There is a lot of rapid air moving fast outside. It is very...", opts: ["sunny", "dry", "clear sky", "windy"], a: 3 },
+            { q: "18. The sky is full of dark clouds and we cannot see the sun. It is...", opts: ["clear sky", "cloudy", "boiling", "dry"], a: 1 },
+            { q: "19. The loud 'boom' sound we hear during a storm is called...", opts: ["lightning", "thunder", "heat", "scarf"], a: 1 },
+            { q: "20. The bright flash of electricity that hits the ground is...", opts: ["thunder", "lightning", "umbrella", "humid"], opts: ["thunder", "lightning", "umbrella", "humid"], a: 1 },
+            { q: "21. There is no water or rain at all in the desert. The sand is completely...", opts: ["humid", "dry", "pouring", "flooding"], a: 1 },
+            { q: "22. If you injure your leg during the race, you ________ run any further.", opts: ["will", "should", "shouldn't", "are"], a: 2 },
+            // READING (23-30)
+            { section: "Section III: Reading Comprehension", readingText: reading10Text, q: "23. In which month does the Sahara Desert Marathon take place?", opts: ["April", "June", "September", "December"], a: 0 },
+            { readingText: reading10Text, q: "24. How many kilometers long is this extreme race across the sand?", opts: ["50 kilometers", "100 kilometers", "300 kilometers", "400 kilometers"], a: 2 },
+            { readingText: reading10Text, q: "25. What temperature does the desert easily reach in the morning hours?", opts: ["25 degrees Celsius", "35 degrees Celsius", "50 degrees Celsius", "12 degrees Celsius"], a: 2 },
+            { readingText: reading10Text, q: "26. What MUST competitors carry on their backs during the competition?", opts: ["Thick blankets and tools", "Food and five liters of water", "An umbrella and special raincoats", "Money and cellphones"], a: 1 },
+            { readingText: reading10Text, q: "27. What was the profession of last year's winner, Jessica?", opts: ["She was a professional swimmer.", "She was a high school teacher.", "She was a professional nurse.", "She was an athlete coach."], a: 2 },
+            { readingText: reading10Text, q: "28. How old was Jessica when she won the extreme marathon?", opts: ["18 years old", "20 years old", "28 years old", "40 years old"], a: 2 },
+            { readingText: reading10Text, q: "29. How much money did the first-place winner receive as a cash prize?", opts: ["$5,000", "$10,000", "$20,000", "$50,000"], a: 2 },
+            { readingText: reading10Text, q: "30. How many people do the organizers expect to participate next year?", opts: ["Over 100 people", "Over 200 people", "Over 300 people", "Over 400 people"], a: 3 }
+        ]
+    },
+    "11th - Mock Exam": {
+        type: "exam",
+        driveAudioId: "1ylNOpRvdGVOptD9UFOrULEfX5-DeeLbB",
+        questions: [
+            // LISTENING (1-7)
+            { section: "Section I: Listening Comprehension", hasAudio: true, q: "1. Why is Daniel's friend feeling extremely tired today?", opts: ["Because he played soccer all weekend.", "Because he has been working on an art project.", "Because he had a math test.", "Because he went to a party."], a: 1 },
+            { hasAudio: true, q: "2. What style of art project is the student creating for the upcoming exhibit?", opts: ["A realistic sculpture", "A pop art painting", "An abstract masterpiece", "A digital photograph"], a: 2 },
+            { hasAudio: true, q: "3. Why hasn't the speaker slept much during the week?", opts: ["Because the bedroom was too hot.", "Because he has been binge-watching 'The Canvas Murders'.", "Because he was painting all night.", "Because he was reading spoilers."], a: 1 },
+            { hasAudio: true, q: "4. Who is the main character of the series 'The Canvas Murders'?", opts: ["A brilliant detective", "A high school principal", "A crazy artist", "A professional nurse"], a: 2 },
+            { hasAudio: true, q: "5. What would the speaker NOT do if he were the main character?", opts: ["Watch Netflix in the evening", "Paint those scary portraits", "Go to school at 8:00 AM", "Work on an abstract project"], a: 1 },
+            { hasAudio: true, q: "6. When was the season finale of the series broadcast on television?", opts: ["Yesterday", "Last Friday", "Tomorrow morning", "Next Sunday"], a: 0 },
+            { hasAudio: true, q: "7. How did the season finale end, causing the speaker to feel crazy?", opts: ["With a happy wedding", "On a massive cliffhanger", "With the death of the inspector", "With a simple explanation"], a: 1 },
+            // VOCABULARY & GRAMMAR (8-22)
+            { section: "Section II: Vocabulary & Grammar", q: "8. Identify the correct Present Perfect Continuous structure: 'They ________ TV all night.'", opts: ["has been watching", "have been watching", "are watching", "have watching"], a: 1 },
+            { q: "9. She ________ painting her new canvas since 9:00 AM.", opts: ["have been", "has been", "is been", "has"], a: 1 },
+            { q: "10. (Zero Conditional) If you heat ice, it ________ into water.", opts: ["turned", "would turn", "turns", "will turn"], a: 2 },
+            { q: "11. (First Conditional) If I pass my English exam, my parents ________ be happy.", opts: ["would", "will", "are", "did"], a: 1 },
+            { q: "12. (Second Conditional) If I ________ a millionaire, I would buy a television network.", opts: ["am", "was", "were", "will be"], a: 2 },
+            { q: "13. I hate when people tell me the ending of a movie! I really hate ________.", opts: ["main characters", "spoilers", "screens", "episodes"], a: 1 },
+            { q: "14. We watched five chapters without stopping! We spent the night ________.", opts: ["broadcasting", "streaming", "binge-watching", "waiting"], a: 2 },
+            { q: "15. The final chapter of a television season is called the...", opts: ["plot twist", "cliffhanger", "season finale", "episode"], a: 2 },
+            { q: "16. The flat glass surface where you watch your programs is the...", opts: ["canvas", "screen", "spoiler", "exhibit"], a: 1 },
+            { q: "17. A sudden, unexpected change in the direction of a story is a...", opts: ["cliffhanger", "main character", "plot twist", "episode"], a: 2 },
+            { q: "18. The local channel is ________ the football game live right now.", opts: ["binge-watching", "broadcasting", "waiting", "discussing"], a: 1 },
+            { q: "19. I am currently ________ a sci-fi series online through my computer.", opts: ["streaming", "painting", "sleeping", "closing"], a: 0 },
+            { q: "20. If I ________ more time, I would paint a beautiful masterpiece.", opts: ["have", "had", "will have", "would have"], a: 1 },
+            { q: "21. You look tired. How long ________ you been studying tonight?", opts: ["has", "have", "are", "did"], a: 1 },
+            { q: "22. If he doesn't see season 2 soon, he ________ go crazy.", opts: ["would", "is", "will", "did"], a: 2 },
+            // READING (23-30)
+            { section: "Section III: Reading Comprehension", readingText: reading11Text, q: "23. What world record is Alejandro trying to break in this story?", opts: ["The longest painting marathon", "The ultimate binge-watching challenge", "The fastest pizza eating record", "The longest sleep challenge"], a: 1 },
+            { readingText: reading11Text, q: "24. For how many hours has Alejandro been watching television continuously?", opts: ["50 hours", "85 hours", "100 hours", "12 hours"], a: 1 },
+            { readingText: reading11Text, q: "25. What is the specific name of the sci-fi series he is currently streaming?", opts: ["The Canvas Murders", "The Midnight Detective", "The Galaxy Canvas", "The Ultimate Challenge"], a: 2 },
+            { readingText: reading11Text, q: "26. Who has been supporting Alejandro with coffee and pizza all week?", opts: ["His mother", "His teacher", "His sister", "His opponents"], a: 2 },
+            { readingText: reading11Text, q: "27. What happens immediately if Alejandro falls asleep during the challenge?", opts: ["He wins $50,000.", "He gets more pizza.", "He loses the challenge.", "The show finishes."], a: 2 },
+            { readingText: reading11Text, q: "28. Review this quote: 'If I were a normal person, I would be sleeping.' What conditional is it?", opts: ["Zero Conditional", "First Conditional", "Second Conditional", "Third Conditional"], a: 2 },
+            { readingText: reading11Text, q: "29. How much money will Alejandro win if he successfully reaches 100 hours?", opts: ["$10,000", "$20,000", "$50,000", "$85,000"], a: 2 },
+            { readingText: reading11Text, q: "30. When exactly does this massive television competition finish?", opts: ["Yesterday evening", "In 5 minutes", "Tomorrow morning", "Next Sunday"], a: 2 }
+        ]
+    }
+};
+
+let state = { name:"", section:"", unit:"", scores:{}, done:{}, firstTryPoints: 0, totalPossiblePoints: 0 };
+let isReviewMode = false;
+let usedBlanksWords = [];
+
+window.onload = function() {
+    setDailyQuote();
+};
+
+function updateCascade() {
+    var section = document.getElementById('sectionSelect').value;
+    var unitGroup = document.getElementById('unit-group');
+    var sel = document.getElementById('unitSelect');
+    
+    if (section) {
+        unitGroup.classList.remove('hidden');
+        var gradePrefix = "";
+        if (section.startsWith("9")) gradePrefix = "9th";
+        else if (section.startsWith("10")) gradePrefix = "10th";
+        else if (section.startsWith("11")) gradePrefix = "11th";
+
+        sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
+        Object.keys(DB).forEach(function(k) {
+            if (k.startsWith(gradePrefix)) {
+                var opt = document.createElement('option'); 
+                opt.value = k; 
+                opt.textContent = k;
+                sel.appendChild(opt);
+            }
+        });
+    } else {
+        unitGroup.classList.add('hidden');
+        sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
+    }
+    checkStatus();
+}
+
+function checkStatus() {
+    var name = document.getElementById('studentName').value.trim();
+    var section = document.getElementById('sectionSelect').value;
+    var unit = document.getElementById('unitSelect').value;
+    var btn = document.getElementById('startBtn');
+    var msg = document.getElementById('msg');
+    
+    if (!name || !section || !unit) { 
+        btn.disabled = true; 
+        btn.textContent = "Start Quest";
+        btn.style.backgroundColor = "var(--primary-blue)";
+        msg.textContent = ''; 
+        return; 
+    }
+
+    var key = name.toLowerCase() + '-' + section + '-' + unit;
+    if (localStorage.getItem(key) === 'COMPLETED') {
+        isReviewMode = true;
+        btn.disabled = false;
+        btn.textContent = "Review Mode 🔁";
+        btn.style.backgroundColor = "var(--warning)";
+        msg.textContent = 'You completed this previously. Score will not be saved.';
+    } else {
+        isReviewMode = false;
+        btn.disabled = false;
+        btn.textContent = "Start Quest";
+        btn.style.backgroundColor = "var(--primary-blue)";
+        msg.textContent = ''; 
+    }
+}
+
+function show(screen) {
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.add('hidden'); });
+    document.getElementById('screen-' + screen).classList.remove('hidden');
+    if (screen === 'menu') updateXPBar();
+}
+
+function updateXPBar() {
+    var activities = ['scrolls','quiz','chamber','blanks'];
+    var done = activities.filter(function(a) { return state.done[a]; }).length;
+    document.getElementById('xp-fill').style.width = (done / activities.length * 100) + '%';
+    document.getElementById('xp-text').textContent = done + ' / ' + activities.length + ' activities';
+
+    var submitBtn = document.getElementById('btn-report');
+    if (done === activities.length) {
+        submitBtn.disabled = false;
+        submitBtn.style.background = 'var(--success)';
+        submitBtn.textContent = "Submit and Get Grade";
+    } else {
+        submitBtn.disabled = true;
+        submitBtn.style.background = '#cbd5e1';
+        submitBtn.textContent = "Complete all to Submit";
+    }
+
+    unlockCard('quiz',      state.done['scrolls']);
+    unlockCard('chamber',   state.done['quiz']);
+    unlockCard('blanks',    state.done['chamber']);
+}
+
+function unlockCard(activity, condition) {
+    var card = document.getElementById('card-' + activity);
+    var lock = document.getElementById('lock-' + activity);
+    if (condition) {
+        card.classList.remove('locked-card');
+        card.onclick = function() { go(activity); };
+        if (lock) lock.style.display = 'none';
+    }
+}
+
+function gateCheck(activity) {
+    alert('🔒 Complete the previous activity first to unlock this one.');
+}
+
+function start() {
+    var name = document.getElementById('studentName').value.trim();
+    var section = document.getElementById('sectionSelect').value;
+    var unit = document.getElementById('unitSelect').value;
+    var data = DB[unit];
+    
+    var totalPoints = 0;
+    if (data.type === "normal" || data.type === "conditional_review") { 
+        totalPoints = (data.words ? data.words.length * 2 : data.quiz.length) + (data.sentences ? data.sentences.length : data.chamber.length) + (data.blanks ? data.blanks.length : 0); 
+    } else if (data.type === "exam") { 
+        totalPoints = data.questions.length; 
+    }
+    
+    state = { name: name, section: section, unit: unit, scores: {}, done: {}, firstTryPoints: 0, totalPossiblePoints: totalPoints };
+    usedBlanksWords = []; 
+    document.getElementById('userGreet').textContent = 'Welcome, ' + name.split(' ')[0];
+    
+    if (data.type === "exam") { 
+        goExam(); 
+    } else { 
+        var studySection = document.getElementById('self-study-section');
+        if (data.hasVideoLesson) {
+            studySection.innerHTML = `
+                <div class="self-study-guide">
+                    <h3><i class="fas fa-chalkboard-teacher"></i> Today's Lesson: Present Perfect Continuous</h3>
+                    <p>
+                        <strong>¿Para qué se usa?</strong> Para acciones que empezaron en el pasado y <strong>todavía continúan</strong> ahora mismo sin detenerse.<br>
+                        <strong>Structure:</strong> Subject + Have/Has been + Verb(-ing) + Complement.<br>
+                        <em>Ejemplo:</em> I have been watching Netflix. (He estado viendo Netflix).
+                    </p>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/tBkP83OYtKg" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            `;
+            studySection.classList.remove('hidden');
+        } else {
+            studySection.innerHTML = '';
+            studySection.classList.add('hidden');
+        }
+        
+        document.getElementById("card-title-1").textContent = data.type === "conditional_review" ? "Grammar Rules" : "Study Scrolls";
+        document.getElementById("card-title-2").textContent = data.type === "conditional_review" ? "Situation Match" : "Definition Quiz";
+        document.getElementById("card-title-3").textContent = data.type === "conditional_review" ? "Conditional Builder" : "Sentence Builder";
+        document.getElementById("card-title-4").textContent = data.type === "conditional_review" ? "Grammar Challenge" : "Fill the Blanks";
+
+        show('menu'); 
+    }
+}
+
+function triggerConfetti() {
+    if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+    }
+}
+
+function go(activity) {
+    var data = DB[state.unit];
+    show('act');
+    var container = document.getElementById('act-content');
+    container.innerHTML = ''; 
+    document.getElementById('act-back-btn-container').style.display = 'block';
+
+    if (data.type === "conditional_review") {
+        if      (activity === 'scrolls')   renderCondScrolls(container, data);
+        else if (activity === 'quiz')      renderCondQuiz(container, data);
+        else if (activity === 'chamber')   renderCondChamber(container, data);
+        else if (activity === 'blanks')    renderCondBlanks(container, data);
+    } else {
+        if      (activity === 'scrolls')   renderScrolls(container, data);
+        else if (activity === 'quiz')      renderQuiz(container, data);
+        else if (activity === 'chamber')   renderChamber(container, data);
+        else if (activity === 'blanks')    renderBlanks(container, data);
+    }
+}
+
+function goExam() {
+    var data = DB[state.unit];
+    show('act');
+    var container = document.getElementById('act-content');
+    container.innerHTML = '';
+    document.getElementById('act-back-btn-container').style.display = 'none';
+    renderExam(container, data);
+}
+
+// ================================================================
+//  EXAM SYSTEM (MOCK EXAMS WITH GOOGLE DRIVE REPRODUCER)
+// ================================================================
+function renderExam(container, data) {
+    var qPos = 0;
+    var score = 0;
+
+    function render() {
+        var qObj = data.questions[qPos];
+        var pct = Math.round((qPos / data.questions.length) * 100);
+        
+        var optHtml = qObj.opts.map(function(o,i) {
+            return '<div class="quiz-option" id="eopt-'+i+'" onclick="window.checkExamOpt('+i+','+qObj.a+')">' + o + '</div>';
+        }).join('');
+
+        var sectionHtml = '';
+        if (qObj.section) {
+            sectionHtml = '<h3 style="color:var(--primary-blue); margin: 20px 0; text-transform:uppercase; font-size:1.1rem; font-weight:700; letter-spacing:1px;">' + qObj.section + '</h3>';
+        }
+
+        var audioHtml = '';
+        if (qObj.hasAudio && data.driveAudioId) {
+            var directDriveUrl = "https://docs.google.com/uc?export=download&id=" + data.driveAudioId;
+            audioHtml = `
+                <div class="media-card">
+                    <p style="font-weight:600; margin-bottom:12px; color:var(--text-main);"><i class="fas fa-headphones text-blue-600"></i> Listening Track - Press Play:</p>
+                    <audio controls style="width:100%; max-width:400px; margin:0 auto;">
+                        <source src="${directDriveUrl}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>`;
+        }
+
+        var readingHtml = '';
+        if (qObj.readingText) {
+            readingHtml = '<div class="reading-box"><strong><i class="fas fa-book-open"></i> Reading Text Panel:</strong><br><br>' + qObj.readingText + '</div>';
+        }
+
+        container.innerHTML =
+            '<h2 style="color:var(--primary-blue);">Mock Exam Simulation <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.questions.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="background:var(--primary-blue); width:'+pct+'%;"></div></div></div>' +
+            sectionHtml +
+            audioHtml +
+            readingHtml +
+            '<p style="font-size:1.25rem; margin:25px 0; font-weight:600; color:var(--text-main);">' + qObj.q + '</p>' +
+            optHtml +
+            '<div id="next-box" style="display:none; margin-top:20px;"><button class="btn" onclick="window.nextExamQ()">Next Question <i class="fas fa-arrow-right"></i></button></div>';
+
+        window.checkExamOpt = function(chosen, correct) {
+            if(document.querySelector('.quiz-option.correct') || document.querySelector('.quiz-option.wrong')) return;
+            
+            var chosenEl = document.getElementById('eopt-'+chosen);
+            var correctEl = document.getElementById('eopt-'+correct);
+
+            if (chosen === correct) {
+                chosenEl.classList.add('correct');
+                score++;
+            } else {
+                chosenEl.classList.add('wrong');
+                chosenEl.classList.add('shake');
+                correctEl.classList.add('correct');
+            }
+            
+            document.getElementById('next-box').style.display = 'block';
         };
 
-        function renderPlatform() {
-            const selection = document.getElementById('gradeSelect').value;
-            const content = document.getElementById('contentArea');
-            const audioDiv = document.getElementById('audioContainer');
-            const audioPlayer = document.getElementById('audioPlayer');
-            const mainQuiz = document.getElementById('mainQuiz');
-
-            content.classList.remove('hidden');
-
-            if(selection.includes('Exam')) {
-                audioDiv.classList.remove('hidden');
-                const grade = selection.split('-')[0];
-                audioPlayer.innerHTML = `<audio controls class="w-full"><source src="${audioLinks[grade]}" type="audio/mpeg"></audio>`;
-                mainQuiz.innerHTML = `<p class="text-gray-600">Bienvenido al Mock Exam de 30 preguntas. Lee con atención y utiliza el audio de arriba.</p>`;
+        window.nextExamQ = function() {
+            qPos++;
+            if (qPos < data.questions.length) {
+                render();
             } else {
-                audioDiv.classList.add('hidden');
-                mainQuiz.innerHTML = `
-                    <h3 class="text-xl font-bold mb-4">Noveno Grado - Unidad 4</h3>
-                    <div class="space-y-4">
-                        <button class="w-full text-left p-4 border rounded hover:bg-gray-50">Part 1: Vocabulary</button>
-                        <button class="w-full text-left p-4 border rounded hover:bg-gray-50">Part 2: Adverbs of Manner</button>
-                        <button class="w-full text-left p-4 border rounded hover:bg-gray-50">Part 3: Integrated Practice</button>
-                    </div>`;
+                state.firstTryPoints = score;
+                showExamResults();
             }
+        };
+    }
+
+    function showExamResults() {
+        var rawScore = (state.firstTryPoints / data.questions.length) * 10;
+        var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
+
+        container.innerHTML = 
+            '<h2 style="color:var(--primary-blue);">Simulation Completed</h2>' +
+            '<div class="final-grade-circle" style="background:var(--primary-blue); box-shadow:0 10px 20px rgba(37,99,235,0.2);">' +
+                '<span>' + finalGrade + '</span><small>Grade</small>' +
+            '</div>' +
+            '<p style="font-size:1.1rem; color:var(--text-muted); margin-bottom: 20px;">Review your scores or register them directly to the sheet below.</p>' +
+            '<div style="display:flex; justify-content:center; gap:15px; flex-wrap:wrap;">' +
+                '<button class="btn" style="background:var(--warning);" onclick="window.retryExam()"><i class="fas fa-redo"></i> Try Again</button>' +
+                '<button class="btn" style="background:var(--success);" onclick="window.submitExam()"><i class="fas fa-paper-plane"></i> Submit Grade</button>' +
+            '</div>';
+    }
+
+    window.retryExam = function() { qPos = 0; score = 0; render(); };
+    window.submitExam = function() { claimCert(); };
+
+    render();
+}
+
+// ================================================================
+//  CLASSIC INTERACTIVE REVIEWS mechanics
+// ================================================================
+function renderScrolls(container, data) {
+    var idx = 0;
+    container.innerHTML =
+        '<h2>Study Scrolls <span id="fc-counter" style="font-size:1rem; color:var(--text-muted); font-weight:normal;"></span></h2>' +
+        '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" id="scroll-pct" style="width:0%;"></div></div></div>' +
+        '<p style="color:var(--text-muted); margin-bottom:10px;">Tap the card to reveal the definition.</p>' +
+        '<div class="flashcard" id="fc-el">' +
+          '<div class="flashcard-inner"><div class="front"><button class="tts-btn" id="tts-btn" title="Hear word"><i class="fas fa-volume-up"></i></button><h3 id="fc-word"></h3></div>' +
+            '<div class="back"><p id="fc-def"></p><p class="example-sentence" id="fc-example"></p></div></div></div>' +
+        '<div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">' +
+          '<button id="btn-prev" class="btn" style="margin:0;"><i class="fas fa-arrow-left"></i> Prev</button>' +
+          '<button id="btn-next" class="btn" style="margin:0;">Next <i class="fas fa-arrow-right"></i></button>' +
+        '</div>';
+
+    document.getElementById('fc-el').onclick = function() { this.classList.toggle('flipped'); };
+    document.getElementById('btn-prev').onclick = function() { if(idx > 0) { idx--; updateCard(); } };
+    document.getElementById('btn-next').onclick = function() { if(idx < data.words.length - 1) { idx++; updateCard(); } };
+
+    function updateCard() {
+        document.getElementById('scroll-pct').style.width = Math.round((idx / (data.words.length - 1)) * 100) + '%';
+        document.getElementById('fc-word').textContent = data.words[idx];
+        document.getElementById('fc-def').textContent = data.defs[idx];
+        document.getElementById('fc-example').textContent = '📖 ' + data.examples[idx];
+        document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + data.words.length + ')';
+        document.getElementById('fc-el').classList.remove('flipped');
+        
+        document.getElementById('btn-prev').disabled = (idx === 0);
+        document.getElementById('btn-next').disabled = (idx === data.words.length - 1);
+        
+        document.getElementById('tts-btn').onclick = function(e) { e.stopPropagation(); speak(data.words[idx]); };
+        
+        if (idx === data.words.length - 1) { state.done['scrolls'] = true; document.getElementById('s-scrolls').classList.remove('hidden'); updateXPBar(); }
+    }
+    updateCard();
+}
+
+function renderQuiz(container, data) {
+    var qPos = 0; var failCount = 0; var activityFailures = 0;
+    function render() {
+        var wordIdx = qPos; var correctDef = data.defs[wordIdx];
+        var wrongPool = data.defs.filter(function(_, i) { return i !== wordIdx; }).sort(function() { return Math.random()-0.5; }).slice(0,3);
+        var opts = [correctDef].concat(wrongPool).sort(function() { return Math.random()-0.5; });
+        var correctOpt = opts.indexOf(correctDef);
+        failCount = 0;
+
+        container.innerHTML =
+            '<h2>Definition Quiz <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.words.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.words.length) * 100)+'%;"></div></div></div>' +
+            '<p style="font-size:1.3rem; margin:20px 0;">What is the definition of: <strong style="color:var(--primary-blue);">"'+data.words[wordIdx]+'"</strong>?</p>' +
+            opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+correctOpt+')">' + o + '</div>'; }).join('') +
+            '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + data.hints[wordIdx] + '</div>';
+
+        window.checkQuizOpt = function(chosen, correct) {
+            var chosenEl = document.getElementById('qopt-'+chosen);
+            if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
+            if (chosen === correct) {
+                chosenEl.classList.add('correct');
+                if (failCount < 2) state.firstTryPoints++; 
+                document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
+                setTimeout(function() {
+                    qPos++;
+                    if (qPos < data.words.length) { render(); } else {
+                        state.done['quiz'] = true; document.getElementById('s-quiz').classList.remove('hidden'); updateXPBar();
+                        if(activityFailures === 0) triggerConfetti();
+                        container.innerHTML = '<h2>Quiz Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Excellent work. You mastered all definitions.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                    }
+                }, 1000);
+            } else { 
+                failCount++; activityFailures++;
+                chosenEl.classList.add('wrong'); 
+                chosenEl.classList.remove('shake');
+                void chosenEl.offsetWidth;
+                chosenEl.classList.add('shake');
+                document.getElementById('hint-box').classList.add('active'); 
+            }
+        };
+    }
+    render();
+}
+
+function renderChamber(container, data) {
+    var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
+    var sList = data.sentences;
+    function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
+
+    function render() {
+        var item = sList[idx];
+        tokens = item.c.match(/\S+/g) || []; 
+        shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; }));
+        selectedIndices = []; failCount = 0;
+
+        container.innerHTML =
+            '<h2>Sentence Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+sList.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div>' +
+            '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order to build the sentence:</p>' +
+            '<div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div>' +
+            '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"></div>' +
+            '<div style="display:flex; justify-content:center; gap:10px; margin-top:20px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0; background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>';
+
+        document.getElementById('chk-ans-btn').onclick = checkChamberTiles; document.getElementById('clr-ans-btn').onclick = clearTiles;
+        buildHtml();
+    }
+
+    function buildHtml() {
+        var bankHtml = '';
+        for (var i = 0; i < shuffledIndices.length; i++) { var realIndex = shuffledIndices[i]; var isUsed = selectedIndices.includes(realIndex); bankHtml += '<div class="word-tile' + (isUsed ? ' used' : '') + '" onclick="window.pickTile(' + realIndex + ')">' + tokens[realIndex] + '</div>'; }
+        var answerHtml = '';
+        for (var j = 0; j < selectedIndices.length; j++) { var rIndex = selectedIndices[j]; answerHtml += '<div class="answer-tile" onclick="window.removeTile(' + rIndex + ')">' + tokens[rIndex] + '</div>'; }
+        document.getElementById('word-bank').innerHTML = bankHtml; document.getElementById('answer-row').innerHTML = answerHtml;
+    }
+
+    window.pickTile = function(realIndex) { if (selectedIndices.includes(realIndex)) return; selectedIndices.push(realIndex); buildHtml(); };
+    window.removeTile = function(realIndex) { selectedIndices = selectedIndices.filter(function(x) { return x !== realIndex; }); buildHtml(); };
+    function clearTiles() { selectedIndices = []; buildHtml(); }
+
+    function checkChamberTiles() {
+        if (selectedIndices.length === 0) return;
+        var answerArray = []; for (var k = 0; k < selectedIndices.length; k++) { answerArray.push(tokens[selectedIndices[k]]); }
+        if (answerArray.join(' ').toLowerCase() === sList[idx].c.toLowerCase()) {
+            if (failCount < 2) state.firstTryPoints++;
+            document.getElementById('answer-row').style.borderColor = 'var(--success-bright)'; document.getElementById('answer-row').style.backgroundColor = '#d1fae5';
+            setTimeout(function() {
+                idx++;
+                if (idx < sList.length) { render(); } else {
+                    state.done['chamber'] = true; document.getElementById('s-chamber').classList.remove('hidden'); updateXPBar();
+                    container.innerHTML = '<h2>Sentence Builder Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Great syntax skills!</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                }
+            }, 1000);
+        } else { 
+            failCount++; 
+            var hintBox = document.getElementById('hint-box');
+            if (failCount >= 2 && data.grammarHint) {
+                hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct.<hr style="border:none; border-top:1px solid #fecaca; margin:10px 0;"><i class="fas fa-lightbulb"></i> <strong>Grammar Tip:</strong> ' + data.grammarHint;
+            } else {
+                hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct. Try again.';
+            }
+            hintBox.classList.add('active'); 
+            clearTiles(); 
         }
-    </script>
+    }
+    render();
+}
+
+function renderBlanks(container, data) {
+    var idx = 0; var failCount = 0; var activityFailures = 0;
+    var shuffledWords = data.words.slice().sort(function() { return Math.random()-0.5; });
+
+    function render() {
+        var word = data.words[idx]; failCount = 0;
+        var wordBankHtml = '<div class="blanks-word-bank">';
+        shuffledWords.forEach(function(w) { 
+            let isUsed = usedBlanksWords.includes(w.toLowerCase()) ? 'used' : '';
+            wordBankHtml += '<span class="blanks-word ' + isUsed + '">' + w + '</span>'; 
+        });
+        wordBankHtml += '</div>';
+
+        container.innerHTML =
+            '<h2>Fill in the Blanks <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.words.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.words.length) * 100)+'%;"></div></div></div>' +
+            wordBankHtml + 
+            '<p style="font-size:1.3rem; margin:20px auto; max-width:600px; color:var(--text-main); font-weight:500;">' + data.cloze[idx] + '</p>' +
+            '<input type="text" id="blank-input" placeholder="Type the missing word..." autocomplete="off" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
+            '<div id="hint-box" class="hint-box" style="max-width:350px;"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + data.hints[idx] + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>';
+
+        setTimeout(() => { document.getElementById('blank-input').focus(); }, 100);
+
+        window.checkBlank = function() {
+            var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim(); if(!input) return;
+            if (input.toLowerCase() === word.toLowerCase()) {
+                if (failCount < 2) state.firstTryPoints++;
+                usedBlanksWords.push(word.toLowerCase());
+                inputEl.classList.remove('input-wrong', 'shake');
+                inputEl.classList.add('input-correct');
+                setTimeout(function() {
+                    idx++;
+                    if (idx < data.words.length) { render(); } else {
+                        state.done['blanks'] = true; document.getElementById('s-blanks').classList.remove('hidden'); updateXPBar();
+                        if(activityFailures === 0) triggerConfetti();
+                        container.innerHTML = '<h2>Fill in the Blanks Complete!</h2><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin:20px 0;"></i><p>Spelling and context mastered.</p><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                    }
+                }, 1000);
+            } else { 
+                failCount++; activityFailures++;
+                inputEl.value = ''; 
+                inputEl.classList.remove('input-correct', 'shake');
+                inputEl.classList.add('input-wrong');
+                void inputEl.offsetWidth;
+                inputEl.classList.add('shake');
+                document.getElementById('hint-box').classList.add('active'); 
+                inputEl.focus(); 
+            }
+        };
+    }
+    render();
+}
+
+function renderCondScrolls(container, data) {
+    var idx = 0;
+    container.innerHTML =
+        '<h2>Grammar Rules <span id="fc-counter" style="font-size:1rem; color:var(--text-muted); font-weight:normal;"></span></h2>' +
+        '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" id="scroll-pct" style="width:0%;"></div></div></div>' +
+        '<p style="color:var(--text-muted); margin-bottom:10px;">Tap the card to reveal the usage.</p>' +
+        '<div class="flashcard" id="fc-el">' +
+          '<div class="flashcard-inner"><div class="front"><h3 id="fc-word" style="font-size:2rem;"></h3></div>' +
+            '<div class="back"><p id="fc-def"></p><p class="example-sentence" id="fc-example"></p></div></div></div>' +
+        '<div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">' +
+          '<button id="btn-prev" class="btn" style="margin:0;"><i class="fas fa-arrow-left"></i> Prev</button>' +
+          '<button id="btn-next" class="btn" style="margin:0;">Next <i class="fas fa-arrow-right"></i></button>' +
+        '</div>';
+
+    document.getElementById('fc-el').onclick = function() { this.classList.toggle('flipped'); };
+    document.getElementById('btn-prev').onclick = function() { if(idx > 0) { idx--; updateCard(); } };
+    document.getElementById('btn-next').onclick = function() { if(idx < data.scrolls.length - 1) { idx++; updateCard(); } };
+
+    function updateCard() {
+        document.getElementById('scroll-pct').style.width = Math.round((idx / (data.scrolls.length - 1)) * 100) + '%';
+        document.getElementById('fc-word').textContent = data.scrolls[idx].word;
+        document.getElementById('fc-def').textContent = data.scrolls[idx].def;
+        document.getElementById('fc-example').textContent = '📖 ' + data.scrolls[idx].ex;
+        document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + data.scrolls.length + ')';
+        document.getElementById('fc-el').classList.remove('flipped');
+        document.getElementById('btn-prev').disabled = (idx === 0);
+        document.getElementById('btn-next').disabled = (idx === data.scrolls.length - 1);
+        if (idx === data.scrolls.length - 1) { state.done['scrolls'] = true; document.getElementById('s-scrolls').classList.remove('hidden'); updateXPBar(); }
+    }
+    updateCard();
+}
+
+function renderCondQuiz(container, data) {
+    var qPos = 0; var failCount = 0; var activityFailures = 0;
+    function render() {
+        var qObj = data.quiz[qPos]; failCount = 0;
+        container.innerHTML =
+            '<h2>Situation Match <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.quiz.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.quiz.length) * 100)+'%;"></div></div></div>' +
+            '<p style="font-size:1.3rem; margin:20px 0;">Which conditional is this sentence?</p>' +
+            '<div style="background:#f1f5f9; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + qObj.q + '"</div>' +
+            qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('') +
+            '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
+
+        window.checkQuizOpt = function(chosen, correct) {
+            var chosenEl = document.getElementById('qopt-'+chosen);
+            if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
+            if (chosen === correct) {
+                chosenEl.classList.add('correct');
+                if (failCount < 2) state.firstTryPoints++;
+                document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
+                setTimeout(function() {
+                    qPos++;
+                    if (qPos < data.quiz.length) { render(); } else {
+                        state.done['quiz'] = true; document.getElementById('s-quiz').classList.remove('hidden'); updateXPBar();
+                        if (activityFailures === 0) triggerConfetti();
+                        container.innerHTML = '<h2>Module Complete!</h2><button class="btn" onclick="show(\'menu\')">Return to Menu</button>';
+                    }
+                }, 1000);
+            } else { 
+                failCount++; activityFailures++;
+                chosenEl.classList.add('wrong'); chosenEl.classList.add('shake');
+                document.getElementById('hint-box').classList.add('active'); 
+            }
+        };
+    }
+    render();
+}
+
+function renderCondChamber(container, data) {
+    var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
+    var sList = data.chamber;
+    function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
+
+    function render() {
+        var item = sList[idx]; tokens = item.c.match(/\S+/g) || []; shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; })); selectedIndices = []; failCount = 0;
+        container.innerHTML =
+            '<h2>Conditional Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+sList.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div>' +
+            '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order:</p>' +
+            '<div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div>' +
+            '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"></div>' +
+            '<div style="display:flex; justify-content:center; gap:10px; margin-top:20px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0; background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>';
+        document.getElementById('chk-ans-btn').onclick = checkChamberTiles; document.getElementById('clr-ans-btn').onclick = clearTiles;
+        buildHtml();
+    }
+
+    function buildHtml() {
+        var bankHtml = ''; for (var i = 0; i < shuffledIndices.length; i++) { var realIndex = shuffledIndices[i]; var isUsed = selectedIndices.includes(realIndex); bankHtml += '<div class="word-tile' + (isUsed ? ' used' : '') + '" onclick="window.pickTile(' + realIndex + ')">' + tokens[realIndex] + '</div>'; }
+        var answerHtml = ''; for (var j = 0; j < selectedIndices.length; j++) { var rIndex = selectedIndices[j]; answerHtml += '<div class="answer-tile" onclick="window.removeTile(' + rIndex + ')">' + tokens[rIndex] + '</div>'; }
+        document.getElementById('word-bank').innerHTML = bankHtml; document.getElementById('answer-row').innerHTML = answerHtml;
+    }
+
+    window.pickTile = function(realIndex) { if (selectedIndices.includes(realIndex)) return; selectedIndices.push(realIndex); buildHtml(); };
+    window.removeTile = function(realIndex) { selectedIndices = selectedIndices.filter(function(x) { return x !== realIndex; }); buildHtml(); };
+    function clearTiles() { selectedIndices = []; buildHtml(); }
+
+    function checkChamberTiles() {
+        var answerArray = []; for (var k = 0; k < selectedIndices.length; k++) { answerArray.push(tokens[selectedIndices[k]]); }
+        if (answerArray.join(' ').toLowerCase() === sList[idx].c.toLowerCase()) {
+            if (failCount < 2) state.firstTryPoints++;
+            setTimeout(function() {
+                idx++; if (idx < sList.length) { render(); } else { state.done['chamber'] = true; document.getElementById('s-chamber').classList.remove('hidden'); updateXPBar(); container.innerHTML = '<h2>Builder Complete!</h2><button class="btn" onclick="show(\'menu\')">Return to Menu</button>'; }
+            }, 1000);
+        } else {
+            failCount++; var hintBox = document.getElementById('hint-box');
+            if (failCount >= 2 && data.grammarHint) { hintBox.innerHTML = '<i class="fas fa-lightbulb"></i> <strong>Grammar Tip:</strong> ' + data.grammarHint; }
+            else { hintBox.innerHTML = 'Incorrect layout. Try again.'; }
+            hintBox.classList.add('active'); clearTiles();
+        }
+    }
+    render();
+}
+
+function renderCondBlanks(container, data) {
+    var idx = 0; var failCount = 0;
+    function render() {
+        var qObj = data.blanks[idx]; failCount = 0;
+        container.innerHTML =
+            '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
+            '<p style="font-size:1.3rem; margin:30px auto; max-width:600px;">' + qObj.text + '</p>' +
+            '<input type="text" id="blank-input" placeholder="Conjugate..." style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
+            '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> ' + qObj.hint + '</div>';
+        window.checkBlank = function() {
+            var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim().toLowerCase();
+            if (input === qObj.answer.toLowerCase()) {
+                if (failCount < 2) state.firstTryPoints++;
+                setTimeout(function() { idx++; if (idx < data.blanks.length) { render(); } else { state.done['blanks'] = true; document.getElementById('s-blanks').classList.remove('hidden'); updateXPBar(); container.innerHTML = '<h2>Challenge Completed!</h2><button class="btn" onclick="show(\'menu\')">Return to Menu</button>'; } }, 1000);
+            } else { failCount++; inputEl.classList.add('input-wrong'); inputEl.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); }
+        };
+    }
+    render();
+}
+
+function claimCert() {
+    var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
+    var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
+    if (!isReviewMode) {
+        var urlGoogleScript = "https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec";
+        var formData = new FormData();
+        formData.append("name", state.name); 
+        formData.append("section", state.section); 
+        formData.append("unit", state.unit); 
+        formData.append("score", finalGrade); 
+        fetch(urlGoogleScript, { method:"POST", body:formData, mode:"no-cors" }).catch(e => console.error(e));
+        localStorage.setItem(state.name.toLowerCase() + '-' + state.section + '-' + state.unit, 'COMPLETED');
+    }
+    show('cert');
+    document.getElementById('cert-name').textContent = state.name; 
+    document.getElementById('cert-unit').textContent = state.unit; 
+    document.getElementById('cert-final-grade').textContent = finalGrade;
+    var circle = document.getElementById('grade-circle');
+    if (finalGrade >= 8.0) circle.style.backgroundColor = 'var(--success)'; else if (finalGrade >= 6.0) circle.style.backgroundColor = 'var(--warning)'; else circle.style.backgroundColor = 'var(--danger)';
+    document.getElementById('cert-time').textContent = 'Completed: ' + new Date().toLocaleString(); 
+    document.getElementById('cert-code').textContent = 'AUTH: ' + Math.random().toString(36).substr(2,9).toUpperCase();
+}
+</script>
 </body>
 </html>
