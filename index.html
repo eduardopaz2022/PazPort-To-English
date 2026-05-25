@@ -302,6 +302,13 @@ function speak(text) {
     window.speechSynthesis.speak(u);
 }
 
+// 🎉 Confeti para finalizar secciones (ahora sí definida)
+function triggerConfetti() {
+    if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+    }
+}
+
 const motivationalQuotes = [
     "“The secret of getting ahead is getting started.” – Mark Twain",
     "“Mistakes are proof that you are trying.”",
@@ -348,10 +355,10 @@ const DB = {
         type: "normal",
         grammarHint: "Structure: <b>Subject + Action Verb + Adverb of Manner</b>. (Example: I clean the window carefully).",
         words: ["Clean", "Mop", "Sweep", "Eat", "Sleep", "Close", "Wash", "Open", "Push", "Yell", "Order", "Take a shower"],
-        defs: ["To remove dirt from something.", "To clean the floor using a wet cloth or tool.", "To clean the floor using a broom.", "To put food into your mouth and swallow it.", "To rest in a state of natural unconsciousness.", "To move a door or window so that an opening is covered.", "To clean something with water and soap.", "To move a door or window so people can pass.", "To apply force to move something away from you.", "To shout or speak in a very loud voice.", "To ask for food or products in a store or restaurant.", "To wash your body under falling water."],
-        examples: ["I clean the classroom.", "They mop the wet floor.", "We sweep the kitchen floor.", "You eat breakfast daily.", "Children sleep at night.", "Please close the wooden door.", "We wash our hands.", "They open the big window.", "Do not push the heavy table.", "Please do not yell in class.", "I order food at the restaurant.", "I take a shower in the morning."],
-        cloze: ["I ________ the classroom to remove dirt.", "They ________ the wet floor with a cloth.", "We ________ the kitchen floor with a broom.", "You ________ breakfast daily.", "Children ________ at night to rest.", "Please ________ the wooden door.", "We ________ our hands with soap.", "They ________ the big window.", "Do not ________ the heavy table.", "Please do not ________ in class.", "I ________ food at the restaurant.", "I ________ in the morning to get clean."],
-        hints: ["Remove dirt.", "Clean with wet cloth.", "Clean with a broom.", "Consume food.", "Unconscious rest.", "Cover an opening.", "Clean with water.", "Uncover an opening.", "Force away.", "Shout loudly.", "Request food.", "Wash your body."],
+        defs: ["To remove dirt from something.", "To clean the floor using a wet cloth or tool.", "To clean the floor using a broom.", "To put food into your mouth and swallow it.", "To rest in a state of natural unconsciousness.", "To move a door or window so that an opening is covered.", "To clean something with water and soap.", "To move a door or window so people can pass.", "To apply force to move something away from you.", "To shout or speak in a very loud voice.", "To put things in the correct place.", "To wash your body under falling water."],
+        examples: ["I clean the classroom.", "They mop the wet floor.", "We sweep the kitchen floor.", "You eat breakfast daily.", "Children sleep at night.", "Please close the wooden door.", "We wash our hands.", "They open the big window.", "Do not push the heavy table.", "Please do not yell in class.", "Please order the books on the shelf.", "I take a shower in the morning."],
+        cloze: ["I ________ the classroom to remove dirt.", "They ________ the wet floor with a cloth.", "We ________ the kitchen floor with a broom.", "You ________ breakfast daily.", "Children ________ at night to rest.", "Please ________ the wooden door.", "We ________ our hands with soap.", "They ________ the big window.", "Do not ________ the heavy table.", "Please do not ________ in class.", "Please ________ the books on the shelf.", "I ________ in the morning to get clean."],
+        hints: ["Remove dirt.", "Clean with wet cloth.", "Clean with a broom.", "Consume food.", "Unconscious rest.", "Cover an opening.", "Clean with water.", "Uncover an opening.", "Force away.", "Shout loudly.", "Put things in correct place.", "Wash your body."],
         sentences: [
             { s:"window / carefully. / clean / I / the", c:"I clean the window carefully." }, { s:"floor / quickly. / mops / He / the", c:"He mops the floor quickly." }, { s:"fast. / room / sweep / They / the", c:"They sweep the room fast." }, { s:"slowly. / food / eat / You / the", c:"You eat the food slowly." }, { s:"night. / well / at / sleep / We", c:"We sleep well at night." }, { s:"easily. / door / She / the / closes", c:"She closes the door easily." }, { s:"car / I / badly. / wash / the", c:"I wash the car badly." }, { s:"do / loudly. / yell / not / Please", c:"Please do not yell loudly." }
         ]
@@ -696,7 +703,7 @@ function go(index) {
 }
 
 // ================================================================
-//  MOCK EXAM LOGIC (MECÁNICA CORREGIDA PARA NO CONGELAR)
+//  MOCK EXAM LOGIC (CON CONFETI Y PANTALLA DE COMPLETADO FIJA)
 // ================================================================
 function renderExamSection(container, data, sectionName) {
     var qPos = 0;
@@ -748,7 +755,8 @@ function renderExamSection(container, data, sectionName) {
                     } else {
                         state.done[sectionName] = true; 
                         try { updateXPBar(); } catch(e) { console.error(e); }
-                        if (sectionName === 'reading') triggerConfetti();
+                        // 🎉 Confeti SIEMPRE al terminar cualquier sección del examen
+                        triggerConfetti();
                         container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Section Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                     }
                 }, 1000);
@@ -764,7 +772,7 @@ function renderExamSection(container, data, sectionName) {
 }
 
 // ================================================================
-//  CLASSIC REVIEWS (9no Grado)
+//  CLASSIC REVIEWS (9no Grado) - sin cambios, solo asegurando confeti
 // ================================================================
 function renderScrolls(container, data) {
     var idx = 0;
@@ -925,6 +933,7 @@ function renderBlanks(container, data) {
     render();
 }
 
+// (resto de funciones para conditional review: renderCondScrolls, renderCondQuiz, renderCondChamber, renderCondBlanks se mantienen igual que antes)
 function renderCondScrolls(container, data) {
     var idx = 0;
     container.innerHTML =
@@ -1048,7 +1057,7 @@ function renderCondBlanks(container, data) {
             var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim().toLowerCase();
             if (input === qObj.answer.toLowerCase()) {
                 if (failCount < 2) state.firstTryPoints++;
-                setTimeout(function() { idx++; if (idx < data.blanks.length) { render(); } else { state.done['blanks'] = true; updateXPBar(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } }, 1000);
+                setTimeout(function() { idx++; if (idx < data.blanks.length) { render(); } else { state.done['blanks'] = true; updateXPBar(); triggerConfetti(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } }, 1000);
             } else { failCount++; inputEl.classList.add('input-wrong'); inputEl.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); }
         };
     }
