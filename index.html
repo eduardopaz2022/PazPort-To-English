@@ -151,6 +151,9 @@
         .word-tile { background: #fff; color: var(--text-main); padding: 10px 18px; border-radius: 8px; font-size: 1.05rem; font-weight: 500; cursor: pointer; user-select: none; border: 2px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: transform 0.1s; }
         .word-tile:hover { transform: translateY(-2px); border-color: var(--primary-blue); }
         .word-tile.used { opacity: 0.3; pointer-events: none; }
+        .word-tile.selected-blank { background: var(--primary-blue); color: white; border-color: var(--primary-blue); transform: scale(1.05); box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+        .word-tile.correct-blank { background: #d1fae5 !important; border-color: var(--success) !important; color: #065f46 !important; }
+        .word-tile.wrong-blank { background: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b !important; }
 
         .answer-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 15px auto; max-width: 600px; min-height: 60px; padding: 10px; border-bottom: 2px solid var(--primary-blue); }
         .answer-tile { background: var(--primary-blue); color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 1.05rem; font-weight: 500; cursor: pointer; user-select: none; border: 2px solid var(--primary-blue); }
@@ -176,6 +179,24 @@
             transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #cbd5e1;
         }
         .blanks-word.used { text-decoration: line-through; opacity: 0.3; background: #cbd5e1; box-shadow: none; border-color: transparent; }
+
+        .blank-option-card {
+            display: inline-block; background: white; color: var(--text-main);
+            padding: 12px 24px; margin: 8px; border-radius: 12px;
+            font-size: 1.1rem; font-weight: 600; cursor: pointer;
+            border: 2px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: all 0.2s ease; user-select: none;
+        }
+        .blank-option-card:hover { border-color: var(--primary-blue); transform: translateY(-3px); box-shadow: 0 6px 16px rgba(37,99,235,0.15); }
+        .blank-option-card.selected { background: var(--primary-blue); color: white; border-color: var(--primary-blue); transform: scale(1.05); box-shadow: 0 6px 20px rgba(37,99,235,0.3); }
+        .blank-option-card.correct-card { background: #d1fae5 !important; border-color: var(--success) !important; color: #065f46 !important; cursor: default; pointer-events: none; }
+        .blank-option-card.wrong-card { background: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b !important; animation: shake 0.4s; }
+        .blank-option-card.disabled-card { opacity: 0.5; pointer-events: none; }
+
+        .attempts-indicator { display: flex; gap: 6px; justify-content: center; margin: 10px 0; }
+        .attempt-dot { width: 14px; height: 14px; border-radius: 50%; background: #e2e8f0; border: 2px solid #cbd5e1; transition: all 0.3s; }
+        .attempt-dot.used { background: var(--danger); border-color: var(--danger); }
+        .attempt-dot.available { background: var(--success); border-color: var(--success); }
 
         .self-study-guide {
             background: #eff6ff; border: 2px solid var(--primary-blue);
@@ -204,7 +225,6 @@
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .mega-timer i { font-size: 1.2rem; }
         .score-badge { background: var(--success); color: white; padding: 4px 12px; border-radius: 15px; font-weight: 700; font-size: 0.9rem; }
-        .score-badge.partial { background: var(--warning); }
         .phase-indicator { display: flex; gap: 6px; justify-content: center; margin: 10px 0; flex-wrap: wrap; }
         .phase-dot { width: 12px; height: 12px; border-radius: 50%; background: #e2e8f0; transition: all 0.3s; }
         .phase-dot.active { background: var(--primary-blue); transform: scale(1.3); box-shadow: 0 0 8px rgba(37,99,235,0.4); }
@@ -212,11 +232,7 @@
         .grammar-category { border: 2px solid #e2e8f0; border-radius: 12px; padding: 20px; margin: 10px; min-height: 100px; transition: all 0.2s; }
         .grammar-category h4 { color: var(--primary-blue); margin-bottom: 10px; }
         .grammar-category .dropped-sentence { background: #eff6ff; padding: 8px 14px; margin: 5px; border-radius: 6px; font-size: 0.9rem; display: inline-block; }
-        .sort-sentence-card { background: white; border: 2px solid #cbd5e1; padding: 12px 18px; margin: 6px; border-radius: 8px; cursor: pointer; display: inline-block; font-size: 1rem; transition: all 0.2s; }
-        .sort-sentence-card:hover { border-color: var(--primary-blue); transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.05); }
-        .sort-sentence-card.placed { opacity: 0.4; pointer-events: none; }
         .combo-indicator { font-size: 1.5rem; font-weight: 800; color: var(--warning); display: inline-block; transition: all 0.3s; }
-        .progress-ring { width: 80px; height: 80px; margin: 10px auto; }
         .transition-screen { animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .pause-prompt { background: #fef3c7; border: 2px solid #f59e0b; border-radius: 12px; padding: 20px; margin: 20px auto; max-width: 600px; font-size: 1.1rem; }
@@ -224,18 +240,11 @@
         .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; margin: 8px auto; max-width: 500px; background: #f8fafc; border-radius: 8px; }
         .summary-row .phase-name { font-weight: 600; }
         .summary-row .phase-points { font-weight: 700; color: var(--primary-blue); }
-        .streak-fire { color: #f97316; animation: bounce 0.6s infinite alternate; display: inline-block; }
-        @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-5px); } }
-
         .instruction-card {
             background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
             border: 2px solid var(--primary-blue);
-            border-radius: 16px;
-            padding: 30px 25px;
-            margin: 15px auto;
-            max-width: 650px;
-            text-align: left;
-            box-shadow: 0 8px 25px rgba(37,99,235,0.1);
+            border-radius: 16px; padding: 30px 25px; margin: 15px auto;
+            max-width: 650px; text-align: left; box-shadow: 0 8px 25px rgba(37,99,235,0.1);
         }
         .instruction-card h3 { color: var(--primary-blue); font-size: 1.5rem; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
         .instruction-card ul { margin-left: 20px; margin-top: 10px; line-height: 1.8; color: var(--text-main); }
@@ -249,30 +258,9 @@
 <section id="screen-home" class="screen">
     <h1>Pazport to English</h1>
     <div class="quote-box" id="motivational-quote"></div>
-
-    <div class="input-group">
-        <label>Student Full Name</label>
-        <input type="text" id="studentName" placeholder="E.g., Juan Pérez..." oninput="checkStatus()">
-    </div>
-
-    <div class="input-group">
-        <label>Select your Grade and Section</label>
-        <select id="sectionSelect" onchange="updateCascade()">
-            <option value="">-- Select Section --</option>
-            <option value="9A">9th Grade - A</option>
-            <option value="9B">9th Grade - B</option>
-            <option value="10A">10th Grade - A</option>
-            <option value="10B">10th Grade - B</option>
-            <option value="11A">11th Grade - A</option>
-            <option value="11B">11th Grade - B</option>
-        </select>
-    </div>
-
-    <div class="input-group hidden" id="unit-group">
-        <label>Select Unit / Activity</label>
-        <select id="unitSelect" onchange="checkStatus()"></select>
-    </div>
-
+    <div class="input-group"><label>Student Full Name</label><input type="text" id="studentName" placeholder="E.g., Juan Pérez..." oninput="checkStatus()"></div>
+    <div class="input-group"><label>Select your Grade and Section</label><select id="sectionSelect" onchange="updateCascade()"><option value="">-- Select Section --</option><option value="9A">9th Grade - A</option><option value="9B">9th Grade - B</option><option value="10A">10th Grade - A</option><option value="10B">10th Grade - B</option><option value="11A">11th Grade - A</option><option value="11B">11th Grade - B</option></select></div>
+    <div class="input-group hidden" id="unit-group"><label>Select Unit / Activity</label><select id="unitSelect" onchange="checkStatus()"></select></div>
     <button class="btn" id="startBtn" onclick="start()" disabled>Start Quest</button>
     <p id="msg" style="margin-top:15px; font-weight:500; color:var(--warning); font-size:0.9rem;"></p>
 </section>
@@ -280,72 +268,24 @@
 <section id="screen-menu" class="screen hidden">
     <h2 id="userGreet" style="color:var(--text-main); margin-bottom:4px;"></h2>
     <p style="color:var(--text-muted); font-size:1rem; margin-bottom:0;">Complete all activities to unlock your final grade.</p>
-
     <div id="self-study-section" class="hidden"></div>
-
-    <div class="xp-wrap">
-        <div class="xp-label"><span id="xp-label-text">Overall Progress</span><span id="xp-text">0 / 4 activities</span></div>
-        <div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%;"></div></div>
-    </div>
-
+    <div class="xp-wrap"><div class="xp-label"><span id="xp-label-text">Overall Progress</span><span id="xp-text">0 / 4 activities</span></div><div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%;"></div></div></div>
     <div class="activity-grid" id="activity-grid">
-        <div class="activity-card" id="card-1" onclick="gateCheck(0)">
-            <div id="s-1" class="seal hidden"><i class="fas fa-check-circle"></i></div>
-            <i id="icon-1" class="fas fa-layer-group"></i>
-            <h3 id="card-title-1">Study Scrolls</h3>
-            <p id="card-desc-1">Memorize vocabulary</p>
-        </div>
-        <div class="activity-card locked-card" id="card-2" onclick="gateCheck(1)">
-            <div id="s-2" class="seal hidden"><i class="fas fa-check-circle"></i></div>
-            <div class="lock-badge" id="lock-2"><i class="fas fa-lock"></i></div>
-            <i id="icon-2" class="fas fa-list-ul"></i>
-            <h3 id="card-title-2">Definition Quiz</h3>
-            <p id="card-desc-2">Match the meaning</p>
-        </div>
-        <div class="activity-card locked-card" id="card-3" onclick="gateCheck(2)">
-            <div id="s-3" class="seal hidden"><i class="fas fa-check-circle"></i></div>
-            <div class="lock-badge" id="lock-3"><i class="fas fa-lock"></i></div>
-            <i id="icon-3" class="fas fa-align-left"></i>
-            <h3 id="card-title-3">Sentence Builder</h3>
-            <p id="card-desc-3">Order the words</p>
-        </div>
-        <div class="activity-card locked-card" id="card-4" onclick="gateCheck(3)">
-            <div id="s-4" class="seal hidden"><i class="fas fa-check-circle"></i></div>
-            <div class="lock-badge" id="lock-4"><i class="fas fa-lock"></i></div>
-            <i id="icon-4" class="fas fa-keyboard"></i>
-            <h3 id="card-title-4">Fill the Blanks</h3>
-            <p id="card-desc-4">Type missing words</p>
-        </div>
+        <div class="activity-card" id="card-1" onclick="gateCheck(0)"><div id="s-1" class="seal hidden"><i class="fas fa-check-circle"></i></div><i id="icon-1" class="fas fa-layer-group"></i><h3 id="card-title-1">Study Scrolls</h3><p id="card-desc-1">Memorize vocabulary</p></div>
+        <div class="activity-card locked-card" id="card-2" onclick="gateCheck(1)"><div id="s-2" class="seal hidden"><i class="fas fa-check-circle"></i></div><div class="lock-badge" id="lock-2"><i class="fas fa-lock"></i></div><i id="icon-2" class="fas fa-list-ul"></i><h3 id="card-title-2">Definition Quiz</h3><p id="card-desc-2">Match the meaning</p></div>
+        <div class="activity-card locked-card" id="card-3" onclick="gateCheck(2)"><div id="s-3" class="seal hidden"><i class="fas fa-check-circle"></i></div><div class="lock-badge" id="lock-3"><i class="fas fa-lock"></i></div><i id="icon-3" class="fas fa-align-left"></i><h3 id="card-title-3">Sentence Builder</h3><p id="card-desc-3">Order the words</p></div>
+        <div class="activity-card locked-card" id="card-4" onclick="gateCheck(3)"><div id="s-4" class="seal hidden"><i class="fas fa-check-circle"></i></div><div class="lock-badge" id="lock-4"><i class="fas fa-lock"></i></div><i id="icon-4" class="fas fa-keyboard"></i><h3 id="card-title-4">Fill the Blanks</h3><p id="card-desc-4">Type missing words</p></div>
     </div>
-
     <button class="btn" style="margin-top:40px; width:100%; max-width:300px; display:inline-block;" id="btn-report" onclick="claimCert()" disabled>Complete all to Submit</button>
 </section>
 
 <section id="screen-act" class="screen hidden">
-    <div style="text-align:left; margin-bottom:20px;" id="act-back-btn-container">
-        <button class="btn" style="padding:8px 16px; margin:0; font-size:0.9rem; background:#cbd5e1; color:#0f172a;" onclick="show('menu')"><i class="fas fa-arrow-left"></i> Back to Menu</button>
-    </div>
+    <div style="text-align:left; margin-bottom:20px;"><button class="btn" style="padding:8px 16px; margin:0; font-size:0.9rem; background:#cbd5e1; color:#0f172a;" onclick="show('menu')"><i class="fas fa-arrow-left"></i> Back to Menu</button></div>
     <div id="act-content"></div>
 </section>
 
 <section id="screen-cert" class="screen hidden">
-    <div class="cert-area">
-        <i class="fas fa-award" style="font-size:4rem; color:var(--primary-blue); margin-bottom:10px;"></i>
-        <div id="review-badge"><i class="fas fa-info-circle"></i> Review Mode - Score not saved</div>
-        <h1 style="font-size:2rem;" id="cert-title">Quest Completed!</h1>
-        <p style="font-size:1.1rem; color:var(--text-muted);">This certifies that</p>
-        <span id="cert-name"></span>
-        <p style="font-size:1.1rem; color:var(--text-muted); margin-top:10px;">has successfully completed</p>
-        <h3 id="cert-unit" style="color:var(--text-main); font-size:1.3rem; margin-top:5px;"></h3>
-
-        <div class="final-grade-circle" id="grade-circle">
-            <span id="cert-final-grade">10.0</span>
-            <small>Final Grade</small>
-        </div>
-
-        <p id="cert-time" style="margin-top:20px; font-size:0.9rem; color:var(--text-muted);"></p>
-        <div id="cert-code" style="margin-top:10px; font-family:monospace; font-size:0.8rem; background:#f1f5f9; padding:8px; border-radius:4px; display:inline-block; color:var(--text-muted);"></div>
-    </div>
+    <div class="cert-area"><i class="fas fa-award" style="font-size:4rem; color:var(--primary-blue); margin-bottom:10px;"></i><div id="review-badge"><i class="fas fa-info-circle"></i> Review Mode - Score not saved</div><h1 style="font-size:2rem;" id="cert-title">Quest Completed!</h1><p style="font-size:1.1rem; color:var(--text-muted);">This certifies that</p><span id="cert-name"></span><p style="font-size:1.1rem; color:var(--text-muted); margin-top:10px;">has successfully completed</p><h3 id="cert-unit" style="color:var(--text-main); font-size:1.3rem; margin-top:5px;"></h3><div class="final-grade-circle" id="grade-circle"><span id="cert-final-grade">10.0</span><small>Final Grade</small></div><p id="cert-time" style="margin-top:20px; font-size:0.9rem; color:var(--text-muted);"></p><div id="cert-code" style="margin-top:10px; font-family:monospace; font-size:0.8rem; background:#f1f5f9; padding:8px; border-radius:4px; display:inline-block; color:var(--text-muted);"></div></div>
     <button class="btn" style="margin-top:30px;" onclick="location.reload()">Return to Entrance</button>
 </section>
 
@@ -355,44 +295,21 @@
 // ================================================================
 //  UTILITY FUNCTIONS
 // ================================================================
-function speak(text) {
-    if (!('speechSynthesis' in window)) return;
-    window.speechSynthesis.cancel();
-    var u = new SpeechSynthesisUtterance(text);
-    u.lang = 'en-US';
-    u.rate = 0.85;
-    window.speechUtteranceHack = u;
-    window.speechSynthesis.speak(u);
-}
-
+function speak(text) { if (!('speechSynthesis' in window)) return; window.speechSynthesis.cancel(); var u = new SpeechSynthesisUtterance(text); u.lang = 'en-US'; u.rate = 0.85; window.speechUtteranceHack = u; window.speechSynthesis.speak(u); }
 function playCorrectSound() { speak("Correct!"); }
 function playWrongSound() { speak("Try again"); }
+function triggerConfetti() { if (typeof confetti !== 'undefined') { confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } }); } }
+function triggerBigConfetti() { if (typeof confetti !== 'undefined') { confetti({ particleCount: 300, spread: 120, origin: { y: 0.5 }, colors: ['#2563eb','#10b981','#f59e0b','#ef4444','#8b5cf6'] }); setTimeout(function(){ confetti({ particleCount: 150, spread: 80, origin: { y: 0.4, x: 0.3 } }); }, 300); setTimeout(function(){ confetti({ particleCount: 150, spread: 80, origin: { y: 0.4, x: 0.7 } }); }, 600); } }
+const motivationalQuotes = ["The secret of getting ahead is getting started. – Mark Twain","Mistakes are proof that you are trying.","Believe you can and you're halfway there. – Theodore Roosevelt","It always seems impossible until it's done. – Nelson Mandela","A little progress each day adds up to big results."];
+function setDailyQuote() { let dayNumber = Math.floor(Date.now() / (1000 * 60 * 60 * 24)); document.getElementById('motivational-quote').textContent = motivationalQuotes[dayNumber % motivationalQuotes.length]; }
 
-function triggerConfetti() {
-    if (typeof confetti !== 'undefined') {
-        confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-    }
-}
-
-function triggerBigConfetti() {
-    if (typeof confetti !== 'undefined') {
-        confetti({ particleCount: 300, spread: 120, origin: { y: 0.5 }, colors: ['#2563eb', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'] });
-        setTimeout(function() { confetti({ particleCount: 150, spread: 80, origin: { y: 0.4, x: 0.3 } }); }, 300);
-        setTimeout(function() { confetti({ particleCount: 150, spread: 80, origin: { y: 0.4, x: 0.7 } }); }, 600);
-    }
-}
-
-const motivationalQuotes = [
-    "The secret of getting ahead is getting started. – Mark Twain",
-    "Mistakes are proof that you are trying.",
-    "Believe you can and you're halfway there. – Theodore Roosevelt",
-    "It always seems impossible until it's done. – Nelson Mandela",
-    "A little progress each day adds up to big results."
-];
-
-function setDailyQuote() {
-    let dayNumber = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
-    document.getElementById('motivational-quote').textContent = motivationalQuotes[dayNumber % motivationalQuotes.length];
+// ================================================================
+//  HELPER: Get 2 random distractors for a given word
+// ================================================================
+function getDistractors(correctWord, allWords, count) {
+    var distractors = allWords.filter(function(w) { return w.toLowerCase() !== correctWord.toLowerCase(); });
+    distractors = distractors.sort(function() { return Math.random() - 0.5; });
+    return distractors.slice(0, count || 2);
 }
 
 // ================================================================
@@ -402,367 +319,422 @@ const DB = {
     "9th - Unit 4 - Part 1": {
         type: "normal",
         grammarHint: "Structure: <b>Subject + Adverb of Frequency + Verb</b>.",
-        words: ["Bed", "Pillow", "Blanket", "Sheet", "Mirror", "Closet", "Curtains", "Slippers", "Always", "Never"],
-        defs: ["A piece of furniture where you sleep.", "A soft object you put your head on when you sleep.", "A warm cover used on a bed.", "A large piece of thin cloth on a bed.", "A piece of glass where you can see your reflection.", "A space or piece of furniture to hang and store clothes.", "Pieces of cloth that cover a window.", "Soft, comfortable shoes you wear inside the house.", "Doing something 100% of the time.", "Doing something 0% of the time."],
-        examples: ["I always make my bed.", "I often use a pillow.", "We sometimes wash the blanket.", "She often changes the sheet.", "He never cleans the mirror.", "I often open the closet.", "I seldom open the curtains.", "They normally wear slippers.", "I always eat food.", "I never sleep at school."],
-        cloze: ["I always make my ________.", "I often use a ________.", "We sometimes wash the ________.", "She often changes the ________.", "He never cleans the ________.", "I often open the ________.", "I seldom open the ________.", "They normally wear ________.", "I ________ eat food.", "I ________ sleep at school."],
-        hints: ["Furniture for sleeping.", "Soft object for head.", "Warm cover for bed.", "Thin cloth on bed.", "Glass to see yourself.", "Place for clothes.", "Cloth for windows.", "Shoes for inside.", "100% of the time.", "0% of the time."],
+        words: ["Bed","Pillow","Blanket","Sheet","Mirror","Closet","Curtains","Slippers","Always","Never"],
+        defs: ["A piece of furniture where you sleep.","A soft object you put your head on when you sleep.","A warm cover used on a bed.","A large piece of thin cloth on a bed.","A piece of glass where you can see your reflection.","A space or piece of furniture to hang and store clothes.","Pieces of cloth that cover a window.","Soft, comfortable shoes you wear inside the house.","Doing something 100% of the time.","Doing something 0% of the time."],
+        examples: ["I always make my bed.","I often use a pillow.","We sometimes wash the blanket.","She often changes the sheet.","He never cleans the mirror.","I often open the closet.","I seldom open the curtains.","They normally wear slippers.","I always eat food.","I never sleep at school."],
+        cloze: ["I always make my ________.","I often use a ________.","We sometimes wash the ________.","She often changes the ________.","He never cleans the ________.","I often open the ________.","I seldom open the ________.","They normally wear ________.","I ________ eat food.","I ________ sleep at school."],
+        hints: ["Furniture for sleeping.","Soft object for head.","Warm cover for bed.","Thin cloth on bed.","Glass to see yourself.","Place for clothes.","Cloth for windows.","Shoes for inside.","100% of the time.","0% of the time."],
         sentences: [
-            { s:"bed. / always / make / I / my", c:"I always make my bed." }, { s:"pillow. / use / often / I / a", c:"I often use a pillow." }, { s:"wash / sometimes / We / blanket. / the", c:"We sometimes wash the blanket." }, { s:"often / sheet. / changes / She / the", c:"She often changes the sheet." }, { s:"cleans / never / He / mirror. / the", c:"He never cleans the mirror." }, { s:"open / often / I / closet. / the", c:"I often open the closet." }, { s:"open / seldom / I / curtains. / the", c:"I seldom open the curtains." }, { s:"wear / They / normally / slippers.", c:"They normally wear slippers." }, { s:"always / food. / I / eat", c:"I always eat food." }, { s:"school. / at / sleep / I / never", c:"I never sleep at school." }
+            { s:"bed. / always / make / I / my", c:"I always make my bed." },{ s:"pillow. / use / often / I / a", c:"I often use a pillow." },{ s:"wash / sometimes / We / blanket. / the", c:"We sometimes wash the blanket." },{ s:"often / sheet. / changes / She / the", c:"She often changes the sheet." },{ s:"cleans / never / He / mirror. / the", c:"He never cleans the mirror." },{ s:"open / often / I / closet. / the", c:"I often open the closet." },{ s:"open / seldom / I / curtains. / the", c:"I seldom open the curtains." },{ s:"wear / They / normally / slippers.", c:"They normally wear slippers." },{ s:"always / food. / I / eat", c:"I always eat food." },{ s:"school. / at / sleep / I / never", c:"I never sleep at school." }
         ]
     },
     "9th - Unit 4 - Part 2": {
         type: "normal",
         grammarHint: "Structure: <b>Subject + Verb (Be) + Adverb of Place/Time</b>.",
-        words: ["Armchair", "Sofa", "Cushions", "Television", "Window", "Remote control", "Shelf", "Wastebasket", "Paintings", "Wall clock"],
-        defs: ["A comfortable chair with sides that support your arms.", "A long, comfortable seat for two or more people.", "Soft bags of cloth used to make a seat more comfortable.", "A machine with a screen used to watch programs.", "An opening in a wall with glass to let light in.", "A small device used to operate a TV from a distance.", "A flat board attached to a wall to hold things.", "A small container for holding trash.", "Pictures made with paint to decorate a room.", "A device on the wall that shows the time."],
-        examples: ["The armchair is here now.", "The sofa was downstairs yesterday.", "The cushions are there today.", "The television is upstairs now.", "The window is here.", "The remote control is inside.", "The shelf was there yesterday.", "The wastebasket is outside today.", "The paintings will be there tomorrow.", "The wall clock is downstairs early."],
-        cloze: ["The ________ is here now.", "The ________ was downstairs yesterday.", "The ________ are there today.", "The ________ is upstairs now.", "The ________ is here.", "The ________ is inside.", "The ________ was there yesterday.", "The ________ is outside today.", "The ________ will be there tomorrow.", "The ________ is downstairs early."],
-        hints: ["Comfortable chair.", "Long seat.", "Soft things.", "Machine to watch shows.", "Glass opening.", "Change channels.", "Board on wall.", "Small trash can.", "Pictures.", "Tells time."],
+        words: ["Armchair","Sofa","Cushions","Television","Window","Remote control","Shelf","Wastebasket","Paintings","Wall clock"],
+        defs: ["A comfortable chair with sides that support your arms.","A long, comfortable seat for two or more people.","Soft bags of cloth used to make a seat more comfortable.","A machine with a screen used to watch programs.","An opening in a wall with glass to let light in.","A small device used to operate a TV from a distance.","A flat board attached to a wall to hold things.","A small container for holding trash.","Pictures made with paint to decorate a room.","A device on the wall that shows the time."],
+        examples: ["The armchair is here now.","The sofa was downstairs yesterday.","The cushions are there today.","The television is upstairs now.","The window is here.","The remote control is inside.","The shelf was there yesterday.","The wastebasket is outside today.","The paintings will be there tomorrow.","The wall clock is downstairs early."],
+        cloze: ["The ________ is here now.","The ________ was downstairs yesterday.","The ________ are there today.","The ________ is upstairs now.","The ________ is here.","The ________ is inside.","The ________ was there yesterday.","The ________ is outside today.","The ________ will be there tomorrow.","The ________ is downstairs early."],
+        hints: ["Comfortable chair.","Long seat.","Soft things.","Machine to watch shows.","Glass opening.","Change channels.","Board on wall.","Small trash can.","Pictures.","Tells time."],
         sentences: [
-            { s:"armchair / is / The / here / now.", c:"The armchair is here now." }, { s:"was / sofa / downstairs / The / yesterday.", c:"The sofa was downstairs yesterday." }, { s:"cushions / are / there / The / today.", c:"The cushions are there today." }, { s:"television / The / is / upstairs / now.", c:"The television is upstairs now." }, { s:"window / is / The / here.", c:"The window is here." }, { s:"inside. / remote / control / The / is", c:"The remote control is inside." }, { s:"shelf / there / The / was / yesterday.", c:"The shelf was there yesterday." }, { s:"wastebasket / The / is / outside / today.", c:"The wastebasket is outside today." }, { s:"paintings / will / there / The / be / tomorrow.", c:"The paintings will be there tomorrow." }, { s:"wall / clock / is / The / downstairs / early.", c:"The wall clock is downstairs early." }
+            { s:"armchair / is / The / here / now.", c:"The armchair is here now." },{ s:"was / sofa / downstairs / The / yesterday.", c:"The sofa was downstairs yesterday." },{ s:"cushions / are / there / The / today.", c:"The cushions are there today." },{ s:"television / The / is / upstairs / now.", c:"The television is upstairs now." },{ s:"window / is / The / here.", c:"The window is here." },{ s:"inside. / remote / control / The / is", c:"The remote control is inside." },{ s:"shelf / there / The / was / yesterday.", c:"The shelf was there yesterday." },{ s:"wastebasket / The / is / outside / today.", c:"The wastebasket is outside today." },{ s:"paintings / will / there / The / be / tomorrow.", c:"The paintings will be there tomorrow." },{ s:"wall / clock / is / The / downstairs / early.", c:"The wall clock is downstairs early." }
         ]
     },
     "9th - Unit 4 - Part 3": {
         type: "normal",
         grammarHint: "Structure: <b>Subject + Action Verb + Adverb of Manner</b>. (Example: I clean the window carefully).",
-        words: ["Clean", "Mop", "Sweep", "Eat", "Sleep", "Close", "Wash", "Open", "Push", "Yell", "Order", "Take a shower"],
-        defs: ["To remove dirt from something.", "To clean the floor using a wet cloth or tool.", "To clean the floor using a broom.", "To put food into your mouth and swallow it.", "To rest in a state of natural unconsciousness.", "To move a door or window so that an opening is covered.", "To clean something with water and soap.", "To move a door or window so people can pass.", "To apply force to move something away from you.", "To shout or speak in a very loud voice.", "To put things in the correct place.", "To wash your body under falling water."],
-        examples: ["I clean the classroom.", "They mop the wet floor.", "We sweep the kitchen floor.", "You eat breakfast daily.", "Children sleep at night.", "Please close the wooden door.", "We wash our hands.", "They open the big window.", "Do not push the heavy table.", "Please do not yell in class.", "Please order the books on the shelf.", "I take a shower in the morning."],
-        cloze: ["I ________ the classroom to remove dirt.", "They ________ the wet floor with a cloth.", "We ________ the kitchen floor with a broom.", "You ________ breakfast daily.", "Children ________ at night to rest.", "Please ________ the wooden door.", "We ________ our hands with soap.", "They ________ the big window.", "Do not ________ the heavy table.", "Please do not ________ in class.", "Please ________ the books on the shelf.", "I ________ in the morning to get clean."],
-        hints: ["Remove dirt.", "Clean with wet cloth.", "Clean with a broom.", "Consume food.", "Unconscious rest.", "Cover an opening.", "Clean with water.", "Uncover an opening.", "Force away.", "Shout loudly.", "Put things in correct place.", "Wash your body."],
+        words: ["Clean","Mop","Sweep","Eat","Sleep","Close","Wash","Open","Push","Yell","Order","Take a shower"],
+        defs: ["To remove dirt from something.","To clean the floor using a wet cloth or tool.","To clean the floor using a broom.","To put food into your mouth and swallow it.","To rest in a state of natural unconsciousness.","To move a door or window so that an opening is covered.","To clean something with water and soap.","To move a door or window so people can pass.","To apply force to move something away from you.","To shout or speak in a very loud voice.","To put things in the correct place.","To wash your body under falling water."],
+        examples: ["I clean the classroom.","They mop the wet floor.","We sweep the kitchen floor.","You eat breakfast daily.","Children sleep at night.","Please close the wooden door.","We wash our hands.","They open the big window.","Do not push the heavy table.","Please do not yell in class.","Please order the books on the shelf.","I take a shower in the morning."],
+        cloze: ["I ________ the classroom to remove dirt.","They ________ the wet floor with a cloth.","We ________ the kitchen floor with a broom.","You ________ breakfast daily.","Children ________ at night to rest.","Please ________ the wooden door.","We ________ our hands with soap.","They ________ the big window.","Do not ________ the heavy table.","Please do not ________ in class.","Please ________ the books on the shelf.","I ________ in the morning to get clean."],
+        hints: ["Remove dirt.","Clean with wet cloth.","Clean with a broom.","Consume food.","Unconscious rest.","Cover an opening.","Clean with water.","Uncover an opening.","Force away.","Shout loudly.","Put things in correct place.","Wash your body."],
         sentences: [
-            { s:"window / carefully. / clean / I / the", c:"I clean the window carefully." }, { s:"floor / quickly. / mops / He / the", c:"He mops the floor quickly." }, { s:"fast. / room / sweep / They / the", c:"They sweep the room fast." }, { s:"slowly. / food / eat / You / the", c:"You eat the food slowly." }, { s:"night. / well / at / sleep / We", c:"We sleep well at night." }, { s:"easily. / door / She / the / closes", c:"She closes the door easily." }, { s:"car / I / badly. / wash / the", c:"I wash the car badly." }, { s:"do / loudly. / yell / not / Please", c:"Please do not yell loudly." }
+            { s:"window / carefully. / clean / I / the", c:"I clean the window carefully." },{ s:"floor / quickly. / mops / He / the", c:"He mops the floor quickly." },{ s:"fast. / room / sweep / They / the", c:"They sweep the room fast." },{ s:"slowly. / food / eat / You / the", c:"You eat the food slowly." },{ s:"night. / well / at / sleep / We", c:"We sleep well at night." },{ s:"easily. / door / She / the / closes", c:"She closes the door easily." },{ s:"car / I / badly. / wash / the", c:"I wash the car badly." },{ s:"do / loudly. / yell / not / Please", c:"Please do not yell loudly." }
         ]
     },
     "9th - Unit 4 - Mega Review": {
         type: "mega_review",
-        parts: ["9th - Unit 4 - Part 1", "9th - Unit 4 - Part 2", "9th - Unit 4 - Part 3"],
+        parts: ["9th - Unit 4 - Part 1","9th - Unit 4 - Part 2","9th - Unit 4 - Part 3"],
         phases: [
-            { name: "Verb Flash Sprint", icon: "fa-bolt", duration: "8-10 min", instructions: "In this phase, verbs will appear on flashcards. Each card <span class='highlight'>auto-flips after 3 seconds</span>. Before it flips, say the definition <strong>out loud</strong>! Then click <strong>'I knew it!'</strong> if you were correct, or <strong>'Need practice'</strong> if you need more review.", rules: ["12 verbs from Part 3 (Adverbs of Manner)", "Card auto-flips in 3 seconds", "Click 'I knew it!' to earn 1 point per verb", "No penalties for wrong answers"] },
-            { name: "Vocabulary Gauntlet", icon: "fa-spell-check", duration: "12-15 min", instructions: "You will see <strong>20 vocabulary words</strong> randomly selected from ALL three parts of Unit 4. For each word, choose the <strong>correct definition</strong> from 4 options. <span class='points-badge'>+1 pt</span> for each correct answer on your first try!", rules: ["20 questions from all 3 parts", "4 options per question", "First-try correct = 1 point", "Wrong answers get recycled for a second chance"] },
-            { name: "Grammar Sort", icon: "fa-tags", duration: "10-12 min", instructions: "You will see <strong>15 complete sentences</strong>. Your job is to <strong>classify each one</strong> into the correct grammar category. Click the box that matches the sentence structure. <span class='points-badge'>+2 pts</span> per correct classification!", rules: ["3 categories: Adverb of Frequency, Place/Time, Manner", "15 sentences to classify", "Click the correct category box", "+2 points for each correct answer"] },
-            { name: "Sentence Builder Relay", icon: "fa-puzzle-piece", duration: "12-15 min", instructions: "You will build <strong>10 sentences</strong> by tapping words in the correct order. <span class='points-badge'>+2 pts</span> if you get it right on the first try, <span class='points-badge'>+1 pt</span> on the second. Watch your <strong>streak</strong> build up!", rules: ["10 scrambled sentences", "Tap words in correct order", "First try = 2 points, second try = 1 point", "Streak counter for 3+ consecutive correct"] },
-            { name: "Fill the Blanks Marathon", icon: "fa-pen-to-square", duration: "15-18 min", instructions: "This is <strong>pure recall</strong> — no word bank! Type the missing word for <strong>15 sentences</strong>. You have <strong>3 hints total</strong> for this entire phase. Each hint costs <span class='highlight'>-1 point</span> but reveals the first letter.", rules: ["15 fill-in-the-blank sentences", "No word bank — type from memory", "3 hints available (reveals first letter)", "Each hint costs -1 point"] },
-            { name: "Final Boss: Mixed Challenge", icon: "fa-trophy", duration: "10-12 min", instructions: "The ultimate test! <strong>8 questions</strong> in random formats: definitions, sentence building, fill-in-the-blanks, and grammar identification. Everything you've practiced comes together here. <span class='points-badge'>+2 pts</span> per correct answer!", rules: ["8 mixed-format questions", "Definitions, Builders, Blanks, Grammar ID", "Randomized each time", "+2 points per correct answer"] }
+            { name:"Verb Flash Sprint", icon:"fa-bolt", duration:"8-10 min", instructions:"In this phase, verbs will appear on flashcards. Each card <span class='highlight'>auto-flips after 3 seconds</span>. Before it flips, say the definition <strong>out loud</strong>! Then click <strong>'I knew it!'</strong> if you were correct, or <strong>'Need practice'</strong> if you need more review.", rules:["12 verbs from Part 3 (Adverbs of Manner)","Card auto-flips in 3 seconds","Click 'I knew it!' to earn 1 point per verb","No penalties for wrong answers"] },
+            { name:"Vocabulary Gauntlet", icon:"fa-spell-check", duration:"12-15 min", instructions:"You will see <strong>20 vocabulary words</strong> randomly selected from ALL three parts of Unit 4. For each word, choose the <strong>correct definition</strong> from 4 options. <span class='points-badge'>+1 pt</span> for each correct answer on your first try!", rules:["20 questions from all 3 parts","4 options per question","First-try correct = 1 point","Wrong answers get recycled for a second chance"] },
+            { name:"Grammar Sort", icon:"fa-tags", duration:"10-12 min", instructions:"You will see <strong>15 complete sentences</strong>. Your job is to <strong>classify each one</strong> into the correct grammar category. Click the box that matches the sentence structure. <span class='points-badge'>+2 pts</span> per correct classification!", rules:["3 categories: Adverb of Frequency, Place/Time, Manner","15 sentences to classify","Click the correct category box","+2 points for each correct answer"] },
+            { name:"Sentence Builder Relay", icon:"fa-puzzle-piece", duration:"12-15 min", instructions:"You will build <strong>10 sentences</strong> by tapping words in the correct order. <span class='points-badge'>+2 pts</span> if you get it right on the first try, <span class='points-badge'>+1 pt</span> on the second. Watch your <strong>streak</strong> build up!", rules:["10 scrambled sentences","Tap words in correct order","First try = 2 points, second try = 1 point","Streak counter for 3+ consecutive correct"] },
+            { name:"Fill the Blanks Marathon", icon:"fa-pen-to-square", duration:"15-18 min", instructions:"You will see <strong>15 sentences</strong> with a missing word. <strong>3 options</strong> are shown above each sentence — <strong>click the correct word</strong> to select it. You have <strong>2 attempts</strong> per sentence. Choose wisely! <span class='points-badge'>+1 pt</span> per correct answer (first try only).", rules:["15 fill-in-the-blank sentences","3 clickable options per sentence","2 attempts per sentence","+1 point for correct on first attempt"] },
+            { name:"Final Boss: Mixed Challenge", icon:"fa-trophy", duration:"10-12 min", instructions:"The ultimate test! <strong>8 questions</strong> in random formats: definitions, sentence building, fill-in-the-blanks, and grammar identification. Everything you've practiced comes together here. <span class='points-badge'>+2 pts</span> per correct answer!", rules:["8 mixed-format questions","Definitions, Builders, Blanks (with options), Grammar ID","Randomized each time","+2 points per correct answer"] }
         ],
-        allWords: [], allDefs: [], allCloze: [], allHints: [], allSentences: []
+        allWords:[], allDefs:[], allCloze:[], allHints:[], allSentences:[]
     }
 };
 
-// Build mega review data
-(function buildMegaReview() {
-    var mr = DB["9th - Unit 4 - Mega Review"];
-    mr.parts.forEach(function(partKey) {
-        var p = DB[partKey];
-        mr.allWords = mr.allWords.concat(p.words);
-        mr.allDefs = mr.allDefs.concat(p.defs);
-        mr.allCloze = mr.allCloze.concat(p.cloze);
-        mr.allHints = mr.allHints.concat(p.hints);
-        mr.allSentences = mr.allSentences.concat(p.sentences);
-    });
-})();
+(function buildMegaReview(){ var mr=DB["9th - Unit 4 - Mega Review"]; mr.parts.forEach(function(k){ var p=DB[k]; mr.allWords=mr.allWords.concat(p.words); mr.allDefs=mr.allDefs.concat(p.defs); mr.allCloze=mr.allCloze.concat(p.cloze); mr.allHints=mr.allHints.concat(p.hints); mr.allSentences=mr.allSentences.concat(p.sentences); }); })();
 
-let state = { name:"", section:"", unit:"", scores:{}, done:{}, firstTryPoints: 0, totalPossiblePoints: 0 };
-let isReviewMode = false;
-let usedBlanksWords = [];
-let activitiesList = [];
+let state={ name:"",section:"",unit:"",scores:{},done:{},firstTryPoints:0,totalPossiblePoints:0 };
+let isReviewMode=false; let usedBlanksWords=[]; let activitiesList=[];
+let megaState={ currentPhase:0,totalPoints:0,phasePoints:[0,0,0,0,0,0],timerSeconds:4800,timerInterval:null,hintsUsed:0,maxHints:3,comboCount:0,showInstructions:true };
 
-let megaState = {
-    currentPhase: 0, totalPoints: 0, phasePoints: [0,0,0,0,0,0],
-    timerSeconds: 4800, timerInterval: null, hintsUsed: 0, maxHints: 3, comboCount: 0, showInstructions: true
-};
+window.onload=function(){ setDailyQuote(); };
 
-window.onload = function() { setDailyQuote(); };
-
-function updateCascade() {
-    var section = document.getElementById('sectionSelect').value;
-    var unitGroup = document.getElementById('unit-group');
-    var sel = document.getElementById('unitSelect');
-    if (section) {
-        unitGroup.classList.remove('hidden');
-        var gradePrefix = "";
-        if (section.startsWith("9")) gradePrefix = "9th";
-        else if (section.startsWith("10")) gradePrefix = "10th";
-        else if (section.startsWith("11")) gradePrefix = "11th";
-        sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
-        Object.keys(DB).forEach(function(k) {
-            if (k.startsWith(gradePrefix)) {
-                var opt = document.createElement('option'); opt.value = k; opt.textContent = k; sel.appendChild(opt);
-            }
-        });
-    } else { unitGroup.classList.add('hidden'); sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>'; }
-    checkStatus();
-}
-
-function checkStatus() {
-    var name = document.getElementById('studentName').value.trim();
-    var section = document.getElementById('sectionSelect').value;
-    var unit = document.getElementById('unitSelect').value;
-    var btn = document.getElementById('startBtn');
-    var msg = document.getElementById('msg');
-    if (!name || !section || !unit) { btn.disabled = true; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; return; }
-    var key = name.toLowerCase() + '-' + section + '-' + unit;
-    if (localStorage.getItem(key) === 'COMPLETED') { isReviewMode = true; btn.disabled = false; btn.textContent = "Review Mode 🔁"; btn.style.backgroundColor = "var(--warning)"; msg.textContent = 'You completed this previously. Score will not be saved.'; }
-    else { isReviewMode = false; btn.disabled = false; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; }
-}
-
-function start() {
-    var name = document.getElementById('studentName').value.trim();
-    var section = document.getElementById('sectionSelect').value;
-    var unit = document.getElementById('unitSelect').value;
-    var data = DB[unit];
-    var totalPoints = 0;
-    if (data.type === "mega_review") {
-        totalPoints = 100; activitiesList = ['phase-1','phase-2','phase-3','phase-4','phase-5','phase-6'];
-        document.getElementById("card-title-1").textContent = "Verb Flash Sprint"; document.getElementById("card-desc-1").textContent = "Quick recognition"; document.getElementById("icon-1").className = "fas fa-bolt";
-        document.getElementById("card-title-2").textContent = "Vocabulary Gauntlet"; document.getElementById("card-desc-2").textContent = "Mixed definitions"; document.getElementById("icon-2").className = "fas fa-spell-check";
-        document.getElementById("card-title-3").textContent = "Grammar Sort"; document.getElementById("card-desc-3").textContent = "Classify structures"; document.getElementById("icon-3").className = "fas fa-tags";
-        document.getElementById("card-title-4").textContent = "Builder + Blanks + Boss"; document.getElementById("card-desc-4").textContent = "Final challenges"; document.getElementById("icon-4").className = "fas fa-trophy";
-    } else if (data.type === "normal") {
-        totalPoints = (data.words.length * 2) + data.sentences.length; activitiesList = ['scrolls','quiz','chamber','blanks'];
-        document.getElementById("card-title-1").textContent = "Study Scrolls"; document.getElementById("card-desc-1").textContent = "Memorize vocabulary"; document.getElementById("icon-1").className = "fas fa-layer-group";
-        document.getElementById("card-title-2").textContent = "Definition Quiz"; document.getElementById("card-desc-2").textContent = "Match the meaning"; document.getElementById("icon-2").className = "fas fa-list-ul";
-        document.getElementById("card-title-3").textContent = "Sentence Builder"; document.getElementById("card-desc-3").textContent = "Order the words"; document.getElementById("icon-3").className = "fas fa-align-left";
-        document.getElementById("card-title-4").textContent = "Fill the Blanks"; document.getElementById("card-desc-4").textContent = "Type missing words"; document.getElementById("icon-4").className = "fas fa-keyboard";
-    }
-    state = { name:name, section:section, unit:unit, scores:{}, done:{}, firstTryPoints:0, totalPossiblePoints:totalPoints };
-    usedBlanksWords = [];
-    megaState = { currentPhase:0, totalPoints:0, phasePoints:[0,0,0,0,0,0], timerSeconds:4800, timerInterval:null, hintsUsed:0, maxHints:3, comboCount:0, showInstructions:true };
-    document.getElementById('userGreet').textContent = 'Welcome, ' + name.split(' ')[0];
-    document.getElementById('self-study-section').innerHTML = '';
-    document.getElementById('self-study-section').classList.add('hidden');
-    if (data.type === "mega_review") { startMegaTimer(); showMegaWelcome(); show('act'); }
-    else { if (megaState.timerInterval) clearInterval(megaState.timerInterval); show('menu'); }
-}
-
-function show(screen) { document.querySelectorAll('.screen').forEach(function(s) { s.classList.add('hidden'); }); document.getElementById('screen-' + screen).classList.remove('hidden'); if (screen === 'menu') updateXPBar(); }
-
-function updateXPBar() {
-    var doneCount = activitiesList.filter(function(a) { return state.done[a]; }).length;
-    document.getElementById('xp-fill').style.width = (doneCount / activitiesList.length * 100) + '%';
-    document.getElementById('xp-text').textContent = doneCount + ' / ' + activitiesList.length + ' levels';
-    var data = DB[state.unit];
-    document.getElementById('xp-label-text').textContent = (data && data.type === "mega_review") ? 'Mega Review Progress' : 'Overall Progress';
-    var submitBtn = document.getElementById('btn-report');
-    if (doneCount === activitiesList.length) { submitBtn.disabled = false; submitBtn.style.background = 'var(--success)'; submitBtn.textContent = "Submit and Get Grade"; }
-    else { submitBtn.disabled = true; submitBtn.style.background = '#cbd5e1'; submitBtn.textContent = "Complete all to Submit"; }
-    for (var i = 0; i < activitiesList.length; i++) {
-        var card = document.getElementById('card-' + (i+1)), lock = document.getElementById('lock-' + (i+1)), seal = document.getElementById('s-' + (i+1));
-        var isUnlocked = (i === 0) ? true : state.done[activitiesList[i-1]];
-        if (card) { if (isUnlocked) { card.classList.remove('locked-card'); if (lock) lock.style.display = 'none'; } else { card.classList.add('locked-card'); if (lock) lock.style.display = 'block'; } }
-        if (seal) { if (state.done[activitiesList[i]]) seal.classList.remove('hidden'); else seal.classList.add('hidden'); }
-    }
-}
-
-function gateCheck(index) { if (index > 0 && !state.done[activitiesList[index-1]]) { alert('🔒 Complete the previous level first to unlock this one.'); } else { go(index); } }
-
-function go(index) {
-    if (index > 0 && !state.done[activitiesList[index-1]]) return;
-    var data = DB[state.unit], activity = activitiesList[index];
-    show('act'); var container = document.getElementById('act-content'); container.innerHTML = '';
-    if (data.type === "mega_review") { megaState.currentPhase = index; megaState.showInstructions = true; showMegaPhaseInstructions(index); }
-    else { if (activity === 'scrolls') renderScrolls(container, data); else if (activity === 'quiz') renderQuiz(container, data); else if (activity === 'chamber') renderChamber(container, data); else if (activity === 'blanks') renderBlanks(container, data); }
-}
+function updateCascade(){ var s=document.getElementById('sectionSelect').value; var ug=document.getElementById('unit-group'); var sel=document.getElementById('unitSelect'); if(s){ ug.classList.remove('hidden'); var gp=""; if(s.startsWith("9")) gp="9th"; else if(s.startsWith("10")) gp="10th"; else if(s.startsWith("11")) gp="11th"; sel.innerHTML='<option value="">-- Select Unit / Activity --</option>'; Object.keys(DB).forEach(function(k){ if(k.startsWith(gp)){ var o=document.createElement('option'); o.value=k; o.textContent=k; sel.appendChild(o); } }); } else { ug.classList.add('hidden'); sel.innerHTML='<option value="">-- Select Unit / Activity --</option>'; } checkStatus(); }
+function checkStatus(){ var n=document.getElementById('studentName').value.trim(); var s=document.getElementById('sectionSelect').value; var u=document.getElementById('unitSelect').value; var b=document.getElementById('startBtn'); var m=document.getElementById('msg'); if(!n||!s||!u){ b.disabled=true; b.textContent="Start Quest"; b.style.backgroundColor="var(--primary-blue)"; m.textContent=''; return; } var key=n.toLowerCase()+'-'+s+'-'+u; if(localStorage.getItem(key)==='COMPLETED'){ isReviewMode=true; b.disabled=false; b.textContent="Review Mode 🔁"; b.style.backgroundColor="var(--warning)"; m.textContent='You completed this previously. Score will not be saved.'; } else { isReviewMode=false; b.disabled=false; b.textContent="Start Quest"; b.style.backgroundColor="var(--primary-blue)"; m.textContent=''; } }
+function start(){ var n=document.getElementById('studentName').value.trim(); var s=document.getElementById('sectionSelect').value; var u=document.getElementById('unitSelect').value; var d=DB[u]; var tp=0; if(d.type==="mega_review"){ tp=100; activitiesList=['phase-1','phase-2','phase-3','phase-4','phase-5','phase-6']; document.getElementById("card-title-1").textContent="Verb Flash Sprint"; document.getElementById("card-desc-1").textContent="Quick recognition"; document.getElementById("icon-1").className="fas fa-bolt"; document.getElementById("card-title-2").textContent="Vocabulary Gauntlet"; document.getElementById("card-desc-2").textContent="Mixed definitions"; document.getElementById("icon-2").className="fas fa-spell-check"; document.getElementById("card-title-3").textContent="Grammar Sort"; document.getElementById("card-desc-3").textContent="Classify structures"; document.getElementById("icon-3").className="fas fa-tags"; document.getElementById("card-title-4").textContent="Builder + Blanks + Boss"; document.getElementById("card-desc-4").textContent="Final challenges"; document.getElementById("icon-4").className="fas fa-trophy"; } else if(d.type==="normal"){ tp=(d.words.length*2)+d.sentences.length; activitiesList=['scrolls','quiz','chamber','blanks']; document.getElementById("card-title-1").textContent="Study Scrolls"; document.getElementById("card-desc-1").textContent="Memorize vocabulary"; document.getElementById("icon-1").className="fas fa-layer-group"; document.getElementById("card-title-2").textContent="Definition Quiz"; document.getElementById("card-desc-2").textContent="Match the meaning"; document.getElementById("icon-2").className="fas fa-list-ul"; document.getElementById("card-title-3").textContent="Sentence Builder"; document.getElementById("card-desc-3").textContent="Order the words"; document.getElementById("icon-3").className="fas fa-align-left"; document.getElementById("card-title-4").textContent="Fill the Blanks"; document.getElementById("card-desc-4").textContent="Type missing words"; document.getElementById("icon-4").className="fas fa-keyboard"; } state={ name:n,section:s,unit:u,scores:{},done:{},firstTryPoints:0,totalPossiblePoints:tp }; usedBlanksWords=[]; megaState={ currentPhase:0,totalPoints:0,phasePoints:[0,0,0,0,0,0],timerSeconds:4800,timerInterval:null,hintsUsed:0,maxHints:3,comboCount:0,showInstructions:true }; document.getElementById('userGreet').textContent='Welcome, '+n.split(' ')[0]; document.getElementById('self-study-section').innerHTML=''; document.getElementById('self-study-section').classList.add('hidden'); if(d.type==="mega_review"){ startMegaTimer(); showMegaWelcome(); show('act'); } else { if(megaState.timerInterval) clearInterval(megaState.timerInterval); show('menu'); } }
+function show(sc){ document.querySelectorAll('.screen').forEach(function(s){ s.classList.add('hidden'); }); document.getElementById('screen-'+sc).classList.remove('hidden'); if(sc==='menu') updateXPBar(); }
+function updateXPBar(){ var dc=activitiesList.filter(function(a){ return state.done[a]; }).length; document.getElementById('xp-fill').style.width=(dc/activitiesList.length*100)+'%'; document.getElementById('xp-text').textContent=dc+' / '+activitiesList.length+' levels'; var d=DB[state.unit]; document.getElementById('xp-label-text').textContent=(d&&d.type==="mega_review")?'Mega Review Progress':'Overall Progress'; var sb=document.getElementById('btn-report'); if(dc===activitiesList.length){ sb.disabled=false; sb.style.background='var(--success)'; sb.textContent="Submit and Get Grade"; } else { sb.disabled=true; sb.style.background='#cbd5e1'; sb.textContent="Complete all to Submit"; } for(var i=0;i<activitiesList.length;i++){ var c=document.getElementById('card-'+(i+1)),l=document.getElementById('lock-'+(i+1)),sl=document.getElementById('s-'+(i+1)); var iu=(i===0)?true:state.done[activitiesList[i-1]]; if(c){ if(iu){ c.classList.remove('locked-card'); if(l) l.style.display='none'; } else { c.classList.add('locked-card'); if(l) l.style.display='block'; } } if(sl){ if(state.done[activitiesList[i]]) sl.classList.remove('hidden'); else sl.classList.add('hidden'); } } }
+function gateCheck(i){ if(i>0&&!state.done[activitiesList[i-1]]){ alert('🔒 Complete the previous level first to unlock this one.'); } else { go(i); } }
+function go(i){ if(i>0&&!state.done[activitiesList[i-1]]) return; var d=DB[state.unit],a=activitiesList[i]; show('act'); var c=document.getElementById('act-content'); c.innerHTML=''; if(d.type==="mega_review"){ megaState.currentPhase=i; megaState.showInstructions=true; showMegaPhaseInstructions(i); } else { if(a==='scrolls') renderScrolls(c,d); else if(a==='quiz') renderQuiz(c,d); else if(a==='chamber') renderChamber(c,d); else if(a==='blanks') renderBlanks(c,d); } }
 
 // ================================================================
 //  MEGA REVIEW WELCOME & INSTRUCTIONS
 // ================================================================
-function showMegaWelcome() {
-    var container = document.getElementById('act-content');
-    var data = DB[state.unit];
-    container.innerHTML = '<div class="transition-screen" style="text-align:center; padding:20px 0;"><i class="fas fa-graduation-cap" style="font-size:5rem; color:var(--primary-blue); margin-bottom:15px;"></i><h1 style="color:var(--primary-blue);">Unit 4 Mega Review</h1><p style="font-size:1.3rem; color:var(--text-muted); margin-bottom:5px;">All 3 Parts — One Complete Review Session</p><div class="final-grade-circle" style="width:100px; height:100px; margin:20px auto;"><span style="font-size:1.8rem;">100</span><small>max pts</small></div><p style="font-size:1rem; color:var(--text-main); max-width:550px; margin:15px auto; line-height:1.6;"><strong>🎯 Goal:</strong> Complete all <strong>6 phases</strong> to review everything from Unit 4.<br><strong>⏱️ Time:</strong> You have <strong>80 minutes</strong> total — a full class period.<br><strong>📊 Grade:</strong> Your score out of 100 will be <strong>sent automatically</strong> when you finish.<br><strong>🏠 Note:</strong> Work carefully from home — every phase counts!</p><div style="text-align:left; max-width:550px; margin:20px auto;"><h3 style="color:var(--primary-blue); margin-bottom:10px;">📋 The 6 Phases:</h3>' + data.phases.map(function(p, i) { return '<div style="padding:10px 0; border-bottom:1px solid #e2e8f0;"><i class="fas ' + p.icon + '" style="color:var(--primary-blue); width:25px;"></i> <strong>Phase ' + (i+1) + ':</strong> ' + p.name + ' <span style="color:var(--text-muted); font-size:0.85rem;">(' + p.duration + ')</span></div>'; }).join('') + '</div><p style="color:var(--warning); font-weight:600; margin-top:15px;"><i class="fas fa-exclamation-triangle"></i> Do not close this page until you finish — your progress is not saved mid-session.</p><button class="btn" style="margin-top:20px; font-size:1.2rem; padding:16px 40px;" onclick="showMegaPhaseInstructions(0)">Start Phase 1 <i class="fas fa-arrow-right"></i></button></div>';
-}
-
-function showMegaPhaseInstructions(phaseIndex) {
-    var container = document.getElementById('act-content');
-    var data = DB[state.unit], phase = data.phases[phaseIndex];
-    container.innerHTML = '<div class="mega-timer" id="mega-timer-el"><i class="fas fa-clock"></i> <span id="mega-timer-display">80:00</span></div><div class="phase-indicator" style="margin-top:15px;">' + data.phases.map(function(p, i) { var cls = ''; if (i < phaseIndex) cls = 'done'; else if (i === phaseIndex) cls = 'active'; return '<div class="phase-dot ' + cls + '" title="' + p.name + '"></div>'; }).join('') + '</div><div class="instruction-card" style="margin-top:20px;"><h3><i class="fas ' + phase.icon + '"></i> Phase ' + (phaseIndex + 1) + ': ' + phase.name + '</h3><p style="color:var(--text-muted); margin-bottom:10px;">⏱ ' + phase.duration + '</p><p style="font-size:1.05rem; line-height:1.7; color:var(--text-main);">' + phase.instructions + '</p><div style="margin-top:15px; padding-top:15px; border-top:1px solid #bfdbfe;"><strong style="color:var(--primary-blue);">📋 Rules:</strong><ul style="margin-top:5px;">' + phase.rules.map(function(r) { return '<li>' + r + '</li>'; }).join('') + '</ul></div></div><div style="margin-top:20px;"><p style="color:var(--text-muted); font-size:0.9rem;">Current total: <strong>' + megaState.totalPoints + ' points</strong></p><button class="btn" style="font-size:1.1rem; padding:14px 36px;" onclick="megaState.showInstructions = false; renderMegaPhase(' + phaseIndex + ');">I\'m Ready — Begin Phase ' + (phaseIndex + 1) + ' <i class="fas fa-play"></i></button></div>';
-    updateTimerDisplay();
-}
+function showMegaWelcome(){ var c=document.getElementById('act-content'); var d=DB[state.unit]; c.innerHTML='<div class="transition-screen" style="text-align:center; padding:20px 0;"><i class="fas fa-graduation-cap" style="font-size:5rem; color:var(--primary-blue); margin-bottom:15px;"></i><h1 style="color:var(--primary-blue);">Unit 4 Mega Review</h1><p style="font-size:1.3rem; color:var(--text-muted);">All 3 Parts — One Complete Review Session</p><div class="final-grade-circle" style="width:100px;height:100px;margin:20px auto;"><span style="font-size:1.8rem;">100</span><small>max pts</small></div><p style="font-size:1rem;color:var(--text-main);max-width:550px;margin:15px auto;line-height:1.6;"><strong>🎯 Goal:</strong> Complete all <strong>6 phases</strong>.<br><strong>⏱️ Time:</strong> <strong>80 minutes</strong> total.<br><strong>📊 Grade:</strong> Sent <strong>automatically</strong> when you finish.<br><strong>🏠 Note:</strong> Work carefully from home!</p><div style="text-align:left;max-width:550px;margin:20px auto;"><h3 style="color:var(--primary-blue);margin-bottom:10px;">📋 The 6 Phases:</h3>'+d.phases.map(function(p,i){ return '<div style="padding:10px 0;border-bottom:1px solid #e2e8f0;"><i class="fas '+p.icon+'" style="color:var(--primary-blue);width:25px;"></i> <strong>Phase '+(i+1)+':</strong> '+p.name+' <span style="color:var(--text-muted);font-size:0.85rem;">('+p.duration+')</span></div>'; }).join('')+'</div><p style="color:var(--warning);font-weight:600;margin-top:15px;"><i class="fas fa-exclamation-triangle"></i> Do not close this page until you finish.</p><button class="btn" style="margin-top:20px;font-size:1.2rem;padding:16px 40px;" onclick="showMegaPhaseInstructions(0)">Start Phase 1 <i class="fas fa-arrow-right"></i></button></div>'; }
+function showMegaPhaseInstructions(pi){ var c=document.getElementById('act-content'); var d=DB[state.unit],p=d.phases[pi]; c.innerHTML='<div class="mega-timer" id="mega-timer-el"><i class="fas fa-clock"></i> <span id="mega-timer-display">80:00</span></div><div class="phase-indicator" style="margin-top:15px;">'+d.phases.map(function(pp,i){ var cls=''; if(i<pi) cls='done'; else if(i===pi) cls='active'; return '<div class="phase-dot '+cls+'" title="'+pp.name+'"></div>'; }).join('')+'</div><div class="instruction-card" style="margin-top:20px;"><h3><i class="fas '+p.icon+'"></i> Phase '+(pi+1)+': '+p.name+'</h3><p style="color:var(--text-muted);margin-bottom:10px;">⏱ '+p.duration+'</p><p style="font-size:1.05rem;line-height:1.7;color:var(--text-main);">'+p.instructions+'</p><div style="margin-top:15px;padding-top:15px;border-top:1px solid #bfdbfe;"><strong style="color:var(--primary-blue);">📋 Rules:</strong><ul style="margin-top:5px;">'+p.rules.map(function(r){ return '<li>'+r+'</li>'; }).join('')+'</ul></div></div><div style="margin-top:20px;"><p style="color:var(--text-muted);font-size:0.9rem;">Current total: <strong>'+megaState.totalPoints+' points</strong></p><button class="btn" style="font-size:1.1rem;padding:14px 36px;" onclick="megaState.showInstructions=false;renderMegaPhase('+pi+');">I\'m Ready — Begin Phase '+(pi+1)+' <i class="fas fa-play"></i></button></div>'; updateTimerDisplay(); }
 
 // ================================================================
 //  MEGA TIMER
 // ================================================================
-function startMegaTimer() { if (megaState.timerInterval) clearInterval(megaState.timerInterval); updateTimerDisplay(); megaState.timerInterval = setInterval(function() { megaState.timerSeconds--; updateTimerDisplay(); if (megaState.timerSeconds <= 0) { clearInterval(megaState.timerInterval); alert('⏰ Time is up! Your progress so far has been saved.'); } }, 1000); }
-function updateTimerDisplay() { var mins = Math.floor(megaState.timerSeconds / 60), secs = megaState.timerSeconds % 60; var timerEl = document.getElementById('mega-timer-display'); if (timerEl) { timerEl.textContent = mins + ':' + (secs < 10 ? '0' : '') + secs; if (megaState.timerSeconds < 600) { timerEl.parentElement.classList.add('warning'); } else { timerEl.parentElement.classList.remove('warning'); } } }
-function formatTime(seconds) { var mins = Math.floor(seconds / 60), secs = seconds % 60; return mins + ' min ' + secs + ' sec'; }
+function startMegaTimer(){ if(megaState.timerInterval) clearInterval(megaState.timerInterval); updateTimerDisplay(); megaState.timerInterval=setInterval(function(){ megaState.timerSeconds--; updateTimerDisplay(); if(megaState.timerSeconds<=0){ clearInterval(megaState.timerInterval); alert('⏰ Time is up! Your progress so far has been saved.'); } },1000); }
+function updateTimerDisplay(){ var m=Math.floor(megaState.timerSeconds/60),s=megaState.timerSeconds%60; var el=document.getElementById('mega-timer-display'); if(el){ el.textContent=m+':'+(s<10?'0':'')+s; if(megaState.timerSeconds<600){ el.parentElement.classList.add('warning'); } else { el.parentElement.classList.remove('warning'); } } }
+function formatTime(sec){ var m=Math.floor(sec/60),s=sec%60; return m+' min '+s+' sec'; }
 
 // ================================================================
 //  MEGA REVIEW RENDERING
 // ================================================================
-function renderMegaPhase(phaseIndex) { var container = document.getElementById('act-content'); var data = DB[state.unit]; if (phaseIndex === 0) renderPhase1_Sprint(container, data); else if (phaseIndex === 1) renderPhase2_Gauntlet(container, data); else if (phaseIndex === 2) renderPhase3_Sort(container, data); else if (phaseIndex === 3) renderPhase4_Relay(container, data); else if (phaseIndex === 4) renderPhase5_Marathon(container, data); else if (phaseIndex === 5) renderPhase6_Boss(container, data); }
-function megaPhaseHeader(phaseIndex, subtitle) { var data = DB[state.unit], phase = data.phases[phaseIndex]; return '<div class="mega-timer" id="mega-timer-el"><i class="fas fa-clock"></i> <span id="mega-timer-display">80:00</span></div><div class="phase-indicator" style="margin-top:15px;">' + data.phases.map(function(p, i) { var cls = ''; if (i < phaseIndex) cls = 'done'; else if (i === phaseIndex) cls = 'active'; return '<div class="phase-dot ' + cls + '" title="' + p.name + '"></div>'; }).join('') + '</div><h2 style="color:var(--primary-blue); margin-top:10px;"><i class="fas ' + phase.icon + '"></i> Phase ' + (phaseIndex + 1) + ': ' + phase.name + '</h2><p style="color:var(--text-muted); margin-bottom:5px;">' + subtitle + ' &nbsp;|&nbsp; ⏱ ' + phase.duration + '</p><div class="activity-progress" style="margin-bottom:20px;"><div class="activity-progress-track"><div class="activity-progress-fill" id="phase-pct" style="width:0%;"></div></div></div><div style="margin-bottom:15px;"><span class="score-badge" id="phase-score-badge">⭐ ' + megaState.phasePoints[phaseIndex] + ' pts</span><span style="margin-left:10px; font-size:0.9rem; color:var(--text-muted);">Total: <strong>' + megaState.totalPoints + ' pts</strong></span></div>'; }
-function megaPhaseComplete(phaseIndex) { state.done[activitiesList[phaseIndex]] = true; updateXPBar(); triggerConfetti(); var container = document.getElementById('act-content'); var data = DB[state.unit]; if (phaseIndex === 5) { if (megaState.timerInterval) clearInterval(megaState.timerInterval); triggerBigConfetti(); var rawScore = (megaState.totalPoints / 100) * 10; var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0; state.firstTryPoints = megaState.totalPoints; state.totalPossiblePoints = 100; if (!isReviewMode) { var urlGoogleScript = "https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec"; var formData = new FormData(); formData.append("name", state.name); formData.append("section", state.section); formData.append("unit", state.unit); formData.append("score", finalGrade); fetch(urlGoogleScript, { method:"POST", body:formData, mode:"no-cors" }).catch(function(e) { console.error(e); }); localStorage.setItem(state.name.toLowerCase() + '-' + state.section + '-' + state.unit, 'COMPLETED'); } renderMegaSummary(container, finalGrade); } else { var nextPhase = data.phases[phaseIndex + 1]; var msgs = ["Great job! Keep up the momentum! 💪","You're doing amazing! Stay focused! 🎯","Halfway through — don't stop now! 🚀","Excellent work! The next phase is ready! ⭐"]; container.innerHTML = '<div class="transition-screen" style="text-align:center; padding:30px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:15px;"></i><h2>Phase ' + (phaseIndex + 1) + ' Complete!</h2><p style="font-size:1.3rem; color:var(--primary-blue); font-weight:600;">' + msgs[Math.floor(Math.random()*msgs.length)] + '</p><p style="font-size:1.1rem; color:var(--text-muted);">⭐ ' + megaState.phasePoints[phaseIndex] + ' points earned &nbsp;|&nbsp; 📊 Total: ' + megaState.totalPoints + ' points</p>' + ((phaseIndex === 1 || phaseIndex === 3) ? '<div class="pause-prompt"><i class="fas fa-comments"></i><strong>Quick Reflection!</strong><br><span style="font-size:0.95rem;">Think about one grammar structure you\'ve mastered so far. You\'re making great progress!</span></div>' : '') + '<div style="margin-top:20px;"><p style="color:var(--text-muted);">Next: <i class="fas ' + nextPhase.icon + '"></i> <strong>' + nextPhase.name + '</strong> (' + nextPhase.duration + ')</p><button class="btn" style="font-size:1.1rem;" onclick="megaState.currentPhase++; megaState.showInstructions = true; showMegaPhaseInstructions(megaState.currentPhase);">See Phase ' + (phaseIndex + 2) + ' Instructions <i class="fas fa-arrow-right"></i></button></div></div>'; } }
-function renderMegaSummary(container, finalGrade) { var data = DB[state.unit]; var timeUsed = 4800 - megaState.timerSeconds; container.innerHTML = '<div style="text-align:center; padding:20px 0;"><i class="fas fa-trophy" style="font-size:5rem; color:#f59e0b; margin-bottom:15px;"></i><h1 style="color:var(--primary-blue);">🎉 Mega Review Complete!</h1><p style="font-size:1.2rem; color:var(--text-muted);">Unit 4 - All Parts Reviewed</p><div class="final-grade-circle" style="background:' + (finalGrade >= 8 ? 'var(--success)' : finalGrade >= 6 ? 'var(--warning)' : 'var(--danger)') + ';"><span>' + finalGrade + '</span><small>Final Grade</small></div><p style="margin-top:10px; color:var(--success); font-weight:600;"><i class="fas fa-check-circle"></i> Grade submitted to Google Sheets</p><p style="margin-top:10px; color:var(--text-muted);"><i class="fas fa-clock"></i> Time used: ' + formatTime(timeUsed) + ' &nbsp;|&nbsp; <i class="fas fa-star"></i> ' + megaState.totalPoints + ' / 100 points</p><div style="margin-top:25px; text-align:left; max-width:500px; margin-left:auto; margin-right:auto;"><h3 style="color:var(--primary-blue); text-align:center; margin-bottom:15px;">📊 Phase Breakdown</h3>' + data.phases.map(function(p, i) { return '<div class="summary-row"><span class="phase-name"><i class="fas ' + p.icon + '"></i> ' + p.name + '</span><span class="phase-points">' + megaState.phasePoints[i] + ' pts</span></div>'; }).join('') + '</div><button class="btn" style="margin-top:25px;" onclick="show(\'menu\')"><i class="fas fa-home"></i> Return to Main Menu</button></div>'; }
+function renderMegaPhase(pi){ var c=document.getElementById('act-content'); var d=DB[state.unit]; if(pi===0) renderPhase1_Sprint(c,d); else if(pi===1) renderPhase2_Gauntlet(c,d); else if(pi===2) renderPhase3_Sort(c,d); else if(pi===3) renderPhase4_Relay(c,d); else if(pi===4) renderPhase5_Marathon(c,d); else if(pi===5) renderPhase6_Boss(c,d); }
+function megaPhaseHeader(pi,sub){ var d=DB[state.unit],p=d.phases[pi]; return '<div class="mega-timer" id="mega-timer-el"><i class="fas fa-clock"></i> <span id="mega-timer-display">80:00</span></div><div class="phase-indicator" style="margin-top:15px;">'+d.phases.map(function(pp,i){ var cls=''; if(i<pi) cls='done'; else if(i===pi) cls='active'; return '<div class="phase-dot '+cls+'" title="'+pp.name+'"></div>'; }).join('')+'</div><h2 style="color:var(--primary-blue);margin-top:10px;"><i class="fas '+p.icon+'"></i> Phase '+(pi+1)+': '+p.name+'</h2><p style="color:var(--text-muted);margin-bottom:5px;">'+sub+' &nbsp;|&nbsp; ⏱ '+p.duration+'</p><div class="activity-progress" style="margin-bottom:20px;"><div class="activity-progress-track"><div class="activity-progress-fill" id="phase-pct" style="width:0%;"></div></div></div><div style="margin-bottom:15px;"><span class="score-badge" id="phase-score-badge">⭐ '+megaState.phasePoints[pi]+' pts</span><span style="margin-left:10px;font-size:0.9rem;color:var(--text-muted);">Total: <strong>'+megaState.totalPoints+' pts</strong></span></div>'; }
+function megaPhaseComplete(pi){ state.done[activitiesList[pi]]=true; updateXPBar(); triggerConfetti(); var c=document.getElementById('act-content'); var d=DB[state.unit]; if(pi===5){ if(megaState.timerInterval) clearInterval(megaState.timerInterval); triggerBigConfetti(); var rs=(megaState.totalPoints/100)*10; var fg=rs.toFixed(1); if(fg>10) fg=10.0; state.firstTryPoints=megaState.totalPoints; state.totalPossiblePoints=100; if(!isReviewMode){ var url="https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec"; var fd=new FormData(); fd.append("name",state.name); fd.append("section",state.section); fd.append("unit",state.unit); fd.append("score",fg); fetch(url,{ method:"POST",body:fd,mode:"no-cors" }).catch(function(e){ console.error(e); }); localStorage.setItem(state.name.toLowerCase()+'-'+state.section+'-'+state.unit,'COMPLETED'); } renderMegaSummary(c,fg); } else { var np=d.phases[pi+1]; var msgs=["Great job! Keep up the momentum! 💪","You're doing amazing! Stay focused! 🎯","Halfway through — don't stop now! 🚀","Excellent work! The next phase is ready! ⭐"]; c.innerHTML='<div class="transition-screen" style="text-align:center;padding:30px 0;"><i class="fas fa-check-circle" style="font-size:4rem;color:var(--success);margin-bottom:15px;"></i><h2>Phase '+(pi+1)+' Complete!</h2><p style="font-size:1.3rem;color:var(--primary-blue);font-weight:600;">'+msgs[Math.floor(Math.random()*msgs.length)]+'</p><p style="font-size:1.1rem;color:var(--text-muted);">⭐ '+megaState.phasePoints[pi]+' points earned &nbsp;|&nbsp; 📊 Total: '+megaState.totalPoints+' points</p>'+((pi===1||pi===3)?'<div class="pause-prompt"><i class="fas fa-comments"></i><strong>Quick Reflection!</strong><br><span style="font-size:0.95rem;">Think about one grammar structure you\'ve mastered so far.</span></div>':'')+'<div style="margin-top:20px;"><p style="color:var(--text-muted);">Next: <i class="fas '+np.icon+'"></i> <strong>'+np.name+'</strong> ('+np.duration+')</p><button class="btn" style="font-size:1.1rem;" onclick="megaState.currentPhase++;megaState.showInstructions=true;showMegaPhaseInstructions(megaState.currentPhase);">See Phase '+(pi+2)+' Instructions <i class="fas fa-arrow-right"></i></button></div></div>'; } }
+function renderMegaSummary(c,fg){ var d=DB[state.unit]; var tu=4800-megaState.timerSeconds; c.innerHTML='<div style="text-align:center;padding:20px 0;"><i class="fas fa-trophy" style="font-size:5rem;color:#f59e0b;margin-bottom:15px;"></i><h1 style="color:var(--primary-blue);">🎉 Mega Review Complete!</h1><p style="font-size:1.2rem;color:var(--text-muted);">Unit 4 - All Parts Reviewed</p><div class="final-grade-circle" style="background:'+(fg>=8?'var(--success)':fg>=6?'var(--warning)':'var(--danger)')+';"><span>'+fg+'</span><small>Final Grade</small></div><p style="margin-top:10px;color:var(--success);font-weight:600;"><i class="fas fa-check-circle"></i> Grade submitted to Google Sheets</p><p style="margin-top:10px;color:var(--text-muted);"><i class="fas fa-clock"></i> Time used: '+formatTime(tu)+' &nbsp;|&nbsp; <i class="fas fa-star"></i> '+megaState.totalPoints+' / 100 points</p><div style="margin-top:25px;text-align:left;max-width:500px;margin-left:auto;margin-right:auto;"><h3 style="color:var(--primary-blue);text-align:center;margin-bottom:15px;">📊 Phase Breakdown</h3>'+d.phases.map(function(p,i){ return '<div class="summary-row"><span class="phase-name"><i class="fas '+p.icon+'"></i> '+p.name+'</span><span class="phase-points">'+megaState.phasePoints[i]+' pts</span></div>'; }).join('')+'</div><button class="btn" style="margin-top:25px;" onclick="show(\'menu\')"><i class="fas fa-home"></i> Return to Main Menu</button></div>'; }
 
 // ================================================================
-//  PHASE 1-6 (idénticas a la versión anterior, sin cambios)
+//  PHASE 1: VERB FLASH SPRINT
 // ================================================================
-function renderPhase1_Sprint(container, data) { var verbs = DB["9th - Unit 4 - Part 3"].words, defs = DB["9th - Unit 4 - Part 3"].defs, idx = 0, pointsEarned = 0; function render() { container.innerHTML = megaPhaseHeader(0, 'Verb recognition — ' + (idx + 1) + ' of ' + verbs.length) + '<div class="flashcard" id="sprint-card"><div class="flashcard-inner"><div class="front"><h3 id="sprint-word" style="font-size:3rem;">' + verbs[idx] + '</h3></div><div class="back"><p id="sprint-def">' + defs[idx] + '</p></div></div></div><p style="margin-top:10px; color:var(--text-muted); font-size:0.9rem;">⏱ Card auto-flips in <strong>3 seconds</strong>. Say the definition <strong>out loud</strong> before it flips!</p><div style="margin-top:10px; display:flex; gap:10px; justify-content:center;"><button class="btn-outline" onclick="window.sprintCorrect()"><i class="fas fa-check"></i> I knew it!</button><button class="btn-outline" style="border-color:#ef4444; color:#ef4444;" onclick="window.sprintMiss()"><i class="fas fa-times"></i> Need practice</button></div>'; document.getElementById('phase-pct').style.width = Math.round((idx / verbs.length) * 100) + '%'; document.getElementById('phase-score-badge').textContent = '⭐ ' + pointsEarned + ' pts'; megaState.phasePoints[0] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0); updateTimerDisplay(); var card = document.getElementById('sprint-card'); if (card) { setTimeout(function() { if (card) card.classList.add('flipped'); }, 3000); } window.sprintCorrect = function() { pointsEarned += 1; playCorrectSound(); advance(); }; window.sprintMiss = function() { advance(); }; } function advance() { idx++; if (idx < verbs.length) { render(); } else { megaState.phasePoints[0] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0); megaPhaseComplete(0); } } render(); }
-function renderPhase2_Gauntlet(container, data) { var allWords = data.allWords, allDefs = data.allDefs, totalQ = 20, qPos = 0, pointsEarned = 0, failCount = 0; var pool = []; for (var i = 0; i < allWords.length; i++) { pool.push({ word: allWords[i], def: allDefs[i] }); } pool = pool.sort(function() { return Math.random() - 0.5; }); while (pool.length < totalQ) { pool = pool.concat(pool.slice(0, totalQ - pool.length)); } pool = pool.slice(0, totalQ); function render() { var item = pool[qPos], correctDef = item.def; var wrongPool = allDefs.filter(function(d) { return d !== correctDef; }).sort(function() { return Math.random() - 0.5; }).slice(0, 3); var opts = [correctDef].concat(wrongPool).sort(function() { return Math.random() - 0.5; }); var correctOpt = opts.indexOf(correctDef); failCount = 0; container.innerHTML = megaPhaseHeader(1, 'Mixed definitions — ' + (qPos + 1) + ' of ' + totalQ) + '<p style="font-size:1.3rem; margin:20px 0;">What is the definition of: <strong style="color:var(--primary-blue);">"' + item.word + '"</strong>?</p>' + opts.map(function(o, i) { return '<div class="quiz-option" id="gopt-' + i + '" onclick="window.checkGauntletOpt(' + i + ',' + correctOpt + ')">' + o + '</div>'; }).join('') + '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> Try again!</div>'; document.getElementById('phase-pct').style.width = Math.round((qPos / totalQ) * 100) + '%'; document.getElementById('phase-score-badge').textContent = '⭐ ' + pointsEarned + ' pts'; megaState.phasePoints[1] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0); updateTimerDisplay(); window.checkGauntletOpt = function(chosen, correct) { var chosenEl = document.getElementById('gopt-' + chosen); if (chosenEl.classList.contains('correct') || chosenEl.classList.contains('wrong')) return; if (chosen === correct) { chosenEl.classList.add('correct'); if (failCount === 0) { pointsEarned += 1; playCorrectSound(); } document.querySelectorAll('.quiz-option').forEach(function(el) { el.style.pointerEvents = 'none'; }); setTimeout(function() { qPos++; if (qPos < totalQ) { render(); } else { megaState.phasePoints[1] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0); megaPhaseComplete(1); } }, 800); } else { failCount++; chosenEl.classList.add('wrong'); chosenEl.classList.add('shake'); playWrongSound(); document.getElementById('hint-box').classList.add('active'); } }; } render(); }
-function renderPhase3_Sort(container, data) { var allSentences = data.allSentences, totalItems = 15, pointsEarned = 0, currentSentenceIndex = 0; var shuffled = allSentences.slice().sort(function() { return Math.random() - 0.5; }).slice(0, totalItems); var categories = { frequency: { name: 'Adverb of Frequency', desc: 'Subject + AdvFreq + Verb', items: [] }, place: { name: 'Adverb of Place/Time', desc: 'Subject + Be + AdvPlace/Time', items: [] }, manner: { name: 'Adverb of Manner', desc: 'Subject + ActionVerb + AdvManner', items: [] } }; function classifySentence(sentence) { var s = sentence.c.toLowerCase(); var freqWords = ['always','never','often','sometimes','seldom','normally']; var mannerWords = ['carefully','quickly','fast','slowly','well','easily','badly','loudly']; for (var i = 0; i < freqWords.length; i++) { if (s.indexOf(freqWords[i]) !== -1) return 'frequency'; } for (var j = 0; j < mannerWords.length; j++) { if (s.indexOf(mannerWords[j]) !== -1) return 'manner'; } return 'place'; } function render() { if (currentSentenceIndex >= shuffled.length) { megaState.phasePoints[2] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0); megaPhaseComplete(2); return; } var currentSentence = shuffled[currentSentenceIndex], remainingCount = shuffled.length - currentSentenceIndex; container.innerHTML = megaPhaseHeader(2, 'Classify the sentence — ' + remainingCount + ' remaining') + '<p style="font-size:1.1rem; margin-bottom:15px; color:var(--text-muted);">Click a category to sort this sentence:</p><div style="background:#f1f5f9; padding:18px; border-radius:10px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">' + currentSentence.c + '</div><div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;"><div class="grammar-category" style="cursor:pointer; flex:1; min-width:180px;" onclick="window.sortToCategory(\'frequency\')"><h4><i class="fas fa-clock"></i> ' + categories.frequency.name + '</h4><p style="font-size:0.8rem; color:var(--text-muted);">' + categories.frequency.desc + '</p><div id="cat-frequency">' + categories.frequency.items.map(function(s) { return '<div class="dropped-sentence">' + s + '</div>'; }).join('') + '</div></div><div class="grammar-category" style="cursor:pointer; flex:1; min-width:180px;" onclick="window.sortToCategory(\'place\')"><h4><i class="fas fa-map-marker-alt"></i> ' + categories.place.name + '</h4><p style="font-size:0.8rem; color:var(--text-muted);">' + categories.place.desc + '</p><div id="cat-place">' + categories.place.items.map(function(s) { return '<div class="dropped-sentence">' + s + '</div>'; }).join('') + '</div></div><div class="grammar-category" style="cursor:pointer; flex:1; min-width:180px;" onclick="window.sortToCategory(\'manner\')"><h4><i class="fas fa-running"></i> ' + categories.manner.name + '</h4><p style="font-size:0.8rem; color:var(--text-muted);">' + categories.manner.desc + '</p><div id="cat-manner">' + categories.manner.items.map(function(s) { return '<div class="dropped-sentence">' + s + '</div>'; }).join('') + '</div></div></div>'; document.getElementById('phase-pct').style.width = Math.round((currentSentenceIndex / totalItems) * 100) + '%'; document.getElementById('phase-score-badge').textContent = '⭐ ' + pointsEarned + ' pts'; megaState.phasePoints[2] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0); updateTimerDisplay(); window.sortToCategory = function(cat) { var correctCat = classifySentence(currentSentence); if (cat === correctCat) { pointsEarned += 2; categories[cat].items.push(currentSentence.c.substring(0, 40) + '...'); playCorrectSound(); } else { playWrongSound(); } currentSentenceIndex++; render(); }; } render(); }
+function renderPhase1_Sprint(c,d){ var verbs=DB["9th - Unit 4 - Part 3"].words,defs=DB["9th - Unit 4 - Part 3"].defs,idx=0,pe=0; function r(){ c.innerHTML=megaPhaseHeader(0,'Verb recognition — '+(idx+1)+' of '+verbs.length)+'<div class="flashcard" id="sprint-card"><div class="flashcard-inner"><div class="front"><h3 id="sprint-word" style="font-size:3rem;">'+verbs[idx]+'</h3></div><div class="back"><p id="sprint-def">'+defs[idx]+'</p></div></div></div><p style="margin-top:10px;color:var(--text-muted);font-size:0.9rem;">⏱ Card auto-flips in <strong>3 seconds</strong>.</p><div style="margin-top:10px;display:flex;gap:10px;justify-content:center;"><button class="btn-outline" onclick="window.sprintCorrect()"><i class="fas fa-check"></i> I knew it!</button><button class="btn-outline" style="border-color:#ef4444;color:#ef4444;" onclick="window.sprintMiss()"><i class="fas fa-times"></i> Need practice</button></div>'; document.getElementById('phase-pct').style.width=Math.round((idx/verbs.length)*100)+'%'; document.getElementById('phase-score-badge').textContent='⭐ '+pe+' pts'; megaState.phasePoints[0]=pe; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0); updateTimerDisplay(); var card=document.getElementById('sprint-card'); if(card){ setTimeout(function(){ if(card) card.classList.add('flipped'); },3000); } window.sprintCorrect=function(){ pe+=1; playCorrectSound(); adv(); }; window.sprintMiss=function(){ adv(); }; } function adv(){ idx++; if(idx<verbs.length){ r(); } else { megaState.phasePoints[0]=pe; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0); megaPhaseComplete(0); } } r(); }
+
+// ================================================================
+//  PHASE 2: VOCABULARY GAUNTLET
+// ================================================================
+function renderPhase2_Gauntlet(c,d){ var aw=d.allWords,ad=d.allDefs,tq=20,qp=0,pe=0,fc=0; var pool=[]; for(var i=0;i<aw.length;i++){ pool.push({word:aw[i],def:ad[i]}); } pool=pool.sort(function(){ return Math.random()-0.5; }); while(pool.length<tq){ pool=pool.concat(pool.slice(0,tq-pool.length)); } pool=pool.slice(0,tq); function r(){ var item=pool[qp],cd=item.def; var wp=ad.filter(function(dd){ return dd!==cd; }).sort(function(){ return Math.random()-0.5; }).slice(0,3); var opts=[cd].concat(wp).sort(function(){ return Math.random()-0.5; }); var co=opts.indexOf(cd); fc=0; c.innerHTML=megaPhaseHeader(1,'Mixed definitions — '+(qp+1)+' of '+tq)+'<p style="font-size:1.3rem;margin:20px 0;">What is the definition of: <strong style="color:var(--primary-blue);">"'+item.word+'"</strong>?</p>'+opts.map(function(o,i){ return '<div class="quiz-option" id="gopt-'+i+'" onclick="window.checkGauntletOpt('+i+','+co+')">'+o+'</div>'; }).join('')+'<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> Try again!</div>'; document.getElementById('phase-pct').style.width=Math.round((qp/tq)*100)+'%'; document.getElementById('phase-score-badge').textContent='⭐ '+pe+' pts'; megaState.phasePoints[1]=pe; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0); updateTimerDisplay(); window.checkGauntletOpt=function(ch,corr){ var el=document.getElementById('gopt-'+ch); if(el.classList.contains('correct')||el.classList.contains('wrong')) return; if(ch===corr){ el.classList.add('correct'); if(fc===0){ pe+=1; playCorrectSound(); } document.querySelectorAll('.quiz-option').forEach(function(e){ e.style.pointerEvents='none'; }); setTimeout(function(){ qp++; if(qp<tq){ r(); } else { megaState.phasePoints[1]=pe; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0); megaPhaseComplete(1); } },800); } else { fc++; el.classList.add('wrong'); el.classList.add('shake'); playWrongSound(); document.getElementById('hint-box').classList.add('active'); } }; } r(); }
+
+// ================================================================
+//  PHASE 3: GRAMMAR SORT
+// ================================================================
+function renderPhase3_Sort(c,d){ var as=d.allSentences,ti=15,pe=0,csi=0; var sh=as.slice().sort(function(){ return Math.random()-0.5; }).slice(0,ti); var cats={ frequency:{name:'Adverb of Frequency',desc:'Subject + AdvFreq + Verb',items:[]}, place:{name:'Adverb of Place/Time',desc:'Subject + Be + AdvPlace/Time',items:[]}, manner:{name:'Adverb of Manner',desc:'Subject + ActionVerb + AdvManner',items:[]} }; function cls(sn){ var s=sn.c.toLowerCase(); var fw=['always','never','often','sometimes','seldom','normally']; var mw=['carefully','quickly','fast','slowly','well','easily','badly','loudly']; for(var i=0;i<fw.length;i++){ if(s.indexOf(fw[i])!==-1) return 'frequency'; } for(var j=0;j<mw.length;j++){ if(s.indexOf(mw[j])!==-1) return 'manner'; } return 'place'; } function r(){ if(csi>=sh.length){ megaState.phasePoints[2]=pe; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0); megaPhaseComplete(2); return; } var cs=sh[csi],rc=sh.length-csi; c.innerHTML=megaPhaseHeader(2,'Classify the sentence — '+rc+' remaining')+'<p style="font-size:1.1rem;margin-bottom:15px;color:var(--text-muted);">Click a category to sort this sentence:</p><div style="background:#f1f5f9;padding:18px;border-radius:10px;border-left:4px solid var(--primary-blue);font-weight:bold;font-size:1.2rem;color:var(--text-main);margin-bottom:20px;">'+cs.c+'</div><div style="display:flex;gap:15px;justify-content:center;flex-wrap:wrap;"><div class="grammar-category" style="cursor:pointer;flex:1;min-width:180px;" onclick="window.sortToCategory(\'frequency\')"><h4><i class="fas fa-clock"></i> '+cats.frequency.name+'</h4><p style="font-size:0.8rem;color:var(--text-muted);">'+cats.frequency.desc+'</p><div id="cat-frequency">'+cats.frequency.items.map(function(s){ return '<div class="dropped-sentence">'+s+'</div>'; }).join('')+'</div></div><div class="grammar-category" style="cursor:pointer;flex:1;min-width:180px;" onclick="window.sortToCategory(\'place\')"><h4><i class="fas fa-map-marker-alt"></i> '+cats.place.name+'</h4><p style="font-size:0.8rem;color:var(--text-muted);">'+cats.place.desc+'</p><div id="cat-place">'+cats.place.items.map(function(s){ return '<div class="dropped-sentence">'+s+'</div>'; }).join('')+'</div></div><div class="grammar-category" style="cursor:pointer;flex:1;min-width:180px;" onclick="window.sortToCategory(\'manner\')"><h4><i class="fas fa-running"></i> '+cats.manner.name+'</h4><p style="font-size:0.8rem;color:var(--text-muted);">'+cats.manner.desc+'</p><div id="cat-manner">'+cats.manner.items.map(function(s){ return '<div class="dropped-sentence">'+s+'</div>'; }).join('')+'</div></div></div>'; document.getElementById('phase-pct').style.width=Math.round((csi/ti)*100)+'%'; document.getElementById('phase-score-badge').textContent='⭐ '+pe+' pts'; megaState.phasePoints[2]=pe; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0); updateTimerDisplay(); window.sortToCategory=function(cat){ var cc=cls(cs); if(cat===cc){ pe+=2; cats[cat].items.push(cs.c.substring(0,40)+'...'); playCorrectSound(); } else { playWrongSound(); } csi++; r(); }; } r(); }
 
 // ================================================================
 //  PHASE 4: SENTENCE BUILDER RELAY (BUG CORREGIDO)
 // ================================================================
-function renderPhase4_Relay(container, data) {
-    var allSentences = data.allSentences, totalQ = 10, qPos = 0, pointsEarned = 0, failCount = 0, tokens = [], shuffledIndices = [], selectedIndices = [];
-    var pool = allSentences.slice().sort(function() { return Math.random() - 0.5; }).slice(0, totalQ);
-    var _checking = false; // BLOQUEO anti-doble-clic
-    function shuffleArray(arr) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = a[i]; a[i] = a[j]; a[j] = temp; } return a; }
-    function render() {
-        var item = pool[qPos]; tokens = item.c.match(/\S+/g) || []; shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; })); selectedIndices = []; failCount = 0; _checking = false;
-        container.innerHTML = megaPhaseHeader(3, 'Build the sentence — ' + (qPos + 1) + ' of ' + totalQ) +
-            '<p style="color:var(--text-muted); margin-bottom:10px;">Tap words in correct order:</p><div class="combo-indicator" id="combo-el"></div><div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div><div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"></div><div style="display:flex; justify-content:center; gap:10px; margin-top:15px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0; background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>';
-        document.getElementById('phase-pct').style.width = Math.round((qPos / totalQ) * 100) + '%';
-        document.getElementById('phase-score-badge').textContent = '⭐ ' + pointsEarned + ' pts';
-        megaState.phasePoints[3] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0);
-        updateTimerDisplay();
-        document.getElementById('chk-ans-btn').onclick = checkRelay; document.getElementById('clr-ans-btn').onclick = function() { selectedIndices = []; buildHtml(); }; buildHtml();
-        window.pickRelayTile = function(realIndex) { if (selectedIndices.includes(realIndex)) return; selectedIndices.push(realIndex); buildHtml(); };
-        window.removeRelayTile = function(realIndex) { selectedIndices = selectedIndices.filter(function(x) { return x !== realIndex; }); buildHtml(); };
-    }
-    function buildHtml() { var bankHtml = ''; for (var i = 0; i < shuffledIndices.length; i++) { var ri = shuffledIndices[i]; bankHtml += '<div class="word-tile' + (selectedIndices.includes(ri) ? ' used' : '') + '" onclick="window.pickRelayTile(' + ri + ')">' + tokens[ri] + '</div>'; } var answerHtml = ''; for (var j = 0; j < selectedIndices.length; j++) { answerHtml += '<div class="answer-tile" onclick="window.removeRelayTile(' + selectedIndices[j] + ')">' + tokens[selectedIndices[j]] + '</div>'; } document.getElementById('word-bank').innerHTML = bankHtml; document.getElementById('answer-row').innerHTML = answerHtml; }
-    function checkRelay() {
-        if (_checking) return; // BLOQUEO: si ya se está procesando, ignora clics adicionales
-        if (selectedIndices.length === 0) return;
-        _checking = true;
-        // Deshabilitar botón inmediatamente
-        var chkBtn = document.getElementById('chk-ans-btn'); if (chkBtn) { chkBtn.disabled = true; chkBtn.style.pointerEvents = 'none'; }
-        var clrBtn = document.getElementById('clr-ans-btn'); if (clrBtn) { clrBtn.disabled = true; clrBtn.style.pointerEvents = 'none'; }
+function renderPhase4_Relay(c,d){ var as=d.allSentences,tq=10,qp=0,pe=0,fc=0,tokens=[],si=[],sel=[]; var pool=as.slice().sort(function(){ return Math.random()-0.5; }).slice(0,tq); var _checking=false; function sa(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; } function r(){ var item=pool[qp]; tokens=item.c.match(/\S+/g)||[]; si=sa(tokens.map(function(_,i){ return i; })); sel=[]; fc=0; _checking=false; c.innerHTML=megaPhaseHeader(3,'Build the sentence — '+(qp+1)+' of '+tq)+'<p style="color:var(--text-muted);margin-bottom:10px;">Tap words in correct order:</p><div class="combo-indicator" id="combo-el"></div><div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div><div id="hint-box" class="hint-box" style="border-left-color:var(--danger);color:var(--danger);background:#fef2f2;"></div><div style="display:flex;justify-content:center;gap:10px;margin-top:15px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0;background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>'; document.getElementById('phase-pct').style.width=Math.round((qp/tq)*100)+'%'; document.getElementById('phase-score-badge').textContent='⭐ '+pe+' pts'; megaState.phasePoints[3]=pe; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0); updateTimerDisplay(); document.getElementById('chk-ans-btn').onclick=checkRelay; document.getElementById('clr-ans-btn').onclick=function(){ sel=[]; bH(); }; bH(); window.pickRelayTile=function(ri){ if(sel.includes(ri)) return; sel.push(ri); bH(); }; window.removeRelayTile=function(ri){ sel=sel.filter(function(x){ return x!==ri; }); bH(); }; } function bH(){ var bh=''; for(var i=0;i<si.length;i++){ var ri=si[i]; bh+='<div class="word-tile'+(sel.includes(ri)?' used':'')+'" onclick="window.pickRelayTile('+ri+')">'+tokens[ri]+'</div>'; } var ah=''; for(var j=0;j<sel.length;j++){ ah+='<div class="answer-tile" onclick="window.removeRelayTile('+sel[j]+')">'+tokens[sel[j]]+'</div>'; } document.getElementById('word-bank').innerHTML=bh; document.getElementById('answer-row').innerHTML=ah; } function checkRelay(){ if(_checking) return; if(sel.length===0) return; _checking=true; var cb=document.getElementById('chk-ans-btn'); if(cb){ cb.disabled=true; cb.style.pointerEvents='none'; } var clb=document.getElementById('clr-ans-btn'); if(clb){ clb.disabled=true; clb.style.pointerEvents='none'; } var aa=[]; for(var k=0;k<sel.length;k++){ aa.push(tokens[sel[k]]); } if(aa.join(' ').toLowerCase()===pool[qp].c.toLowerCase()){ var earned=fc===0?2:1; pe+=earned; megaState.comboCount++; document.getElementById('combo-el').textContent=megaState.comboCount>=3?'🔥 STREAK x'+megaState.comboCount:''; document.getElementById('answer-row').style.borderColor='var(--success-bright)'; document.getElementById('answer-row').style.backgroundColor='#d1fae5'; playCorrectSound(); setTimeout(function(){ qp++; if(qp<tq){ r(); } else { megaState.phasePoints[3]=pe; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0); megaPhaseComplete(3); } },800); } else { fc++; megaState.comboCount=0; document.getElementById('combo-el').textContent=''; document.getElementById('hint-box').innerHTML='<i class="fas fa-exclamation-triangle"></i> Not quite. Try again!'; document.getElementById('hint-box').classList.add('active'); playWrongSound(); sel=[]; bH(); _checking=false; if(cb){ cb.disabled=false; cb.style.pointerEvents='auto'; } if(clb){ clb.disabled=false; clb.style.pointerEvents='auto'; } } } r(); }
+
+// ================================================================
+//  PHASE 5: FILL THE BLANKS MARATHON (NUEVO SISTEMA DE OPCIONES)
+// ================================================================
+function renderPhase5_Marathon(c,d){
+    var allCloze=d.allCloze, allWords=d.allWords, allHints=d.allHints, totalQ=15, qPos=0, pointsEarned=0;
+    var pairs=[];
+    for(var i=0;i<allCloze.length;i++){ pairs.push({cloze:allCloze[i], word:allWords[i], hint:allHints[i]}); }
+    pairs=pairs.sort(function(){ return Math.random()-0.5; }).slice(0,totalQ);
+    
+    function render(){
+        var item=pairs[qPos];
+        var options=[item.word].concat(getDistractors(item.word, allWords, 2));
+        options=options.sort(function(){ return Math.random()-0.5; });
+        var attemptsLeft=2;
+        var _locked=false;
         
-        var answerArray = []; for (var k = 0; k < selectedIndices.length; k++) { answerArray.push(tokens[selectedIndices[k]]); }
-        if (answerArray.join(' ').toLowerCase() === pool[qPos].c.toLowerCase()) {
-            var earned = failCount === 0 ? 2 : 1; pointsEarned += earned; megaState.comboCount++;
-            document.getElementById('combo-el').textContent = megaState.comboCount >= 3 ? '🔥 STREAK x' + megaState.comboCount : '';
-            document.getElementById('answer-row').style.borderColor = 'var(--success-bright)'; document.getElementById('answer-row').style.backgroundColor = '#d1fae5';
-            playCorrectSound();
-            setTimeout(function() { qPos++; if (qPos < totalQ) { render(); } else { megaState.phasePoints[3] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0); megaPhaseComplete(3); } }, 800);
-        } else {
-            failCount++; megaState.comboCount = 0; document.getElementById('combo-el').textContent = '';
-            document.getElementById('hint-box').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Not quite. Try again!';
-            document.getElementById('hint-box').classList.add('active'); playWrongSound(); selectedIndices = []; buildHtml();
-            // Re-habilitar botones después de un error
-            _checking = false;
-            if (chkBtn) { chkBtn.disabled = false; chkBtn.style.pointerEvents = 'auto'; }
-            if (clrBtn) { clrBtn.disabled = false; clrBtn.style.pointerEvents = 'auto'; }
-        }
-    }
-    render();
-}
-
-// ================================================================
-//  PHASE 5: FILL THE BLANKS MARATHON
-// ================================================================
-function renderPhase5_Marathon(container, data) { var allCloze = data.allCloze, allWords = data.allWords, allHints = data.allHints, totalQ = 15, qPos = 0, pointsEarned = 0, failCount = 0; var pairs = []; for (var i = 0; i < allCloze.length; i++) { pairs.push({ cloze: allCloze[i], word: allWords[i], hint: allHints[i] }); } pairs = pairs.sort(function() { return Math.random() - 0.5; }).slice(0, totalQ); function render() { var item = pairs[qPos]; failCount = 0; container.innerHTML = megaPhaseHeader(4, 'Pure recall — ' + (qPos + 1) + ' of ' + totalQ) + '<p style="color:var(--text-muted); margin-bottom:5px;">Hints available: <strong>' + (megaState.maxHints - megaState.hintsUsed) + '</strong></p><p style="font-size:1.3rem; margin:20px auto; max-width:600px; color:var(--text-main); font-weight:500;">' + item.cloze + '</p><input type="text" id="marathon-input" placeholder="Type the missing word..." autocomplete="off" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkMarathon()"><div id="hint-box" class="hint-box" style="max-width:350px;"></div><br><button class="btn" onclick="window.checkMarathon()">Check Answer</button><button class="btn-outline" style="margin-left:10px;" onclick="window.useMarathonHint()" id="hint-btn" ' + (megaState.hintsUsed >= megaState.maxHints ? 'disabled' : '') + '><i class="fas fa-lightbulb"></i> Hint (-1 pt)</button>'; document.getElementById('phase-pct').style.width = Math.round((qPos / totalQ) * 100) + '%'; document.getElementById('phase-score-badge').textContent = '⭐ ' + pointsEarned + ' pts'; megaState.phasePoints[4] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0); updateTimerDisplay(); setTimeout(function() { var inp = document.getElementById('marathon-input'); if (inp) inp.focus(); }, 100); megaState._hintsBeforeThis = megaState.hintsUsed; window.checkMarathon = function() { var inputEl = document.getElementById('marathon-input'); var input = inputEl.value.trim(); if (!input) return; if (input.toLowerCase() === item.word.toLowerCase()) { pointsEarned += 1; inputEl.classList.add('input-correct'); playCorrectSound(); setTimeout(function() { qPos++; megaState._hintsBeforeThis = megaState.hintsUsed; if (qPos < totalQ) { render(); } else { megaState.phasePoints[4] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0); megaPhaseComplete(4); } }, 800); } else { failCount++; inputEl.classList.add('input-wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); document.getElementById('hint-box').innerHTML = '<i class="fas fa-exclamation-triangle"></i> Incorrect. Try again or use a hint.'; playWrongSound(); inputEl.focus(); } }; window.useMarathonHint = function() { if (megaState.hintsUsed >= megaState.maxHints) return; megaState.hintsUsed++; pointsEarned = Math.max(0, pointsEarned - 1); var hintBox = document.getElementById('hint-box'); hintBox.classList.add('active'); hintBox.innerHTML = '<i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + item.hint + ' (First letter: <strong>' + item.word.charAt(0).toUpperCase() + '</strong>)'; document.getElementById('hint-btn').disabled = true; document.getElementById('phase-score-badge').textContent = '⭐ ' + pointsEarned + ' pts'; megaState.phasePoints[4] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0); }; } render(); }
-
-// ================================================================
-//  PHASE 6: FINAL BOSS (BUG CORREGIDO EN BUILDER)
-// ================================================================
-function renderPhase6_Boss(container, data) {
-    var totalQ = 8, qPos = 0, pointsEarned = 0, failCount = 0, currentQ = null, qType = '', tokens = [], shuffledIndices = [], selectedIndices = [];
-    var _checking = false;
-    var pool = [];
-    for (var i = 0; i < 2; i++) { var wi = Math.floor(Math.random() * data.allWords.length); pool.push({ type: 'def', word: data.allWords[wi], def: data.allDefs[wi], hint: data.allHints[wi] }); }
-    var sbPool = data.allSentences.slice().sort(function() { return Math.random() - 0.5; }).slice(0, 2);
-    for (var j = 0; j < sbPool.length; j++) { pool.push({ type: 'builder', sentence: sbPool[j] }); }
-    for (var k = 0; k < 2; k++) { var ci = Math.floor(Math.random() * data.allCloze.length); pool.push({ type: 'blank', cloze: data.allCloze[ci], word: data.allWords[ci], hint: data.allHints[ci] }); }
-    var giSentences = data.allSentences.slice().sort(function() { return Math.random() - 0.5; }).slice(0, 2);
-    for (var l = 0; l < giSentences.length; l++) { pool.push({ type: 'grammar', sentence: giSentences[l] }); }
-    pool = pool.sort(function() { return Math.random() - 0.5; });
-    function shuffleArray(arr) { var a = arr.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = a[i]; a[i] = a[j]; a[j] = temp; } return a; }
-    function classifySentence(s) { var sc = s.c.toLowerCase(); if (sc.indexOf('always') !== -1 || sc.indexOf('never') !== -1 || sc.indexOf('often') !== -1 || sc.indexOf('sometimes') !== -1 || sc.indexOf('seldom') !== -1 || sc.indexOf('normally') !== -1) return 'frequency'; if (sc.indexOf('carefully') !== -1 || sc.indexOf('quickly') !== -1 || sc.indexOf('fast') !== -1 || sc.indexOf('slowly') !== -1 || sc.indexOf('well') !== -1 || sc.indexOf('easily') !== -1 || sc.indexOf('badly') !== -1 || sc.indexOf('loudly') !== -1) return 'manner'; return 'place'; }
-    function disableAndAdvance() { document.querySelectorAll('.quiz-option, .word-tile, .answer-tile, input').forEach(function(el) { el.style.pointerEvents = 'none'; }); setTimeout(function() { qPos++; if (qPos < totalQ) { render(); } else { megaState.phasePoints[5] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0); megaPhaseComplete(5); } }, 800); }
-    function render() {
-        currentQ = pool[qPos]; qType = currentQ.type; failCount = 0; _checking = false;
-        var typeLabel = qType === 'def' ? 'Definition' : qType === 'builder' ? 'Sentence Builder' : qType === 'blank' ? 'Fill Blank' : 'Grammar ID';
-        var questionHTML = '';
-        if (qType === 'def') { var correctDef = currentQ.def; var wrongPool = data.allDefs.filter(function(d) { return d !== correctDef; }).sort(function() { return Math.random() - 0.5; }).slice(0, 3); var opts = [correctDef].concat(wrongPool).sort(function() { return Math.random() - 0.5; }); var correctOpt = opts.indexOf(correctDef); questionHTML = '<p style="font-size:1.3rem; margin:20px 0;">What is the definition of: <strong style="color:var(--primary-blue);">"' + currentQ.word + '"</strong>?</p>' + opts.map(function(o, i) { return '<div class="quiz-option" id="bossopt-' + i + '" onclick="window.checkBossDef(' + i + ',' + correctOpt + ')">' + o + '</div>'; }).join(''); }
-        else if (qType === 'builder') { tokens = currentQ.sentence.c.match(/\S+/g) || []; shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; })); selectedIndices = []; questionHTML = '<p style="color:var(--text-muted); margin-bottom:10px;">Build this sentence:</p><div class="answer-row" id="boss-answer-row"></div><div class="word-bank" id="boss-word-bank"></div><div style="display:flex; justify-content:center; gap:10px; margin-top:10px;"><button class="btn" style="margin:0;" id="boss-chk-btn">Check</button><button class="btn" style="margin:0; background:#94a3b8;" id="boss-clr-btn"><i class="fas fa-undo"></i></button></div>'; }
-        else if (qType === 'blank') { questionHTML = '<p style="font-size:1.3rem; margin:20px auto; max-width:600px;">' + currentQ.cloze + '</p><input type="text" id="boss-blank-input" placeholder="Type the word..." autocomplete="off" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBossBlank()"><br><button class="btn" onclick="window.checkBossBlank()" style="margin-top:10px;">Check</button>'; }
-        else if (qType === 'grammar') { questionHTML = '<p style="font-size:1.2rem; margin:20px 0;">Classify this sentence:</p><div style="background:#f1f5f9; padding:18px; border-radius:10px; font-weight:bold; font-size:1.15rem;">' + currentQ.sentence.c + '</div><div class="quiz-option" onclick="window.checkBossGrammar(\'frequency\')">Adverb of Frequency</div><div class="quiz-option" onclick="window.checkBossGrammar(\'place\')">Adverb of Place/Time</div><div class="quiz-option" onclick="window.checkBossGrammar(\'manner\')">Adverb of Manner</div>'; }
-        container.innerHTML = megaPhaseHeader(5, 'Mixed challenge — ' + (qPos + 1) + ' of ' + totalQ + ' · Type: ' + typeLabel) + questionHTML + '<div id="hint-box" class="hint-box"><i class="fas fa-exclamation-triangle"></i> Not quite!</div>';
-        document.getElementById('phase-pct').style.width = Math.round((qPos / totalQ) * 100) + '%';
-        document.getElementById('phase-score-badge').textContent = '⭐ ' + pointsEarned + ' pts';
-        megaState.phasePoints[5] = pointsEarned; megaState.totalPoints = megaState.phasePoints.reduce(function(a,b){return a+b;}, 0);
+        c.innerHTML=megaPhaseHeader(4,'Choose the correct word — '+(qPos+1)+' of '+totalQ)+
+            '<p style="color:var(--text-muted);margin-bottom:15px;">Click the word that correctly completes the sentence. <strong>'+attemptsLeft+' attempts</strong> remaining.</p>'+
+            '<div class="attempts-indicator" id="attempts-indicator">'+
+                '<div class="attempt-dot available" id="att-1"></div>'+
+                '<div class="attempt-dot available" id="att-2"></div>'+
+            '</div>'+
+            '<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:15px auto;max-width:500px;" id="options-container">'+
+                options.map(function(o,i){
+                    return '<div class="blank-option-card" id="boc-'+i+'" onclick="window.selectBlankOption('+i+',\''+o+'\')">'+o+'</div>';
+                }).join('')+
+            '</div>'+
+            '<p style="font-size:1.3rem;margin:20px auto;max-width:600px;color:var(--text-main);font-weight:500;">'+item.cloze+'</p>'+
+            '<div id="hint-box" class="hint-box" style="max-width:350px;"></div>'+
+            '<button class="btn" id="confirm-blank-btn" onclick="window.confirmBlankChoice()" disabled>Confirm Selection</button>';
+        
+        document.getElementById('phase-pct').style.width=Math.round((qPos/totalQ)*100)+'%';
+        document.getElementById('phase-score-badge').textContent='⭐ '+pointsEarned+' pts';
+        megaState.phasePoints[4]=pointsEarned; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0);
         updateTimerDisplay();
-        if (qType === 'builder') { buildBossHtml(); document.getElementById('boss-chk-btn').onclick = checkBossBuilder; document.getElementById('boss-clr-btn').onclick = function() { selectedIndices = []; buildBossHtml(); }; window.pickBossTile = function(ri) { if (selectedIndices.includes(ri)) return; selectedIndices.push(ri); buildBossHtml(); }; window.removeBossTile = function(ri) { selectedIndices = selectedIndices.filter(function(x) { return x !== ri; }); buildBossHtml(); }; }
-        function buildBossHtml() { var bankHtml = ''; for (var i = 0; i < shuffledIndices.length; i++) { var ri = shuffledIndices[i]; bankHtml += '<div class="word-tile' + (selectedIndices.includes(ri) ? ' used' : '') + '" onclick="window.pickBossTile(' + ri + ')">' + tokens[ri] + '</div>'; } var ansHtml = ''; for (var j = 0; j < selectedIndices.length; j++) { ansHtml += '<div class="answer-tile" onclick="window.removeBossTile(' + selectedIndices[j] + ')">' + tokens[selectedIndices[j]] + '</div>'; } var bankEl = document.getElementById('boss-word-bank'); var ansEl = document.getElementById('boss-answer-row'); if (bankEl) bankEl.innerHTML = bankHtml; if (ansEl) ansEl.innerHTML = ansHtml; }
-        window.checkBossDef = function(chosen, correct) { var el = document.getElementById('bossopt-' + chosen); if (el.classList.contains('correct') || el.classList.contains('wrong')) return; if (chosen === correct) { el.classList.add('correct'); if (failCount === 0) { pointsEarned += 2; playCorrectSound(); } disableAndAdvance(); } else { failCount++; el.classList.add('wrong', 'shake'); playWrongSound(); document.getElementById('hint-box').classList.add('active'); } };
-        window.checkBossGrammar = function(chosen) { var correct = classifySentence(currentQ.sentence); if (chosen === correct) { pointsEarned += 2; playCorrectSound(); disableAndAdvance(); } else { failCount++; playWrongSound(); document.getElementById('hint-box').classList.add('active'); } };
-        function checkBossBuilder() {
-            if (_checking) return;
-            _checking = true;
-            var chkBtn = document.getElementById('boss-chk-btn'); if (chkBtn) { chkBtn.disabled = true; chkBtn.style.pointerEvents = 'none'; }
-            var clrBtn = document.getElementById('boss-clr-btn'); if (clrBtn) { clrBtn.disabled = true; clrBtn.style.pointerEvents = 'none'; }
-            var arr = []; for (var k = 0; k < selectedIndices.length; k++) arr.push(tokens[selectedIndices[k]]);
-            if (arr.join(' ').toLowerCase() === currentQ.sentence.c.toLowerCase()) { pointsEarned += failCount === 0 ? 2 : 1; playCorrectSound(); disableAndAdvance(); }
-            else { failCount++; selectedIndices = []; buildBossHtml(); document.getElementById('hint-box').classList.add('active'); playWrongSound(); _checking = false; if (chkBtn) { chkBtn.disabled = false; chkBtn.style.pointerEvents = 'auto'; } if (clrBtn) { clrBtn.disabled = false; clrBtn.style.pointerEvents = 'auto'; } }
-        }
-        window.checkBossBlank = function() { var inp = document.getElementById('boss-blank-input'); if (!inp) return; var val = inp.value.trim(); if (val.toLowerCase() === currentQ.word.toLowerCase()) { if (failCount === 0) { pointsEarned += 2; playCorrectSound(); } inp.classList.add('input-correct'); disableAndAdvance(); } else { failCount++; inp.classList.add('input-wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); playWrongSound(); } };
+        
+        var _selectedWord=null;
+        window.selectBlankOption=function(idx,word){
+            if(_locked) return;
+            // Remove previous selection
+            document.querySelectorAll('.blank-option-card').forEach(function(el){ el.classList.remove('selected'); });
+            // Select this one
+            var el=document.getElementById('boc-'+idx);
+            if(el){ el.classList.add('selected'); }
+            _selectedWord=word;
+            document.getElementById('confirm-blank-btn').disabled=false;
+        };
+        
+        window.confirmBlankChoice=function(){
+            if(_locked||!_selectedWord) return;
+            _locked=true;
+            var confirmBtn=document.getElementById('confirm-blank-btn');
+            if(confirmBtn){ confirmBtn.disabled=true; confirmBtn.style.pointerEvents='none'; }
+            
+            // Mark all cards as disabled
+            document.querySelectorAll('.blank-option-card').forEach(function(el){ el.classList.add('disabled-card'); });
+            
+            if(_selectedWord.toLowerCase()===item.word.toLowerCase()){
+                // CORRECT
+                // Highlight the correct card
+                document.querySelectorAll('.blank-option-card').forEach(function(el){
+                    if(el.textContent.trim().toLowerCase()===item.word.toLowerCase()){
+                        el.classList.add('correct-card');
+                        el.classList.remove('disabled-card');
+                    }
+                });
+                if(attemptsLeft===2){ pointsEarned+=1; playCorrectSound(); }
+                setTimeout(function(){
+                    qPos++;
+                    if(qPos<totalQ){ render(); }
+                    else { megaState.phasePoints[4]=pointsEarned; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0); megaPhaseComplete(4); }
+                },1000);
+            } else {
+                // WRONG
+                attemptsLeft--;
+                // Mark selected as wrong
+                document.querySelectorAll('.blank-option-card').forEach(function(el){
+                    if(el.classList.contains('selected')){
+                        el.classList.add('wrong-card');
+                        el.classList.remove('disabled-card');
+                    }
+                });
+                playWrongSound();
+                document.getElementById('hint-box').classList.add('active');
+                document.getElementById('hint-box').innerHTML='<i class="fas fa-exclamation-triangle"></i> Incorrect! <strong>'+attemptsLeft+' attempt'+(attemptsLeft===1?'':'s')+' remaining.</strong>';
+                
+                if(attemptsLeft<=0){
+                    // No more attempts - show correct answer and move on
+                    document.querySelectorAll('.blank-option-card').forEach(function(el){
+                        if(el.textContent.trim().toLowerCase()===item.word.toLowerCase()){
+                            el.classList.add('correct-card');
+                            el.classList.remove('disabled-card');
+                        }
+                    });
+                    setTimeout(function(){
+                        qPos++;
+                        if(qPos<totalQ){ render(); }
+                        else { megaState.phasePoints[4]=pointsEarned; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0); megaPhaseComplete(4); }
+                    },1200);
+                } else {
+                    // Still has attempts - update indicators and re-enable
+                    document.getElementById('att-'+(attemptsLeft+1)).classList.remove('available');
+                    document.getElementById('att-'+(attemptsLeft+1)).classList.add('used');
+                    // Re-enable unselected cards
+                    setTimeout(function(){
+                        _locked=false;
+                        document.querySelectorAll('.blank-option-card').forEach(function(el){
+                            if(!el.classList.contains('wrong-card')){
+                                el.classList.remove('disabled-card');
+                            }
+                        });
+                        document.querySelectorAll('.blank-option-card').forEach(function(el){ el.classList.remove('selected'); });
+                        _selectedWord=null;
+                        if(confirmBtn){ confirmBtn.disabled=true; confirmBtn.style.pointerEvents='auto'; }
+                    },600);
+                }
+            }
+        };
     }
     render();
 }
 
 // ================================================================
-//  CLASSIC REVIEWS: renderChamber (BUG CORREGIDO)
+//  PHASE 6: FINAL BOSS (CON OPCIONES EN BLANKS)
 // ================================================================
-function renderScrolls(container, data) { var idx = 0; container.innerHTML = '<h2>Study Scrolls <span id="fc-counter" style="font-size:1rem; color:var(--text-muted); font-weight:normal;"></span></h2><div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" id="scroll-pct" style="width:0%;"></div></div></div><p style="color:var(--text-muted); margin-bottom:10px;">Tap the card to reveal the definition.</p><div class="flashcard" id="fc-el"><div class="flashcard-inner"><div class="front"><button class="tts-btn" id="tts-btn" title="Hear word"><i class="fas fa-volume-up"></i></button><h3 id="fc-word"></h3></div><div class="back"><p id="fc-def"></p><p class="example-sentence" id="fc-example"></p></div></div></div><div style="margin-top:20px; display:flex; justify-content:center; gap:10px;"><button id="btn-prev" class="btn" style="margin:0;"><i class="fas fa-arrow-left"></i> Prev</button><button id="btn-next" class="btn" style="margin:0;">Next <i class="fas fa-arrow-right"></i></button></div>'; document.getElementById('fc-el').onclick = function() { this.classList.toggle('flipped'); }; document.getElementById('btn-prev').onclick = function() { if(idx > 0) { idx--; updateCard(); } }; document.getElementById('btn-next').onclick = function() { if(idx < data.words.length - 1) { idx++; updateCard(); } }; function updateCard() { document.getElementById('scroll-pct').style.width = Math.round((idx / (data.words.length - 1)) * 100) + '%'; document.getElementById('fc-word').textContent = data.words[idx]; document.getElementById('fc-def').textContent = data.defs[idx]; document.getElementById('fc-example').textContent = '📖 ' + data.examples[idx]; document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + data.words.length + ')'; document.getElementById('fc-el').classList.remove('flipped'); document.getElementById('btn-prev').disabled = (idx === 0); document.getElementById('btn-next').disabled = (idx === data.words.length - 1); document.getElementById('tts-btn').onclick = function(e) { e.stopPropagation(); speak(data.words[idx]); }; if (idx === data.words.length - 1) { state.done['scrolls'] = true; updateXPBar(); } } updateCard(); }
-function renderQuiz(container, data) { var qPos = 0; var failCount = 0; function render() { var wordIdx = qPos; var correctDef = data.defs[wordIdx]; var wrongPool = data.defs.filter(function(_, i) { return i !== wordIdx; }).sort(function() { return Math.random()-0.5; }).slice(0,3); var opts = [correctDef].concat(wrongPool).sort(function() { return Math.random()-0.5; }); var correctOpt = opts.indexOf(correctDef); failCount = 0; container.innerHTML = '<h2>Definition Quiz <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.words.length+')</span></h2><div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.words.length) * 100)+'%;"></div></div></div><p style="font-size:1.3rem; margin:20px 0;">What is the definition of: <strong style="color:var(--primary-blue);">"'+data.words[wordIdx]+'"</strong>?</p>' + opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+correctOpt+')">' + o + '</div>'; }).join('') + '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + data.hints[wordIdx] + '</div>'; window.checkQuizOpt = function(chosen, correct) { var chosenEl = document.getElementById('qopt-'+chosen); if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return; if (chosen === correct) { chosenEl.classList.add('correct'); if (failCount < 2) state.firstTryPoints++; document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none'); setTimeout(function() { qPos++; if (qPos < data.words.length) { render(); } else { state.done['quiz'] = true; updateXPBar(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Quiz Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } }, 1000); } else { failCount++; chosenEl.classList.add('wrong'); chosenEl.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); } }; } render(); }
-
-function renderChamber(container, data) {
-    var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
-    var sList = data.sentences;
-    var _checking = false; // BLOQUEO anti-doble-clic
-    function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
-    function render() {
-        var item = sList[idx]; tokens = item.c.match(/\S+/g) || []; shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; })); selectedIndices = []; failCount = 0; _checking = false;
-        container.innerHTML = '<h2>Sentence Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+sList.length+')</span></h2><div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div><p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order to build the sentence:</p><div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div><div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"></div><div style="display:flex; justify-content:center; gap:10px; margin-top:20px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0; background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>';
-        document.getElementById('chk-ans-btn').onclick = checkChamberTiles; document.getElementById('clr-ans-btn').onclick = clearTiles; buildHtml();
-    }
-    function buildHtml() { var bankHtml = ''; for (var i = 0; i < shuffledIndices.length; i++) { var realIndex = shuffledIndices[i]; var isUsed = selectedIndices.includes(realIndex); bankHtml += '<div class="word-tile' + (isUsed ? ' used' : '') + '" onclick="window.pickTile(' + realIndex + ')">' + tokens[realIndex] + '</div>'; } var answerHtml = ''; for (var j = 0; j < selectedIndices.length; j++) { var rIndex = selectedIndices[j]; answerHtml += '<div class="answer-tile" onclick="window.removeTile(' + rIndex + ')">' + tokens[rIndex] + '</div>'; } document.getElementById('word-bank').innerHTML = bankHtml; document.getElementById('answer-row').innerHTML = answerHtml; }
-    window.pickTile = function(realIndex) { if (selectedIndices.includes(realIndex)) return; selectedIndices.push(realIndex); buildHtml(); };
-    window.removeTile = function(realIndex) { selectedIndices = selectedIndices.filter(function(x) { return x !== realIndex; }); buildHtml(); };
-    function clearTiles() { selectedIndices = []; buildHtml(); }
-    function checkChamberTiles() {
-        if (_checking) return; // BLOQUEO
-        if (selectedIndices.length === 0) return;
-        _checking = true;
-        var chkBtn = document.getElementById('chk-ans-btn'); if (chkBtn) { chkBtn.disabled = true; chkBtn.style.pointerEvents = 'none'; }
-        var clrBtn = document.getElementById('clr-ans-btn'); if (clrBtn) { clrBtn.disabled = true; clrBtn.style.pointerEvents = 'none'; }
-        var answerArray = []; for (var k = 0; k < selectedIndices.length; k++) { answerArray.push(tokens[selectedIndices[k]]); }
-        if (answerArray.join(' ').toLowerCase() === sList[idx].c.toLowerCase()) {
-            if (failCount < 2) state.firstTryPoints++;
-            document.getElementById('answer-row').style.borderColor = 'var(--success-bright)'; document.getElementById('answer-row').style.backgroundColor = '#d1fae5';
-            setTimeout(function() { idx++; if (idx < sList.length) { render(); } else { state.done['chamber'] = true; updateXPBar(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Sentence Builder Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } }, 1000);
-        } else {
-            failCount++; var hintBox = document.getElementById('hint-box');
-            if (failCount >= 2 && data.grammarHint) { hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct.<hr style="border:none; border-top:1px solid #fecaca; margin:10px 0;"><i class="fas fa-lightbulb"></i> <strong>Grammar Tip:</strong> ' + data.grammarHint; }
-            else { hintBox.innerHTML = '<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct. Try again.'; }
-            hintBox.classList.add('active'); clearTiles();
-            _checking = false;
-            if (chkBtn) { chkBtn.disabled = false; chkBtn.style.pointerEvents = 'auto'; }
-            if (clrBtn) { clrBtn.disabled = false; clrBtn.style.pointerEvents = 'auto'; }
+function renderPhase6_Boss(c,d){
+    var totalQ=8,qPos=0,pointsEarned=0,failCount=0,currentQ=null,qType='',tokens=[],shuffledIndices=[],selectedIndices=[];
+    var _checking=false;
+    var pool=[];
+    for(var i=0;i<2;i++){ var wi=Math.floor(Math.random()*d.allWords.length); pool.push({type:'def',word:d.allWords[wi],def:d.allDefs[wi],hint:d.allHints[wi]}); }
+    var sbPool=d.allSentences.slice().sort(function(){ return Math.random()-0.5; }).slice(0,2);
+    for(var j=0;j<sbPool.length;j++){ pool.push({type:'builder',sentence:sbPool[j]}); }
+    for(var k=0;k<2;k++){ var ci=Math.floor(Math.random()*d.allCloze.length); pool.push({type:'blank',cloze:d.allCloze[ci],word:d.allWords[ci],hint:d.allHints[ci]}); }
+    var giSentences=d.allSentences.slice().sort(function(){ return Math.random()-0.5; }).slice(0,2);
+    for(var l=0;l<giSentences.length;l++){ pool.push({type:'grammar',sentence:giSentences[l]}); }
+    pool=pool.sort(function(){ return Math.random()-0.5; });
+    function sa(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+    function cls(s){ var sc=s.c.toLowerCase(); if(sc.indexOf('always')!==-1||sc.indexOf('never')!==-1||sc.indexOf('often')!==-1||sc.indexOf('sometimes')!==-1||sc.indexOf('seldom')!==-1||sc.indexOf('normally')!==-1) return 'frequency'; if(sc.indexOf('carefully')!==-1||sc.indexOf('quickly')!==-1||sc.indexOf('fast')!==-1||sc.indexOf('slowly')!==-1||sc.indexOf('well')!==-1||sc.indexOf('easily')!==-1||sc.indexOf('badly')!==-1||sc.indexOf('loudly')!==-1) return 'manner'; return 'place'; }
+    function disableAndAdvance(){ document.querySelectorAll('.quiz-option,.word-tile,.answer-tile,.blank-option-card,input').forEach(function(el){ el.style.pointerEvents='none'; }); setTimeout(function(){ qPos++; if(qPos<totalQ){ render(); } else { megaState.phasePoints[5]=pointsEarned; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0); megaPhaseComplete(5); } },800); }
+    
+    function render(){
+        currentQ=pool[qPos]; qType=currentQ.type; failCount=0; _checking=false;
+        var typeLabel=qType==='def'?'Definition':qType==='builder'?'Sentence Builder':qType==='blank'?'Fill Blank':'Grammar ID';
+        var questionHTML='';
+        if(qType==='def'){
+            var correctDef=currentQ.def;
+            var wrongPool=d.allDefs.filter(function(dd){ return dd!==correctDef; }).sort(function(){ return Math.random()-0.5; }).slice(0,3);
+            var opts=[correctDef].concat(wrongPool).sort(function(){ return Math.random()-0.5; });
+            var correctOpt=opts.indexOf(correctDef);
+            questionHTML='<p style="font-size:1.3rem;margin:20px 0;">What is the definition of: <strong style="color:var(--primary-blue);">"'+currentQ.word+'"</strong>?</p>'+opts.map(function(o,i){ return '<div class="quiz-option" id="bossopt-'+i+'" onclick="window.checkBossDef('+i+','+correctOpt+')">'+o+'</div>'; }).join('');
+        } else if(qType==='builder'){
+            tokens=currentQ.sentence.c.match(/\S+/g)||[]; shuffledIndices=sa(tokens.map(function(_,i){ return i; })); selectedIndices=[];
+            questionHTML='<p style="color:var(--text-muted);margin-bottom:10px;">Build this sentence:</p><div class="answer-row" id="boss-answer-row"></div><div class="word-bank" id="boss-word-bank"></div><div style="display:flex;justify-content:center;gap:10px;margin-top:10px;"><button class="btn" style="margin:0;" id="boss-chk-btn">Check</button><button class="btn" style="margin:0;background:#94a3b8;" id="boss-clr-btn"><i class="fas fa-undo"></i></button></div>';
+        } else if(qType==='blank'){
+            var options=[currentQ.word].concat(getDistractors(currentQ.word, d.allWords, 2));
+            options=options.sort(function(){ return Math.random()-0.5; });
+            var _bossSelected=null, _bossLocked=false;
+            questionHTML='<p style="color:var(--text-muted);margin-bottom:10px;">Click the correct word (1 attempt only):</p><div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:10px auto;max-width:500px;">'+options.map(function(o,i){ return '<div class="blank-option-card" id="bossboc-'+i+'" onclick="window.selectBossBlank('+i+',\''+o+'\')">'+o+'</div>'; }).join('')+'</div><p style="font-size:1.3rem;margin:20px auto;max-width:600px;">'+currentQ.cloze+'</p><button class="btn" id="boss-confirm-blank" onclick="window.confirmBossBlank()" disabled>Confirm Selection</button>';
+        } else if(qType==='grammar'){
+            questionHTML='<p style="font-size:1.2rem;margin:20px 0;">Classify this sentence:</p><div style="background:#f1f5f9;padding:18px;border-radius:10px;font-weight:bold;font-size:1.15rem;">'+currentQ.sentence.c+'</div><div class="quiz-option" onclick="window.checkBossGrammar(\'frequency\')">Adverb of Frequency</div><div class="quiz-option" onclick="window.checkBossGrammar(\'place\')">Adverb of Place/Time</div><div class="quiz-option" onclick="window.checkBossGrammar(\'manner\')">Adverb of Manner</div>';
         }
+        
+        c.innerHTML=megaPhaseHeader(5,'Mixed challenge — '+(qPos+1)+' of '+totalQ+' · Type: '+typeLabel)+questionHTML+'<div id="hint-box" class="hint-box"><i class="fas fa-exclamation-triangle"></i> Not quite!</div>';
+        document.getElementById('phase-pct').style.width=Math.round((qPos/totalQ)*100)+'%';
+        document.getElementById('phase-score-badge').textContent='⭐ '+pointsEarned+' pts';
+        megaState.phasePoints[5]=pointsEarned; megaState.totalPoints=megaState.phasePoints.reduce(function(a,b){return a+b;},0);
+        updateTimerDisplay();
+        
+        if(qType==='builder'){
+            buildBossHtml();
+            document.getElementById('boss-chk-btn').onclick=checkBossBuilder;
+            document.getElementById('boss-clr-btn').onclick=function(){ selectedIndices=[]; buildBossHtml(); };
+            window.pickBossTile=function(ri){ if(selectedIndices.includes(ri)) return; selectedIndices.push(ri); buildBossHtml(); };
+            window.removeBossTile=function(ri){ selectedIndices=selectedIndices.filter(function(x){ return x!==ri; }); buildBossHtml(); };
+        }
+        
+        if(qType==='blank'){
+            window.selectBossBlank=function(idx,word){
+                if(_bossLocked) return;
+                document.querySelectorAll('.blank-option-card').forEach(function(el){ el.classList.remove('selected'); });
+                var el=document.getElementById('bossboc-'+idx);
+                if(el){ el.classList.add('selected'); }
+                _bossSelected=word;
+                document.getElementById('boss-confirm-blank').disabled=false;
+            };
+            window.confirmBossBlank=function(){
+                if(_bossLocked||!_bossSelected) return;
+                _bossLocked=true;
+                var cb=document.getElementById('boss-confirm-blank'); if(cb){ cb.disabled=true; }
+                document.querySelectorAll('.blank-option-card').forEach(function(el){ el.classList.add('disabled-card'); });
+                if(_bossSelected.toLowerCase()===currentQ.word.toLowerCase()){
+                    document.querySelectorAll('.blank-option-card').forEach(function(el){ if(el.textContent.trim().toLowerCase()===currentQ.word.toLowerCase()){ el.classList.add('correct-card'); el.classList.remove('disabled-card'); } });
+                    pointsEarned+=2; playCorrectSound(); disableAndAdvance();
+                } else {
+                    document.querySelectorAll('.blank-option-card').forEach(function(el){ if(el.classList.contains('selected')){ el.classList.add('wrong-card'); el.classList.remove('disabled-card'); } });
+                    document.querySelectorAll('.blank-option-card').forEach(function(el){ if(el.textContent.trim().toLowerCase()===currentQ.word.toLowerCase()){ el.classList.add('correct-card'); el.classList.remove('disabled-card'); } });
+                    playWrongSound(); document.getElementById('hint-box').classList.add('active');
+                    setTimeout(function(){ disableAndAdvance(); },1000);
+                }
+            };
+        }
+        
+        function buildBossHtml(){ var bh=''; for(var i=0;i<shuffledIndices.length;i++){ var ri=shuffledIndices[i]; bh+='<div class="word-tile'+(selectedIndices.includes(ri)?' used':'')+'" onclick="window.pickBossTile('+ri+')">'+tokens[ri]+'</div>'; } var ah=''; for(var j=0;j<selectedIndices.length;j++){ ah+='<div class="answer-tile" onclick="window.removeBossTile('+selectedIndices[j]+')">'+tokens[selectedIndices[j]]+'</div>'; } var be=document.getElementById('boss-word-bank'); var ae=document.getElementById('boss-answer-row'); if(be) be.innerHTML=bh; if(ae) ae.innerHTML=ah; }
+        window.checkBossDef=function(ch,corr){ var el=document.getElementById('bossopt-'+ch); if(el.classList.contains('correct')||el.classList.contains('wrong')) return; if(ch===corr){ el.classList.add('correct'); pointsEarned+=2; playCorrectSound(); disableAndAdvance(); } else { failCount++; el.classList.add('wrong','shake'); playWrongSound(); document.getElementById('hint-box').classList.add('active'); } };
+        window.checkBossGrammar=function(ch){ var corr=cls(currentQ.sentence); if(ch===corr){ pointsEarned+=2; playCorrectSound(); disableAndAdvance(); } else { failCount++; playWrongSound(); document.getElementById('hint-box').classList.add('active'); } };
+        function checkBossBuilder(){ if(_checking) return; _checking=true; var cb=document.getElementById('boss-chk-btn'); if(cb){ cb.disabled=true; cb.style.pointerEvents='none'; } var clb=document.getElementById('boss-clr-btn'); if(clb){ clb.disabled=true; clb.style.pointerEvents='none'; } var arr=[]; for(var k=0;k<selectedIndices.length;k++) arr.push(tokens[selectedIndices[k]]); if(arr.join(' ').toLowerCase()===currentQ.sentence.c.toLowerCase()){ pointsEarned+=failCount===0?2:1; playCorrectSound(); disableAndAdvance(); } else { failCount++; selectedIndices=[]; buildBossHtml(); document.getElementById('hint-box').classList.add('active'); playWrongSound(); _checking=false; if(cb){ cb.disabled=false; cb.style.pointerEvents='auto'; } if(clb){ clb.disabled=false; clb.style.pointerEvents='auto'; } } }
     }
     render();
 }
 
-function renderBlanks(container, data) { var idx = 0; var failCount = 0; var shuffledWords = data.words.slice().sort(function() { return Math.random()-0.5; }); function render() { var word = data.words[idx]; failCount = 0; var wordBankHtml = '<div class="blanks-word-bank">'; shuffledWords.forEach(function(w) { let isUsed = usedBlanksWords.includes(w.toLowerCase()) ? 'used' : ''; wordBankHtml += '<span class="blanks-word ' + isUsed + '">' + w + '</span>'; }); wordBankHtml += '</div>'; container.innerHTML = '<h2>Fill in the Blanks <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.words.length+')</span></h2><div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.words.length) * 100)+'%;"></div></div></div>' + wordBankHtml + '<p style="font-size:1.3rem; margin:20px auto; max-width:600px; color:var(--text-main); font-weight:500;">' + data.cloze[idx] + '</p><input type="text" id="blank-input" placeholder="Type the missing word..." autocomplete="off" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()"><div id="hint-box" class="hint-box" style="max-width:350px;"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + data.hints[idx] + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>'; setTimeout(() => { document.getElementById('blank-input').focus(); }, 100); window.checkBlank = function() { var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim(); if(!input) return; if (input.toLowerCase() === word.toLowerCase()) { if (failCount < 2) state.firstTryPoints++; usedBlanksWords.push(word.toLowerCase()); inputEl.classList.remove('input-wrong', 'shake'); inputEl.classList.add('input-correct'); setTimeout(function() { idx++; if (idx < data.words.length) { render(); } else { state.done['blanks'] = true; updateXPBar(); triggerConfetti(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Fill in the Blanks Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } }, 1000); } else { failCount++; inputEl.value = ''; inputEl.classList.add('input-wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); inputEl.focus(); } }; } render(); }
+// ================================================================
+//  CLASSIC REVIEWS: renderBlanks (NUEVO SISTEMA DE OPCIONES)
+// ================================================================
+function renderScrolls(c,d){ var idx=0; c.innerHTML='<h2>Study Scrolls <span id="fc-counter" style="font-size:1rem;color:var(--text-muted);font-weight:normal;"></span></h2><div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" id="scroll-pct" style="width:0%;"></div></div></div><p style="color:var(--text-muted);margin-bottom:10px;">Tap the card to reveal the definition.</p><div class="flashcard" id="fc-el"><div class="flashcard-inner"><div class="front"><button class="tts-btn" id="tts-btn" title="Hear word"><i class="fas fa-volume-up"></i></button><h3 id="fc-word"></h3></div><div class="back"><p id="fc-def"></p><p class="example-sentence" id="fc-example"></p></div></div></div><div style="margin-top:20px;display:flex;justify-content:center;gap:10px;"><button id="btn-prev" class="btn" style="margin:0;"><i class="fas fa-arrow-left"></i> Prev</button><button id="btn-next" class="btn" style="margin:0;">Next <i class="fas fa-arrow-right"></i></button></div>'; document.getElementById('fc-el').onclick=function(){ this.classList.toggle('flipped'); }; document.getElementById('btn-prev').onclick=function(){ if(idx>0){ idx--; uC(); } }; document.getElementById('btn-next').onclick=function(){ if(idx<d.words.length-1){ idx++; uC(); } }; function uC(){ document.getElementById('scroll-pct').style.width=Math.round((idx/(d.words.length-1))*100)+'%'; document.getElementById('fc-word').textContent=d.words[idx]; document.getElementById('fc-def').textContent=d.defs[idx]; document.getElementById('fc-example').textContent='📖 '+d.examples[idx]; document.getElementById('fc-counter').textContent='('+(idx+1)+'/'+d.words.length+')'; document.getElementById('fc-el').classList.remove('flipped'); document.getElementById('btn-prev').disabled=(idx===0); document.getElementById('btn-next').disabled=(idx===d.words.length-1); document.getElementById('tts-btn').onclick=function(e){ e.stopPropagation(); speak(d.words[idx]); }; if(idx===d.words.length-1){ state.done['scrolls']=true; updateXPBar(); } } uC(); }
+function renderQuiz(c,d){ var qp=0,fc=0; function r(){ var wi=qp,cd=d.defs[wi]; var wp=d.defs.filter(function(_,i){ return i!==wi; }).sort(function(){ return Math.random()-0.5; }).slice(0,3); var opts=[cd].concat(wp).sort(function(){ return Math.random()-0.5; }); var co=opts.indexOf(cd); fc=0; c.innerHTML='<h2>Definition Quiz <span style="font-size:1rem;color:var(--text-muted);font-weight:normal;">('+(qp+1)+'/'+d.words.length+')</span></h2><div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qp/d.words.length)*100)+'%;"></div></div></div><p style="font-size:1.3rem;margin:20px 0;">What is the definition of: <strong style="color:var(--primary-blue);">"'+d.words[wi]+'"</strong>?</p>'+opts.map(function(o,i){ return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+co+')">'+o+'</div>'; }).join('')+'<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> '+d.hints[wi]+'</div>'; window.checkQuizOpt=function(ch,corr){ var el=document.getElementById('qopt-'+ch); if(el.classList.contains('wrong')||el.classList.contains('correct')) return; if(ch===corr){ el.classList.add('correct'); if(fc<2) state.firstTryPoints++; document.querySelectorAll('.quiz-option').forEach(function(e){ e.style.pointerEvents='none'; }); setTimeout(function(){ qp++; if(qp<d.words.length){ r(); } else { state.done['quiz']=true; updateXPBar(); c.innerHTML='<div style="text-align:center;padding:40px 0;"><i class="fas fa-check-circle" style="font-size:4rem;color:var(--success);margin-bottom:20px;"></i><h2>Quiz Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } },1000); } else { fc++; el.classList.add('wrong'); el.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); } }; } r(); }
+function renderChamber(c,d){ var idx=0,fc=0,tokens=[],si=[],sel=[]; var sl=d.sentences; var _checking=false; function sa(arr){ var a=arr.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; } function r(){ var item=sl[idx]; tokens=item.c.match(/\S+/g)||[]; si=sa(tokens.map(function(_,i){ return i; })); sel=[]; fc=0; _checking=false; c.innerHTML='<h2>Sentence Builder <span style="font-size:1rem;color:var(--text-muted);font-weight:normal;">('+(idx+1)+'/'+sl.length+')</span></h2><div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx/sl.length)*100)+'%;"></div></div></div><p style="color:var(--text-muted);margin-bottom:15px;">Tap words in the correct order to build the sentence:</p><div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div><div id="hint-box" class="hint-box" style="border-left-color:var(--danger);color:var(--danger);background:#fef2f2;"></div><div style="display:flex;justify-content:center;gap:10px;margin-top:20px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0;background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>'; document.getElementById('chk-ans-btn').onclick=checkChamberTiles; document.getElementById('clr-ans-btn').onclick=clearTiles; bH(); } function bH(){ var bh=''; for(var i=0;i<si.length;i++){ var ri=si[i]; bh+='<div class="word-tile'+(sel.includes(ri)?' used':'')+'" onclick="window.pickTile('+ri+')">'+tokens[ri]+'</div>'; } var ah=''; for(var j=0;j<sel.length;j++){ ah+='<div class="answer-tile" onclick="window.removeTile('+sel[j]+')">'+tokens[sel[j]]+'</div>'; } document.getElementById('word-bank').innerHTML=bh; document.getElementById('answer-row').innerHTML=ah; } window.pickTile=function(ri){ if(sel.includes(ri)) return; sel.push(ri); bH(); }; window.removeTile=function(ri){ sel=sel.filter(function(x){ return x!==ri; }); bH(); }; function clearTiles(){ sel=[]; bH(); } function checkChamberTiles(){ if(_checking) return; if(sel.length===0) return; _checking=true; var cb=document.getElementById('chk-ans-btn'); if(cb){ cb.disabled=true; cb.style.pointerEvents='none'; } var clb=document.getElementById('clr-ans-btn'); if(clb){ clb.disabled=true; clb.style.pointerEvents='none'; } var aa=[]; for(var k=0;k<sel.length;k++){ aa.push(tokens[sel[k]]); } if(aa.join(' ').toLowerCase()===sl[idx].c.toLowerCase()){ if(fc<2) state.firstTryPoints++; document.getElementById('answer-row').style.borderColor='var(--success-bright)'; document.getElementById('answer-row').style.backgroundColor='#d1fae5'; setTimeout(function(){ idx++; if(idx<sl.length){ r(); } else { state.done['chamber']=true; updateXPBar(); c.innerHTML='<div style="text-align:center;padding:40px 0;"><i class="fas fa-check-circle" style="font-size:4rem;color:var(--success);margin-bottom:20px;"></i><h2>Sentence Builder Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } },1000); } else { fc++; var hb=document.getElementById('hint-box'); if(fc>=2&&d.grammarHint){ hb.innerHTML='<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct.<hr style="border:none;border-top:1px solid #fecaca;margin:10px 0;"><i class="fas fa-lightbulb"></i> <strong>Grammar Tip:</strong> '+d.grammarHint; } else { hb.innerHTML='<i class="fas fa-exclamation-triangle"></i> <strong>Oops!</strong> That order is not correct. Try again.'; } hb.classList.add('active'); clearTiles(); _checking=false; if(cb){ cb.disabled=false; cb.style.pointerEvents='auto'; } if(clb){ clb.disabled=false; clb.style.pointerEvents='auto'; } } } r(); }
 
-function claimCert() {
-    var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
-    var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
-    if (!isReviewMode) {
-        var urlGoogleScript = "https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec";
-        var formData = new FormData(); formData.append("name", state.name); formData.append("section", state.section); formData.append("unit", state.unit); formData.append("score", finalGrade);
-        fetch(urlGoogleScript, { method:"POST", body:formData, mode:"no-cors" }).catch(function(e) { console.error(e); });
-        localStorage.setItem(state.name.toLowerCase() + '-' + state.section + '-' + state.unit, 'COMPLETED');
+// ================================================================
+//  CLASSIC REVIEWS: renderBlanks (NUEVO SISTEMA DE OPCIONES - CLICK, NO TYPE)
+// ================================================================
+function renderBlanks(c,d){
+    var idx=0,pointsEarned=0;
+    
+    function render(){
+        var word=d.words[idx];
+        var options=[word].concat(getDistractors(word, d.words, 2));
+        options=options.sort(function(){ return Math.random()-0.5; });
+        var attemptsLeft=2;
+        var _locked=false;
+        
+        c.innerHTML='<h2>Fill in the Blanks <span style="font-size:1rem;color:var(--text-muted);font-weight:normal;">('+(idx+1)+'/'+d.words.length+')</span></h2>'+
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx/d.words.length)*100)+'%;"></div></div></div>'+
+            '<p style="color:var(--text-muted);margin-bottom:15px;">Click the word that correctly completes the sentence. <strong>'+attemptsLeft+' attempts</strong> remaining.</p>'+
+            '<div class="attempts-indicator" id="cls-attempts">'+
+                '<div class="attempt-dot available" id="cls-att-1"></div>'+
+                '<div class="attempt-dot available" id="cls-att-2"></div>'+
+            '</div>'+
+            '<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin:15px auto;max-width:500px;" id="cls-options">'+
+                options.map(function(o,i){
+                    return '<div class="blank-option-card" id="cls-boc-'+i+'" onclick="window.selectClassicBlank('+i+',\''+o+'\')">'+o+'</div>';
+                }).join('')+
+            '</div>'+
+            '<p style="font-size:1.3rem;margin:20px auto;max-width:600px;color:var(--text-main);font-weight:500;">'+d.cloze[idx]+'</p>'+
+            '<div id="hint-box" class="hint-box" style="max-width:350px;"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> '+d.hints[idx]+'</div>'+
+            '<button class="btn" id="cls-confirm-btn" onclick="window.confirmClassicBlank()" disabled>Confirm Selection</button>';
+        
+        var _selectedWord=null;
+        window.selectClassicBlank=function(i,w){
+            if(_locked) return;
+            document.querySelectorAll('#cls-options .blank-option-card').forEach(function(el){ el.classList.remove('selected'); });
+            var el=document.getElementById('cls-boc-'+i);
+            if(el){ el.classList.add('selected'); }
+            _selectedWord=w;
+            document.getElementById('cls-confirm-btn').disabled=false;
+        };
+        
+        window.confirmClassicBlank=function(){
+            if(_locked||!_selectedWord) return;
+            _locked=true;
+            var cb=document.getElementById('cls-confirm-btn'); if(cb){ cb.disabled=true; }
+            document.querySelectorAll('#cls-options .blank-option-card').forEach(function(el){ el.classList.add('disabled-card'); });
+            
+            if(_selectedWord.toLowerCase()===word.toLowerCase()){
+                document.querySelectorAll('#cls-options .blank-option-card').forEach(function(el){ if(el.textContent.trim().toLowerCase()===word.toLowerCase()){ el.classList.add('correct-card'); el.classList.remove('disabled-card'); } });
+                if(attemptsLeft===2){ state.firstTryPoints++; usedBlanksWords.push(word.toLowerCase()); }
+                setTimeout(function(){
+                    idx++;
+                    if(idx<d.words.length){ render(); }
+                    else { state.done['blanks']=true; updateXPBar(); triggerConfetti(); c.innerHTML='<div style="text-align:center;padding:40px 0;"><i class="fas fa-check-circle" style="font-size:4rem;color:var(--success);margin-bottom:20px;"></i><h2>Fill in the Blanks Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; }
+                },1000);
+            } else {
+                attemptsLeft--;
+                document.querySelectorAll('#cls-options .blank-option-card').forEach(function(el){ if(el.classList.contains('selected')){ el.classList.add('wrong-card'); el.classList.remove('disabled-card'); } });
+                document.getElementById('hint-box').classList.add('active');
+                
+                if(attemptsLeft<=0){
+                    document.querySelectorAll('#cls-options .blank-option-card').forEach(function(el){ if(el.textContent.trim().toLowerCase()===word.toLowerCase()){ el.classList.add('correct-card'); el.classList.remove('disabled-card'); } });
+                    setTimeout(function(){
+                        idx++;
+                        if(idx<d.words.length){ render(); }
+                        else { state.done['blanks']=true; updateXPBar(); triggerConfetti(); c.innerHTML='<div style="text-align:center;padding:40px 0;"><i class="fas fa-check-circle" style="font-size:4rem;color:var(--success);margin-bottom:20px;"></i><h2>Fill in the Blanks Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; }
+                    },1200);
+                } else {
+                    document.getElementById('cls-att-'+(attemptsLeft+1)).classList.remove('available');
+                    document.getElementById('cls-att-'+(attemptsLeft+1)).classList.add('used');
+                    setTimeout(function(){
+                        _locked=false;
+                        document.querySelectorAll('#cls-options .blank-option-card').forEach(function(el){ if(!el.classList.contains('wrong-card')){ el.classList.remove('disabled-card'); } });
+                        document.querySelectorAll('#cls-options .blank-option-card').forEach(function(el){ el.classList.remove('selected'); });
+                        _selectedWord=null;
+                        if(cb){ cb.disabled=true; }
+                    },600);
+                }
+            }
+        };
     }
-    show('cert'); document.getElementById('cert-name').textContent = state.name; document.getElementById('cert-unit').textContent = state.unit; document.getElementById('cert-final-grade').textContent = finalGrade;
-    var circle = document.getElementById('grade-circle'); if (finalGrade >= 8.0) circle.style.backgroundColor = 'var(--success)'; else if (finalGrade >= 6.0) circle.style.backgroundColor = 'var(--warning)'; else circle.style.backgroundColor = 'var(--danger)';
-    document.getElementById('cert-time').textContent = 'Completed: ' + new Date().toLocaleString(); document.getElementById('cert-code').textContent = 'AUTH: ' + Math.random().toString(36).substr(2,9).toUpperCase();
+    render();
+}
+
+function claimCert(){
+    var rs=(state.firstTryPoints/state.totalPossiblePoints)*10;
+    var fg=rs.toFixed(1); if(fg>10) fg=10.0;
+    if(!isReviewMode){
+        var url="https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec";
+        var fd=new FormData(); fd.append("name",state.name); fd.append("section",state.section); fd.append("unit",state.unit); fd.append("score",fg);
+        fetch(url,{ method:"POST",body:fd,mode:"no-cors" }).catch(function(e){ console.error(e); });
+        localStorage.setItem(state.name.toLowerCase()+'-'+state.section+'-'+state.unit,'COMPLETED');
+    }
+    show('cert'); document.getElementById('cert-name').textContent=state.name; document.getElementById('cert-unit').textContent=state.unit; document.getElementById('cert-final-grade').textContent=fg;
+    var circle=document.getElementById('grade-circle'); if(fg>=8.0) circle.style.backgroundColor='var(--success)'; else if(fg>=6.0) circle.style.backgroundColor='var(--warning)'; else circle.style.backgroundColor='var(--danger)';
+    document.getElementById('cert-time').textContent='Completed: '+new Date().toLocaleString(); document.getElementById('cert-code').textContent='AUTH: '+Math.random().toString(36).substr(2,9).toUpperCase();
 }
 </script>
 </body>
