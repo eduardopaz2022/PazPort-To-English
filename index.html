@@ -299,6 +299,12 @@
 </div>
 
 <script>
+function triggerConfetti() {
+    if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
+    }
+}
+
 function speak(text) {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
@@ -323,7 +329,7 @@ function setDailyQuote() {
 }
 
 // ================================================================
-//  ANTI-CHEAT SYSTEM (CORREGIDO PARA TAB SWITCH ÚNICAMENTE)
+//  ANTI-CHEAT SYSTEM
 // ================================================================
 function getLockKey() { return 'LOCKED-' + state.name.toLowerCase() + '-' + state.section + '-' + state.unit; }
 function getExitsKey() { return 'EXITS-' + state.name.toLowerCase() + '-' + state.section + '-' + state.unit; }
@@ -370,7 +376,7 @@ function setupAntiCheat(maxExits) {
             alert('⚠️ WARNING: You left the page! (Exit ' + state.exitCount + ' of ' + maxExits + ')\n\nStay focused on your work!'); 
         }
         
-        // Cooldown de 1 segundo para evitar doble conteo accidental
+        // Cooldown para evitar doble conteo por blur/visibilitychange casi simultaneo
         setTimeout(function() { isHandlingExit = false; }, 1000);
     }
     
@@ -383,7 +389,7 @@ function setupAntiCheat(maxExits) {
 //  DATABASE 
 // ================================================================
 const DB = {
-    // === NOVENO GRADO - VIEJAS UNIDADES (OCULTAS) ===
+    // === NOVENO GRADO - VIEJAS UNIDADES (OCULTAS EN EL MENÚ) ===
     "9th - Unit 4 - Part 1": {
         active: false, type: "normal", grammarHint: "Structure: <b>Subject + Adverb of Frequency + Verb</b>.",
         words: ["Bed", "Pillow", "Blanket", "Sheet", "Mirror", "Closet", "Curtains", "Slippers", "Always", "Never"],
@@ -412,7 +418,7 @@ const DB = {
         sentences: [{ s:"window / carefully. / clean / I / the", c:"I clean the window carefully." }, { s:"floor / quickly. / mops / He / the", c:"He mops the floor quickly." }, { s:"fast. / room / sweep / They / the", c:"They sweep the room fast." }, { s:"slowly. / food / eat / You / the", c:"You eat the food slowly." }, { s:"night. / well / at / sleep / We", c:"We sleep well at night." }, { s:"easily. / door / She / the / closes", c:"She closes the door easily." }, { s:"car / I / badly. / wash / the", c:"I wash the car badly." }, { s:"do / loudly. / yell / not / Please", c:"Please do not yell loudly." }]
     },
 
-    // === NOVENO GRADO - NUEVO MÓDULO ===
+    // === NOVENO GRADO - NUEVO MÓDULO (ACTIVO) ===
     "9th - Unit 5 - Food Opinions": {
         active: true, type: "normal", grammarHint: "Structure: <b>What do you think about the...? It's / They're [opinion].</b>",
         words: ["Beef", "Rice", "Cereal", "Pork", "Mangoes", "Broccoli", "Carrots", "Cheese", "Yogurt", "Pears", "Onions", "Chicken", "Corn oil", "Potatoes"],
@@ -438,7 +444,7 @@ const DB = {
         ]
     },
 
-    // === DECIMO GRADO ===
+    // === DECIMO GRADO (OCULTOS) ===
     "10th - Mock Exam": {
         active: false, type: "exam", audioFile: "10th Audio.mp3",
         readingText: "The Sahara Desert Marathon is an extreme race. It happens in April. Runners go 250 kilometers across dry sand. In the morning, the temperature reaches 50 degrees Celsius! Runners MUST carry their own food and water. Last year, a 24-year-old named Sarah Jenkins won. The prize was $30,000. Next year, organizers expect over 250 people.",
@@ -482,7 +488,7 @@ const DB = {
         ]
     },
 
-    // === ONCEAVO GRADO ===
+    // === ONCEAVO GRADO (OCULTOS) ===
     "11th - Conditionals Review": {
         active: false, type: "conditional_review", grammarHint: "Zero: <b>Present+Present</b>. First: <b>Present+Will</b>. Second: <b>Past+Would</b>.",
         scrolls: [
@@ -589,12 +595,19 @@ function updateCascade() {
         else if (section.startsWith("10")) gradePrefix = "10th";
         else if (section.startsWith("11")) gradePrefix = "11th";
 
+        var foundOptions = false;
         sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
         Object.keys(DB).forEach(function(k) {
             if (k.startsWith(gradePrefix) && DB[k].active !== false) {
                 var opt = document.createElement('option'); opt.value = k; opt.textContent = k; sel.appendChild(opt);
+                foundOptions = true;
             }
         });
+        
+        if(!foundOptions) {
+            var opt = document.createElement('option'); opt.value = ""; opt.textContent = "-- No quests available --"; sel.appendChild(opt);
+        }
+        
     } else {
         unitGroup.classList.add('hidden');
         sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
@@ -688,7 +701,7 @@ function show(screen) {
 function updateXPBar() {
     var doneCount = activitiesList.filter(function(a) { return state.done[a]; }).length;
     document.getElementById('xp-fill').style.width = (doneCount / activitiesList.length * 100) + '%';
-    document.getElementById('xp-text').textContent = doneCount + ' / ' + activitiesList.length + ' levels';
+    document.getElementById('xp-text').textContent = doneCount + ' / ' + activitiesList.length + ' activities';
 
     var submitBtn = document.getElementById('btn-report');
     if (doneCount === activitiesList.length) {
@@ -916,7 +929,7 @@ function renderQuiz(container, data) {
                     setTimeout(function() {
                         qPos++;
                         if (qPos < data.words.length) { render(); } else {
-                            state.done['quiz'] = true; updateXPBar();
+                            state.done['quiz'] = true; updateXPBar(); triggerConfetti();
                             container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Quiz Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                         }
                     }, 1000);
@@ -939,7 +952,7 @@ function renderChamber(container, data) {
         container.innerHTML =
             '<h2>Sentence Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+sList.length+')</span></h2>' +
             '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div>' +
-            '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order:</p>' +
+            '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order to build the sentence:</p>' +
             '<div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div>' +
             '<div id="hint-box" class="hint-box" style="border-left-color:var(--danger); color:var(--danger); background:#fef2f2;"></div>' +
             '<div style="display:flex; justify-content:center; gap:10px; margin-top:20px;"><button class="btn" style="margin:0;" id="chk-ans-btn">Check Answer</button><button class="btn" style="margin:0; background:#94a3b8;" id="clr-ans-btn"><i class="fas fa-undo"></i> Clear</button></div>';
@@ -962,7 +975,7 @@ function renderChamber(container, data) {
             if (failCount < 2) state.firstTryPoints++;
             document.getElementById('answer-row').style.borderColor='var(--success-bright)'; document.getElementById('answer-row').style.backgroundColor='#d1fae5';
             setTimeout(function() {
-                idx++; if (idx < sList.length) { render(); } else { state.done['chamber'] = true; updateXPBar(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Builder Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; }
+                idx++; if (idx < sList.length) { render(); } else { state.done['chamber'] = true; updateXPBar(); triggerConfetti(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Sentence Builder Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; }
             }, 1000);
         } else {
             failCount++; var hintBox = document.getElementById('hint-box');
@@ -982,14 +995,16 @@ function renderBlanks(container, data) {
             var qObj = data.blanks[idx]; failCount = 0;
             container.innerHTML =
                 '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
+                '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.blanks.length) * 100)+'%;"></div></div></div>' +
                 '<p style="font-size:1.3rem; margin:30px auto; max-width:600px;">' + qObj.text + '</p>' +
                 '<input type="text" id="blank-input" placeholder="Conjugate..." style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
-                '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> ' + qObj.hint + '</div>';
+                '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> ' + qObj.hint + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>';
             window.checkBlank = function() {
                 var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim().toLowerCase();
                 if (input === qObj.answer.toLowerCase()) {
                     if (failCount < 2) state.firstTryPoints++;
-                    setTimeout(function() { idx++; if (idx < data.blanks.length) { render(); } else { state.done['blanks'] = true; updateXPBar(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } }, 1000);
+                    inputEl.classList.remove('input-wrong', 'shake'); inputEl.classList.add('input-correct');
+                    setTimeout(function() { idx++; if (idx < data.blanks.length) { render(); } else { state.done['blanks'] = true; updateXPBar(); triggerConfetti(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } }, 1000);
                 } else { failCount++; inputEl.classList.add('input-wrong'); inputEl.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); }
             };
         } else {
