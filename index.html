@@ -376,6 +376,7 @@ function setupAntiCheat(maxExits) {
             alert('⚠️ WARNING: You left the page! (Exit ' + state.exitCount + ' of ' + maxExits + ')\n\nStay focused on your work!'); 
         }
         
+        // Cooldown para evitar doble conteo por blur/visibilitychange casi simultaneo
         setTimeout(function() { isHandlingExit = false; }, 1000);
     }
     
@@ -417,7 +418,7 @@ const DB = {
         sentences: [{ s:"window / carefully. / clean / I / the", c:"I clean the window carefully." }, { s:"floor / quickly. / mops / He / the", c:"He mops the floor quickly." }, { s:"fast. / room / sweep / They / the", c:"They sweep the room fast." }, { s:"slowly. / food / eat / You / the", c:"You eat the food slowly." }, { s:"night. / well / at / sleep / We", c:"We sleep well at night." }, { s:"easily. / door / She / the / closes", c:"She closes the door easily." }, { s:"car / I / badly. / wash / the", c:"I wash the car badly." }, { s:"do / loudly. / yell / not / Please", c:"Please do not yell loudly." }]
     },
 
-    // === NOVENO GRADO - NUEVO MÓDULO ===
+    // === NOVENO GRADO - NUEVO MÓDULO (ACTIVO) ===
     "9th - Unit 5 - Food Opinions": {
         active: true, type: "normal", grammarHint: "Structure: <b>What do you think about the...? It's / They're [opinion].</b>",
         words: ["Beef", "Rice", "Cereal", "Pork", "Mangoes", "Broccoli", "Carrots", "Cheese", "Yogurt", "Pears", "Onions", "Chicken", "Corn oil", "Potatoes"],
@@ -446,7 +447,7 @@ const DB = {
     // === DECIMO GRADO ===
     "10th - Unit 5 - Module 2 - Indefinite Pronouns": {
         active: true, 
-        type: "indefinite_pronouns", 
+        type: "two_parts", 
         hasVideoLesson: true,
         videoUrl: "https://www.youtube.com/embed/z8hoS1BWKVg",
         videoDesc: "Watch the video carefully to review Indefinite Pronouns (something, anything, everywhere, nobody, etc.) before taking the quizzes.",
@@ -529,6 +530,41 @@ const DB = {
     },
 
     // === ONCEAVO GRADO ===
+    "11th - Unit 5 - Module 1 - Study Abroad": {
+        active: true, 
+        type: "two_parts", 
+        hasVideoLesson: true,
+        videoUrl: "https://www.youtube.com/embed/B8wp4JdAD1Q",
+        videoDesc: "Watch the video carefully to review the vocabulary and 'Alone vs Lonely' before taking the quizzes.",
+        quiz: [
+            { q: "To attend an educational institution in a foreign country.", opts: ["Study abroad", "Semester", "Process", "Assistance"], a: 0, hint: "Learning in another nation." },
+            { q: "A series of actions or steps taken in order to achieve a particular end.", opts: ["Process", "Arrangements", "Effort", "Surroundings"], a: 0, hint: "Steps to follow." },
+            { q: "Plans or preparations for a future event.", opts: ["Arrangements", "Student visa", "Assistance", "Advisor"], a: 0, hint: "Making preparations." },
+            { q: "A half-year term in a school or university.", opts: ["Semester", "Process", "Surroundings", "Effort"], a: 0, hint: "Academic period." },
+            { q: "A special passport stamp or document that allows a person to study in a foreign country.", opts: ["Student visa", "Arrangements", "Assistance", "Advisor"], a: 0, hint: "Legal document for studying." },
+            { q: "Help or support.", opts: ["Assistance", "Effort", "Process", "Semester"], a: 0, hint: "Providing aid." },
+            { q: "A vigorous or determined attempt.", opts: ["Effort", "Surroundings", "Study abroad", "Arrangements"], a: 0, hint: "Trying hard." },
+            { q: "The things and conditions around a person or place.", opts: ["Surroundings", "Process", "Advisor", "Student visa"], a: 0, hint: "The environment." },
+            { q: "A person who gives advice, typically in an academic setting.", opts: ["Advisor", "Assistance", "Semester", "Effort"], a: 0, hint: "A guide or counselor." }
+        ],
+        blanks: [
+            { text: "She lives __________ in a big house, but she doesn't mind.", answer: "alone", hint: "Physical state of being by oneself." },
+            { text: "When I moved to the new city, I felt very __________ for the first few weeks.", answer: "lonely", hint: "Emotional state of feeling sad because of isolation." },
+            { text: "Do you like walking __________ at night?", answer: "alone", hint: "Physical state of being by oneself." },
+            { text: "He has many friends, but he still feels __________ sometimes.", answer: "lonely", hint: "Emotional state." },
+            { text: "I can't do this __________; I need some help.", answer: "alone", hint: "By myself." },
+            { text: "I want to __________ next year in Spain.", answer: "study abroad", hint: "Learn in a foreign country." },
+            { text: "Getting the documents ready is a long __________.", answer: "process", hint: "Series of steps." },
+            { text: "We need to make travel __________ before we buy the tickets.", answer: "arrangements", hint: "Preparations." },
+            { text: "The fall __________ starts in September and ends in December.", answer: "semester", hint: "Half-year term." },
+            { text: "You cannot enter the country to study without a valid __________.", answer: "student visa", hint: "Document for students." },
+            { text: "If you need __________, please ask the teacher.", answer: "assistance", hint: "Help." },
+            { text: "Learning a new language requires a lot of time and __________.", answer: "effort", hint: "Hard work." },
+            { text: "It takes time to get used to new __________ when you move.", answer: "surroundings", hint: "The environment around you." },
+            { text: "My academic __________ helped me choose my classes.", answer: "advisor", hint: "Person who gives advice." },
+            { text: "She put a lot of __________ into writing her application essay.", answer: "effort", hint: "Hard work / attempt." }
+        ]
+    },
     "11th - Conditionals Review": {
         active: false, type: "conditional_review", grammarHint: "Zero: <b>Present+Present</b>. First: <b>Present+Will</b>. Second: <b>Past+Would</b>.",
         scrolls: [
@@ -562,7 +598,7 @@ const DB = {
         ]
     },
     "11th - TV & Present Perfect Cont.": {
-        active: true, type: "normal", hasVideoLesson: true, grammarHint: "Structure: <b>Subject + Have/Has been + Verb-ing + Complement</b>.",
+        active: false, type: "normal", hasVideoLesson: true, grammarHint: "Structure: <b>Subject + Have/Has been + Verb-ing + Complement</b>.",
         words: ["Binge-watching", "Season finale", "Spoilers", "Screen", "Cliffhanger", "Main character", "Streaming", "Episode", "Broadcasting", "Plot twist", "Have been", "Has been", "Watching", "Waiting", "Discussing"],
         defs: ["Ver muchos episodios sin parar.", "El último episodio de la temporada.", "Información que arruina la sorpresa.", "La pantalla.", "Un final que te deja en suspenso.", "El protagonista.", "Ver videos por internet.", "Un capítulo de la serie.", "Transmitir un programa.", "Un giro sorpresivo en la historia.", "He / Hemos / Han estado...", "Él / Ella ha estado...", "Viendo.", "Esperando.", "Discutiendo/Hablando."],
         examples: ["I have been binge-watching series.", "We have been waiting for the season finale.", "He has been reading spoilers.", "You have been looking at the screen.", "They have been watching the cliffhanger.", "The main character has been running.", "I have been streaming the show.", "She has been downloading the episode.", "The channel has been broadcasting it.", "We have been analyzing the plot twist.", "They have been playing games.", "She has been studying English.", "I have been watching TV.", "You have been waiting here.", "We have been discussing the movie."],
@@ -573,7 +609,7 @@ const DB = {
         ]
     },
     "11th - Mock Exam": {
-        active: true, type: "exam", audioFile: "11th Audio.mp3",
+        active: false, type: "exam", audioFile: "11th Audio.mp3",
         readingText: "The Ultimate Binge-Watching Challenge.<br><br>Alejandro is trying to break a world record. He has been watching TV for 85 hours! He is watching a sci-fi series called 'The Galaxy Canvas'. His sister has been giving him coffee and pizza. If he falls asleep, he loses the challenge. 'If I were a normal person, I would be sleeping right now,' Alejandro said. But if he completes 100 hours, he will win $50,000! The competition finishes tomorrow morning.",
         listening: [
             { q: "1. Why is the person so tired today?", opts: ["Because she has been playing soccer.", "Because he went to a party yesterday.", "Because of his art project.", "Because they have been studying math."], a: 2 },
@@ -701,14 +737,14 @@ function start() {
         document.getElementById('card-3').style.display = 'block';
         document.getElementById('card-4').style.display = 'block';
         
-    } else if (data.type === "indefinite_pronouns") {
+    } else if (data.type === "two_parts") {
         totalPoints = data.quiz.length + data.blanks.length;
         activitiesList = ['quiz', 'blanks'];
-        document.getElementById("card-title-1").textContent = "Pronoun Quiz";
-        document.getElementById("card-desc-1").textContent = "Choose correct pronoun";
+        document.getElementById("card-title-1").textContent = "Grammar & Vocab Quiz";
+        document.getElementById("card-desc-1").textContent = "Select the correct answer";
         document.getElementById("icon-1").className = "fas fa-check-circle";
         document.getElementById("card-title-2").textContent = "Grammar Blanks";
-        document.getElementById("card-desc-2").textContent = "Type missing pronoun";
+        document.getElementById("card-desc-2").textContent = "Type the missing word";
         document.getElementById("icon-2").className = "fas fa-keyboard";
         
         document.getElementById('card-1').style.display = 'block';
@@ -941,16 +977,16 @@ function renderQuiz(container, data) {
     var qPos = 0; var failCount = 0; 
     
     function render() {
-        if(data.type === "conditional_review" || data.type === "indefinite_pronouns") {
+        if(data.type === "conditional_review" || data.type === "two_parts") {
             var qObj = data.quiz[qPos]; failCount = 0;
-            var isIndefinite = data.type === "indefinite_pronouns";
+            var isCustomQuiz = data.type === "two_parts";
             
             var optHtml = qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('');
             
             container.innerHTML =
-                '<h2>' + (isIndefinite ? 'Pronoun Quiz' : 'Situation Match') + ' <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.quiz.length+')</span></h2>' +
+                '<h2>' + (isCustomQuiz ? 'Quiz' : 'Situation Match') + ' <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.quiz.length+')</span></h2>' +
                 '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.quiz.length) * 100)+'%;"></div></div></div>' +
-                '<p style="font-size:1.3rem; margin:20px 0;">' + (isIndefinite ? 'Choose the correct pronoun:' : 'Which conditional is this sentence?') + '</p>' +
+                '<p style="font-size:1.3rem; margin:20px 0;">' + (isCustomQuiz ? 'Choose the correct answer:' : 'Which conditional is this sentence?') + '</p>' +
                 '<div style="background:#f1f5f9; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + qObj.q + '"</div>' +
                 optHtml +
                 '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
@@ -1059,15 +1095,15 @@ function renderBlanks(container, data) {
     var idx = 0; var failCount = 0;
     
     function render() {
-        if(data.type === "conditional_review" || data.type === "indefinite_pronouns") {
+        if(data.type === "conditional_review" || data.type === "two_parts") {
             var qObj = data.blanks[idx]; failCount = 0;
-            var isIndefinite = data.type === "indefinite_pronouns";
+            var isCustomBlank = data.type === "two_parts";
             
             container.innerHTML =
                 '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
                 '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.blanks.length) * 100)+'%;"></div></div></div>' +
                 '<p style="font-size:1.3rem; margin:30px auto; max-width:600px;">' + qObj.text + '</p>' +
-                '<input type="text" id="blank-input" placeholder="' + (isIndefinite ? "Type the missing pronoun..." : "Conjugate...") + '" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
+                '<input type="text" id="blank-input" placeholder="' + (isCustomBlank ? "Type the missing word..." : "Conjugate...") + '" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
                 '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> ' + qObj.hint + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>';
             window.checkBlank = function() {
                 var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim().toLowerCase();
