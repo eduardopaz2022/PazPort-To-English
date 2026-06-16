@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
     <style>
         :root {
             --primary-blue: #2563eb;
@@ -141,6 +142,7 @@
         .word-tile { background: #fff; color: var(--text-main); padding: 10px 18px; border-radius: 8px; font-size: 1.05rem; font-weight: 500; cursor: pointer; user-select: none; border: 2px solid #e2e8f0; box-shadow: 0 2px 4px rgba(0,0,0,0.02); transition: transform 0.1s; }
         .word-tile:hover { transform: translateY(-2px); border-color: var(--primary-blue); }
         .word-tile.used { opacity: 0.3; pointer-events: none; }
+        .word-tile.selected-item { background: var(--primary-blue); color: white; border-color: var(--primary-blue); transform: scale(1.05); }
         
         .answer-row { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 15px auto; max-width: 600px; min-height: 60px; padding: 10px; border-bottom: 2px solid var(--primary-blue); }
         .answer-tile { background: var(--primary-blue); color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 1.05rem; font-weight: 500; cursor: pointer; user-select: none; border: 2px solid var(--primary-blue); }
@@ -187,6 +189,18 @@
         .exit-counter { font-size: 1.8rem; font-weight: 800; color: var(--danger); }
         .blocked-screen { text-align: center; padding: 40px 20px; }
         .blocked-screen i { font-size: 5rem; color: var(--danger); margin-bottom: 20px; }
+
+        /* Categorias Sorter CSS */
+        .category-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        @media (max-width: 768px) { .category-container { grid-template-columns: 1fr; } }
+        .category-box { border: 2px solid #e2e8f0; border-radius: 12px; padding: 15px; min-height: 120px; background: #fff; transition: all 0.2s; cursor: pointer; }
+        .category-box:hover { border-color: var(--primary-blue); background: #f8fafc; }
+        .category-box h4 { color: var(--primary-blue); font-size: 1.1rem; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; }
+        .category-box .placed-item { background: #eff6ff; padding: 6px 12px; margin: 4px; border-radius: 6px; font-size: 0.95rem; display: inline-block; border: 1px solid #bfdbfe; }
+        .category-box.correct-flash { border-color: var(--success) !important; background: #d1fae5 !important; }
+        .category-box.wrong-flash { border-color: var(--danger) !important; background: #fee2e2 !important; animation: shake 0.4s; }
+        .food-items-area { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 15px auto; max-width: 800px; padding: 20px; background: #f8fafc; border-radius: 12px; border: 2px dashed #cbd5e1; }
+        .placed-source-item { opacity: 0.3; pointer-events: none; text-decoration: line-through; }
     </style>
 </head>
 <body>
@@ -376,7 +390,6 @@ function setupAntiCheat(maxExits) {
             alert('⚠️ WARNING: You left the page! (Exit ' + state.exitCount + ' of ' + maxExits + ')\n\nStay focused on your work!'); 
         }
         
-        // Cooldown para evitar doble conteo por blur/visibilitychange casi simultaneo
         setTimeout(function() { isHandlingExit = false; }, 1000);
     }
     
@@ -417,8 +430,6 @@ const DB = {
         hints: ["Remove dirt.", "Clean with wet cloth.", "Clean with a broom.", "Consume food.", "Unconscious rest.", "Cover an opening.", "Clean with water.", "Uncover an opening.", "Force away.", "Shout loudly.", "Organize things.", "Wash your body."],
         sentences: [{ s:"window / carefully. / clean / I / the", c:"I clean the window carefully." }, { s:"floor / quickly. / mops / He / the", c:"He mops the floor quickly." }, { s:"fast. / room / sweep / They / the", c:"They sweep the room fast." }, { s:"slowly. / food / eat / You / the", c:"You eat the food slowly." }, { s:"night. / well / at / sleep / We", c:"We sleep well at night." }, { s:"easily. / door / She / the / closes", c:"She closes the door easily." }, { s:"car / I / badly. / wash / the", c:"I wash the car badly." }, { s:"do / loudly. / yell / not / Please", c:"Please do not yell loudly." }]
     },
-
-    // === NOVENO GRADO - NUEVO MÓDULO (ACTIVO) ===
     "9th - Unit 5 - Food Opinions": {
         active: true, type: "normal", grammarHint: "Structure: <b>What do you think about the...? It's / They're [opinion].</b>",
         words: ["Beef", "Rice", "Cereal", "Pork", "Mangoes", "Broccoli", "Carrots", "Cheese", "Yogurt", "Pears", "Onions", "Chicken", "Corn oil", "Potatoes"],
@@ -441,6 +452,45 @@ const DB = {
             { s:"think / What / about / you / the / do / onions?", c:"What do you think about the onions?" },
             { s:"very / not / They're / good.", c:"They're not very good." },
             { s:"tasty. / They're", c:"They're tasty." }
+        ]
+    },
+
+    // === NOVENO GRADO - NUEVO MÓDULO: COUNTABLE / UNCOUNTABLE ===
+    "9th - Unit 5 - Module 2 - Countable & Uncountable": {
+        active: true,
+        type: "countable_module",
+        videoId: "rYLM2xM3ybM",
+        part1: {
+            categories: ["Countable", "Uncountable", "Both"],
+            items: [
+                {name: "steak", cat: "Both"}, {name: "chocolate", cat: "Both"},
+                {name: "cake", cat: "Both"}, {name: "coffee", cat: "Both"},
+                {name: "jam", cat: "Uncountable"}, {name: "milk", cat: "Uncountable"},
+                {name: "butter", cat: "Uncountable"}, {name: "money", cat: "Uncountable"},
+                {name: "water", cat: "Uncountable"}, {name: "bread", cat: "Uncountable"},
+                {name: "cheese", cat: "Uncountable"}, {name: "rice", cat: "Uncountable"},
+                {name: "egg", cat: "Countable"}, {name: "grapes", cat: "Countable"},
+                {name: "cookie", cat: "Countable"}, {name: "taco", cat: "Countable"},
+                {name: "apple", cat: "Countable"}, {name: "carrot", cat: "Countable"},
+                {name: "burger", cat: "Countable"}, {name: "tomato", cat: "Countable"}
+            ]
+        },
+        part2: [
+            { q: "I don't have _____ money left.", opts: ["much", "many", "a few"], a: 0, hint: "Money is uncountable. Use much." },
+            { q: "She bought _____ apples at the market.", opts: ["a little", "a few", "much"], a: 1, hint: "Apples are countable plural." },
+            { q: "Do we need _____ milk for the recipe?", opts: ["any", "many", "a few"], a: 0, hint: "Question with uncountable noun." },
+            { q: "There are _____ cars on the street today.", opts: ["much", "a little", "many"], a: 2, hint: "Cars are countable." },
+            { q: "I would like _____ sugar in my coffee, please.", opts: ["a little", "a few", "many"], a: 0, hint: "Sugar is uncountable." },
+            { q: "We have _____ cookies in the jar.", opts: ["some", "much", "a little"], a: 0, hint: "Affirmative sentence, countable plural." },
+            { q: "He doesn't have _____ friends in this city.", opts: ["many", "much", "a little"], a: 0, hint: "Friends are countable." },
+            { q: "There is too _____ noise in this room!", opts: ["much", "many", "a few"], a: 0, hint: "Noise is uncountable." },
+            { q: "Can I have _____ water, please?", opts: ["some", "many", "a few"], a: 0, hint: "Request offering/asking for something." },
+            { q: "I only need _____ minutes to finish this.", opts: ["a few", "a little", "much"], a: 0, hint: "Minutes are countable." },
+            { q: "Do you have _____ questions?", opts: ["any", "much", "a little"], a: 0, hint: "Questions in plural, asking." },
+            { q: "There isn't _____ jam left in the jar.", opts: ["much", "many", "a few"], a: 0, hint: "Jam is uncountable." },
+            { q: "She added _____ salt to the soup.", opts: ["a little", "a few", "many"], a: 0, hint: "Salt is uncountable." },
+            { q: "We saw _____ wild animals in the park.", opts: ["a few", "much", "a little"], a: 0, hint: "Animals are countable." },
+            { q: "I didn't eat _____ tacos because I wasn't hungry.", opts: ["many", "much", "a little"], a: 0, hint: "Tacos are countable." }
         ]
     },
 
@@ -487,7 +537,7 @@ const DB = {
         ]
     },
     "10th - Mock Exam": {
-        active: false, type: "exam", audioFile: "10th Audio.mp3",
+        active: true, type: "exam", audioFile: "10th Audio.mp3",
         readingText: "The Sahara Desert Marathon is an extreme race. It happens in April. Runners go 250 kilometers across dry sand. In the morning, the temperature reaches 50 degrees Celsius! Runners MUST carry their own food and water. Last year, a 24-year-old named Sarah Jenkins won. The prize was $30,000. Next year, organizers expect over 250 people.",
         listening: [
             { q: "1. What will the weather be like on Saturday morning?", opts: ["Sunny and dry", "A clear sky", "A massive thunderstorm", "Boiling hot"], a: 2 },
@@ -598,7 +648,7 @@ const DB = {
         ]
     },
     "11th - TV & Present Perfect Cont.": {
-        active: false, type: "normal", hasVideoLesson: true, grammarHint: "Structure: <b>Subject + Have/Has been + Verb-ing + Complement</b>.",
+        active: true, type: "normal", hasVideoLesson: true, grammarHint: "Structure: <b>Subject + Have/Has been + Verb-ing + Complement</b>.",
         words: ["Binge-watching", "Season finale", "Spoilers", "Screen", "Cliffhanger", "Main character", "Streaming", "Episode", "Broadcasting", "Plot twist", "Have been", "Has been", "Watching", "Waiting", "Discussing"],
         defs: ["Ver muchos episodios sin parar.", "El último episodio de la temporada.", "Información que arruina la sorpresa.", "La pantalla.", "Un final que te deja en suspenso.", "El protagonista.", "Ver videos por internet.", "Un capítulo de la serie.", "Transmitir un programa.", "Un giro sorpresivo en la historia.", "He / Hemos / Han estado...", "Él / Ella ha estado...", "Viendo.", "Esperando.", "Discutiendo/Hablando."],
         examples: ["I have been binge-watching series.", "We have been waiting for the season finale.", "He has been reading spoilers.", "You have been looking at the screen.", "They have been watching the cliffhanger.", "The main character has been running.", "I have been streaming the show.", "She has been downloading the episode.", "The channel has been broadcasting it.", "We have been analyzing the plot twist.", "They have been playing games.", "She has been studying English.", "I have been watching TV.", "You have been waiting here.", "We have been discussing the movie."],
@@ -609,7 +659,7 @@ const DB = {
         ]
     },
     "11th - Mock Exam": {
-        active: false, type: "exam", audioFile: "11th Audio.mp3",
+        active: true, type: "exam", audioFile: "11th Audio.mp3",
         readingText: "The Ultimate Binge-Watching Challenge.<br><br>Alejandro is trying to break a world record. He has been watching TV for 85 hours! He is watching a sci-fi series called 'The Galaxy Canvas'. His sister has been giving him coffee and pizza. If he falls asleep, he loses the challenge. 'If I were a normal person, I would be sleeping right now,' Alejandro said. But if he completes 100 hours, he will win $50,000! The competition finishes tomorrow morning.",
         listening: [
             { q: "1. Why is the person so tired today?", opts: ["Because she has been playing soccer.", "Because he went to a party yesterday.", "Because of his art project.", "Because they have been studying math."], a: 2 },
@@ -656,6 +706,11 @@ let state = { name:"", section:"", unit:"", scores:{}, done:{}, firstTryPoints: 
 let isReviewMode = false;
 let usedBlanksWords = [];
 let activitiesList = [];
+let ytPlayer;
+
+function onYouTubeIframeAPIReady() {
+    // API is ready. We will initialize the player when they start the quest.
+}
 
 window.onload = function() { setDailyQuote(); };
 
@@ -716,6 +771,8 @@ function start() {
     var data = DB[unit];
     
     var totalPoints = 0;
+    var needsVideoLock = false;
+    
     if (data.type === "normal" || data.type === "conditional_review") {
         totalPoints = (data.words.length * 2) + data.sentences.length;
         activitiesList = ['scrolls', 'quiz', 'chamber', 'blanks'];
@@ -752,6 +809,23 @@ function start() {
         document.getElementById('card-3').style.display = 'none';
         document.getElementById('card-4').style.display = 'none';
         
+    } else if (data.type === "countable_module") {
+        totalPoints = data.part1.items.length + data.part2.length;
+        activitiesList = ['countable-part1', 'countable-part2'];
+        document.getElementById("card-title-1").textContent = "Noun Sorter";
+        document.getElementById("card-desc-1").textContent = "Countable or Uncountable?";
+        document.getElementById("icon-1").className = "fas fa-layer-group";
+        document.getElementById("card-title-2").textContent = "Quantifier Quiz";
+        document.getElementById("card-desc-2").textContent = "Select the correct quantifier";
+        document.getElementById("icon-2").className = "fas fa-list-ul";
+        
+        document.getElementById('card-1').style.display = 'block';
+        document.getElementById('card-2').style.display = 'block';
+        document.getElementById('card-3').style.display = 'none';
+        document.getElementById('card-4').style.display = 'none';
+        
+        needsVideoLock = true;
+        
     } else if (data.type === "exam") {
         totalPoints = 30;
         activitiesList = ['listening', 'vocabulary', 'grammar', 'reading'];
@@ -771,21 +845,105 @@ function start() {
     document.getElementById('userGreet').textContent = 'Welcome, ' + name.split(' ')[0];
     
     var studySection = document.getElementById('self-study-section');
-    if (data.hasVideoLesson) {
+    if (data.hasVideoLesson || needsVideoLock) {
         var vUrl = data.videoUrl || "https://www.youtube.com/embed/tBkP83OYtKg";
         var vDesc = data.videoDesc || "Please watch the video carefully before starting the activities.";
-        studySection.innerHTML = `
-            <div class="self-study-guide">
-                <h3><i class="fas fa-chalkboard-teacher"></i> Today's Lesson</h3>
-                <p>${vDesc}</p>
-                <div class="video-container">
-                    <iframe src="${vUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        
+        if(needsVideoLock) {
+            // Reemplazar la URL estándar por el ID para la API de YouTube
+            studySection.innerHTML = `
+                <div class="self-study-guide">
+                    <h3><i class="fas fa-chalkboard-teacher"></i> Today's Lesson</h3>
+                    <p>You MUST finish watching the video completely to unlock the activities.</p>
+                    <div class="video-container" id="yt-player-container">
+                        <div id="yt-player"></div>
+                    </div>
                 </div>
-            </div>`;
+                <button id="start-mod-btn" class="btn" style="background:#cbd5e1; cursor:not-allowed;" disabled>Watch video to unlock</button>`;
+            
+            // Si el alumno está en modo revisión, no lo bloqueamos
+            if(isReviewMode) {
+                setTimeout(() => {
+                    var btn = document.getElementById('start-mod-btn');
+                    if(btn) {
+                        btn.disabled = false;
+                        btn.textContent = "Start Activities (Review Mode)";
+                        btn.style.backgroundColor = "var(--success)";
+                        btn.style.cursor = "pointer";
+                        btn.onclick = function() {
+                            document.getElementById('start-mod-btn').style.display = 'none';
+                            document.getElementById('activity-grid').style.display = 'flex';
+                            document.getElementById('btn-report').style.display = 'inline-block';
+                        }
+                    }
+                }, 1000);
+            } else {
+                if(window.YT && window.YT.Player) {
+                    ytPlayer = new YT.Player('yt-player', {
+                        height: '315',
+                        width: '100%',
+                        videoId: data.videoId,
+                        playerVars: { 'rel': 0, 'controls': 1 },
+                        events: {
+                            'onStateChange': function(event) {
+                                if (event.data === YT.PlayerState.ENDED) {
+                                    var btn = document.getElementById('start-mod-btn');
+                                    if(btn) {
+                                        btn.disabled = false;
+                                        btn.textContent = "Start Activities";
+                                        btn.style.backgroundColor = "var(--success)";
+                                        btn.style.cursor = "pointer";
+                                        btn.onclick = function() {
+                                            document.getElementById('start-mod-btn').style.display = 'none';
+                                            document.getElementById('activity-grid').style.display = 'flex';
+                                            document.getElementById('btn-report').style.display = 'inline-block';
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    // Fallback si YouTube API no carga
+                    setTimeout(function() {
+                        var btn = document.getElementById('start-mod-btn');
+                        if(btn) { 
+                            btn.disabled = false; 
+                            btn.textContent = "Start Activities (API Error Fallback)"; 
+                            btn.style.backgroundColor = "var(--success)";
+                            btn.style.cursor = "pointer";
+                            btn.onclick = function() {
+                                document.getElementById('start-mod-btn').style.display = 'none';
+                                document.getElementById('activity-grid').style.display = 'flex';
+                                document.getElementById('btn-report').style.display = 'inline-block';
+                            }
+                        }
+                    }, 5000);
+                }
+            }
+            
+            // Ocultar la grid de actividades inicialmente si requiere video
+            document.getElementById('activity-grid').style.display = 'none';
+            document.getElementById('btn-report').style.display = 'none';
+            
+        } else {
+            studySection.innerHTML = `
+                <div class="self-study-guide">
+                    <h3><i class="fas fa-chalkboard-teacher"></i> Today's Lesson</h3>
+                    <p>${vDesc}</p>
+                    <div class="video-container">
+                        <iframe src="${vUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>`;
+            document.getElementById('activity-grid').style.display = 'flex';
+            document.getElementById('btn-report').style.display = 'inline-block';
+        }
         studySection.classList.remove('hidden');
     } else {
         studySection.innerHTML = '';
         studySection.classList.add('hidden');
+        document.getElementById('activity-grid').style.display = 'flex';
+        document.getElementById('btn-report').style.display = 'inline-block';
     }
 
     setupAntiCheat(3);
@@ -851,12 +1009,142 @@ function go(index) {
 
     if (data.type === "exam") {
         renderExamSection(container, data, activity);
+    } else if (data.type === "countable_module") {
+        if (activity === 'countable-part1') renderCountPart1(container, data);
+        else if (activity === 'countable-part2') renderCountPart2(container, data);
     } else {
         if      (activity === 'scrolls')   renderScrolls(container, data);
         else if (activity === 'quiz')      renderQuiz(container, data);
         else if (activity === 'chamber')   renderChamber(container, data);
         else if (activity === 'blanks')    renderBlanks(container, data);
     }
+}
+
+// ================================================================
+//  NEW MODULE: COUNTABLE & UNCOUNTABLE
+// ================================================================
+function renderCountPart1(container, data) {
+    var items = data.part1.items.slice().sort(function() { return Math.random()-0.5; });
+    var categories = data.part1.categories;
+    var placedCount = 0;
+    var failCount = 0;
+    var selectedItem = null;
+    var categoryContents = {};
+    for(var i=0; i<categories.length; i++) { categoryContents[categories[i]] = []; }
+    
+    function render() {
+        var html = '<h2>Noun Sorter <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+placedCount+'/'+items.length+')</span></h2>';
+        html += '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((placedCount/items.length)*100)+'%;"></div></div></div>';
+        html += '<p style="color:var(--text-muted);margin-bottom:15px;">Click a word, then click its category:</p>';
+        
+        html += '<div class="category-container">';
+        for(var i=0; i<categories.length; i++){
+            var cat = categories[i];
+            html += '<div class="category-box" id="cm-cat-'+i+'" onclick="window._cmPlace(\''+cat+'\')"><h4>'+cat+'</h4>';
+            var placed = categoryContents[cat];
+            for(var j=0; j<placed.length; j++){
+                html += '<div class="placed-item">'+placed[j]+'</div>';
+            }
+            html += '</div>';
+        }
+        html += '</div>';
+        
+        html += '<div class="food-items-area">';
+        for(var k=0; k<items.length; k++){
+            var item = items[k];
+            var isPlaced = categoryContents[item.cat] && categoryContents[item.cat].indexOf(item.name) !== -1;
+            html += '<div class="food-item-card'+(isPlaced?' placed-source-item':'')+(selectedItem&&selectedItem.name===item.name&&!isPlaced?' selected-item':'')+'" id="cm-item-'+k+'" onclick="window._cmSelect(\''+item.name+'\',\''+item.cat+'\','+k+')">'+item.name+'</div>';
+        }
+        html += '</div>';
+        html += '<div id="hint-box" class="hint-box"><i class="fas fa-exclamation-triangle"></i> Not the right category. Try again!</div>';
+        container.innerHTML = html;
+    }
+    
+    window._cmSelect = function(name, cat, idx) {
+        if(categoryContents[cat] && categoryContents[cat].indexOf(name) !== -1) return;
+        selectedItem = {name: name, cat: cat, index: idx};
+        document.querySelectorAll('.food-item-card').forEach(function(el){ el.classList.remove('selected-item'); });
+        var el = document.getElementById('cm-item-'+idx);
+        if(el) el.classList.add('selected-item');
+    };
+    
+    window._cmPlace = function(cat) {
+        if(!selectedItem) return;
+        var catEl = document.getElementById('cm-cat-'+categories.indexOf(cat));
+        
+        if(selectedItem.cat === cat) {
+            categoryContents[cat].push(selectedItem.name);
+            placedCount++;
+            if (failCount === 0) state.firstTryPoints++;
+            failCount = 0; // reset fail count for next item
+            
+            if(catEl){
+                catEl.classList.add('correct-flash');
+                setTimeout(function(){ if(catEl) catEl.classList.remove('correct-flash'); },500);
+            }
+            selectedItem = null;
+            
+            if(placedCount >= items.length) {
+                state.done['countable-part1'] = true;
+                updateXPBar();
+                setTimeout(function() {
+                    container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Sorting Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
+                }, 600);
+                return;
+            }
+            render();
+        } else {
+            failCount++;
+            if(catEl){
+                catEl.classList.add('wrong-flash');
+                setTimeout(function(){ if(catEl) catEl.classList.remove('wrong-flash'); },500);
+            }
+            document.getElementById('hint-box').classList.add('active');
+            selectedItem = null;
+            document.querySelectorAll('.food-item-card').forEach(function(el){ el.classList.remove('selected-item'); });
+        }
+    };
+    
+    render();
+}
+
+function renderCountPart2(container, data) {
+    var qPos = 0; var failCount = 0; 
+    var questionsArray = data.part2;
+    
+    function render() {
+        var qObj = questionsArray[qPos]; failCount = 0;
+        
+        var optHtml = qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('');
+        
+        container.innerHTML =
+            '<h2>Quantifier Quiz <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+questionsArray.length+')</span></h2>' +
+            '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / questionsArray.length) * 100)+'%;"></div></div></div>' +
+            '<p style="font-size:1.3rem; margin:20px 0;">Choose the correct quantifier:</p>' +
+            '<div style="background:#f1f5f9; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + qObj.q + '"</div>' +
+            optHtml +
+            '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
+            
+        window.checkQuizOpt = function(chosen, correct) {
+            var chosenEl = document.getElementById('qopt-'+chosen);
+            if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
+            if (chosen === correct) {
+                chosenEl.classList.add('correct');
+                if (failCount < 2) { state.firstTryPoints++; }
+                document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
+                setTimeout(function() {
+                    qPos++;
+                    if (qPos < questionsArray.length) { render(); } else {
+                        state.done['countable-part2'] = true; updateXPBar(); triggerConfetti();
+                        container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Module Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
+                    }
+                }, 1000);
+            } else { 
+                failCount++; chosenEl.classList.add('wrong'); chosenEl.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); 
+            }
+        };
+    }
+    render();
 }
 
 // ================================================================
@@ -928,7 +1216,7 @@ function renderExamSection(container, data, sectionName) {
 }
 
 // ================================================================
-//  CLASSIC REVIEWS (9no, 10mo y 11vo)
+//  CLASSIC REVIEWS
 // ================================================================
 function renderScrolls(container, data) {
     var idx = 0;
