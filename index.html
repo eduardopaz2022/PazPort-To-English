@@ -155,7 +155,7 @@
         
         #review-badge { display: none; background: #fffbeb; color: #d97706; border: 1px solid #fcd34d; padding: 8px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; margin: 0 auto 20px auto; width: max-content; }
         
-        .reading-box { background: #eff6ff; padding: 20px; border-left: 4px solid var(--primary-blue); margin: 0 auto 25px auto; max-width: 750px; text-align: left; font-size: 0.95rem; line-height: 1.6; border-radius: 8px; color: var(--text-main); border: 1px solid #bfdbfe; }
+        .reading-box { background: #eff6ff; padding: 20px; border-left: 4px solid var(--primary-blue); margin: 0 auto 25px auto; max-width: 750px; text-align: left; font-size: 0.95rem; line-height: 1.6; border-radius: 8px; color: var(--text-main); border: 1px solid #bfdbfe; max-height: 350px; overflow-y: auto; }
         
         .blanks-word-bank { 
             display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; 
@@ -193,14 +193,17 @@
         /* Categorias Sorter CSS */
         .category-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
         @media (max-width: 768px) { .category-container { grid-template-columns: 1fr; } }
-        .category-box { border: 2px solid #e2e8f0; border-radius: 12px; padding: 15px; min-height: 120px; background: #fff; transition: all 0.2s; cursor: pointer; }
+        .category-box { border: 2px solid #e2e8f0; border-radius: 12px; padding: 15px; min-height: 140px; background: #fff; transition: all 0.2s; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .category-box:hover { border-color: var(--primary-blue); background: #f8fafc; }
-        .category-box h4 { color: var(--primary-blue); font-size: 1.1rem; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; }
-        .category-box .placed-item { background: #eff6ff; padding: 6px 12px; margin: 4px; border-radius: 6px; font-size: 0.95rem; display: inline-block; border: 1px solid #bfdbfe; }
-        .category-box.correct-flash { border-color: var(--success) !important; background: #d1fae5 !important; }
-        .category-box.wrong-flash { border-color: var(--danger) !important; background: #fee2e2 !important; animation: shake 0.4s; }
-        .food-items-area { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin: 15px auto; max-width: 800px; padding: 20px; background: #f8fafc; border-radius: 12px; border: 2px dashed #cbd5e1; }
-        .placed-source-item { opacity: 0.3; pointer-events: none; text-decoration: line-through; }
+        .category-box h4 { color: var(--primary-blue); font-size: 1.1rem; margin-bottom: 10px; border-bottom: 2px solid #e2e8f0; padding-bottom: 5px; font-weight: 700; }
+        .category-box .placed-item { background: #eff6ff; padding: 6px 12px; margin: 4px; border-radius: 6px; font-size: 0.95rem; display: inline-block; border: 1px solid #bfdbfe; font-weight: 500; }
+        .category-box.correct-flash { border-color: var(--success) !important; background: #d1fae5 !important; outline: 3px solid var(--success); }
+        .category-box.wrong-flash { border-color: var(--danger) !important; background: #fee2e2 !important; outline: 3px solid var(--danger); animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+        .food-items-area { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 15px auto; max-width: 800px; padding: 25px; background: #f8fafc; border-radius: 12px; border: 2px dashed #cbd5e1; }
+        .food-item-card { background: white; border: 2px solid #e2e8f0; padding: 10px 18px; border-radius: 10px; cursor: pointer; font-weight: 500; transition: all 0.2s; user-select: none; font-size: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .food-item-card:hover { border-color: var(--primary-blue); transform: translateY(-2px); }
+        .food-item-card.selected-item { background: var(--primary-blue) !important; color: white !important; border-color: var(--primary-blue) !important; transform: scale(1.05); box-shadow: 0 6px 16px rgba(37,99,235,0.4); font-weight: 600; outline: 2px dashed var(--primary-blue); outline-offset: 3px; }
+        .placed-source-item { opacity: 0.25; pointer-events: none; text-decoration: line-through; background: #e2e8f0 !important; border-color: transparent !important; color: #94a3b8 !important; box-shadow: none !important; }
     </style>
 </head>
 <body>
@@ -279,7 +282,7 @@
         </div>
     </div>
     
-    <button class="btn" style="margin-top:40px; width:100%; max-width:300px; display:inline-block;" id="btn-report" onclick="claimCert()" disabled>Complete all to Submit</button>
+    <button class="btn" id="btn-report" onclick="claimCert()" disabled>Complete all to Submit</button>
 </section>
 
 <section id="screen-act" class="screen hidden">
@@ -402,7 +405,7 @@ function setupAntiCheat(maxExits) {
 //  DATABASE 
 // ================================================================
 const DB = {
-    // === NOVENO GRADO - VIEJAS UNIDADES (OCULTAS EN EL MENÚ) ===
+    // === NOVENO GRADO (OCULTAS) ===
     "9th - Unit 4 - Part 1": {
         active: false, type: "normal", grammarHint: "Structure: <b>Subject + Adverb of Frequency + Verb</b>.",
         words: ["Bed", "Pillow", "Blanket", "Sheet", "Mirror", "Closet", "Curtains", "Slippers", "Always", "Never"],
@@ -430,6 +433,8 @@ const DB = {
         hints: ["Remove dirt.", "Clean with wet cloth.", "Clean with a broom.", "Consume food.", "Unconscious rest.", "Cover an opening.", "Clean with water.", "Uncover an opening.", "Force away.", "Shout loudly.", "Organize things.", "Wash your body."],
         sentences: [{ s:"window / carefully. / clean / I / the", c:"I clean the window carefully." }, { s:"floor / quickly. / mops / He / the", c:"He mops the floor quickly." }, { s:"fast. / room / sweep / They / the", c:"They sweep the room fast." }, { s:"slowly. / food / eat / You / the", c:"You eat the food slowly." }, { s:"night. / well / at / sleep / We", c:"We sleep well at night." }, { s:"easily. / door / She / the / closes", c:"She closes the door easily." }, { s:"car / I / badly. / wash / the", c:"I wash the car badly." }, { s:"do / loudly. / yell / not / Please", c:"Please do not yell loudly." }]
     },
+
+    // === NOVENO GRADO (ACTIVOS) ===
     "9th - Unit 5 - Food Opinions": {
         active: true, type: "normal", grammarHint: "Structure: <b>What do you think about the...? It's / They're [opinion].</b>",
         words: ["Beef", "Rice", "Cereal", "Pork", "Mangoes", "Broccoli", "Carrots", "Cheese", "Yogurt", "Pears", "Onions", "Chicken", "Corn oil", "Potatoes"],
@@ -454,8 +459,6 @@ const DB = {
             { s:"tasty. / They're", c:"They're tasty." }
         ]
     },
-
-    // === NOVENO GRADO - NUEVO MÓDULO: COUNTABLE / UNCOUNTABLE ===
     "9th - Unit 5 - Module 2 - Countable & Uncountable": {
         active: true,
         type: "countable_module",
@@ -494,7 +497,7 @@ const DB = {
         ]
     },
 
-    // === DECIMO GRADO ===
+    // === DECIMO GRADO (ACTIVOS) ===
     "10th - Unit 5 - Module 2 - Indefinite Pronouns": {
         active: true, 
         type: "two_parts", 
@@ -536,50 +539,24 @@ const DB = {
             { text: "He knows __________ about cars. He can fix absolutely any problem.", answer: "everything", hint: "All things." }
         ]
     },
-    "10th - Mock Exam": {
-        active: true, type: "exam", audioFile: "10th Audio.mp3",
-        readingText: "The Sahara Desert Marathon is an extreme race. It happens in April. Runners go 250 kilometers across dry sand. In the morning, the temperature reaches 50 degrees Celsius! Runners MUST carry their own food and water. Last year, a 24-year-old named Sarah Jenkins won. The prize was $30,000. Next year, organizers expect over 250 people.",
-        listening: [
-            { q: "1. What will the weather be like on Saturday morning?", opts: ["Sunny and dry", "A clear sky", "A massive thunderstorm", "Boiling hot"], a: 2 },
-            { q: "2. What MUST the students wear because of the weather?", opts: ["Special shoes", "Normal shoes", "Raincoats", "Winter scarves"], a: 2 },
-            { q: "3. Because of the rain, what sport will they NOT do outside?", opts: ["Go swimming", "Play soccer", "Do gymnastics", "Play tennis"], a: 1 },
-            { q: "4. Why shouldn't the students go swimming?", opts: ["Because it is boring.", "Because the pool is closed.", "Because it is very dangerous during thunderstorms.", "Because they have to play basketball."], a: 2 },
-            { q: "5. If a student feels weak, what should they do?", opts: ["They shouldn't run.", "Run faster.", "Go swimming.", "Play soccer."], a: 0 },
-            { q: "6. Who will arrive at 8:15 AM?", opts: ["Sarah Jenkins", "Coach Carter", "A doctor", "Nobody"], a: 1 },
-            { q: "7. What happens if you don't follow the rules?", opts: ["You get a prize.", "You won't play.", "You do gymnastics.", "You go swimming."], a: 1 }
-        ],
-        vocabulary: [
-            { q: "8. The water is very, very hot. It is...", opts: ["freezing", "boiling", "drizzling", "humid"], a: 1 },
-            { q: "9. It is raining lightly from the sky. It is...", opts: ["pouring", "flooding", "drizzling", "clear sky"], a: 2 },
-            { q: "10. The street is full of water. It is...", opts: ["dry", "windy", "flooding", "sunny"], a: 2 },
-            { q: "11. A warm piece of cloth worn around the neck is a...", opts: ["glove", "scarf", "umbrella", "heat"], a: 1 },
-            { q: "12. You hold this over your head to stay dry in the rain:", opts: ["scarf", "blanket", "pillow", "umbrella"], a: 3 },
-            { q: "13. Sun shining, no clouds. The weather is...", opts: ["cloudy", "sunny", "humid", "dry"], a: 1 },
-            { q: "14. Fast moving air outside. It is...", opts: ["windy", "dry", "clear sky", "hot"], a: 0 },
-            { q: "15. The bright flash of electricity in the sky is...", opts: ["thunder", "lightning", "heat", "scarf"], a: 1 }
-        ],
-        grammar: [
-            { q: "16. If the weather is freezing tomorrow, you ________ wear your gloves and scarf.", opts: ["won't", "should", "shouldn't", "are"], a: 1 },
-            { q: "17. You ________ eat a lot of junk food every single day.", opts: ["should", "will", "shouldn't", "are"], a: 2 },
-            { q: "18. I didn't bring my umbrella, so if it starts raining, I ________ get wet.", opts: ["would", "will", "shouldn't", "won't"], a: 1 },
-            { q: "19. We ________ go running near the mountain if there is a massive thunderstorm.", opts: ["should", "will", "shouldn't", "are"], a: 2 },
-            { q: "20. The water ________ be boiling in a few minutes.", opts: ["won't", "shouldn't", "will", "are"], a: 2 },
-            { q: "21. Choose the correct question form:", opts: ["It will be cold tomorrow?", "Will it be cold tomorrow?", "Will be it cold tomorrow?", "Cold it will be tomorrow?"], a: 1 },
-            { q: "22. If you cut your hand, the medical team ________ help you.", opts: ["won't", "shouldn't", "is", "will"], a: 3 },
-            { q: "23. If you injure your leg, you ________ run any further.", opts: ["will", "should", "shouldn't", "are"], a: 2 }
-        ],
+    "10th - Unit 5 - Reading: Global Restaurant Etiquette": {
+        active: true, type: "reading_only",
+        readingText: "<b>Dining Customs Around the World</b><br><br>Food is an essential part of discovering a new culture, but knowing how to eat is just as important as knowing what to eat. Restaurant etiquette varies wildly from country to country.<br><br><b>Italy</b><br>In Italy, never ask for cheese on seafood pasta; it is considered a culinary crime. Also, do not order a cappuccino after a meal. Italians believe milk disrupts digestion after eating, so they stick to espresso. Tipping is not mandatory, as a service charge (coperto) is usually included in the bill.<br><br><b>South Korea</b><br>Respect for elders is crucial in South Korea. You should never pick up your chopsticks or start eating before the oldest person at the table does. When someone older pours a drink for you, hold your glass with both hands. It is also polite to leave a little food on your plate to show that the host provided more than enough.<br><br><b>Morocco</b><br>In Morocco, eating with your hands is very common, but you must only use your right hand. Bread is often used as a utensil to scoop up food from communal tajines. If you are full, leave a bit of food; otherwise, your host will keep filling your plate. Hand washing before the meal is a strict ritual.<br><br><b>Mexico</b><br>In Mexico, meals are social events that can last for hours, a tradition known as 'sobremesa'. It is considered rude to eat tacos with a knife and fork—you must use your hands! If you catch someone's eye while they are eating, it is polite to say 'provecho' (enjoy your meal).",
         reading: [
-            { q: "24. What is the author's purpose in this text?", opts: ["To scare the reader.", "To inform about an extreme desert race and its rules.", "How to do yoga.", "How to carry a backpack."], a: 1 },
-            { q: "25. In what month does the race happen?", opts: ["May", "June", "April", "October"], a: 2 },
-            { q: "26. How many kilometers do the athletes run?", opts: ["45", "250", "500", "30"], a: 1 },
-            { q: "27. What temperature does it reach in the morning?", opts: ["24 degrees", "30 degrees", "45 degrees", "50 degrees"], a: 3 },
-            { q: "28. What MUST the athletes carry?", opts: ["Money", "Food and water", "Special shoes", "A raincoat"], a: 1 },
-            { q: "29. Who won the race last year?", opts: ["Sarah Jenkins", "Coach Carter", "A doctor", "Nobody"], a: 0 },
-            { q: "30. How much money was the prize?", opts: ["$500", "$10,000", "$250", "$30,000"], a: 3 }
+            { q: "1. In Italy, what is considered a culinary crime?", opts: ["Asking for cheese on seafood", "Ordering pizza at night", "Leaving a tip", "Drinking espresso after a meal"], a: 0 },
+            { q: "2. Why do Italians avoid cappuccino after a meal?", opts: ["It is too expensive", "It disrupts digestion", "It keeps them awake", "It is a breakfast drink only"], a: 1 },
+            { q: "3. How should you receive a drink from an older person in South Korea?", opts: ["With your left hand", "With both hands", "Without looking at them", "By saying no thank you"], a: 1 },
+            { q: "4. In South Korea, who must start eating first?", opts: ["The youngest person", "The guest of honor", "The oldest person", "The chef"], a: 2 },
+            { q: "5. What does leaving food on your plate mean in South Korea?", opts: ["You hated the food", "The host provided enough", "You are on a diet", "You want dessert"], a: 1 },
+            { q: "6. Which hand must you use to eat in Morocco?", opts: ["The left hand", "Both hands", "The right hand", "It doesn't matter"], a: 2 },
+            { q: "7. In Morocco, what food is often used as a utensil?", opts: ["Rice", "Bread", "Meat", "Potatoes"], a: 1 },
+            { q: "8. What is the Mexican tradition of staying at the table for hours called?", opts: ["Fiesta", "Provecho", "Sobremesa", "Siesta"], a: 2 },
+            { q: "9. How should you eat tacos in Mexico?", opts: ["With a knife and fork", "With your hands", "Very quickly", "With a spoon"], a: 1 },
+            { q: "10. What polite phrase should you say if you make eye contact with someone eating in Mexico?", opts: ["Hello", "Gracias", "Provecho", "Salud"], a: 2 }
         ]
     },
 
-    // === ONCEAVO GRADO ===
+    // === ONCEAVO GRADO (ACTIVOS) ===
     "11th - Unit 5 - Module 1 - Study Abroad": {
         active: true, 
         type: "two_parts", 
@@ -615,89 +592,36 @@ const DB = {
             { text: "She put a lot of __________ into writing her application essay.", answer: "effort", hint: "Hard work / attempt." }
         ]
     },
-    "11th - Conditionals Review": {
-        active: false, type: "conditional_review", grammarHint: "Zero: <b>Present+Present</b>. First: <b>Present+Will</b>. Second: <b>Past+Would</b>.",
-        scrolls: [
-            { word: "Zero Conditional", def: "Used for facts and general truths. Both verbs are in Present Simple.", ex: "If you eat five pupusas, you get sleepy." },
-            { word: "First Conditional", def: "Used for real or possible situations in the future. If + Present Simple, ... Will + Verb.", ex: "If I pass the test, my parents will buy me pizza." },
-            { word: "Second Conditional", def: "Used for hypothetical, crazy or imaginary situations. If + Past Simple, ... Would + Verb.", ex: "If I had a flying car, I would avoid the traffic." }
-        ],
+    "11th - Unit 5 - Module 2 - Idioms & Adverbs": {
+        active: true, type: "three_parts",
         quiz: [
-            { q: "If aliens invaded the school, I would hide in the cafeteria.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 2, hint: "Notice 'invaded' (past) and 'would hide'." },
-            { q: "If you eat five pupusas, you get sleepy.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 0, hint: "Is this a biological fact? (Present + Present)" },
-            { q: "If the traffic is heavy today, the teacher will be late.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 1, hint: "A real possibility in the future (will)." },
-            { q: "If I were the principal, I would cancel all exams.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 2, hint: "An imaginary, crazy situation." },
-            { q: "If students don't sleep, they look like zombies.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 0, hint: "A general truth about students." },
-            { q: "If I pass the Avanzo test, my parents will buy me a pizza.", opts: ["Zero Conditional (Fact)", "First Conditional (Possible)", "Second Conditional (Crazy/Imaginary)"], a: 1, hint: "A real possibility." }
+            { q: "What does the idiom 'Piece of cake' mean?", opts: ["A difficult task", "Very easy to do", "A type of dessert", "To eat quickly"], a: 1, hint: "It means something takes very little effort." },
+            { q: "What does 'Hit the books' mean?", opts: ["To physically punch books", "To stop reading", "To begin to study hard", "To organize a library"], a: 2, hint: "It's what you do before a big exam." },
+            { q: "What does 'Pass with flying colors' mean?", opts: ["To pass easily and with a high score", "To fail a test", "To paint a picture", "To fly an airplane"], a: 0, hint: "It indicates a great success." },
+            { q: "What does 'Get the hang of it' mean?", opts: ["To hang a picture", "To learn how to do something", "To forget something", "To get angry"], a: 1, hint: "You do this after practicing a new skill." },
+            { q: "What does 'Bite the bullet' mean?", opts: ["To eat metal", "To endure a painful or difficult situation", "To run very fast", "To talk loudly"], a: 1, hint: "Facing something hard bravely." },
+            { q: "Which word focuses on high speed or movement (km/h)?", opts: ["Quick", "Fast", "Always", "Slowly"], a: 1, hint: "Used for cars or runners." },
+            { q: "Which word focuses on time or doing something in a short amount of time?", opts: ["Fast", "Quick", "Hard", "Good"], a: 1, hint: "Used for a rapid response or action." }
         ],
         chamber: [
-            { s: "eat / pupusas, / you / sleepy. / If / five / you / get", c: "If you eat five pupusas, you get sleepy." },
-            { s: "sleep, / don't / students / If / zombies. / like / look / they", c: "If students don't sleep, they look like zombies." },
-            { s: "Avanzo / the / test, / pass / I / If / pizza. / a / me / buy / will / parents / my", c: "If I pass the Avanzo test, my parents will buy me a pizza." },
-            { s: "today, / heavy / is / traffic / the / If / late. / be / will / teacher / the", c: "If the traffic is heavy today, the teacher will be late." },
-            { s: "principal, / the / were / I / If / exams. / all / cancel / would / I", c: "If I were the principal, I would cancel all exams." },
-            { s: "car, / flying / a / had / I / If / traffic. / the / avoid / would / I", c: "If I had a flying car, I would avoid the traffic." }
+            { s: "always / hit the books / quietly. / I", c: "I always hit the books quietly." },
+            { s: "bites the bullet / rarely / She / bravely.", c: "She rarely bites the bullet bravely." },
+            { s: "usually / pass with flying colors / They / easily.", c: "They usually pass with flying colors easily." },
+            { s: "gets the hang of it / He / quickly. / never", c: "He never gets the hang of it quickly." },
+            { s: "piece of cake / eat a / sometimes / We / slowly.", c: "We sometimes eat a piece of cake slowly." },
+            { s: "students / hard. / The / always / hit the books", c: "The students always hit the books hard." }
         ],
         blanks: [
-            { text: "If you eat five pupusas, you _____ (get) sleepy.", answer: "get", hint: "Zero Conditional (Fact)." },
-            { text: "If students don't sleep, they _____ (look) like zombies.", answer: "look", hint: "Zero Conditional (Fact)." },
-            { text: "If I pass the Avanzo test, my parents _____ (buy) me a pizza.", answer: "will buy", hint: "First Conditional (Possible)." },
-            { text: "If the traffic is heavy today, the teacher _____ (be) late.", answer: "will be", hint: "First Conditional (Possible)." },
-            { text: "If I _____ (be) the principal, I would cancel all exams.", answer: "were", hint: "Second Conditional (Imaginary)." },
-            { text: "If I had a flying car, I _____ (avoid) the traffic.", answer: "would avoid", hint: "Second Conditional (Imaginary)." }
-        ]
-    },
-    "11th - TV & Present Perfect Cont.": {
-        active: true, type: "normal", hasVideoLesson: true, grammarHint: "Structure: <b>Subject + Have/Has been + Verb-ing + Complement</b>.",
-        words: ["Binge-watching", "Season finale", "Spoilers", "Screen", "Cliffhanger", "Main character", "Streaming", "Episode", "Broadcasting", "Plot twist", "Have been", "Has been", "Watching", "Waiting", "Discussing"],
-        defs: ["Ver muchos episodios sin parar.", "El último episodio de la temporada.", "Información que arruina la sorpresa.", "La pantalla.", "Un final que te deja en suspenso.", "El protagonista.", "Ver videos por internet.", "Un capítulo de la serie.", "Transmitir un programa.", "Un giro sorpresivo en la historia.", "He / Hemos / Han estado...", "Él / Ella ha estado...", "Viendo.", "Esperando.", "Discutiendo/Hablando."],
-        examples: ["I have been binge-watching series.", "We have been waiting for the season finale.", "He has been reading spoilers.", "You have been looking at the screen.", "They have been watching the cliffhanger.", "The main character has been running.", "I have been streaming the show.", "She has been downloading the episode.", "The channel has been broadcasting it.", "We have been analyzing the plot twist.", "They have been playing games.", "She has been studying English.", "I have been watching TV.", "You have been waiting here.", "We have been discussing the movie."],
-        cloze: ["I have been ________ series. (Ver sin parar)", "We have been waiting for the season ________. (Último capítulo)", "He has been reading ________. (Arruina sorpresas)", "You have been looking at the ________. (Pantalla)", "They have been watching the ________. (Final de suspenso)", "The main ________ has been running. (Protagonista)", "I have been ________ the show. (Ver online)", "She has been downloading the ________. (Capítulo)", "The channel has been ________ it. (Transmitiendo)", "We have been analyzing the plot ________. (Giro sorpresa)", "They ________ playing games. (Auxiliar plural)", "She ________ studying English. (Auxiliar singular)", "I have been ________ TV. (Viendo)", "You have been ________ here. (Esperando)", "We have been ________ the movie. (Discutiendo)"],
-        hints: ["Watching without stopping.", "Last chapter.", "Ruins the surprise.", "TV surface.", "Suspense ending.", "Primary person.", "Watching online.", "One chapter.", "Transmitting.", "Surprise change.", "Use for They.", "Use for She.", "Looking at.", "Staying.", "Talking about."],
-        sentences: [
-            { s:"I / have / been / binge-watching / series.", c:"I have been binge-watching series." }, { s:"We / have / been / waiting / for / the / season / finale.", c:"We have been waiting for the season finale." }, { s:"He / has / been / reading / spoilers.", c:"He has been reading spoilers." }, { s:"You / have / been / looking / at / the / screen.", c:"You have been looking at the screen." }, { s:"They / have / been / watching / the / cliffhanger.", c:"They have been watching the cliffhanger." }, { s:"The / main / character / has / been / running.", c:"The main character has been running." }, { s:"I / have / been / streaming / the / show.", c:"I have been streaming the show." }, { s:"She / has / been / downloading / the / episode.", c:"She has been downloading the episode." }, { s:"The / channel / has / been / broadcasting / it.", c:"The channel has been broadcasting it." }, { s:"We / have / been / analyzing / the / plot / twist.", c:"We have been analyzing the plot twist." }, { s:"They / have / been / playing / games.", c:"They have been playing games." }, { s:"She / has / been / studying / English.", c:"She has been studying English." }, { s:"I / have / been / watching / TV.", c:"I have been watching TV." }, { s:"You / have / been / waiting / here.", c:"You have been waiting here." }, { s:"We / have / been / discussing / the / movie.", c:"We have been discussing the movie." }
-        ]
-    },
-    "11th - Mock Exam": {
-        active: true, type: "exam", audioFile: "11th Audio.mp3",
-        readingText: "The Ultimate Binge-Watching Challenge.<br><br>Alejandro is trying to break a world record. He has been watching TV for 85 hours! He is watching a sci-fi series called 'The Galaxy Canvas'. His sister has been giving him coffee and pizza. If he falls asleep, he loses the challenge. 'If I were a normal person, I would be sleeping right now,' Alejandro said. But if he completes 100 hours, he will win $50,000! The competition finishes tomorrow morning.",
-        listening: [
-            { q: "1. Why is the person so tired today?", opts: ["Because she has been playing soccer.", "Because he went to a party yesterday.", "Because of his art project.", "Because they have been studying math."], a: 2 },
-            { q: "2. What kind of project is he making?", opts: ["A realistic sculpture.", "A short video.", "An abstract masterpiece.", "A science experiment."], a: 2 },
-            { q: "3. What has the person been doing on Netflix?", opts: ["Binge-watching a show.", "Watching a documentary.", "Sleeping all day.", "Painting a canvas."], a: 0 },
-            { q: "4. What is the name of the TV show?", opts: ["The Exhibit Murders.", "The Canvas Murders.", "The Abstract Main Character.", "The Season Finale."], a: 1 },
-            { q: "5. Who is the main character?", opts: ["A crazy artist.", "A brilliant detective.", "A photographer.", "A teacher."], a: 0 },
-            { q: "6. When was the season finale broadcast?", opts: ["Yesterday.", "Last Friday.", "Tomorrow.", "Next Sunday."], a: 0 },
-            { q: "7. How did the season finale end?", opts: ["With a massive cliffhanger.", "With a happy wedding.", "With a simple explanation.", "Very badly."], a: 0 }
-        ],
-        vocabulary: [
-            { q: "8. Watching many episodes without stopping is called...", opts: ["Streaming", "Binge-watching", "Broadcasting", "Waiting"], a: 1 },
-            { q: "9. Information that ruins a surprise is a...", opts: ["Main character", "Spoiler", "Screen", "Episode"], a: 1 },
-            { q: "10. A suspenseful ending is a...", opts: ["Plot twist", "Cliffhanger", "Season finale", "Episode"], a: 1 },
-            { q: "11. The primary person in a story is the...", opts: ["Main character", "Broadcaster", "Viewer", "Season finale"], a: 0 },
-            { q: "12. Watching videos online is...", opts: ["Broadcasting", "Binge-watching", "Streaming", "Discussing"], a: 2 },
-            { q: "13. Transmitting a program on TV is...", opts: ["Streaming", "Broadcasting", "Waiting", "Closing"], a: 1 },
-            { q: "14. A surprise change in the story is a...", opts: ["Cliffhanger", "Main character", "Plot twist", "Episode"], a: 2 },
-            { q: "15. The flat surface where you watch videos is the...", opts: ["Canvas", "Spoiler", "Exhibit", "Screen"], a: 3 }
-        ],
-        grammar: [
-            { q: "16. They ________ watching TV all night.", opts: ["has been", "have been", "are watching", "have watching"], a: 1 },
-            { q: "17. She ________ painting her new canvas since 9:00 AM.", opts: ["have been", "has been", "is been", "has"], a: 1 },
-            { q: "18. (Zero Conditional) If you heat ice, it ________ into water.", opts: ["would turn", "turned", "turns", "will turn"], a: 2 },
-            { q: "19. (First Conditional) If I pass my English exam, my parents ________ be happy.", opts: ["would", "will", "are", "did"], a: 1 },
-            { q: "20. (Second Conditional) If I ________ a millionaire, I would buy a network.", opts: ["am", "was", "were", "will be"], a: 2 },
-            { q: "21. If I ________ more time, I would paint a beautiful masterpiece.", opts: ["have", "had", "will have", "would have"], a: 1 },
-            { q: "22. You look tired. How long ________ you been studying tonight?", opts: ["has", "have", "are", "did"], a: 1 },
-            { q: "23. If he doesn't see season 2 soon, he ________ go crazy.", opts: ["would", "is", "will", "did"], a: 2 }
-        ],
-        reading: [
-            { q: "24. Who has been giving Alejandro coffee and snacks?", opts: ["His parents", "The main character", "His sister", "A time-traveling artist"], a: 2 },
-            { q: "25. Read this quote: 'If I were a normal person, I would be sleeping right now.' What conditional is it?", opts: ["Zero Conditional", "First Conditional", "Second Conditional", "Third Conditional"], a: 2 },
-            { q: "26. Why is Alejandro NOT sleeping right now?", opts: ["Because sleeping is prohibited.", "Because he wants to win the prize money.", "Because he is a robot.", "Because he loves art."], a: 1 },
-            { q: "27. What is the name of the TV show he is watching?", opts: ["The Masterpiece", "The Binge-Watcher", "The Time Canvas", "The Galaxy Canvas"], a: 3 },
-            { q: "28. How much money will he win if he completes the challenge?", opts: ["$90,000", "$45,000", "$5,000", "$50,000"], a: 3 },
-            { q: "29. When does the competition finish?", opts: ["On Sunday at 8:00 PM.", "In 5 minutes.", "Tomorrow morning.", "In 90 hours."], a: 2 },
-            { q: "30. What happens if Alejandro falls asleep?", opts: ["He loses the challenge.", "He wins $50,000.", "The show finishes.", "He gets more pizza."], a: 0 }
+            { text: "He drives his car very __________ on the highway.", answer: "fast", hint: "Focuses on speed (km/h)." },
+            { text: "I need a __________ answer to my question.", answer: "quick", hint: "Focuses on a short amount of time." },
+            { text: "Don't worry, this English exam is a piece of __________.", answer: "cake", hint: "Very easy to do." },
+            { text: "She __________ hits the books quietly in the library. (100% of the time)", answer: "always", hint: "Adverb of frequency for 100%." },
+            { text: "I have a big test tomorrow, so I must hit the __________ tonight.", answer: "books", hint: "To begin studying hard." },
+            { text: "He faced his fears and bit the __________ bravely.", answer: "bullet", hint: "Enduring a difficult situation." },
+            { text: "They __________ get the hang of it easily after a few tries. (80% of the time)", answer: "usually", hint: "Adverb of frequency for 80%." },
+            { text: "Did she pass the test with __________ colors?", answer: "flying", hint: "Passing with a high score." },
+            { text: "He always speaks very __________ in the library.", answer: "quietly", hint: "Adverb of manner for being quiet." },
+            { text: "She learned how to use the new software very __________.", answer: "quickly", hint: "Adverb of manner for doing something in a short time." }
         ]
     }
 };
@@ -709,7 +633,7 @@ let activitiesList = [];
 let ytPlayer;
 
 function onYouTubeIframeAPIReady() {
-    // API is ready. We will initialize the player when they start the quest.
+    // API is ready. Player will be created dynamically when quest starts.
 }
 
 window.onload = function() { setDailyQuote(); };
@@ -794,6 +718,18 @@ function start() {
         document.getElementById('card-3').style.display = 'block';
         document.getElementById('card-4').style.display = 'block';
         
+    } else if (data.type === "reading_only") {
+        totalPoints = data.reading.length;
+        activitiesList = ['reading'];
+        document.getElementById("card-title-1").textContent = "Reading Quiz";
+        document.getElementById("card-desc-1").textContent = "Skimming & Scanning";
+        document.getElementById("icon-1").className = "fas fa-book-open";
+        
+        document.getElementById('card-1').style.display = 'block';
+        document.getElementById('card-2').style.display = 'none';
+        document.getElementById('card-3').style.display = 'none';
+        document.getElementById('card-4').style.display = 'none';
+
     } else if (data.type === "two_parts") {
         totalPoints = data.quiz.length + data.blanks.length;
         activitiesList = ['quiz', 'blanks'];
@@ -809,6 +745,24 @@ function start() {
         document.getElementById('card-3').style.display = 'none';
         document.getElementById('card-4').style.display = 'none';
         
+    } else if (data.type === "three_parts") {
+        totalPoints = data.quiz.length + data.chamber.length + data.blanks.length;
+        activitiesList = ['quiz', 'chamber', 'blanks'];
+        document.getElementById("card-title-1").textContent = "Idioms Quiz";
+        document.getElementById("card-desc-1").textContent = "Definitions & Rules";
+        document.getElementById("icon-1").className = "fas fa-list-ul";
+        document.getElementById("card-title-2").textContent = "Syntax Builder";
+        document.getElementById("card-desc-2").textContent = "Adverb Placement";
+        document.getElementById("icon-2").className = "fas fa-align-left";
+        document.getElementById("card-title-3").textContent = "Grammar Blanks";
+        document.getElementById("card-desc-3").textContent = "Context Practice";
+        document.getElementById("icon-3").className = "fas fa-keyboard";
+        
+        document.getElementById('card-1').style.display = 'block';
+        document.getElementById('card-2').style.display = 'block';
+        document.getElementById('card-3').style.display = 'block';
+        document.getElementById('card-4').style.display = 'none';
+
     } else if (data.type === "countable_module") {
         totalPoints = data.part1.items.length + data.part2.length;
         activitiesList = ['countable-part1', 'countable-part2'];
@@ -850,7 +804,6 @@ function start() {
         var vDesc = data.videoDesc || "Please watch the video carefully before starting the activities.";
         
         if(needsVideoLock) {
-            // Reemplazar la URL estándar por el ID para la API de YouTube
             studySection.innerHTML = `
                 <div class="self-study-guide">
                     <h3><i class="fas fa-chalkboard-teacher"></i> Today's Lesson</h3>
@@ -861,7 +814,6 @@ function start() {
                 </div>
                 <button id="start-mod-btn" class="btn" style="background:#cbd5e1; cursor:not-allowed;" disabled>Watch video to unlock</button>`;
             
-            // Si el alumno está en modo revisión, no lo bloqueamos
             if(isReviewMode) {
                 setTimeout(() => {
                     var btn = document.getElementById('start-mod-btn');
@@ -904,7 +856,6 @@ function start() {
                         }
                     });
                 } else {
-                    // Fallback si YouTube API no carga
                     setTimeout(function() {
                         var btn = document.getElementById('start-mod-btn');
                         if(btn) { 
@@ -922,7 +873,6 @@ function start() {
                 }
             }
             
-            // Ocultar la grid de actividades inicialmente si requiere video
             document.getElementById('activity-grid').style.display = 'none';
             document.getElementById('btn-report').style.display = 'none';
             
@@ -1007,7 +957,7 @@ function go(index) {
     var container = document.getElementById('act-content');
     container.innerHTML = ''; 
 
-    if (data.type === "exam") {
+    if (data.type === "exam" || data.type === "reading_only") {
         renderExamSection(container, data, activity);
     } else if (data.type === "countable_module") {
         if (activity === 'countable-part1') renderCountPart1(container, data);
@@ -1076,9 +1026,10 @@ function renderCountPart1(container, data) {
             categoryContents[cat].push(selectedItem.name);
             placedCount++;
             if (failCount === 0) state.firstTryPoints++;
-            failCount = 0; // reset fail count for next item
+            failCount = 0; 
             
             if(catEl){
+                catEl.classList.remove('wrong-flash');
                 catEl.classList.add('correct-flash');
                 setTimeout(function(){ if(catEl) catEl.classList.remove('correct-flash'); },500);
             }
@@ -1096,6 +1047,7 @@ function renderCountPart1(container, data) {
         } else {
             failCount++;
             if(catEl){
+                catEl.classList.remove('correct-flash');
                 catEl.classList.add('wrong-flash');
                 setTimeout(function(){ if(catEl) catEl.classList.remove('wrong-flash'); },500);
             }
@@ -1106,6 +1058,10 @@ function renderCountPart1(container, data) {
     };
     
     render();
+}
+
+function borderControlFix() {
+    // Auxiliary handler for safe UI layout re-renderings
 }
 
 function renderCountPart2(container, data) {
@@ -1148,7 +1104,7 @@ function renderCountPart2(container, data) {
 }
 
 // ================================================================
-//  MOCK EXAM LOGIC 
+//  EXAM / READING LOGIC
 // ================================================================
 function renderExamSection(container, data, sectionName) {
     var qPos = 0;
@@ -1164,7 +1120,7 @@ function renderExamSection(container, data, sectionName) {
             return '<div class="quiz-option" id="eopt-'+i+'" onclick="window.checkExamOpt('+i+','+qObj.a+')">' + o + '</div>';
         }).join('');
 
-        var headerHtml = '<h2 style="color:var(--primary-blue); text-transform:capitalize;">' + sectionName + ' <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+questionsArray.length+')</span></h2>' +
+        var headerHtml = '<h2 style="color:var(--primary-blue); text-transform:capitalize;">' + (data.type === "reading_only" ? "Reading Comprehension" : sectionName) + ' <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+questionsArray.length+')</span></h2>' +
                          '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="background:var(--primary-blue); width:'+pct+'%;"></div></div></div>';
 
         var audioHtml = '';
@@ -1175,8 +1131,8 @@ function renderExamSection(container, data, sectionName) {
         }
 
         var readingHtml = '';
-        if (sectionName === 'reading') {
-            readingHtml = '<div class="reading-box" style="background:#eff6ff; padding:20px; border-left:4px solid var(--primary-blue); margin-bottom:25px; border-radius:8px; border:1px solid #bfdbfe;"><strong><i class="fas fa-book-open"></i> Reading Text Panel:</strong><br><br>' + data.readingText + '</div>';
+        if (sectionName === 'reading' || data.type === "reading_only") {
+            readingHtml = '<div class="reading-box" style="background:#eff6ff; padding:20px; border-left:4px solid var(--primary-blue); margin-bottom:25px; border-radius:8px; border:1px solid #bfdbfe; max-height: 250px; overflow-y: auto;"><strong><i class="fas fa-book-open"></i> Reading Text Panel:</strong><br><br>' + data.readingText + '</div>';
         }
 
         container.innerHTML = headerHtml + audioHtml + readingHtml +
@@ -1200,7 +1156,7 @@ function renderExamSection(container, data, sectionName) {
                     } else {
                         state.done[sectionName] = true; 
                         try { updateXPBar(); } catch(e) { console.error(e); }
-                        if (sectionName === 'reading') triggerConfetti();
+                        triggerConfetti();
                         container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Section Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                     }
                 }, 1000);
@@ -1265,9 +1221,9 @@ function renderQuiz(container, data) {
     var qPos = 0; var failCount = 0; 
     
     function render() {
-        if(data.type === "conditional_review" || data.type === "two_parts") {
+        if(data.type === "conditional_review" || data.type === "two_parts" || data.type === "three_parts") {
             var qObj = data.quiz[qPos]; failCount = 0;
-            var isCustomQuiz = data.type === "two_parts";
+            var isCustomQuiz = (data.type === "two_parts" || data.type === "three_parts");
             
             var optHtml = qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('');
             
@@ -1336,7 +1292,7 @@ function renderQuiz(container, data) {
 
 function renderChamber(container, data) {
     var idx = 0; var failCount = 0; var tokens = []; var shuffledIndices = []; var selectedIndices = [];
-    var sList = data.type === "conditional_review" ? data.chamber : data.sentences;
+    var sList = (data.type === "conditional_review" || data.type === "three_parts") ? data.chamber : data.sentences;
     function shuffleArray(arr) { var array = arr.slice(); for (var i = array.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var temp = array[i]; array[i] = array[j]; array[j] = temp; } return array; }
 
     function render() {
@@ -1383,9 +1339,9 @@ function renderBlanks(container, data) {
     var idx = 0; var failCount = 0;
     
     function render() {
-        if(data.type === "conditional_review" || data.type === "two_parts") {
+        if(data.type === "conditional_review" || data.type === "two_parts" || data.type === "three_parts") {
             var qObj = data.blanks[idx]; failCount = 0;
-            var isCustomBlank = data.type === "two_parts";
+            var isCustomBlank = (data.type === "two_parts" || data.type === "three_parts");
             
             container.innerHTML =
                 '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
