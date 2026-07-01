@@ -168,6 +168,8 @@
             transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05); border: 1px solid #cbd5e1;
         }
         .blanks-word.used { text-decoration: line-through; opacity: 0.3; background: #cbd5e1; box-shadow: none; border-color: transparent; }
+        .blanks-word.correct { background: #d1fae5 !important; color: #065f46 !important; border-color: var(--success) !important; }
+        .blanks-word.wrong { background: #fee2e2 !important; color: #991b1b !important; border-color: var(--danger) !important; animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
 
         .self-study-guide {
             background: #eff6ff; border: 2px solid var(--primary-blue); 
@@ -204,6 +206,54 @@
         .food-item-card:hover { border-color: var(--primary-blue); transform: translateY(-2px); }
         .food-item-card.selected-item { background: var(--primary-blue) !important; color: white !important; border-color: var(--primary-blue) !important; transform: scale(1.05); box-shadow: 0 6px 16px rgba(37,99,235,0.4); font-weight: 600; outline: 2px dashed var(--primary-blue); outline-offset: 3px; }
         .placed-source-item { opacity: 0.25; pointer-events: none; text-decoration: line-through; background: #e2e8f0 !important; border-color: transparent !important; color: #94a3b8 !important; box-shadow: none !important; }
+        
+        /* Selector de opciones para Grammar Blanks */
+        .options-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        .option-btn {
+            background: white;
+            border: 2px solid #e2e8f0;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
+            min-width: 80px;
+        }
+        .option-btn:hover {
+            border-color: var(--primary-blue);
+            background: #f8fafc;
+            transform: translateY(-2px);
+        }
+        .option-btn.selected {
+            border-color: var(--primary-blue);
+            background: #dbeafe;
+            box-shadow: 0 0 0 3px rgba(37,99,235,0.2);
+        }
+        .option-btn.correct {
+            background: #d1fae5 !important;
+            border-color: var(--success) !important;
+            color: #065f46 !important;
+        }
+        .option-btn.wrong {
+            background: #fee2e2 !important;
+            border-color: var(--danger) !important;
+            color: #991b1b !important;
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        .option-btn:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
     </style>
 </head>
 <body>
@@ -434,66 +484,48 @@ const DB = {
         sentences: [{ s:"window / carefully. / clean / I / the", c:"I clean the window carefully." }, { s:"floor / quickly. / mops / He / the", c:"He mops the floor quickly." }, { s:"fast. / room / sweep / They / the", c:"They sweep the room fast." }, { s:"slowly. / food / eat / You / the", c:"You eat the food slowly." }, { s:"night. / well / at / sleep / We", c:"We sleep well at night." }, { s:"easily. / door / She / the / closes", c:"She closes the door easily." }, { s:"car / I / badly. / wash / the", c:"I wash the car badly." }, { s:"do / loudly. / yell / not / Please", c:"Please do not yell loudly." }]
     },
 
-    // === NOVENO GRADO (ACTIVOS) ===
-    "9th - Unit 5 - Food Opinions": {
-        active: true, type: "normal", grammarHint: "Structure: <b>What do you think about the...? It's / They're [opinion].</b>",
-        words: ["Beef", "Rice", "Cereal", "Pork", "Mangoes", "Broccoli", "Carrots", "Cheese", "Yogurt", "Pears", "Onions", "Chicken", "Corn oil", "Potatoes"],
-        defs: ["Meat from a cow.", "Small white grains often eaten with meals.", "Breakfast food made from grains, eaten with milk.", "Meat from a pig.", "Sweet tropical fruits with a yellow inside.", "A green vegetable that looks like a small tree.", "Long, orange root vegetables.", "A solid yellow or white food made from milk.", "A thick, creamy food made from milk.", "Sweet fruits with a narrow top and wider bottom.", "Round vegetables with a strong smell and flavor.", "Meat from a common farm bird.", "A yellow cooking liquid made from corn.", "Round root vegetables grown underground."],
-        examples: ["What do you think about the beef? It's delicious.", "Do you like the rice? It's pretty good.", "How often do you eat the cereal?", "What do you think about the pork? It's all right.", "What do you think about the mangoes? They're excellent.", "Do you like the broccoli? It's OK.", "What do you think about the carrots? They're terrible.", "Do you like the cheese? It's great.", "How often do you eat the yogurt?", "What do you think about the pears? They're tasty.", "Do you like the onions? They're not very good.", "Who is the chicken for?", "Do you like the corn oil?", "What do you think about the potatoes? They're great."],
-        cloze: ["What do you think about the ________? It's delicious meat.", "Do you like the ________? They are white grains.", "How often do you eat the ________ for breakfast?", "What do you think about the ________? It's good meat.", "What do you think about the ________? They're sweet tropical fruits.", "Do you like the ________? It looks like a green tree.", "What do you think about the ________? They're orange.", "Do you like the ________? It is made from milk.", "How often do you eat the creamy ________?", "What do you think about the ________? They're sweet fruits.", "Do you like the ________? They have a strong smell.", "Who is the ________ for? It is bird meat.", "Do you cook with the ________?", "What do you think about the ________? They grow underground."],
-        hints: ["Cow meat", "White grains", "Breakfast food", "Pig meat", "Tropical fruit", "Green vegetable", "Orange vegetable", "Solid milk product", "Creamy milk product", "Sweet fruit", "Strong smell vegetable", "Bird meat", "Cooking liquid", "Underground vegetable"],
-        sentences: [
-            { s:"think / What / about / you / the / do / beef?", c:"What do you think about the beef?" },
-            { s:"delicious. / It's", c:"It's delicious." },
-            { s:"eat / often / How / you / do / the / rice?", c:"How often do you eat the rice?" },
-            { s:"like / you / Do / the / carrots?", c:"Do you like the carrots?" },
-            { s:"terrible. / They're", c:"They're terrible." },
-            { s:"is / Who / the / for? / chicken", c:"Who is the chicken for?" },
-            { s:"think / What / about / you / the / do / mangoes?", c:"What do you think about the mangoes?" },
-            { s:"excellent. / They're", c:"They're excellent." },
-            { s:"like / you / Do / the / cheese?", c:"Do you like the cheese?" },
-            { s:"good. / pretty / It's", c:"It's pretty good." },
-            { s:"eat / often / How / you / do / the / cereal?", c:"How often do you eat the cereal?" },
-            { s:"think / What / about / you / the / do / onions?", c:"What do you think about the onions?" },
-            { s:"very / not / They're / good.", c:"They're not very good." },
-            { s:"tasty. / They're", c:"They're tasty." }
-        ]
-    },
-    "9th - Unit 5 - Module 2 - Countable & Uncountable": {
+    // === NUEVA UNIDAD PARA NOVENO - UNIT 6 - MODULE 1 ===
+    "9th - Unit 6 - Module 1 - Simple Present": {
         active: true,
-        type: "countable_module",
-        videoId: "rYLM2xM3ybM",
-        part1: {
-            categories: ["Countable", "Uncountable", "Both"],
-            items: [
-                {name: "steak", cat: "Both"}, {name: "chocolate", cat: "Both"},
-                {name: "cake", cat: "Both"}, {name: "coffee", cat: "Both"},
-                {name: "jam", cat: "Uncountable"}, {name: "milk", cat: "Uncountable"},
-                {name: "butter", cat: "Uncountable"}, {name: "money", cat: "Uncountable"},
-                {name: "water", cat: "Uncountable"}, {name: "bread", cat: "Uncountable"},
-                {name: "cheese", cat: "Uncountable"}, {name: "rice", cat: "Uncountable"},
-                {name: "egg", cat: "Countable"}, {name: "grapes", cat: "Countable"},
-                {name: "cookie", cat: "Countable"}, {name: "taco", cat: "Countable"},
-                {name: "apple", cat: "Countable"}, {name: "carrot", cat: "Countable"},
-                {name: "burger", cat: "Countable"}, {name: "tomato", cat: "Countable"}
-            ]
-        },
-        part2: [
-            { q: "I don't have _____ money left.", opts: ["much", "many", "a few"], a: 0, hint: "Money is uncountable. Use much." },
-            { q: "She bought _____ apples at the market.", opts: ["a little", "a few", "much"], a: 1, hint: "Apples are countable plural." },
-            { q: "Do we need _____ milk for the recipe?", opts: ["any", "many", "a few"], a: 0, hint: "Question with uncountable noun." },
-            { q: "There are _____ cars on the street today.", opts: ["much", "a little", "many"], a: 2, hint: "Cars are countable." },
-            { q: "I would like _____ sugar in my coffee, please.", opts: ["a little", "a few", "many"], a: 0, hint: "Sugar is uncountable." },
-            { q: "We have _____ cookies in the jar.", opts: ["some", "much", "a little"], a: 0, hint: "Affirmative sentence, countable plural." },
-            { q: "He doesn't have _____ friends in this city.", opts: ["many", "much", "a little"], a: 0, hint: "Friends are countable." },
-            { q: "There is too _____ noise in this room!", opts: ["much", "many", "a few"], a: 0, hint: "Noise is uncountable." },
-            { q: "Can I have _____ water, please?", opts: ["some", "many", "a few"], a: 0, hint: "Request offering/asking for something." },
-            { q: "I only need _____ minutes to finish this.", opts: ["a few", "a little", "much"], a: 0, hint: "Minutes are countable." },
-            { q: "Do you have _____ questions?", opts: ["any", "much", "a little"], a: 0, hint: "Questions in plural, asking." },
-            { q: "There isn't _____ jam left in the jar.", opts: ["much", "many", "a few"], a: 0, hint: "Jam is uncountable." },
-            { q: "She added _____ salt to the soup.", opts: ["a little", "a few", "many"], a: 0, hint: "Salt is uncountable." },
-            { q: "We saw _____ wild animals in the park.", opts: ["a few", "much", "a little"], a: 0, hint: "Animals are countable." },
-            { q: "I didn't eat _____ tacos because I wasn't hungry.", opts: ["many", "much", "a little"], a: 0, hint: "Tacos are countable." }
+        type: "two_parts",
+        words: ["smartwatch", "Google", "VR", "social media", "AI", "apps", "internet", "Wi-Fi", "screenshot", "server", "web browser", "cybersecurity", "wearable technology", "search engine", "gadget", "free apps"],
+        defs: ["A wearable computer in the form of a watch.", "A popular search engine and tech company.", "Virtual Reality - computer-generated environments.", "Platforms for sharing content and communication.", "Artificial Intelligence - machines that mimic human intelligence.", "Software applications for mobile devices.", "A global network connecting computers worldwide.", "Wireless networking technology.", "An image capture of a device's screen.", "A computer that provides data to other computers.", "Software used to access and view websites.", "Protection of computer systems from theft or damage.", "Electronic devices that can be worn on the body.", "A program that searches for information on the web.", "A small, specialized electronic device.", "Apps that don't cost money to download."],
+        examples: ["My brother uses a smartwatch every day.", "We use Google for homework.", "He doesn't play VR games on school days.", "Do you use social media every day?", "Does your teacher use AI in class?", "These apps are free.", "My internet provider is very fast.", "They have a new gadget.", "I make screenshots every week.", "He likes cybersecurity."],
+        cloze: [],
+        hints: [],
+        quiz: [
+            { q: "My brother ________ a smartwatch every day.", opts: ["use", "uses", "using", "is use"], a: 1, hint: "Third person singular (he) + -s" },
+            { q: "We ________ Google for homework.", opts: ["use", "uses", "using", "are use"], a: 0, hint: "First person plural (we) - base form" },
+            { q: "He ________ VR games on school days.", opts: ["don't play", "doesn't play", "not play", "isn't play"], a: 1, hint: "Third person singular negative - use doesn't" },
+            { q: "________ you use social media every day?", opts: ["Does", "Do", "Is", "Are"], a: 1, hint: "Question with 'you' - use Do" },
+            { q: "Does your teacher use AI in class?", opts: ["Yes, he do.", "Yes, he does.", "Yes, he is.", "Yes, he use."], a: 1, hint: "Short answer for third person singular" },
+            { q: "These apps ________ free.", opts: ["is", "are", "am", "be"], a: 1, hint: "Plural subject (apps) - use are" },
+            { q: "My internet provider ________ very fast.", opts: ["are", "is", "am", "be"], a: 1, hint: "Singular subject (provider) - use is" },
+            { q: "They ________ a new gadget.", opts: ["has", "have", "having", "haves"], a: 1, hint: "Plural subject (they) - use have" },
+            { q: "I ________ screenshots every week.", opts: ["make", "makes", "making", "am make"], a: 0, hint: "I + base form" },
+            { q: "He ________ cybersecurity interesting.", opts: ["like", "likes", "liking", "is like"], a: 1, hint: "Third person singular + -s" },
+            { q: "Which sentence is correct?", opts: ["He use Google.", "He uses Google.", "He using Google.", "He is use Google."], a: 1, hint: "Third person singular needs -s" },
+            { q: "Which sentence is negative?", opts: ["We don't use VR every day.", "We use VR every day.", "Do we use VR?", "We are VR users."], a: 0, hint: "Negative sentence uses don't/doesn't" },
+            { q: "Which sentence is a question?", opts: ["They use apps.", "They don't use apps.", "Do they use apps?", "They are apps."], a: 2, hint: "Question with Do/Does at the start" },
+            { q: "Which sentence is correct?", opts: ["AI are useful.", "AI is useful.", "AI am useful.", "AI be useful."], a: 1, hint: "AI is singular - use is" },
+            { q: "My friends ________ wearable technology.", opts: ["like", "likes", "is like", "doesn't like"], a: 0, hint: "Plural subject (friends) - base form" }
+        ],
+        // MODIFICACIÓN: Los blanks ahora tienen opciones para seleccionar
+        blanks: [
+            { text: "A web browser ________ websites.", options: ["open", "opens", "opening", "is open"], answer: "opens", hint: "Third person singular of 'open'" },
+            { text: "A screenshot is a kind of ________.", options: ["image", "video", "app", "game"], answer: "image", hint: "It's a picture of your screen" },
+            { text: "Wi-Fi ________ people connect to the internet.", options: ["help", "helps", "helping", "is help"], answer: "helps", hint: "Third person singular of 'help'" },
+            { text: "My parents ________ social media.", options: ["use", "uses", "using", "is use"], answer: "use", hint: "Plural subject (parents) - base form" },
+            { text: "________ your school have Wi-Fi?", options: ["Is", "Does", "Are", "Do"], answer: "Does", hint: "Third person singular question" },
+            { text: "We ________ free apps on our phones.", options: ["have", "has", "having", "is have"], answer: "have", hint: "First person plural - base form" },
+            { text: "She ________ a web browser for homework.", options: ["use", "uses", "using", "is use"], answer: "uses", hint: "Third person singular + -s" },
+            { text: "I ________ wearable technology.", options: ["don't like", "doesn't like", "not like", "isn't like"], answer: "don't like", hint: "I + don't + base form" },
+            { text: "________ they have a Wi-Fi hotspot?", options: ["Does", "Do", "Is", "Are"], answer: "Do", hint: "Question with 'they' - use Do" },
+            { text: "The server ________ in the computer room.", options: ["are", "am", "is", "be"], answer: "is", hint: "Singular subject (server) - use is" },
+            { text: "We ________ use AI. (negative)", options: ["don't", "doesn't", "not", "isn't"], answer: "don't", hint: "We + don't + base form" },
+            { text: "________ she have free apps?", options: ["Is", "Are", "Does", "Do"], answer: "Does", hint: "Third person singular question" },
+            { text: "He ________ Google every morning.", options: ["use", "using", "uses", "is use"], answer: "uses", hint: "Third person singular + -s" },
+            { text: "Cybersecurity ________ important.", options: ["are", "am", "be", "is"], answer: "is", hint: "Singular subject - use is" }
         ]
     },
 
@@ -526,11 +558,11 @@ const DB = {
             { text: "She knocked on the door, but __________ answered. It was completely empty.", answer: ["no one", "nobody"], hint: "Negative meaning (zero people)." },
             { text: "Wow, looks like __________ is having a great time at this concert! The whole crowd is jumping.", answer: ["everyone", "everybody"], hint: "All people." },
             { text: "You can choose __________ you want from the menu. It's my treat!", answer: "anything", hint: "Any item / It doesn't matter which thing." },
-            { text: "I’m bored. There is __________ to do in this small town.", answer: "nothing", hint: "Negative meaning (zero things to do)." },
+            { text: "I'm bored. There is __________ to do in this small town.", answer: "nothing", hint: "Negative meaning (zero things to do)." },
             { text: "Did __________ call me while I was in the shower?", answer: ["anyone", "anybody"], hint: "Question about a person." },
             { text: "I am so hungry. I need to eat __________ right now.", answer: "something", hint: "Affirmative sentence for a thing." },
             { text: "He left the room without saying __________ to his friends.", answer: "anything", hint: "'Without' makes the sentence negative. Word for things." },
-            { text: "__________ stole my bicycle! It’s gone!", answer: ["someone", "somebody"], hint: "Affirmative sentence for an unknown person." },
+            { text: "__________ stole my bicycle! It's gone!", answer: ["someone", "somebody"], hint: "Affirmative sentence for an unknown person." },
             { text: "The test was so easy that __________ passed it. No one failed.", answer: ["everyone", "everybody"], hint: "All people." },
             { text: "I have __________ to hide. My life is an open book.", answer: "nothing", hint: "Negative meaning (zero things)." },
             { text: "Does __________ here speak German? I need a translator.", answer: ["anyone", "anybody"], hint: "Question about a person." },
@@ -556,42 +588,7 @@ const DB = {
         ]
     },
 
-    // === ONCEAVO GRADO (ACTIVOS) ===
-    "11th - Unit 5 - Module 1 - Study Abroad": {
-        active: true, 
-        type: "two_parts", 
-        hasVideoLesson: true,
-        videoUrl: "https://www.youtube.com/embed/B8wp4JdAD1Q",
-        videoDesc: "Watch the video carefully to review the vocabulary and 'Alone vs Lonely' before taking the quizzes.",
-        quiz: [
-            { q: "To attend an educational institution in a foreign country.", opts: ["Study abroad", "Semester", "Process", "Assistance"], a: 0, hint: "Learning in another nation." },
-            { q: "A series of actions or steps taken in order to achieve a particular end.", opts: ["Process", "Arrangements", "Effort", "Surroundings"], a: 0, hint: "Steps to follow." },
-            { q: "Plans or preparations for a future event.", opts: ["Arrangements", "Student visa", "Assistance", "Advisor"], a: 0, hint: "Making preparations." },
-            { q: "A half-year term in a school or university.", opts: ["Semester", "Process", "Surroundings", "Effort"], a: 0, hint: "Academic period." },
-            { q: "A special passport stamp or document that allows a person to study in a foreign country.", opts: ["Student visa", "Arrangements", "Assistance", "Advisor"], a: 0, hint: "Legal document for studying." },
-            { q: "Help or support.", opts: ["Assistance", "Effort", "Process", "Semester"], a: 0, hint: "Providing aid." },
-            { q: "A vigorous or determined attempt.", opts: ["Effort", "Surroundings", "Study abroad", "Arrangements"], a: 0, hint: "Trying hard." },
-            { q: "The things and conditions around a person or place.", opts: ["Surroundings", "Process", "Advisor", "Student visa"], a: 0, hint: "The environment." },
-            { q: "A person who gives advice, typically in an academic setting.", opts: ["Advisor", "Assistance", "Semester", "Effort"], a: 0, hint: "A guide or counselor." }
-        ],
-        blanks: [
-            { text: "She lives __________ in a big house, but she doesn't mind.", answer: "alone", hint: "Physical state of being by oneself." },
-            { text: "When I moved to the new city, I felt very __________ for the first few weeks.", answer: "lonely", hint: "Emotional state of feeling sad because of isolation." },
-            { text: "Do you like walking __________ at night?", answer: "alone", hint: "Physical state of being by oneself." },
-            { text: "He has many friends, but he still feels __________ sometimes.", answer: "lonely", hint: "Emotional state." },
-            { text: "I can't do this __________; I need some help.", answer: "alone", hint: "By myself." },
-            { text: "I want to __________ next year in Spain.", answer: "study abroad", hint: "Learn in a foreign country." },
-            { text: "Getting the documents ready is a long __________.", answer: "process", hint: "Series of steps." },
-            { text: "We need to make travel __________ before we buy the tickets.", answer: "arrangements", hint: "Preparations." },
-            { text: "The fall __________ starts in September and ends in December.", answer: "semester", hint: "Half-year term." },
-            { text: "You cannot enter the country to study without a valid __________.", answer: "student visa", hint: "Document for students." },
-            { text: "If you need __________, please ask the teacher.", answer: "assistance", hint: "Help." },
-            { text: "Learning a new language requires a lot of time and __________.", answer: "effort", hint: "Hard work." },
-            { text: "It takes time to get used to new __________ when you move.", answer: "surroundings", hint: "The environment around you." },
-            { text: "My academic __________ helped me choose my classes.", answer: "advisor", hint: "Person who gives advice." },
-            { text: "She put a lot of __________ into writing her application essay.", answer: "effort", hint: "Hard work / attempt." }
-        ]
-    },
+    // === ONCEAVO GRADO - MODULE 2 (MANTENIDO INTACTO) ===
     "11th - Unit 5 - Module 2 - Idioms & Adverbs": {
         active: true, type: "three_parts",
         quiz: [
@@ -623,6 +620,57 @@ const DB = {
             { text: "He always speaks very __________ in the library.", answer: "quietly", hint: "Adverb of manner for being quiet." },
             { text: "She learned how to use the new software very __________.", answer: "quickly", hint: "Adverb of manner for doing something in a short time." }
         ]
+    },
+
+    // === ONCEAVO GRADO - NUEVA LECTURA EXTENSA ===
+    "11th - Unit 5 - Reading: Study Abroad Experiences": {
+        active: true,
+        type: "reading_only",
+        readingText: `<b>Study Abroad: A Life-Changing Experience</b><br><br>
+        Studying abroad has become increasingly popular among university students around the world. According to recent statistics from UNESCO, over 5 million students are currently pursuing their education outside their home countries, and this number continues to grow each year. The reasons for this trend are numerous: students seek better educational opportunities, exposure to different cultures, language immersion, and the chance to develop independence and global perspectives.<br><br>
+        
+        <b>Why Study Abroad?</b><br>
+        One of the primary motivations for studying abroad is academic advancement. Many countries offer specialized programs that may not be available in a student's home country. For example, a student interested in marine biology might choose Australia because of its proximity to the Great Barrier Reef, while a student passionate about international business might select Singapore, a global financial hub. Additionally, studying abroad allows students to learn from renowned professors and researchers in their field, gaining knowledge and connections that can benefit their future careers.<br><br>
+        
+        <b>Cultural Immersion and Language Learning</b><br>
+        Living in a foreign country provides unparalleled opportunities for cultural immersion. Students experience daily life, traditions, and customs firsthand. They try local foods, participate in festivals, and learn the history of their host country. Perhaps most importantly, they learn a new language or improve their existing language skills. Being surrounded by native speakers forces students to communicate in the local language, accelerating their learning process dramatically. Research shows that students who study abroad for at least six months achieve significant improvements in their language proficiency.<br><br>
+        
+        <b>Personal Growth and Independence</b><br>
+        The personal benefits of studying abroad are equally significant. Living in a foreign country challenges students to step out of their comfort zones and become more independent. They learn to navigate unfamiliar situations, solve problems, and adapt to different ways of thinking. Many students report that studying abroad transformed their personality, making them more confident, open-minded, and resilient. They also develop important life skills such as budgeting, time management, and cross-cultural communication.<br><br>
+        
+        <b>Challenges and Difficulties</b><br>
+        However, studying abroad is not without its challenges. Students often experience homesickness, culture shock, and language barriers. The feeling of loneliness can be particularly intense in the first few months. Financial concerns are another major issue, as tuition fees and living costs in some countries can be extremely high. Additionally, students may face administrative difficulties, such as obtaining visas, transferring credits, and navigating foreign healthcare systems. Despite these obstacles, the vast majority of students consider the experience worthwhile.<br><br>
+        
+        <b>Career Benefits</b><br>
+        In today's globalized job market, employers increasingly value international experience. Studying abroad demonstrates that a candidate possesses adaptability, cultural awareness, and the ability to work with diverse teams. According to a recent survey by the Institute of International Education, 90% of employers believe that international experience is important for career success. Furthermore, students who study abroad often build international networks that can lead to job opportunities in different countries.<br><br>
+        
+        <b>Popular Destinations</b><br>
+        The United States, the United Kingdom, Australia, Canada, and Germany are among the most popular destinations for international students. Each country offers unique advantages. The US is known for its prestigious universities and research facilities. The UK has a long tradition of academic excellence. Australia offers a high quality of life and beautiful natural environments. Canada is recognized for its welcoming immigration policies. Germany provides tuition-free education at public universities. Other emerging destinations include Japan, South Korea, and Spain.<br><br>
+        
+        <b>Conclusion</b><br>
+        In conclusion, studying abroad is a transformative experience that offers numerous academic, personal, and professional benefits. While it involves significant challenges and costs, the rewards often outweigh the difficulties. For students willing to step outside their comfort zones and embrace new experiences, studying abroad can be one of the most valuable decisions of their lives. As the world becomes increasingly interconnected, international education will continue to play a crucial role in preparing the next generation of global citizens.`,
+        reading: [
+            { q: "1. How many students are currently studying abroad according to UNESCO?", opts: ["Over 1 million", "Over 3 million", "Over 5 million", "Over 10 million"], a: 2 },
+            { q: "2. What is one of the primary motivations for studying abroad?", opts: ["Better weather", "Academic advancement", "Cheaper food", "More entertainment"], a: 1 },
+            { q: "3. Which country is mentioned as good for marine biology students?", opts: ["Singapore", "Australia", "Canada", "Germany"], a: 1 },
+            { q: "4. What is Singapore known for in the text?", opts: ["Beautiful beaches", "Financial hub", "Marine life", "Ancient history"], a: 1 },
+            { q: "5. How does living in a foreign country help with language learning?", opts: ["It forces students to communicate in the local language", "It provides translation software", "It offers language classes for free", "It eliminates the need to study"], a: 0 },
+            { q: "6. How long of a study abroad period shows significant language improvement?", opts: ["One month", "Three months", "Six months", "One year"], a: 2 },
+            { q: "7. Which personal benefit of studying abroad is mentioned?", opts: ["Better job offers", "More money", "Greater independence", "Faster internet"], a: 2 },
+            { q: "8. What challenges do students face when studying abroad?", opts: ["Homesickness", "Better education", "More friends", "Better food"], a: 0 },
+            { q: "9. According to the text, what percentage of employers value international experience?", opts: ["70%", "80%", "90%", "100%"], a: 2 },
+            { q: "10. Which country offers tuition-free public university education?", opts: ["United States", "United Kingdom", "Australia", "Germany"], a: 3 },
+            { q: "11. Which destination is recognized for its welcoming immigration policies?", opts: ["Japan", "Canada", "Spain", "France"], a: 1 },
+            { q: "12. What does the text say about the US as a destination?", opts: ["It has the best food", "It has prestigious universities", "It has the cheapest tuition", "It has the best weather"], a: 1 },
+            { q: "13. What is culture shock according to the text?", opts: ["A positive experience", "A challenge students face", "A type of food", "A language school"], a: 1 },
+            { q: "14. What does studying abroad demonstrate to employers?", opts: ["Ability to cook", "Adaptability and cultural awareness", "Athletic skills", "Artistic talent"], a: 1 },
+            { q: "15. What is the Great Barrier Reef associated with in the text?", opts: ["Germany", "Australia", "Canada", "The UK"], a: 1 },
+            { q: "16. What does the Institute of International Education survey show?", opts: ["Most students regret studying abroad", "90% of employers value international experience", "Studying abroad is too expensive", "Most students stay in their home country"], a: 1 },
+            { q: "17. What are emerging destinations mentioned in the text?", opts: ["Brazil and Mexico", "Japan and South Korea", "South Africa and Egypt", "Russia and Turkey"], a: 1 },
+            { q: "18. What is one of the administrative difficulties students face?", opts: ["Finding good restaurants", "Learning the local language", "Obtaining visas", "Making friends"], a: 2 },
+            { q: "19. What does the text say about the rewards of studying abroad?", opts: ["They are difficult to achieve", "They outweigh the difficulties", "They are not worth it", "They are only for rich students"], a: 1 },
+            { q: "20. According to the conclusion, what role will international education play?", opts: ["A minor role", "A crucial role", "No role", "A decreasing role"], a: 1 }
+        ]
     }
 };
 
@@ -636,7 +684,12 @@ function onYouTubeIframeAPIReady() {
     // API is ready. Player will be created dynamically when quest starts.
 }
 
-window.onload = function() { setDailyQuote(); };
+window.onload = function() { 
+    setDailyQuote(); 
+    var sel = document.getElementById('unitSelect');
+    sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
+    document.getElementById('startBtn').disabled = true;
+};
 
 function updateCascade() {
     var section = document.getElementById('sectionSelect').value;
@@ -652,22 +705,36 @@ function updateCascade() {
 
         var foundOptions = false;
         sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
+        
         Object.keys(DB).forEach(function(k) {
-            if (k.startsWith(gradePrefix) && DB[k].active !== false) {
-                var opt = document.createElement('option'); opt.value = k; opt.textContent = k; sel.appendChild(opt);
+            if (k.startsWith(gradePrefix) && DB[k].active === true) {
+                var opt = document.createElement('option'); 
+                opt.value = k; 
+                opt.textContent = k; 
+                sel.appendChild(opt);
                 foundOptions = true;
             }
         });
         
         if(!foundOptions) {
-            var opt = document.createElement('option'); opt.value = ""; opt.textContent = "-- No quests available --"; sel.appendChild(opt);
+            var opt = document.createElement('option'); 
+            opt.value = ""; 
+            opt.textContent = "-- No quests available --"; 
+            sel.appendChild(opt);
         }
+        
+        setTimeout(function() {
+            checkStatus();
+        }, 200);
         
     } else {
         unitGroup.classList.add('hidden');
         sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
+        document.getElementById('startBtn').disabled = true;
+        document.getElementById('startBtn').textContent = "Start Quest";
+        document.getElementById('startBtn').style.backgroundColor = "var(--primary-blue)";
+        document.getElementById('msg').textContent = '';
     }
-    checkStatus();
 }
 
 function checkStatus() {
@@ -677,14 +744,27 @@ function checkStatus() {
     var btn = document.getElementById('startBtn');
     var msg = document.getElementById('msg');
     
-    if (!name || !section || !unit || unit === "") { 
-        btn.disabled = true; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; return; 
+    if (!name || !section || !unit || unit === "" || unit === "-- No quests available --") { 
+        btn.disabled = true; 
+        btn.textContent = "Start Quest"; 
+        btn.style.backgroundColor = "var(--primary-blue)"; 
+        msg.textContent = ''; 
+        return; 
     }
+    
     var key = name.toLowerCase() + '-' + section + '-' + unit;
     if (localStorage.getItem(key) === 'COMPLETED') {
-        isReviewMode = true; btn.disabled = false; btn.textContent = "Review Mode 🔁"; btn.style.backgroundColor = "var(--warning)"; msg.textContent = 'You completed this previously. Score will not be saved.';
+        isReviewMode = true; 
+        btn.disabled = false; 
+        btn.textContent = "Review Mode 🔁"; 
+        btn.style.backgroundColor = "var(--warning)"; 
+        msg.textContent = 'You completed this previously. Score will not be saved.';
     } else {
-        isReviewMode = false; btn.disabled = false; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; 
+        isReviewMode = false; 
+        btn.disabled = false; 
+        btn.textContent = "Start Quest"; 
+        btn.style.backgroundColor = "var(--primary-blue)"; 
+        msg.textContent = ''; 
     }
 }
 
@@ -737,7 +817,7 @@ function start() {
         document.getElementById("card-desc-1").textContent = "Select the correct answer";
         document.getElementById("icon-1").className = "fas fa-check-circle";
         document.getElementById("card-title-2").textContent = "Grammar Blanks";
-        document.getElementById("card-desc-2").textContent = "Type the missing word";
+        document.getElementById("card-desc-2").textContent = "Choose the correct word";
         document.getElementById("icon-2").className = "fas fa-keyboard";
         
         document.getElementById('card-1').style.display = 'block';
@@ -1060,10 +1140,6 @@ function renderCountPart1(container, data) {
     render();
 }
 
-function borderControlFix() {
-    // Auxiliary handler for safe UI layout re-renderings
-}
-
 function renderCountPart2(container, data) {
     var qPos = 0; var failCount = 0; 
     var questionsArray = data.part2;
@@ -1338,8 +1414,73 @@ function renderChamber(container, data) {
 function renderBlanks(container, data) {
     var idx = 0; var failCount = 0;
     
+    // Verificar si esta unidad tiene opciones (para 9no) o es de tipo texto libre (para otras unidades)
+    var hasOptions = data.blanks && data.blanks.length > 0 && data.blanks[0].options !== undefined;
+    
     function render() {
-        if(data.type === "conditional_review" || data.type === "two_parts" || data.type === "three_parts") {
+        if(hasOptions) {
+            // === MODO CON OPCIONES (PARA 9NO) ===
+            var qObj = data.blanks[idx]; 
+            failCount = 0;
+            var selectedOption = null;
+            
+            container.innerHTML =
+                '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
+                '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.blanks.length) * 100)+'%;"></div></div></div>' +
+                '<p style="font-size:1.3rem; margin:30px auto; max-width:600px;">' + qObj.text + '</p>' +
+                '<div class="options-selector" id="options-selector">' +
+                qObj.options.map(function(opt, i) {
+                    return '<button class="option-btn" data-index="'+i+'" onclick="window.selectOption('+i+')">'+opt+'</button>';
+                }).join('') +
+                '</div>' +
+                '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> ' + qObj.hint + '</div><br>' +
+                '<button class="btn" id="check-opt-btn" onclick="window.checkOption()" disabled>Check Answer</button>';
+            
+            window.selectOption = function(index) {
+                var buttons = document.querySelectorAll('.option-btn');
+                buttons.forEach(function(btn) { btn.classList.remove('selected'); });
+                buttons[index].classList.add('selected');
+                selectedOption = index;
+                document.getElementById('check-opt-btn').disabled = false;
+            };
+            
+            window.checkOption = function() {
+                if (selectedOption === null) return;
+                var buttons = document.querySelectorAll('.option-btn');
+                var chosenText = buttons[selectedOption].textContent;
+                var isCorrect = (chosenText === qObj.answer);
+                
+                buttons.forEach(function(btn, i) {
+                    btn.disabled = true;
+                    if (btn.textContent === qObj.answer) {
+                        btn.classList.add('correct');
+                    } else if (i === selectedOption && !isCorrect) {
+                        btn.classList.add('wrong');
+                    }
+                });
+                
+                if (isCorrect) {
+                    if (failCount < 2) state.firstTryPoints++;
+                    setTimeout(function() {
+                        idx++; 
+                        if (idx < data.blanks.length) { 
+                            render(); 
+                        } else { 
+                            state.done['blanks'] = true; 
+                            updateXPBar(); 
+                            triggerConfetti(); 
+                            container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; 
+                        } 
+                    }, 1000);
+                } else {
+                    failCount++;
+                    document.getElementById('hint-box').classList.add('active');
+                    document.getElementById('check-opt-btn').disabled = true;
+                }
+            };
+            
+        } else if(data.type === "conditional_review" || data.type === "two_parts" || data.type === "three_parts") {
+            // === MODO TEXTO LIBRE (PARA OTRAS UNIDADES) ===
             var qObj = data.blanks[idx]; failCount = 0;
             var isCustomBlank = (data.type === "two_parts" || data.type === "three_parts");
             
@@ -1349,8 +1490,10 @@ function renderBlanks(container, data) {
                 '<p style="font-size:1.3rem; margin:30px auto; max-width:600px;">' + qObj.text + '</p>' +
                 '<input type="text" id="blank-input" placeholder="' + (isCustomBlank ? "Type the missing word..." : "Conjugate...") + '" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
                 '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> ' + qObj.hint + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>';
+                
             window.checkBlank = function() {
-                var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim().toLowerCase();
+                var inputEl = document.getElementById('blank-input'); 
+                var input = inputEl.value.trim().toLowerCase();
                 var isCorrect = false;
                 
                 if (Array.isArray(qObj.answer)) {
@@ -1365,11 +1508,28 @@ function renderBlanks(container, data) {
                 
                 if (isCorrect) {
                     if (failCount < 2) state.firstTryPoints++;
-                    inputEl.classList.remove('input-wrong', 'shake'); inputEl.classList.add('input-correct');
-                    setTimeout(function() { idx++; if (idx < data.blanks.length) { render(); } else { state.done['blanks'] = true; updateXPBar(); triggerConfetti(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } }, 1000);
-                } else { failCount++; inputEl.classList.add('input-wrong'); inputEl.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); }
+                    inputEl.classList.remove('input-wrong', 'shake'); 
+                    inputEl.classList.add('input-correct');
+                    setTimeout(function() { 
+                        idx++; 
+                        if (idx < data.blanks.length) { 
+                            render(); 
+                        } else { 
+                            state.done['blanks'] = true; 
+                            updateXPBar(); 
+                            triggerConfetti(); 
+                            container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; 
+                        } 
+                    }, 1000);
+                } else { 
+                    failCount++; 
+                    inputEl.classList.add('input-wrong'); 
+                    inputEl.classList.add('shake'); 
+                    document.getElementById('hint-box').classList.add('active'); 
+                }
             };
         } else {
+            // === MODO TRADICIONAL (NORMAL) ===
             var shuffledWords = data.words.slice().sort(function() { return Math.random()-0.5; });
             var word = data.words[idx]; failCount = 0;
             var wordBankHtml = '<div class="blanks-word-bank">';
@@ -1390,18 +1550,32 @@ function renderBlanks(container, data) {
             setTimeout(() => { document.getElementById('blank-input').focus(); }, 100);
 
             window.checkBlank = function() {
-                var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim(); if(!input) return;
+                var inputEl = document.getElementById('blank-input'); 
+                var input = inputEl.value.trim(); 
+                if(!input) return;
                 if (input.toLowerCase() === word.toLowerCase()) {
                     if (failCount < 2) state.firstTryPoints++;
                     usedBlanksWords.push(word.toLowerCase());
-                    inputEl.classList.remove('input-wrong', 'shake'); inputEl.classList.add('input-correct');
+                    inputEl.classList.remove('input-wrong', 'shake'); 
+                    inputEl.classList.add('input-correct');
                     setTimeout(function() {
-                        idx++; if (idx < data.words.length) { render(); } else {
-                            state.done['blanks'] = true; updateXPBar(); triggerConfetti();
+                        idx++; 
+                        if (idx < data.words.length) { 
+                            render(); 
+                        } else {
+                            state.done['blanks'] = true; 
+                            updateXPBar(); 
+                            triggerConfetti();
                             container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Fill in the Blanks Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                         }
                     }, 1000);
-                } else { failCount++; inputEl.value = ''; inputEl.classList.add('input-wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); inputEl.focus(); }
+                } else { 
+                    failCount++; 
+                    inputEl.value = ''; 
+                    inputEl.classList.add('input-wrong', 'shake'); 
+                    document.getElementById('hint-box').classList.add('active'); 
+                    inputEl.focus(); 
+                }
             };
         }
     }
