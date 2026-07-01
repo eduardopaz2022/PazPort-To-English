@@ -1423,6 +1423,7 @@ function renderBlanks(container, data) {
             var qObj = data.blanks[idx]; 
             failCount = 0;
             var selectedOption = null;
+            var optionLocked = false;
             
             container.innerHTML =
                 '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
@@ -1437,30 +1438,28 @@ function renderBlanks(container, data) {
                 '<button class="btn" id="check-opt-btn" onclick="window.checkOption()" disabled>Check Answer</button>';
             
             window.selectOption = function(index) {
+                if (optionLocked) return; // No permitir seleccionar si ya se respondió
                 var buttons = document.querySelectorAll('.option-btn');
                 buttons.forEach(function(btn) { btn.classList.remove('selected'); });
                 buttons[index].classList.add('selected');
                 selectedOption = index;
                 document.getElementById('check-opt-btn').disabled = false;
+                // Ocultar el hint cuando se selecciona una nueva opción
+                document.getElementById('hint-box').classList.remove('active');
             };
             
             window.checkOption = function() {
-                if (selectedOption === null) return;
+                if (selectedOption === null || optionLocked) return;
                 var buttons = document.querySelectorAll('.option-btn');
                 var chosenText = buttons[selectedOption].textContent;
                 var isCorrect = (chosenText === qObj.answer);
                 
-                buttons.forEach(function(btn, i) {
-                    btn.disabled = true;
-                    if (btn.textContent === qObj.answer) {
-                        btn.classList.add('correct');
-                    } else if (i === selectedOption && !isCorrect) {
-                        btn.classList.add('wrong');
-                    }
-                });
-                
+                // Marcar la opción seleccionada
                 if (isCorrect) {
+                    buttons[selectedOption].classList.add('correct');
                     if (failCount < 2) state.firstTryPoints++;
+                    optionLocked = true;
+                    
                     setTimeout(function() {
                         idx++; 
                         if (idx < data.blanks.length) { 
@@ -1474,8 +1473,22 @@ function renderBlanks(container, data) {
                     }, 1000);
                 } else {
                     failCount++;
+                    // Marcar la opción incorrecta
+                    buttons[selectedOption].classList.add('wrong');
+                    // Mostrar el hint
                     document.getElementById('hint-box').classList.add('active');
                     document.getElementById('check-opt-btn').disabled = true;
+                    
+                    // Después de un breve momento, permitir que el estudiante intente de nuevo
+                    setTimeout(function() {
+                        // Quitar la clase wrong de la opción incorrecta
+                        buttons[selectedOption].classList.remove('wrong');
+                        // Quitar la selección
+                        buttons[selectedOption].classList.remove('selected');
+                        // Habilitar el botón de nuevo
+                        document.getElementById('check-opt-btn').disabled = false;
+                        selectedOption = null;
+                    }, 1500);
                 }
             };
             
@@ -1510,6 +1523,8 @@ function renderBlanks(container, data) {
                     if (failCount < 2) state.firstTryPoints++;
                     inputEl.classList.remove('input-wrong', 'shake'); 
                     inputEl.classList.add('input-correct');
+                    inputEl.disabled = true;
+                    document.querySelector('.btn').disabled = true;
                     setTimeout(function() { 
                         idx++; 
                         if (idx < data.blanks.length) { 
@@ -1525,7 +1540,13 @@ function renderBlanks(container, data) {
                     failCount++; 
                     inputEl.classList.add('input-wrong'); 
                     inputEl.classList.add('shake'); 
-                    document.getElementById('hint-box').classList.add('active'); 
+                    document.getElementById('hint-box').classList.add('active');
+                    // Limpiar el input después de un momento para que el estudiante pueda intentar de nuevo
+                    setTimeout(function() {
+                        inputEl.value = '';
+                        inputEl.classList.remove('input-wrong', 'shake');
+                        inputEl.focus();
+                    }, 1500);
                 }
             };
         } else {
@@ -1558,6 +1579,8 @@ function renderBlanks(container, data) {
                     usedBlanksWords.push(word.toLowerCase());
                     inputEl.classList.remove('input-wrong', 'shake'); 
                     inputEl.classList.add('input-correct');
+                    inputEl.disabled = true;
+                    document.querySelector('.btn').disabled = true;
                     setTimeout(function() {
                         idx++; 
                         if (idx < data.words.length) { 
@@ -1574,7 +1597,10 @@ function renderBlanks(container, data) {
                     inputEl.value = ''; 
                     inputEl.classList.add('input-wrong', 'shake'); 
                     document.getElementById('hint-box').classList.add('active'); 
-                    inputEl.focus(); 
+                    setTimeout(function() {
+                        inputEl.classList.remove('input-wrong', 'shake');
+                        inputEl.focus();
+                    }, 1500);
                 }
             };
         }
