@@ -450,7 +450,9 @@ function setupAntiCheat(maxExits) {
         if (document.hidden) { handleExit(); } 
     });
 }
-DATABASE MODULE
+
+/* ================================================================
+   DATABASE MODULE
    ================================================================ */
 const DB = {
     "9th - Unit 4 - Part 1": {
@@ -686,7 +688,6 @@ const DB = {
         ]
     }
 };
-
 let state = { name:"", section:"", unit:"", scores:{}, done:{}, firstTryPoints: 0, totalPossiblePoints: 0, exitCount: 0, isLocked: false };
 let isReviewMode = false;
 let usedBlanksWords = [];
