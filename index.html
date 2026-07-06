@@ -698,8 +698,24 @@ function setupAntiCheat(maxExits) {
     document.addEventListener('visibilitychange', window._visibilityHandler);
 }
 
+/* ================================================================
+   ENGINE MODULE (Navigation & UI Control)
+   ================================================================ */
+const UI_META = {
+    "scrolls": { t: "Study Scrolls", d: "Memorize vocabulary", i: "fas fa-layer-group" },
+    "quiz": { t: "Quiz & Match", d: "Select correct answers", i: "fas fa-check-circle" },
+    "chamber": { t: "Syntax Builder", d: "Order the words", i: "fas fa-align-left" },
+    "blanks": { t: "Grammar Challenge", d: "Type missing words", i: "fas fa-keyboard" },
+    "reading": { t: "Reading", d: "Text comprehension", i: "fas fa-book-open" },
+    "countable-part1": { t: "Noun Sorter", d: "Countable/Uncountable", i: "fas fa-layer-group" },
+    "countable-part2": { t: "Quantifier Quiz", d: "Select the quantifier", i: "fas fa-list-ul" },
+    "listening": { t: "Listening", d: "Audio comprehension", i: "fas fa-headphones" },
+    "vocabulary": { t: "Vocabulary", d: "Definitions & Context", i: "fas fa-spell-check" },
+    "grammar": { t: "Grammar", d: "Rules & Syntax", i: "fas fa-pen-nib" }
+};
+
 function onYouTubeIframeAPIReady() {
-    // API is ready. Player will be created dynamically when quest starts.
+    // La API está lista. El reproductor se creará al presionar Start Quest.
 }
 
 window.onload = function() { 
@@ -716,11 +732,7 @@ function updateCascade() {
     
     if (section) {
         unitGroup.classList.remove('hidden');
-        var gradePrefix = "";
-        if (section.startsWith("9")) gradePrefix = "9th";
-        else if (section.startsWith("10")) gradePrefix = "10th";
-        else if (section.startsWith("11")) gradePrefix = "11th";
-
+        var gradePrefix = section.startsWith("9") ? "9th" : section.startsWith("10") ? "10th" : "11th";
         var foundOptions = false;
         sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
         
@@ -741,16 +753,14 @@ function updateCascade() {
             sel.appendChild(opt);
         }
         
-        setTimeout(function() {
-            checkStatus();
-        }, 200);
-        
+        setTimeout(checkStatus, 200);
     } else {
         unitGroup.classList.add('hidden');
         sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
-        document.getElementById('startBtn').disabled = true;
-        document.getElementById('startBtn').textContent = "Start Quest";
-        document.getElementById('startBtn').style.backgroundColor = "var(--primary-blue)";
+        var btn = document.getElementById('startBtn');
+        btn.disabled = true;
+        btn.textContent = "Start Quest";
+        btn.style.backgroundColor = "var(--primary-blue)";
         document.getElementById('msg').textContent = '';
     }
 }
@@ -786,110 +796,42 @@ function checkStatus() {
     }
 }
 
+function calculateTotalPoints(data) {
+    switch(data.type) {
+        case "normal":
+        case "conditional_review": return (data.words.length * 2) + data.sentences.length;
+        case "reading_only": return data.reading.length;
+        case "two_parts": return data.quiz.length + data.blanks.length;
+        case "three_parts": return data.quiz.length + data.chamber.length + data.blanks.length;
+        case "countable_module": return data.part1.items.length + data.part2.length;
+        case "exam": return 30;
+        default: return 10;
+    }
+}
+
 function start() {
     var name = document.getElementById('studentName').value.trim();
     var section = document.getElementById('sectionSelect').value;
     var unit = document.getElementById('unitSelect').value;
     var data = DB[unit];
     
-    var totalPoints = 0;
-    var needsVideoLock = false;
+    activitiesList = data.activities || [];
+    var totalPoints = calculateTotalPoints(data);
+    var needsVideoLock = (data.type === "countable_module");
     
-    if (data.type === "normal" || data.type === "conditional_review") {
-        totalPoints = (data.words.length * 2) + data.sentences.length;
-        activitiesList = ['scrolls', 'quiz', 'chamber', 'blanks'];
-        document.getElementById("card-title-1").textContent = data.type === "conditional_review" ? "Grammar Rules" : "Study Scrolls";
-        document.getElementById("card-desc-1").textContent = data.type === "conditional_review" ? "Review structures" : "Memorize vocabulary";
-        document.getElementById("icon-1").className = "fas fa-layer-group";
-        document.getElementById("card-title-2").textContent = data.type === "conditional_review" ? "Situation Match" : "Definition Quiz";
-        document.getElementById("card-desc-2").textContent = data.type === "conditional_review" ? "Identify Conditional" : "Match the meaning";
-        document.getElementById("icon-2").className = "fas fa-list-ul";
-        document.getElementById("card-title-3").textContent = data.type === "conditional_review" ? "Conditional Builder" : "Sentence Builder";
-        document.getElementById("card-desc-3").textContent = "Order the words";
-        document.getElementById("icon-3").className = "fas fa-align-left";
-        document.getElementById("card-title-4").textContent = data.type === "conditional_review" ? "Grammar Challenge" : "Fill the Blanks";
-        document.getElementById("card-desc-4").textContent = data.type === "conditional_review" ? "Conjugate the verb" : "Type missing words";
-        document.getElementById("icon-4").className = "fas fa-keyboard";
-        
-        document.getElementById('card-1').style.display = 'block';
-        document.getElementById('card-2').style.display = 'block';
-        document.getElementById('card-3').style.display = 'block';
-        document.getElementById('card-4').style.display = 'block';
-        
-    } else if (data.type === "reading_only") {
-        totalPoints = data.reading.length;
-        activitiesList = ['reading'];
-        document.getElementById("card-title-1").textContent = "Reading Quiz";
-        document.getElementById("card-desc-1").textContent = "Skimming & Scanning";
-        document.getElementById("icon-1").className = "fas fa-book-open";
-        
-        document.getElementById('card-1').style.display = 'block';
-        document.getElementById('card-2').style.display = 'none';
-        document.getElementById('card-3').style.display = 'none';
-        document.getElementById('card-4').style.display = 'none';
-
-    } else if (data.type === "two_parts") {
-        totalPoints = data.quiz.length + data.blanks.length;
-        activitiesList = ['quiz', 'blanks'];
-        document.getElementById("card-title-1").textContent = "Grammar & Vocab Quiz";
-        document.getElementById("card-desc-1").textContent = "Select the correct answer";
-        document.getElementById("icon-1").className = "fas fa-check-circle";
-        document.getElementById("card-title-2").textContent = "Grammar Blanks";
-        document.getElementById("card-desc-2").textContent = "Choose the correct word";
-        document.getElementById("icon-2").className = "fas fa-keyboard";
-        
-        document.getElementById('card-1').style.display = 'block';
-        document.getElementById('card-2').style.display = 'block';
-        document.getElementById('card-3').style.display = 'none';
-        document.getElementById('card-4').style.display = 'none';
-        
-    } else if (data.type === "three_parts") {
-        totalPoints = data.quiz.length + data.chamber.length + data.blanks.length;
-        activitiesList = ['quiz', 'chamber', 'blanks'];
-        document.getElementById("card-title-1").textContent = "Idioms Quiz";
-        document.getElementById("card-desc-1").textContent = "Definitions & Rules";
-        document.getElementById("icon-1").className = "fas fa-list-ul";
-        document.getElementById("card-title-2").textContent = "Syntax Builder";
-        document.getElementById("card-desc-2").textContent = "Adverb Placement";
-        document.getElementById("icon-2").className = "fas fa-align-left";
-        document.getElementById("card-title-3").textContent = "Grammar Blanks";
-        document.getElementById("card-desc-3").textContent = "Context Practice";
-        document.getElementById("icon-3").className = "fas fa-keyboard";
-        
-        document.getElementById('card-1').style.display = 'block';
-        document.getElementById('card-2').style.display = 'block';
-        document.getElementById('card-3').style.display = 'block';
-        document.getElementById('card-4').style.display = 'none';
-
-    } else if (data.type === "countable_module") {
-        totalPoints = data.part1.items.length + data.part2.length;
-        activitiesList = ['countable-part1', 'countable-part2'];
-        document.getElementById("card-title-1").textContent = "Noun Sorter";
-        document.getElementById("card-desc-1").textContent = "Countable or Uncountable?";
-        document.getElementById("icon-1").className = "fas fa-layer-group";
-        document.getElementById("card-title-2").textContent = "Quantifier Quiz";
-        document.getElementById("card-desc-2").textContent = "Select the correct quantifier";
-        document.getElementById("icon-2").className = "fas fa-list-ul";
-        
-        document.getElementById('card-1').style.display = 'block';
-        document.getElementById('card-2').style.display = 'block';
-        document.getElementById('card-3').style.display = 'none';
-        document.getElementById('card-4').style.display = 'none';
-        
-        needsVideoLock = true;
-        
-    } else if (data.type === "exam") {
-        totalPoints = 30;
-        activitiesList = ['listening', 'vocabulary', 'grammar', 'reading'];
-        document.getElementById("card-title-1").textContent = "Listening"; document.getElementById("card-desc-1").textContent = "Audio comprehension"; document.getElementById("icon-1").className = "fas fa-headphones";
-        document.getElementById("card-title-2").textContent = "Vocabulary"; document.getElementById("card-desc-2").textContent = "Definitions & Context"; document.getElementById("icon-2").className = "fas fa-spell-check";
-        document.getElementById("card-title-3").textContent = "Grammar"; document.getElementById("card-desc-3").textContent = "Rules & Syntax"; document.getElementById("icon-3").className = "fas fa-pen-nib";
-        document.getElementById("card-title-4").textContent = "Reading"; document.getElementById("card-desc-4").textContent = "Text comprehension"; document.getElementById("icon-4").className = "fas fa-book-open";
-        
-        document.getElementById('card-1').style.display = 'block';
-        document.getElementById('card-2').style.display = 'block';
-        document.getElementById('card-3').style.display = 'block';
-        document.getElementById('card-4').style.display = 'block';
+    // Generación dinámica de la Interfaz (UI)
+    for(let i = 1; i <= 4; i++) {
+        let card = document.getElementById('card-' + i);
+        if(i <= activitiesList.length) {
+            let actKey = activitiesList[i-1];
+            let meta = UI_META[actKey] || { t: "Activity", d: "Complete the task", i: "fas fa-star" };
+            document.getElementById("card-title-" + i).textContent = meta.t;
+            document.getElementById("card-desc-" + i).textContent = meta.d;
+            document.getElementById("icon-" + i).className = meta.i;
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
     }
     
     state = { name: name, section: section, unit: unit, scores: {}, done: {}, firstTryPoints: 0, totalPossiblePoints: totalPoints, exitCount: 0, isLocked: false };
@@ -930,9 +872,7 @@ function start() {
             } else {
                 if(window.YT && window.YT.Player) {
                     ytPlayer = new YT.Player('yt-player', {
-                        height: '315',
-                        width: '100%',
-                        videoId: data.videoId,
+                        height: '315', width: '100%', videoId: data.videoId || 'tBkP83OYtKg',
                         playerVars: { 'rel': 0, 'controls': 1 },
                         events: {
                             'onStateChange': function(event) {
@@ -1055,6 +995,7 @@ function go(index) {
     var container = document.getElementById('act-content');
     container.innerHTML = ''; 
 
+    // Dynamic routing
     if (data.type === "exam" || data.type === "reading_only") {
         renderExamSection(container, data, activity);
     } else if (data.type === "countable_module") {
@@ -1067,7 +1008,6 @@ function go(index) {
         else if (activity === 'blanks')    renderBlanks(container, data);
     }
 }
-
 // ================================================================
 //  NEW MODULE: COUNTABLE & UNCOUNTABLE
 // ================================================================
