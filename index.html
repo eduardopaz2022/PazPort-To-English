@@ -394,63 +394,6 @@ function setDailyQuote() {
     let dayNumber = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
     document.getElementById('motivational-quote').textContent = motivationalQuotes[dayNumber % motivationalQuotes.length];
 }
-
-// ================================================================
-//  ANTI-CHEAT SYSTEM
-// ================================================================
-function getLockKey() { return 'LOCKED-' + state.name.toLowerCase() + '-' + state.section + '-' + state.unit; }
-function getExitsKey() { return 'EXITS-' + state.name.toLowerCase() + '-' + state.section + '-' + state.unit; }
-function isBlocked() { return localStorage.getItem(getLockKey()) === 'BLOCKED'; }
-function setBlocked() { localStorage.setItem(getLockKey(), 'BLOCKED'); }
-function clearExits() { localStorage.removeItem(getExitsKey()); }
-function showBlockedScreen() { 
-    var c = document.getElementById('act-content'); 
-    c.innerHTML = '<div class="blocked-screen"><i class="fas fa-lock"></i><h1 style="color:var(--danger);">Activity Locked</h1><p style="font-size:1.2rem; margin:20px 0;">You have exceeded the maximum number of exits.<br>This activity is now permanently blocked.</p><p style="color:var(--text-muted);">Contact your teacher for assistance.</p><button class="btn" onclick="location.reload()">Return to Entrance</button></div>'; 
-    document.getElementById('act-back-btn-container').style.display='none';
-}
-
-var _antiCheatReady = false;
-var isHandlingExit = false;
-
-function setupAntiCheat(maxExits) {
-    var exitsKey = getExitsKey();
-    var savedExits = parseInt(localStorage.getItem(exitsKey) || '0');
-    state.exitCount = savedExits;
-    state.isLocked = isBlocked();
-    
-    if (state.isLocked) { showBlockedScreen(); return; }
-    
-    _antiCheatReady = false;
-    setTimeout(function() { _antiCheatReady = true; }, 2000);
-    
-    function handleExit() {
-        if (!_antiCheatReady || state.isLocked || isHandlingExit || isReviewMode) return;
-        isHandlingExit = true; 
-        state.exitCount++;
-        localStorage.setItem(exitsKey, state.exitCount.toString());
-        
-        var warnEl = document.getElementById('global-exit-warning');
-        var warnCnt = document.getElementById('global-exit-counter');
-        if(warnEl) { warnEl.classList.add('active'); warnCnt.textContent = state.exitCount; }
-
-        if (state.exitCount >= maxExits) { 
-            state.isLocked = true; 
-            setBlocked(); 
-            alert('🚫 You have left the page ' + maxExits + ' times. This activity is now BLOCKED. Contact your teacher.'); 
-            show('act');
-            showBlockedScreen(); 
-        } else { 
-            alert('⚠️ WARNING: You left the page! (Exit ' + state.exitCount + ' of ' + maxExits + ')\n\nStay focused on your work!'); 
-        }
-        
-        setTimeout(function() { isHandlingExit = false; }, 1000);
-    }
-    
-    document.addEventListener('visibilitychange', function() { 
-        if (document.hidden) { handleExit(); } 
-    });
-}
-
 /* ================================================================
    DATABASE MODULE
    ================================================================ */
@@ -688,11 +631,72 @@ const DB = {
         ]
     }
 };
+/* ================================================================
+   STATE & SECURITY MODULE
+   ================================================================ */
 let state = { name:"", section:"", unit:"", scores:{}, done:{}, firstTryPoints: 0, totalPossiblePoints: 0, exitCount: 0, isLocked: false };
 let isReviewMode = false;
 let usedBlanksWords = [];
 let activitiesList = [];
-let ytPlayer;
+let ytPlayer = null;
+
+// --- Anti-Cheat System ---
+function getLockKey() { return 'LOCKED-' + state.name.toLowerCase() + '-' + state.section + '-' + state.unit; }
+function getExitsKey() { return 'EXITS-' + state.name.toLowerCase() + '-' + state.section + '-' + state.unit; }
+function isBlocked() { return localStorage.getItem(getLockKey()) === 'BLOCKED'; }
+function setBlocked() { localStorage.setItem(getLockKey(), 'BLOCKED'); }
+function clearExits() { localStorage.removeItem(getExitsKey()); }
+
+function showBlockedScreen() {
+    var c = document.getElementById('act-content');
+    c.innerHTML = '<div class="blocked-screen"><i class="fas fa-lock"></i><h1 style="color:var(--danger);">Activity Locked</h1><p style="font-size:1.2rem; margin:20px 0;">You have exceeded the maximum number of exits.<br>This activity is now permanently blocked.</p><p style="color:var(--text-muted);">Contact your teacher for assistance.</p><button class="btn" onclick="location.reload()">Return to Entrance</button></div>';
+    document.getElementById('act-back-btn-container').style.display='none';
+}
+
+var _antiCheatReady = false;
+var isHandlingExit = false;
+
+function setupAntiCheat(maxExits) {
+    var exitsKey = getExitsKey();
+    var savedExits = parseInt(localStorage.getItem(exitsKey) || '0');
+    state.exitCount = savedExits;
+    state.isLocked = isBlocked();
+
+    if (state.isLocked) { showBlockedScreen(); return; }
+
+    _antiCheatReady = false;
+    setTimeout(function() { _antiCheatReady = true; }, 2000);
+
+    function handleExit() {
+        if (!_antiCheatReady || state.isLocked || isHandlingExit || isReviewMode) return;
+        isHandlingExit = true;
+        state.exitCount++;
+        localStorage.setItem(exitsKey, state.exitCount.toString());
+
+        var warnEl = document.getElementById('global-exit-warning');
+        var warnCnt = document.getElementById('global-exit-counter');
+        if(warnEl) { warnEl.classList.add('active'); warnCnt.textContent = state.exitCount; }
+
+        if (state.exitCount >= maxExits) {
+            state.isLocked = true;
+            setBlocked();
+            alert('🚫 You have left the page ' + maxExits + ' times. This activity is now BLOCKED. Contact your teacher.');
+            show('act');
+            showBlockedScreen();
+        } else {
+            alert('⚠️ WARNING: You left the page! (Exit ' + state.exitCount + ' of ' + maxExits + ')\n\nStay focused on your work!');
+        }
+
+        setTimeout(function() { isHandlingExit = false; }, 1000);
+    }
+
+    // Previene que el detector de trampas se duplique si el alumno recarga una actividad
+    document.removeEventListener('visibilitychange', window._visibilityHandler);
+    window._visibilityHandler = function() {
+        if (document.hidden) { handleExit(); }
+    };
+    document.addEventListener('visibilitychange', window._visibilityHandler);
+}
 
 function onYouTubeIframeAPIReady() {
     // API is ready. Player will be created dynamically when quest starts.
