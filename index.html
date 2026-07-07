@@ -1374,9 +1374,18 @@ function renderBlanks(container, data) {
     }
     render();
 }
+/* ================================================================
+   SAVE SYSTEM & CERTIFICATES MODULE
+   ================================================================ */
+
 function claimCert() {
+    // 1. Calcular calificación
     var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
-    var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
+    var finalGrade = rawScore.toFixed(1); 
+    if (finalGrade > 10) finalGrade = 10.0;
+    if (isNaN(finalGrade)) finalGrade = 0.0;
+    
+    // 2. Guardar progreso y enviar a Google Sheets (Solo si NO es modo repaso)
     if (!isReviewMode) {
         var urlGoogleScript = "https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec";
         var formData = new FormData();
@@ -1384,17 +1393,37 @@ function claimCert() {
         formData.append("section", state.section); 
         formData.append("unit", state.unit); 
         formData.append("score", finalGrade); 
-        fetch(urlGoogleScript, { method:"POST", body:formData, mode:"no-cors" }).catch(e => console.error(e));
-        localStorage.setItem(state.name.toLowerCase() + '-' + state.section + '-' + state.unit, 'COMPLETED');
+        
+        fetch(urlGoogleScript, { method: "POST", body: formData, mode: "no-cors" })
+            .catch(e => console.error("Error saving score:", e));
+            
+        var key = state.name.toLowerCase() + '-' + state.section + '-' + state.unit;
+        localStorage.setItem(key, 'COMPLETED');
     }
+    
+    // 3. Dibujar el Certificado
     show('cert');
+    
     document.getElementById('cert-name').textContent = state.name; 
     document.getElementById('cert-unit').textContent = state.unit; 
     document.getElementById('cert-final-grade').textContent = finalGrade;
+    
     var circle = document.getElementById('grade-circle');
-    if (finalGrade >= 8.0) circle.style.backgroundColor = 'var(--success)'; else if (finalGrade >= 6.0) circle.style.backgroundColor = 'var(--warning)'; else circle.style.backgroundColor = 'var(--danger)';
+    if (finalGrade >= 8.0) {
+        circle.style.backgroundColor = 'var(--success)'; 
+    } else if (finalGrade >= 6.0) {
+        circle.style.backgroundColor = 'var(--warning)'; 
+    } else {
+        circle.style.backgroundColor = 'var(--danger)';
+    }
+    
     document.getElementById('cert-time').textContent = 'Completed: ' + new Date().toLocaleString(); 
     document.getElementById('cert-code').textContent = 'AUTH: ' + Math.random().toString(36).substr(2,9).toUpperCase();
+    
+    var reviewBadge = document.getElementById('review-badge');
+    if(reviewBadge) {
+        reviewBadge.style.display = isReviewMode ? 'block' : 'none';
+    }
 }
 </script>
 </body>
