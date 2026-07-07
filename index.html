@@ -630,6 +630,51 @@ const DB = {
             { q: "20. According to the conclusion, what role will international education play?", opts: ["A minor role", "A crucial role", "No role", "A decreasing role"], a: 1 }
         ]
     }
+    "11th - Unit 6 - Life in the Big City": {
+        active: true,
+        type: "exam",
+        activities: ["vocabulary", "reading"],
+        vocabulary: [
+            // Definitions
+            { q: "Which word means 'a very beautiful or impressive place'?", opts: ["stunning", "tourist", "district", "neighborhood"], a: 0 },
+            { q: "Which word means 'the most important city in a country, where the government is'?", opts: ["neighborhood", "capital", "atmosphere", "landmark"], a: 1 },
+            { q: "What do we call a person who travels for pleasure?", opts: ["capital", "landmark", "tourist", "atmosphere"], a: 2 },
+            { q: "Which word means 'an area of a town or city where people live'?", opts: ["tourist", "stunning", "atmosphere", "neighborhood"], a: 3 },
+            { q: "What is a famous building or object that you can easily see and recognize?", opts: ["landmark", "district", "capital", "stunning"], a: 0 },
+            { q: "Which word means 'the feeling or mood of a place'?", opts: ["district", "atmosphere", "tourist", "landmark"], a: 1 },
+            { q: "Which word is similar to 'area' or 'zone' of a city?", opts: ["capital", "stunning", "district", "atmosphere"], a: 2 },
+            // Context & Usage
+            { q: "Look at the image of the Eiffel Tower. The Eiffel Tower is a very famous ________ in Paris.", opts: ["tourist", "neighborhood", "atmosphere", "landmark"], a: 3 },
+            { q: "London is the ________ of the United Kingdom.", opts: ["capital", "district", "tourist", "stunning"], a: 0 },
+            { q: "I love the ________ in this cafe. It is very quiet and relaxing.", opts: ["landmark", "atmosphere", "stunning", "neighborhood"], a: 1 },
+            { q: "Every summer, thousands of ________ visit the museums in this city.", opts: ["tourists", "capitals", "districts", "atmospheres"], a: 0 },
+            { q: "The view of the mountains from the hotel window is absolutely ________.", opts: ["neighborhood", "stunning", "tourist", "capital"], a: 1 },
+            { q: "The financial ________ of the city has many tall bank buildings.", opts: ["stunning", "atmosphere", "district", "tourist"], a: 2 },
+            { q: "I live in a very friendly ________. All my neighbors say good morning.", opts: ["landmark", "capital", "stunning", "neighborhood"], a: 3 },
+            { q: "Which of these is NOT a landmark?", opts: ["The Statue of Liberty", "A normal house", "The Colosseum", "The Pyramids"], a: 1 }
+        ],
+        readingText: "<b>Welcome to Kyoto: A City of Two Worlds</b><br><br>Kyoto was the <b>capital</b> of Japan for over a thousand years. Today, it remains one of the most important cultural centers in the country. When you walk through its streets, you immediately feel a unique <b>atmosphere</b>—a perfect mix of ancient traditions and modern daily life.<br><br>One of the most famous areas is the Arashiyama <b>district</b>, located in the western part of the city. This <b>neighborhood</b> is famous for its beautiful bamboo forest. Every year, millions of people travel here because every <b>tourist</b> wants to see the tall, green bamboo stalks swaying in the wind. The view is absolutely <b>stunning</b>, especially early in the morning before the crowds arrive.<br><br>Another incredible <b>landmark</b> is the Kinkaku-ji, also known as the Golden Pavilion. The top two floors of this temple are completely covered in gold leaf. It sits next to a quiet pond, creating a peaceful reflection on the water.<br><br>While Kyoto has many traditional wooden houses, it is also a working, modern city with a busy downtown area. To get the most out of your visit, it is best to buy a bus pass. The buses connect all the major historical sites quickly. If you want to experience the true heart of Japan, a trip to this incredible city is a must.",
+        reading: [
+            // Skimming (Main Idea / Purpose)
+            { q: "What is the main idea of this reading?", opts: ["Kyoto is a great place to buy modern technology.", "Kyoto is a beautiful city that mixes history and modern life.", "Kyoto is a bad place for tourists.", "Kyoto only has bamboo forests."], a: 1 },
+            { q: "What is the author's purpose in this text?", opts: ["To describe Kyoto and its attractions.", "To teach Japanese history.", "To sell bus tickets.", "To talk about the weather in Japan."], a: 0 },
+            { q: "Which title is also good for this text?", opts: ["The Problem with Kyoto", "How to Build a Golden Temple", "A Guide to Historic Kyoto", "Japan's Best Food"], a: 2 },
+            // Scanning (Specific Details)
+            { q: "How long was Kyoto the capital of Japan?", opts: ["For 10 years", "For 100 years", "For over 1,000 years", "It was never the capital"], a: 2 },
+            { q: "What kind of atmosphere does Kyoto have?", opts: ["Only ancient traditions.", "Only modern daily life.", "A mix of ancient and modern.", "A dangerous and loud mix."], a: 2 },
+            { q: "Where is the Arashiyama district located?", opts: ["In the center of the city.", "In the western part of the city.", "In the eastern part of the city.", "Outside of Japan."], a: 1 },
+            { q: "What is the Arashiyama neighborhood famous for?", opts: ["A bamboo forest.", "A large shopping mall.", "A gold temple.", "A big mountain."], a: 0 },
+            { q: "When is the best time to see the bamboo forest?", opts: ["Late at night.", "In the afternoon.", "Early in the morning.", "At lunchtime."], a: 2 },
+            { q: "What is another name for Kinkaku-ji?", opts: ["The Bamboo Temple", "The Golden Pavilion", "The Wooden House", "The Silver Pavilion"], a: 1 },
+            { q: "What covers the top two floors of Kinkaku-ji?", opts: ["Green bamboo", "Silver paint", "Gold leaf", "Wood"], a: 2 },
+            { q: "What is the best way to get around the city quickly?", opts: ["Walk everywhere.", "Take a taxi.", "Buy a bus pass.", "Rent a bicycle."], a: 2 },
+            // Vocab in Context
+            { q: "In the text, what does 'swaying' mean? (Paragraph 2)", opts: ["Moving side to side slowly", "Breaking into pieces", "Growing very fast", "Changing color"], a: 0 },
+            { q: "In the text, what does 'crowds' mean? (Paragraph 2)", opts: ["Many cars", "Large groups of people", "Loud noises", "Types of birds"], a: 1 },
+            { q: "In the text, what does 'ancient' mean? (Paragraph 1)", opts: ["Very new", "Very old", "Very expensive", "Very tall"], a: 1 },
+            { q: "In the text, what does 'downtown' refer to? (Paragraph 4)", opts: ["The countryside", "The main business or city center", "A quiet park", "A religious temple"], a: 1 }
+        ]
+    }
 };
 /* ================================================================
    STATE & SECURITY MODULE
@@ -1008,8 +1053,8 @@ function go(index) {
         else if (activity === 'blanks')    renderBlanks(container, data);
     }
 }
-/* ================================================================
-   ACTIVITIES MODULE (Games & Exercises)
+    /* ================================================================
+   ACTIVITIES MODULE (Games & Exercises) - WITH SHUFFLE
    ================================================================ */
 
 function renderCountPart1(container, data) {
@@ -1088,7 +1133,14 @@ function renderCountPart2(container, data) {
     var qPos = 0; var failCount = 0; var questionsArray = data.part2;
     function render() {
         var qObj = questionsArray[qPos]; failCount = 0;
-        var optHtml = qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('');
+        
+        // Shuffle Engine
+        var mappedOpts = qObj.opts.map(function(o, i) { return { text: o, isCorrect: (i === qObj.a) }; });
+        var shuffledOpts = mappedOpts.sort(function() { return Math.random() - 0.5; });
+        var optHtml = shuffledOpts.map(function(obj, i) { 
+            return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+obj.isCorrect+')">' + obj.text + '</div>'; 
+        }).join('');
+
         container.innerHTML =
             '<h2>Quantifier Quiz <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+questionsArray.length+')</span></h2>' +
             '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / questionsArray.length) * 100)+'%;"></div></div></div>' +
@@ -1096,10 +1148,10 @@ function renderCountPart2(container, data) {
             '<div style="background:#f1f5f9; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + qObj.q + '"</div>' +
             optHtml + '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
             
-        window.checkQuizOpt = function(chosen, correct) {
+        window.checkQuizOpt = function(chosen, isCorrect) {
             var chosenEl = document.getElementById('qopt-'+chosen);
             if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
-            if (chosen === correct) {
+            if (isCorrect) {
                 chosenEl.classList.add('correct');
                 if (failCount < 2) { state.firstTryPoints++; }
                 document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
@@ -1122,7 +1174,14 @@ function renderExamSection(container, data, sectionName) {
     var qPos = 0; var failCount = 0; var questionsArray = data[sectionName];
     function render() {
         var qObj = questionsArray[qPos]; var pct = Math.round((qPos / questionsArray.length) * 100); failCount = 0;
-        var optHtml = qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="eopt-'+i+'" onclick="window.checkExamOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('');
+        
+        // Shuffle Engine
+        var mappedOpts = qObj.opts.map(function(o, i) { return { text: o, isCorrect: (i === qObj.a) }; });
+        var shuffledOpts = mappedOpts.sort(function() { return Math.random() - 0.5; });
+        var optHtml = shuffledOpts.map(function(obj, i) { 
+            return '<div class="quiz-option" id="eopt-'+i+'" onclick="window.checkExamOpt('+i+','+obj.isCorrect+')">' + obj.text + '</div>'; 
+        }).join('');
+        
         var headerHtml = '<h2 style="color:var(--primary-blue); text-transform:capitalize;">' + (data.type === "reading_only" ? "Reading Comprehension" : sectionName) + ' <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+questionsArray.length+')</span></h2>' +
                          '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="background:var(--primary-blue); width:'+pct+'%;"></div></div></div>';
         var audioHtml = sectionName === 'listening' ? '<div class="media-card" style="background:#f8fafc; border:2px dashed #cbd5e1; padding:20px; border-radius:12px; margin-bottom:20px; text-align:center;"><p style="font-weight:600; margin-bottom:12px; color:var(--text-main);"><i class="fas fa-headphones text-blue-600"></i> Listen to the audio for this section:</p><audio controls style="width:100%; max-width:400px; margin:0 auto;"><source src="' + data.audioFile + '" type="audio/mpeg">Tu navegador no soporta el reproductor de audio.</audio></div>' : '';
@@ -1130,10 +1189,10 @@ function renderExamSection(container, data, sectionName) {
 
         container.innerHTML = headerHtml + audioHtml + readingHtml + '<p style="font-size:1.25rem; margin:25px 0; font-weight:600; color:var(--text-main); text-align:left;">' + qObj.q + '</p>' + optHtml + '<div id="hint-box" class="hint-box"><i class="fas fa-exclamation-triangle"></i> Incorrect. Try again.</div>';
 
-        window.checkExamOpt = function(chosen, correct) {
+        window.checkExamOpt = function(chosen, isCorrect) {
             var chosenEl = document.getElementById('eopt-'+chosen);
             if(chosenEl.classList.contains('correct') || chosenEl.classList.contains('wrong')) return;
-            if (chosen === correct) {
+            if (isCorrect) {
                 chosenEl.classList.add('correct');
                 if (failCount === 0) state.firstTryPoints++; 
                 document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
@@ -1195,17 +1254,24 @@ function renderQuiz(container, data) {
         
         if(isCustom) {
             var qObj = data.quiz[qPos]; failCount = 0;
-            var optHtml = qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('');
+            
+            // Shuffle Engine
+            var mappedOpts = qObj.opts.map(function(o, i) { return { text: o, isCorrect: (i === qObj.a) }; });
+            var shuffledOpts = mappedOpts.sort(function() { return Math.random() - 0.5; });
+            var optHtml = shuffledOpts.map(function(obj, i) { 
+                return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+obj.isCorrect+')">' + obj.text + '</div>'; 
+            }).join('');
+            
             container.innerHTML = '<h2>Quiz <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.quiz.length+')</span></h2>' +
                 '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.quiz.length) * 100)+'%;"></div></div></div>' +
                 '<p style="font-size:1.3rem; margin:20px 0;">Choose the correct answer:</p>' +
                 '<div style="background:#f1f5f9; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + qObj.q + '"</div>' +
                 optHtml + '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
                 
-            window.checkQuizOpt = function(chosen, correct) {
+            window.checkQuizOpt = function(chosen, isCorrect) {
                 var chosenEl = document.getElementById('qopt-'+chosen);
                 if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
-                if (chosen === correct) {
+                if (isCorrect) {
                     chosenEl.classList.add('correct');
                     if (failCount < 2) state.firstTryPoints++;
                     document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
@@ -1227,13 +1293,13 @@ function renderQuiz(container, data) {
             container.innerHTML = '<h2>Definition Quiz <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.words.length+')</span></h2>' +
                 '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.words.length) * 100)+'%;"></div></div></div>' +
                 '<p style="font-size:1.3rem; margin:20px 0;">What is the definition of: <strong style="color:var(--primary-blue);">"'+data.words[qPos]+'"</strong>?</p>' +
-                opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+correctOpt+')">' + o + '</div>'; }).join('') +
+                opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+ (i === correctOpt) +')">' + o + '</div>'; }).join('') +
                 '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + data.hints[qPos] + '</div>';
 
-            window.checkQuizOpt = function(chosen, correct) {
+            window.checkQuizOpt = function(chosen, isCorrect) {
                 var chosenEl = document.getElementById('qopt-'+chosen);
                 if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
-                if (chosen === correct) {
+                if (isCorrect) {
                     chosenEl.classList.add('correct');
                     if (failCount < 2) state.firstTryPoints++; 
                     document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
