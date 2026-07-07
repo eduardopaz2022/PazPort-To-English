@@ -1008,15 +1008,14 @@ function go(index) {
         else if (activity === 'blanks')    renderBlanks(container, data);
     }
 }
-// ================================================================
-//  NEW MODULE: COUNTABLE & UNCOUNTABLE
-// ================================================================
+/* ================================================================
+   ACTIVITIES MODULE (Games & Exercises)
+   ================================================================ */
+
 function renderCountPart1(container, data) {
     var items = data.part1.items.slice().sort(function() { return Math.random()-0.5; });
     var categories = data.part1.categories;
-    var placedCount = 0;
-    var failCount = 0;
-    var selectedItem = null;
+    var placedCount = 0; var failCount = 0; var selectedItem = null;
     var categoryContents = {};
     for(var i=0; i<categories.length; i++) { categoryContents[categories[i]] = []; }
     
@@ -1024,27 +1023,21 @@ function renderCountPart1(container, data) {
         var html = '<h2>Noun Sorter <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+placedCount+'/'+items.length+')</span></h2>';
         html += '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((placedCount/items.length)*100)+'%;"></div></div></div>';
         html += '<p style="color:var(--text-muted);margin-bottom:15px;">Click a word, then click its category:</p>';
-        
         html += '<div class="category-container">';
         for(var i=0; i<categories.length; i++){
             var cat = categories[i];
             html += '<div class="category-box" id="cm-cat-'+i+'" onclick="window._cmPlace(\''+cat+'\')"><h4>'+cat+'</h4>';
             var placed = categoryContents[cat];
-            for(var j=0; j<placed.length; j++){
-                html += '<div class="placed-item">'+placed[j]+'</div>';
-            }
+            for(var j=0; j<placed.length; j++){ html += '<div class="placed-item">'+placed[j]+'</div>'; }
             html += '</div>';
         }
-        html += '</div>';
-        
-        html += '<div class="food-items-area">';
+        html += '</div><div class="food-items-area">';
         for(var k=0; k<items.length; k++){
             var item = items[k];
             var isPlaced = categoryContents[item.cat] && categoryContents[item.cat].indexOf(item.name) !== -1;
             html += '<div class="food-item-card'+(isPlaced?' placed-source-item':'')+(selectedItem&&selectedItem.name===item.name&&!isPlaced?' selected-item':'')+'" id="cm-item-'+k+'" onclick="window._cmSelect(\''+item.name+'\',\''+item.cat+'\','+k+')">'+item.name+'</div>';
         }
-        html += '</div>';
-        html += '<div id="hint-box" class="hint-box"><i class="fas fa-exclamation-triangle"></i> Not the right category. Try again!</div>';
+        html += '</div><div id="hint-box" class="hint-box"><i class="fas fa-exclamation-triangle"></i> Not the right category. Try again!</div>';
         container.innerHTML = html;
     }
     
@@ -1059,23 +1052,18 @@ function renderCountPart1(container, data) {
     window._cmPlace = function(cat) {
         if(!selectedItem) return;
         var catEl = document.getElementById('cm-cat-'+categories.indexOf(cat));
-        
         if(selectedItem.cat === cat) {
             categoryContents[cat].push(selectedItem.name);
             placedCount++;
             if (failCount === 0) state.firstTryPoints++;
             failCount = 0; 
-            
             if(catEl){
-                catEl.classList.remove('wrong-flash');
-                catEl.classList.add('correct-flash');
+                catEl.classList.remove('wrong-flash'); catEl.classList.add('correct-flash');
                 setTimeout(function(){ if(catEl) catEl.classList.remove('correct-flash'); },500);
             }
             selectedItem = null;
-            
             if(placedCount >= items.length) {
-                state.done['countable-part1'] = true;
-                updateXPBar();
+                state.done['countable-part1'] = true; updateXPBar();
                 setTimeout(function() {
                     container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Sorting Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                 }, 600);
@@ -1085,8 +1073,7 @@ function renderCountPart1(container, data) {
         } else {
             failCount++;
             if(catEl){
-                catEl.classList.remove('correct-flash');
-                catEl.classList.add('wrong-flash');
+                catEl.classList.remove('correct-flash'); catEl.classList.add('wrong-flash');
                 setTimeout(function(){ if(catEl) catEl.classList.remove('wrong-flash'); },500);
             }
             document.getElementById('hint-box').classList.add('active');
@@ -1094,26 +1081,20 @@ function renderCountPart1(container, data) {
             document.querySelectorAll('.food-item-card').forEach(function(el){ el.classList.remove('selected-item'); });
         }
     };
-    
     render();
 }
 
 function renderCountPart2(container, data) {
-    var qPos = 0; var failCount = 0; 
-    var questionsArray = data.part2;
-    
+    var qPos = 0; var failCount = 0; var questionsArray = data.part2;
     function render() {
         var qObj = questionsArray[qPos]; failCount = 0;
-        
         var optHtml = qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('');
-        
         container.innerHTML =
             '<h2>Quantifier Quiz <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+questionsArray.length+')</span></h2>' +
             '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / questionsArray.length) * 100)+'%;"></div></div></div>' +
             '<p style="font-size:1.3rem; margin:20px 0;">Choose the correct quantifier:</p>' +
             '<div style="background:#f1f5f9; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + qObj.q + '"</div>' +
-            optHtml +
-            '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
+            optHtml + '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
             
         window.checkQuizOpt = function(chosen, correct) {
             var chosenEl = document.getElementById('qopt-'+chosen);
@@ -1130,121 +1111,77 @@ function renderCountPart2(container, data) {
                     }
                 }, 1000);
             } else { 
-                failCount++; chosenEl.classList.add('wrong'); chosenEl.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); 
+                failCount++; chosenEl.classList.add('wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); 
             }
         };
     }
     render();
 }
 
-// ================================================================
-//  EXAM / READING LOGIC
-// ================================================================
 function renderExamSection(container, data, sectionName) {
-    var qPos = 0;
-    var failCount = 0;
-    var questionsArray = data[sectionName];
-
+    var qPos = 0; var failCount = 0; var questionsArray = data[sectionName];
     function render() {
-        var qObj = questionsArray[qPos];
-        var pct = Math.round((qPos / questionsArray.length) * 100);
-        failCount = 0;
-
-        var optHtml = qObj.opts.map(function(o,i) {
-            return '<div class="quiz-option" id="eopt-'+i+'" onclick="window.checkExamOpt('+i+','+qObj.a+')">' + o + '</div>';
-        }).join('');
-
+        var qObj = questionsArray[qPos]; var pct = Math.round((qPos / questionsArray.length) * 100); failCount = 0;
+        var optHtml = qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="eopt-'+i+'" onclick="window.checkExamOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('');
         var headerHtml = '<h2 style="color:var(--primary-blue); text-transform:capitalize;">' + (data.type === "reading_only" ? "Reading Comprehension" : sectionName) + ' <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+questionsArray.length+')</span></h2>' +
                          '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="background:var(--primary-blue); width:'+pct+'%;"></div></div></div>';
+        var audioHtml = sectionName === 'listening' ? '<div class="media-card" style="background:#f8fafc; border:2px dashed #cbd5e1; padding:20px; border-radius:12px; margin-bottom:20px; text-align:center;"><p style="font-weight:600; margin-bottom:12px; color:var(--text-main);"><i class="fas fa-headphones text-blue-600"></i> Listen to the audio for this section:</p><audio controls style="width:100%; max-width:400px; margin:0 auto;"><source src="' + data.audioFile + '" type="audio/mpeg">Tu navegador no soporta el reproductor de audio.</audio></div>' : '';
+        var readingHtml = (sectionName === 'reading' || data.type === "reading_only") ? '<div class="reading-box" style="background:#eff6ff; padding:20px; border-left:4px solid var(--primary-blue); margin-bottom:25px; border-radius:8px; border:1px solid #bfdbfe; max-height: 250px; overflow-y: auto;"><strong><i class="fas fa-book-open"></i> Reading Text Panel:</strong><br><br>' + data.readingText + '</div>' : '';
 
-        var audioHtml = '';
-        if (sectionName === 'listening') {
-            audioHtml = '<div class="media-card" style="background:#f8fafc; border:2px dashed #cbd5e1; padding:20px; border-radius:12px; margin-bottom:20px; text-align:center;">' +
-                        '<p style="font-weight:600; margin-bottom:12px; color:var(--text-main);"><i class="fas fa-headphones text-blue-600"></i> Listen to the audio for this section:</p>' +
-                        '<audio controls style="width:100%; max-width:400px; margin:0 auto;"><source src="' + data.audioFile + '" type="audio/mpeg">Tu navegador no soporta el reproductor de audio.</audio></div>';
-        }
-
-        var readingHtml = '';
-        if (sectionName === 'reading' || data.type === "reading_only") {
-            readingHtml = '<div class="reading-box" style="background:#eff6ff; padding:20px; border-left:4px solid var(--primary-blue); margin-bottom:25px; border-radius:8px; border:1px solid #bfdbfe; max-height: 250px; overflow-y: auto;"><strong><i class="fas fa-book-open"></i> Reading Text Panel:</strong><br><br>' + data.readingText + '</div>';
-        }
-
-        container.innerHTML = headerHtml + audioHtml + readingHtml +
-            '<p style="font-size:1.25rem; margin:25px 0; font-weight:600; color:var(--text-main); text-align:left;">' + qObj.q + '</p>' +
-            optHtml +
-            '<div id="hint-box" class="hint-box"><i class="fas fa-exclamation-triangle"></i> Incorrecto. Intenta de nuevo.</div>';
+        container.innerHTML = headerHtml + audioHtml + readingHtml + '<p style="font-size:1.25rem; margin:25px 0; font-weight:600; color:var(--text-main); text-align:left;">' + qObj.q + '</p>' + optHtml + '<div id="hint-box" class="hint-box"><i class="fas fa-exclamation-triangle"></i> Incorrect. Try again.</div>';
 
         window.checkExamOpt = function(chosen, correct) {
             var chosenEl = document.getElementById('eopt-'+chosen);
             if(chosenEl.classList.contains('correct') || chosenEl.classList.contains('wrong')) return;
-            
             if (chosen === correct) {
                 chosenEl.classList.add('correct');
                 if (failCount === 0) state.firstTryPoints++; 
                 document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
-                
                 setTimeout(function() {
                     qPos++;
-                    if (qPos < questionsArray.length) {
-                        render();
-                    } else {
-                        state.done[sectionName] = true; 
-                        try { updateXPBar(); } catch(e) { console.error(e); }
-                        triggerConfetti();
+                    if (qPos < questionsArray.length) { render(); } else {
+                        state.done[sectionName] = true; updateXPBar(); triggerConfetti();
                         container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Section Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                     }
                 }, 1000);
-            } else {
-                failCount++;
-                chosenEl.classList.add('wrong');
-                chosenEl.classList.add('shake');
-                document.getElementById('hint-box').classList.add('active');
-            }
+            } else { failCount++; chosenEl.classList.add('wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); }
         };
     }
     render();
 }
 
-// ================================================================
-//  CLASSIC REVIEWS
-// ================================================================
 function renderScrolls(container, data) {
     var idx = 0;
     container.innerHTML =
         '<h2>Study Scrolls <span id="fc-counter" style="font-size:1rem; color:var(--text-muted); font-weight:normal;"></span></h2>' +
         '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" id="scroll-pct" style="width:0%;"></div></div></div>' +
         '<p style="color:var(--text-muted); margin-bottom:10px;">Tap the card to reveal the definition.</p>' +
-        '<div class="flashcard" id="fc-el">' +
-          '<div class="flashcard-inner"><div class="front"><button class="tts-btn" id="tts-btn" title="Hear word"><i class="fas fa-volume-up"></i></button><h3 id="fc-word"></h3></div>' +
-            '<div class="back"><p id="fc-def"></p><p class="example-sentence" id="fc-example"></p></div></div></div>' +
+        '<div class="flashcard" id="fc-el"><div class="flashcard-inner"><div class="front"><button class="tts-btn" id="tts-btn" title="Hear word"><i class="fas fa-volume-up"></i></button><h3 id="fc-word"></h3></div>' +
+        '<div class="back"><p id="fc-def"></p><p class="example-sentence" id="fc-example"></p></div></div></div>' +
         '<div style="margin-top:20px; display:flex; justify-content:center; gap:10px;">' +
-          '<button id="btn-prev" class="btn" style="margin:0;"><i class="fas fa-arrow-left"></i> Prev</button>' +
-          '<button id="btn-next" class="btn" style="margin:0;">Next <i class="fas fa-arrow-right"></i></button>' +
-        '</div>';
+        '<button id="btn-prev" class="btn" style="margin:0;"><i class="fas fa-arrow-left"></i> Prev</button>' +
+        '<button id="btn-next" class="btn" style="margin:0;">Next <i class="fas fa-arrow-right"></i></button></div>';
 
     document.getElementById('fc-el').onclick = function() { this.classList.toggle('flipped'); };
     document.getElementById('btn-prev').onclick = function() { if(idx > 0) { idx--; updateCard(); } };
-    document.getElementById('btn-next').onclick = function() { if(idx < data.words.length - 1) { idx++; updateCard(); } };
+    document.getElementById('btn-next').onclick = function() { if(idx < (data.words ? data.words.length : data.scrolls.length) - 1) { idx++; updateCard(); } };
 
     function updateCard() {
-        document.getElementById('scroll-pct').style.width = Math.round((idx / (data.words.length - 1)) * 100) + '%';
+        var isCond = (data.type === "conditional_review");
+        var list = isCond ? data.scrolls : data.words;
+        document.getElementById('scroll-pct').style.width = Math.round((idx / (list.length - 1)) * 100) + '%';
         
-        if(data.type === "conditional_review") {
-            document.getElementById('fc-word').textContent = data.scrolls[idx].word;
-            document.getElementById('fc-def').textContent = data.scrolls[idx].def;
-            document.getElementById('fc-example').textContent = '📖 ' + data.scrolls[idx].ex;
-            document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + data.scrolls.length + ')';
-            document.getElementById('btn-next').disabled = (idx === data.scrolls.length - 1);
-            if (idx === data.scrolls.length - 1) { state.done['scrolls'] = true; updateXPBar(); }
-        } else {
-            document.getElementById('fc-word').textContent = data.words[idx];
-            document.getElementById('fc-def').textContent = data.defs[idx];
-            document.getElementById('fc-example').textContent = '📖 ' + data.examples[idx];
-            document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + data.words.length + ')';
-            document.getElementById('tts-btn').onclick = function(e) { e.stopPropagation(); speak(data.words[idx]); };
-            document.getElementById('btn-next').disabled = (idx === data.words.length - 1);
-            if (idx === data.words.length - 1) { state.done['scrolls'] = true; updateXPBar(); }
-        }
+        document.getElementById('fc-word').textContent = isCond ? list[idx].word : list[idx];
+        document.getElementById('fc-def').textContent = isCond ? list[idx].def : data.defs[idx];
+        document.getElementById('fc-example').textContent = '📖 ' + (isCond ? list[idx].ex : data.examples[idx]);
+        document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + list.length + ')';
+        
+        if(!isCond) { document.getElementById('tts-btn').onclick = function(e) { e.stopPropagation(); speak(list[idx]); }; }
+        else { document.getElementById('tts-btn').style.display = 'none'; }
+        
+        document.getElementById('btn-next').disabled = (idx === list.length - 1);
+        if (idx === list.length - 1) { state.done['scrolls'] = true; updateXPBar(); }
+        
         document.getElementById('fc-el').classList.remove('flipped');
         document.getElementById('btn-prev').disabled = (idx === 0);
     }
@@ -1253,53 +1190,45 @@ function renderScrolls(container, data) {
 
 function renderQuiz(container, data) {
     var qPos = 0; var failCount = 0; 
-    
     function render() {
-        if(data.type === "conditional_review" || data.type === "two_parts" || data.type === "three_parts") {
+        var isCustom = (data.type === "conditional_review" || data.type === "two_parts" || data.type === "three_parts");
+        
+        if(isCustom) {
             var qObj = data.quiz[qPos]; failCount = 0;
-            var isCustomQuiz = (data.type === "two_parts" || data.type === "three_parts");
-            
             var optHtml = qObj.opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+qObj.a+')">' + o + '</div>'; }).join('');
-            
-            container.innerHTML =
-                '<h2>' + (isCustomQuiz ? 'Quiz' : 'Situation Match') + ' <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.quiz.length+')</span></h2>' +
+            container.innerHTML = '<h2>Quiz <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.quiz.length+')</span></h2>' +
                 '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.quiz.length) * 100)+'%;"></div></div></div>' +
-                '<p style="font-size:1.3rem; margin:20px 0;">' + (isCustomQuiz ? 'Choose the correct answer:' : 'Which conditional is this sentence?') + '</p>' +
+                '<p style="font-size:1.3rem; margin:20px 0;">Choose the correct answer:</p>' +
                 '<div style="background:#f1f5f9; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + qObj.q + '"</div>' +
-                optHtml +
-                '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
+                optHtml + '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + qObj.hint + '</div>';
                 
             window.checkQuizOpt = function(chosen, correct) {
                 var chosenEl = document.getElementById('qopt-'+chosen);
                 if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
                 if (chosen === correct) {
                     chosenEl.classList.add('correct');
-                    if (failCount < 2) { state.firstTryPoints++; }
+                    if (failCount < 2) state.firstTryPoints++;
                     document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
                     setTimeout(function() {
                         qPos++;
                         if (qPos < data.quiz.length) { render(); } else {
                             state.done['quiz'] = true; updateXPBar(); triggerConfetti();
-                            container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Module Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
+                            container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Quiz Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                         }
                     }, 1000);
-                } else { 
-                    failCount++; chosenEl.classList.add('wrong'); chosenEl.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); 
-                }
+                } else { failCount++; chosenEl.classList.add('wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); }
             };
         } else {
-            var wordIdx = qPos; var correctDef = data.defs[wordIdx];
-            var wrongPool = data.defs.filter(function(_, i) { return i !== wordIdx; }).sort(function() { return Math.random()-0.5; }).slice(0,3);
+            var correctDef = data.defs[qPos];
+            var wrongPool = data.defs.filter(function(_, i) { return i !== qPos; }).sort(function() { return Math.random()-0.5; }).slice(0,3);
             var opts = [correctDef].concat(wrongPool).sort(function() { return Math.random()-0.5; });
-            var correctOpt = opts.indexOf(correctDef);
-            failCount = 0;
+            var correctOpt = opts.indexOf(correctDef); failCount = 0;
 
-            container.innerHTML =
-                '<h2>Definition Quiz <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.words.length+')</span></h2>' +
+            container.innerHTML = '<h2>Definition Quiz <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+data.words.length+')</span></h2>' +
                 '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((qPos / data.words.length) * 100)+'%;"></div></div></div>' +
-                '<p style="font-size:1.3rem; margin:20px 0;">What is the definition of: <strong style="color:var(--primary-blue);">"'+data.words[wordIdx]+'"</strong>?</p>' +
+                '<p style="font-size:1.3rem; margin:20px 0;">What is the definition of: <strong style="color:var(--primary-blue);">"'+data.words[qPos]+'"</strong>?</p>' +
                 opts.map(function(o,i) { return '<div class="quiz-option" id="qopt-'+i+'" onclick="window.checkQuizOpt('+i+','+correctOpt+')">' + o + '</div>'; }).join('') +
-                '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + data.hints[wordIdx] + '</div>';
+                '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + data.hints[qPos] + '</div>';
 
             window.checkQuizOpt = function(chosen, correct) {
                 var chosenEl = document.getElementById('qopt-'+chosen);
@@ -1311,13 +1240,11 @@ function renderQuiz(container, data) {
                     setTimeout(function() {
                         qPos++;
                         if (qPos < data.words.length) { render(); } else {
-                            state.done['quiz'] = true; updateXPBar();
+                            state.done['quiz'] = true; updateXPBar(); triggerConfetti();
                             container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Quiz Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                         }
                     }, 1000);
-                } else { 
-                    failCount++; chosenEl.classList.add('wrong'); chosenEl.classList.add('shake'); document.getElementById('hint-box').classList.add('active'); 
-                }
+                } else { failCount++; chosenEl.classList.add('wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); }
             };
         }
     }
@@ -1331,8 +1258,7 @@ function renderChamber(container, data) {
 
     function render() {
         var item = sList[idx]; tokens = item.c.match(/\S+/g) || []; shuffledIndices = shuffleArray(tokens.map(function(_, i) { return i; })); selectedIndices = []; failCount = 0;
-        container.innerHTML =
-            '<h2>Sentence Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+sList.length+')</span></h2>' +
+        container.innerHTML = '<h2>Sentence Builder <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+sList.length+')</span></h2>' +
             '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / sList.length) * 100)+'%;"></div></div></div>' +
             '<p style="color:var(--text-muted); margin-bottom:15px;">Tap words in the correct order to build the sentence:</p>' +
             '<div class="answer-row" id="answer-row"></div><div class="word-bank" id="word-bank"></div>' +
@@ -1371,157 +1297,65 @@ function renderChamber(container, data) {
 
 function renderBlanks(container, data) {
     var idx = 0; var failCount = 0;
-    
-    // Verificar si esta unidad tiene opciones (para 9no) o es de tipo texto libre (para otras unidades)
     var hasOptions = data.blanks && data.blanks.length > 0 && data.blanks[0].options !== undefined;
     
     function render() {
         if(hasOptions) {
-            // === MODO CON OPCIONES (PARA 9NO) ===
-            var qObj = data.blanks[idx]; 
-            failCount = 0;
-            var selectedOption = null;
-            var optionLocked = false;
-            
-            container.innerHTML =
-                '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
+            var qObj = data.blanks[idx]; failCount = 0; var selectedOption = null; var optionLocked = false;
+            container.innerHTML = '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
                 '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.blanks.length) * 100)+'%;"></div></div></div>' +
                 '<p style="font-size:1.3rem; margin:30px auto; max-width:600px;">' + qObj.text + '</p>' +
-                '<div class="options-selector" id="options-selector">' +
-                qObj.options.map(function(opt, i) {
-                    return '<button class="option-btn" data-index="'+i+'" onclick="window.selectOption('+i+')">'+opt+'</button>';
-                }).join('') +
-                '</div>' +
-                '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> ' + qObj.hint + '</div><br>' +
-                '<button class="btn" id="check-opt-btn" onclick="window.checkOption()" disabled>Check Answer</button>';
+                '<div class="options-selector" id="options-selector">' + qObj.options.map(function(opt, i) { return '<button class="option-btn" data-index="'+i+'" onclick="window.selectOption('+i+')">'+opt+'</button>'; }).join('') + '</div>' +
+                '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> ' + qObj.hint + '</div><br><button class="btn" id="check-opt-btn" onclick="window.checkOption()" disabled>Check Answer</button>';
             
             window.selectOption = function(index) {
-                if (optionLocked) return; // No permitir seleccionar si ya se respondió
+                if (optionLocked) return;
                 var buttons = document.querySelectorAll('.option-btn');
                 buttons.forEach(function(btn) { btn.classList.remove('selected'); });
-                buttons[index].classList.add('selected');
-                selectedOption = index;
+                buttons[index].classList.add('selected'); selectedOption = index;
                 document.getElementById('check-opt-btn').disabled = false;
-                // Ocultar el hint cuando se selecciona una nueva opción
                 document.getElementById('hint-box').classList.remove('active');
             };
             
             window.checkOption = function() {
                 if (selectedOption === null || optionLocked) return;
                 var buttons = document.querySelectorAll('.option-btn');
-                var chosenText = buttons[selectedOption].textContent;
-                var isCorrect = (chosenText === qObj.answer);
-                
-                // Marcar la opción seleccionada
-                if (isCorrect) {
+                if (buttons[selectedOption].textContent === qObj.answer) {
                     buttons[selectedOption].classList.add('correct');
-                    if (failCount < 2) state.firstTryPoints++;
-                    optionLocked = true;
-                    
+                    if (failCount < 2) state.firstTryPoints++; optionLocked = true;
                     setTimeout(function() {
-                        idx++; 
-                        if (idx < data.blanks.length) { 
-                            render(); 
-                        } else { 
-                            state.done['blanks'] = true; 
-                            updateXPBar(); 
-                            triggerConfetti(); 
-                            container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; 
-                        } 
+                        idx++; if (idx < data.blanks.length) { render(); } else { state.done['blanks'] = true; updateXPBar(); triggerConfetti(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; }
                     }, 1000);
                 } else {
-                    failCount++;
-                    // Marcar la opción incorrecta
-                    buttons[selectedOption].classList.add('wrong');
-                    // Mostrar el hint
-                    document.getElementById('hint-box').classList.add('active');
-                    document.getElementById('check-opt-btn').disabled = true;
-                    
-                    // Después de un breve momento, permitir que el estudiante intente de nuevo
-                    setTimeout(function() {
-                        // Quitar la clase wrong de la opción incorrecta
-                        buttons[selectedOption].classList.remove('wrong');
-                        // Quitar la selección
-                        buttons[selectedOption].classList.remove('selected');
-                        // Habilitar el botón de nuevo
-                        document.getElementById('check-opt-btn').disabled = false;
-                        selectedOption = null;
-                    }, 1500);
+                    failCount++; buttons[selectedOption].classList.add('wrong'); document.getElementById('hint-box').classList.add('active'); document.getElementById('check-opt-btn').disabled = true;
+                    setTimeout(function() { buttons[selectedOption].classList.remove('wrong', 'selected'); document.getElementById('check-opt-btn').disabled = false; selectedOption = null; }, 1500);
                 }
             };
             
         } else if(data.type === "conditional_review" || data.type === "two_parts" || data.type === "three_parts") {
-            // === MODO TEXTO LIBRE (PARA OTRAS UNIDADES) ===
-            var qObj = data.blanks[idx]; failCount = 0;
-            var isCustomBlank = (data.type === "two_parts" || data.type === "three_parts");
-            
-            container.innerHTML =
-                '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
+            var qObj2 = data.blanks[idx]; failCount = 0;
+            container.innerHTML = '<h2>Grammar Challenge <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.blanks.length+')</span></h2>' +
                 '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.blanks.length) * 100)+'%;"></div></div></div>' +
-                '<p style="font-size:1.3rem; margin:30px auto; max-width:600px;">' + qObj.text + '</p>' +
-                '<input type="text" id="blank-input" placeholder="' + (isCustomBlank ? "Type the missing word..." : "Conjugate...") + '" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
-                '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> ' + qObj.hint + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>';
+                '<p style="font-size:1.3rem; margin:30px auto; max-width:600px;">' + qObj2.text + '</p>' +
+                '<input type="text" id="blank-input" placeholder="Type the missing word..." style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
+                '<div id="hint-box" class="hint-box"><i class="fas fa-lightbulb"></i> ' + qObj2.hint + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>';
                 
             window.checkBlank = function() {
-                var inputEl = document.getElementById('blank-input'); 
-                var input = inputEl.value.trim().toLowerCase();
-                var isCorrect = false;
-                
-                if (Array.isArray(qObj.answer)) {
-                    if (qObj.answer.some(function(ans) { return ans.toLowerCase() === input; })) {
-                        isCorrect = true;
-                    }
-                } else {
-                    if (input === qObj.answer.toLowerCase()) {
-                        isCorrect = true;
-                    }
-                }
-                
+                var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim().toLowerCase();
+                var isCorrect = Array.isArray(qObj2.answer) ? qObj2.answer.some(ans => ans.toLowerCase() === input) : input === qObj2.answer.toLowerCase();
                 if (isCorrect) {
                     if (failCount < 2) state.firstTryPoints++;
-                    inputEl.classList.remove('input-wrong', 'shake'); 
-                    inputEl.classList.add('input-correct');
-                    inputEl.disabled = true;
-                    document.querySelector('.btn').disabled = true;
-                    setTimeout(function() { 
-                        idx++; 
-                        if (idx < data.blanks.length) { 
-                            render(); 
-                        } else { 
-                            state.done['blanks'] = true; 
-                            updateXPBar(); 
-                            triggerConfetti(); 
-                            container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; 
-                        } 
-                    }, 1000);
-                } else { 
-                    failCount++; 
-                    inputEl.classList.add('input-wrong'); 
-                    inputEl.classList.add('shake'); 
-                    document.getElementById('hint-box').classList.add('active');
-                    // Limpiar el input después de un momento para que el estudiante pueda intentar de nuevo
-                    setTimeout(function() {
-                        inputEl.value = '';
-                        inputEl.classList.remove('input-wrong', 'shake');
-                        inputEl.focus();
-                    }, 1500);
-                }
+                    inputEl.classList.remove('input-wrong', 'shake'); inputEl.classList.add('input-correct'); inputEl.disabled = true; document.querySelector('.btn').disabled = true;
+                    setTimeout(function() { idx++; if (idx < data.blanks.length) { render(); } else { state.done['blanks'] = true; updateXPBar(); triggerConfetti(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Challenge Completed!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } }, 1000);
+                } else { failCount++; inputEl.classList.add('input-wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); setTimeout(function() { inputEl.value = ''; inputEl.classList.remove('input-wrong', 'shake'); inputEl.focus(); }, 1500); }
             };
         } else {
-            // === MODO TRADICIONAL (NORMAL) ===
             var shuffledWords = data.words.slice().sort(function() { return Math.random()-0.5; });
             var word = data.words[idx]; failCount = 0;
-            var wordBankHtml = '<div class="blanks-word-bank">';
-            shuffledWords.forEach(function(w) { 
-                let isUsed = usedBlanksWords.includes(w.toLowerCase()) ? 'used' : '';
-                wordBankHtml += '<span class="blanks-word ' + isUsed + '">' + w + '</span>'; 
-            });
-            wordBankHtml += '</div>';
+            var wordBankHtml = '<div class="blanks-word-bank">' + shuffledWords.map(w => '<span class="blanks-word ' + (usedBlanksWords.includes(w.toLowerCase()) ? 'used' : '') + '">' + w + '</span>').join('') + '</div>';
 
-            container.innerHTML =
-                '<h2>Fill in the Blanks <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.words.length+')</span></h2>' +
-                '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.words.length) * 100)+'%;"></div></div></div>' +
-                wordBankHtml + 
+            container.innerHTML = '<h2>Fill in the Blanks <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(idx+1)+'/'+data.words.length+')</span></h2>' +
+                '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((idx / data.words.length) * 100)+'%;"></div></div></div>' + wordBankHtml + 
                 '<p style="font-size:1.3rem; margin:20px auto; max-width:600px; color:var(--text-main); font-weight:500;">' + data.cloze[idx] + '</p>' +
                 '<input type="text" id="blank-input" placeholder="Type the missing word..." autocomplete="off" style="max-width:350px; text-align:center;" onkeydown="if(event.key===\'Enter\') window.checkBlank()">' +
                 '<div id="hint-box" class="hint-box" style="max-width:350px;"><i class="fas fa-lightbulb"></i> <strong>Hint:</strong> ' + data.hints[idx] + '</div><br><button class="btn" onclick="window.checkBlank()">Check Answer</button>';
@@ -1529,43 +1363,17 @@ function renderBlanks(container, data) {
             setTimeout(() => { document.getElementById('blank-input').focus(); }, 100);
 
             window.checkBlank = function() {
-                var inputEl = document.getElementById('blank-input'); 
-                var input = inputEl.value.trim(); 
-                if(!input) return;
+                var inputEl = document.getElementById('blank-input'); var input = inputEl.value.trim(); if(!input) return;
                 if (input.toLowerCase() === word.toLowerCase()) {
-                    if (failCount < 2) state.firstTryPoints++;
-                    usedBlanksWords.push(word.toLowerCase());
-                    inputEl.classList.remove('input-wrong', 'shake'); 
-                    inputEl.classList.add('input-correct');
-                    inputEl.disabled = true;
-                    document.querySelector('.btn').disabled = true;
-                    setTimeout(function() {
-                        idx++; 
-                        if (idx < data.words.length) { 
-                            render(); 
-                        } else {
-                            state.done['blanks'] = true; 
-                            updateXPBar(); 
-                            triggerConfetti();
-                            container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Fill in the Blanks Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
-                        }
-                    }, 1000);
-                } else { 
-                    failCount++; 
-                    inputEl.value = ''; 
-                    inputEl.classList.add('input-wrong', 'shake'); 
-                    document.getElementById('hint-box').classList.add('active'); 
-                    setTimeout(function() {
-                        inputEl.classList.remove('input-wrong', 'shake');
-                        inputEl.focus();
-                    }, 1500);
-                }
+                    if (failCount < 2) state.firstTryPoints++; usedBlanksWords.push(word.toLowerCase());
+                    inputEl.classList.remove('input-wrong', 'shake'); inputEl.classList.add('input-correct'); inputEl.disabled = true; document.querySelector('.btn').disabled = true;
+                    setTimeout(function() { idx++; if (idx < data.words.length) { render(); } else { state.done['blanks'] = true; updateXPBar(); triggerConfetti(); container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Fill in the Blanks Complete!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>'; } }, 1000);
+                } else { failCount++; inputEl.value = ''; inputEl.classList.add('input-wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); setTimeout(function() { inputEl.classList.remove('input-wrong', 'shake'); inputEl.focus(); }, 1500); }
             };
         }
     }
     render();
 }
-
 function claimCert() {
     var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
     var finalGrade = rawScore.toFixed(1); if (finalGrade > 10) finalGrade = 10.0;
