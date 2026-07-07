@@ -364,7 +364,6 @@
 </section>
 
 </div>
-
 <script>
 function triggerConfetti() {
     if (typeof confetti !== 'undefined') {
@@ -394,86 +393,47 @@ function setDailyQuote() {
     let dayNumber = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
     document.getElementById('motivational-quote').textContent = motivationalQuotes[dayNumber % motivationalQuotes.length];
 }
+
 /* ================================================================
    DATABASE MODULE
    ================================================================ */
 const DB = {
     "9th - Unit 4 - Part 1": {
-        active: false,
-        type: "normal",
-        grammarHint: "Structure: <b>Subject + Adverb of Frequency + Verb</b>.",
+        active: false, type: "normal", grammarHint: "Structure: <b>Subject + Adverb of Frequency + Verb</b>.",
         activities: ["scrolls", "quiz", "chamber", "blanks"],
         words: ["Bed", "Pillow", "Blanket", "Sheet", "Mirror", "Closet", "Curtains", "Slippers", "Always", "Never"],
         defs: ["A piece of furniture where you sleep.", "A soft object you put your head on when you sleep.", "A warm cover used on a bed.", "A large piece of thin cloth on a bed.", "A piece of glass where you can see your reflection.", "A space or piece of furniture to hang and store clothes.", "Pieces of cloth that cover a window.", "Soft, comfortable shoes you wear inside the house.", "Doing something 100% of the time.", "Doing something 0% of the time."],
         examples: ["I always make my bed.", "I often use a pillow.", "We sometimes wash the blanket.", "She often changes the sheet.", "He never cleans the mirror.", "I often open the closet.", "I seldom open the curtains.", "They normally wear slippers.", "I always eat food.", "I never sleep at school."],
         cloze: ["I always make my ________.", "I often use a ________.", "We sometimes wash the ________.", "She often changes the ________.", "He never cleans the ________.", "I often open the ________.", "I seldom open the ________.", "They normally wear ________.", "I ________ eat food.", "I ________ sleep at school."],
         hints: ["Furniture for sleeping.", "Soft object for head.", "Warm cover for bed.", "Thin cloth on bed.", "Glass to see yourself.", "Place for clothes.", "Cloth for windows.", "Shoes for inside.", "100% of the time.", "0% of the time."],
-        sentences: [
-            { s:"bed. / always / make / I / my", c:"I always make my bed." },
-            { s:"pillow. / use / often / I / a", c:"I often use a pillow." },
-            { s:"wash / sometimes / We / blanket. / the", c:"We sometimes wash the blanket." },
-            { s:"often / sheet. / changes / She / the", c:"She often changes the sheet." },
-            { s:"cleans / never / He / mirror. / the", c:"He never cleans the mirror." },
-            { s:"open / often / I / closet. / the", c:"I often open the closet." },
-            { s:"open / seldom / I / curtains. / the", c:"I seldom open the curtains." },
-            { s:"wear / They / normally / slippers.", c:"They normally wear slippers." },
-            { s:"always / food. / I / eat", c:"I always eat food." },
-            { s:"school. / at / sleep / I / never", c:"I never sleep at school." }
-        ]
+        sentences: [{ s:"bed. / always / make / I / my", c:"I always make my bed." }, { s:"pillow. / use / often / I / a", c:"I often use a pillow." }, { s:"wash / sometimes / We / blanket. / the", c:"We sometimes wash the blanket." }, { s:"often / sheet. / changes / She / the", c:"She often changes the sheet." }, { s:"cleans / never / He / mirror. / the", c:"He never cleans the mirror." }, { s:"open / often / I / closet. / the", c:"I often open the closet." }, { s:"open / seldom / I / curtains. / the", c:"I seldom open the curtains." }, { s:"wear / They / normally / slippers.", c:"They normally wear slippers." }, { s:"always / food. / I / eat", c:"I always eat food." }, { s:"school. / at / sleep / I / never", c:"I never sleep at school." }]
     },
     "9th - Unit 4 - Part 2": {
-        active: false,
-        type: "normal",
-        grammarHint: "Structure: <b>Subject + Verb (Be) + Adverb of Place/Time</b>.",
+        active: false, type: "normal", grammarHint: "Structure: <b>Subject + Verb (Be) + Adverb of Place/Time</b>.",
         activities: ["scrolls", "quiz", "chamber", "blanks"],
         words: ["Armchair", "Sofa", "Cushions", "Television", "Window", "Remote control", "Shelf", "Wastebasket", "Paintings", "Wall clock"],
         defs: ["A comfortable chair with sides that support your arms.", "A long, comfortable seat for two or more people.", "Soft bags of cloth used to make a seat more comfortable.", "A machine with a screen used to watch programs.", "An opening in a wall with glass to let light in.", "A small device used to operate a TV from a distance.", "A flat board attached to a wall to hold things.", "A small container for holding trash.", "Pictures made with paint to decorate a room.", "A device on the wall that shows the time."],
         examples: ["The armchair is here now.", "The sofa was downstairs yesterday.", "The cushions are there today.", "The television is upstairs now.", "The window is here.", "The remote control is inside.", "The shelf was there yesterday.", "The wastebasket is outside today.", "The paintings will be there tomorrow.", "The wall clock is downstairs early."],
         cloze: ["The ________ is here now.", "The ________ was downstairs yesterday.", "The ________ are there today.", "The ________ is upstairs now.", "The ________ is here.", "The ________ is inside.", "The ________ was there yesterday.", "The ________ is outside today.", "The paintings will be there tomorrow.", "The wall clock is downstairs early."],
         hints: ["Comfortable chair.", "Long seat.", "Soft things.", "Machine to watch shows.", "Glass opening.", "Change channels.", "Board on wall.", "Small trash can.", "Pictures.", "Tells time."],
-        sentences: [
-            { s:"armchair / is / The / here / now.", c:"The armchair is here now." },
-            { s:"was / sofa / downstairs / The / yesterday.", c:"The sofa was downstairs yesterday." },
-            { s:"cushions / are / there / The / today.", c:"The cushions are there today." },
-            { s:"television / The / is / upstairs / now.", c:"The television is upstairs now." },
-            { s:"window / is / The / here.", c:"The window is here." },
-            { s:"inside. / remote / control / The / is", c:"The remote control is inside." },
-            { s:"shelf / there / The / was / yesterday.", c:"The shelf was there yesterday." },
-            { s:"wastebasket / The / is / outside / today.", c:"The wastebasket is outside today." },
-            { s:"paintings / will / there / The / be / tomorrow.", c:"The paintings will be there tomorrow." },
-            { s:"wall / clock / is / The / downstairs / early.", c:"The wall clock is downstairs early." }
-        ]
+        sentences: [{ s:"armchair / is / The / here / now.", c:"The armchair is here now." }, { s:"was / sofa / downstairs / The / yesterday.", c:"The sofa was downstairs yesterday." }, { s:"cushions / are / there / The / today.", c:"The cushions are there today." }, { s:"television / The / is / upstairs / now.", c:"The television is upstairs now." }, { s:"window / is / The / here.", c:"The window is here." }, { s:"inside. / remote / control / The / is", c:"The remote control is inside." }, { s:"shelf / there / The / was / yesterday.", c:"The shelf was there yesterday." }, { s:"wastebasket / The / is / outside / today.", c:"The wastebasket is outside today." }, { s:"paintings / will / there / The / be / tomorrow.", c:"The paintings will be there tomorrow." }, { s:"wall / clock / is / The / downstairs / early.", c:"The wall clock is downstairs early." }]
     },
     "9th - Unit 4 - Part 3": {
-        active: false,
-        type: "normal",
-        grammarHint: "Structure: <b>Subject + Action Verb + Adverb of Manner</b>.",
+        active: false, type: "normal", grammarHint: "Structure: <b>Subject + Action Verb + Adverb of Manner</b>.",
         activities: ["scrolls", "quiz", "chamber", "blanks"],
         words: ["Clean", "Mop", "Sweep", "Eat", "Sleep", "Close", "Wash", "Open", "Push", "Yell", "Order", "Take a shower"],
         defs: ["To remove dirt from something.", "To clean the floor using a wet cloth or tool.", "To clean the floor using a broom.", "To put food into your mouth and swallow it.", "To rest in a state of natural unconsciousness.", "To move a door or window so that an opening is covered.", "To clean something with water and soap.", "To move a door or window so people can pass.", "To apply force to move something away from you.", "To shout or speak in a very loud voice.", "To put things in the correct place.", "To wash your body under falling water."],
         examples: ["I clean the classroom.", "They mop the wet floor.", "We sweep the kitchen floor.", "You eat breakfast daily.", "Children sleep at night.", "Please close the wooden door.", "We wash our hands.", "They open the big window.", "Do not push the heavy table.", "Please do not yell in class.", "I order the room.", "I take a shower in the morning."],
         cloze: ["I ________ the classroom.", "They ________ the wet floor.", "We ________ the kitchen floor.", "You ________ breakfast daily.", "Children ________ at night.", "Please ________ the wooden door.", "We ________ our hands.", "They ________ the big window.", "Do not ________ the heavy table.", "Please do not ________ in class.", "I ________ the room.", "I ________ in the morning."],
         hints: ["Remove dirt.", "Clean with wet cloth.", "Clean with a broom.", "Consume food.", "Unconscious rest.", "Cover an opening.", "Clean with water.", "Uncover an opening.", "Force away.", "Shout loudly.", "Organize things.", "Wash your body."],
-        sentences: [
-            { s:"window / carefully. / clean / I / the", c:"I clean the window carefully." },
-            { s:"floor / quickly. / mops / He / the", c:"He mops the floor quickly." },
-            { s:"fast. / room / sweep / They / the", c:"They sweep the room fast." },
-            { s:"slowly. / food / eat / You / the", c:"You eat the food slowly." },
-            { s:"night. / well / at / sleep / We", c:"We sleep well at night." },
-            { s:"easily. / door / She / the / closes", c:"She closes the door easily." },
-            { s:"car / I / badly. / wash / the", c:"I wash the car badly." },
-            { s:"do / loudly. / yell / not / Please", c:"Please do not yell loudly." }
-        ]
+        sentences: [{ s:"window / carefully. / clean / I / the", c:"I clean the window carefully." }, { s:"floor / quickly. / mops / He / the", c:"He mops the floor quickly." }, { s:"fast. / room / sweep / They / the", c:"They sweep the room fast." }, { s:"slowly. / food / eat / You / the", c:"You eat the food slowly." }, { s:"night. / well / at / sleep / We", c:"We sleep well at night." }, { s:"easily. / door / She / the / closes", c:"She closes the door easily." }, { s:"car / I / badly. / wash / the", c:"I wash the car badly." }, { s:"do / loudly. / yell / not / Please", c:"Please do not yell loudly." }]
     },
     "9th - Unit 6 - Module 1 - Simple Present": {
-        active: true,
-        type: "two_parts",
-        activities: ["quiz", "blanks"],
+        active: true, type: "two_parts", activities: ["quiz", "blanks"],
         words: ["smartwatch", "Google", "VR", "social media", "AI", "apps", "internet", "Wi-Fi", "screenshot", "server", "web browser", "cybersecurity", "wearable technology", "search engine", "gadget", "free apps"],
         defs: ["A wearable computer in the form of a watch.", "A popular search engine and tech company.", "Virtual Reality - computer-generated environments.", "Platforms for sharing content and communication.", "Artificial Intelligence - machines that mimic human intelligence.", "Software applications for mobile devices.", "A global network connecting computers worldwide.", "Wireless networking technology.", "An image capture of a device's screen.", "A computer that provides data to other computers.", "Software used to access and view websites.", "Protection of computer systems from theft or damage.", "Electronic devices that can be worn on the body.", "A program that searches for information on the web.", "A small, specialized electronic device.", "Apps that don't cost money to download."],
         examples: ["My brother uses a smartwatch every day.", "We use Google for homework.", "He doesn't play VR games on school days.", "Do you use social media every day?", "Does your teacher use AI in class?", "These apps are free.", "My internet provider is very fast.", "They have a new gadget.", "I make screenshots every week.", "He likes cybersecurity."],
-        cloze: [],
-        hints: [],
+        cloze: [], hints: [],
         quiz: [
             { q: "My brother ________ a smartwatch every day.", opts: ["use", "uses", "using", "is use"], a: 1, hint: "Third person singular (he) + -s" },
             { q: "We ________ Google for homework.", opts: ["use", "uses", "using", "are use"], a: 0, hint: "First person plural (we) - base form" },
@@ -509,11 +469,7 @@ const DB = {
         ]
     },
     "10th - Unit 5 - Module 2 - Indefinite Pronouns": {
-        active: true,
-        type: "two_parts",
-        hasVideoLesson: true,
-        videoUrl: "https://www.youtube.com/embed/z8hoS1BWKVg",
-        videoDesc: "Watch the video carefully to review Indefinite Pronouns (something, anything, everywhere, nobody, etc.) before taking the quizzes.",
+        active: true, type: "two_parts", hasVideoLesson: true, videoUrl: "https://www.youtube.com/embed/z8hoS1BWKVg", videoDesc: "Watch the video carefully to review Indefinite Pronouns before taking the quizzes.",
         activities: ["quiz", "blanks"],
         quiz: [
             { q: "I didn't buy _____ at the shop.", opts: ["anything", "nothing", "something", "anywhere"], a: 0, hint: "In negative sentences, we use words starting with 'any-'." },
@@ -551,9 +507,7 @@ const DB = {
         ]
     },
     "10th - Unit 5 - Reading: Global Restaurant Etiquette": {
-        active: true,
-        type: "reading_only",
-        activities: ["reading"],
+        active: true, type: "reading_only", activities: ["reading"],
         readingText: "<b>Dining Customs Around the World</b><br><br>Food is an essential part of discovering a new culture, but knowing how to eat is just as important as knowing what to eat. Restaurant etiquette varies wildly from country to country.<br><br><b>Italy</b><br>In Italy, never ask for cheese on seafood pasta; it is considered a culinary crime. Also, do not order a cappuccino after a meal. Italians believe milk disrupts digestion after eating, so they stick to espresso. Tipping is not mandatory, as a service charge (coperto) is usually included in the bill.<br><br><b>South Korea</b><br>Respect for elders is crucial in South Korea. You should never pick up your chopsticks or start eating before the oldest person at the table does. When someone older pours a drink for you, hold your glass with both hands. It is also polite to leave a little food on your plate to show that the host provided more than enough.<br><br><b>Morocco</b><br>In Morocco, eating with your hands is very common, but you must only use your right hand. Bread is often used as a utensil to scoop up food from communal tajines. If you are full, leave a bit of food; otherwise, your host will keep filling your plate. Hand washing before the meal is a strict ritual.<br><br><b>Mexico</b><br>In Mexico, meals are social events that can last for hours, a tradition known as 'sobremesa'. It is considered rude to eat tacos with a knife and fork—you must use your hands! If you catch someone's eye while they are eating, it is polite to say 'provecho' (enjoy your meal).",
         reading: [
             { q: "1. In Italy, what is considered a culinary crime?", opts: ["Asking for cheese on seafood", "Ordering pizza at night", "Leaving a tip", "Drinking espresso after a meal"], a: 0 },
@@ -569,9 +523,7 @@ const DB = {
         ]
     },
     "11th - Unit 5 - Module 2 - Idioms & Adverbs": {
-        active: true,
-        type: "three_parts",
-        activities: ["quiz", "chamber", "blanks"],
+        active: true, type: "three_parts", activities: ["quiz", "chamber", "blanks"],
         quiz: [
             { q: "What does the idiom 'Piece of cake' mean?", opts: ["A difficult task", "Very easy to do", "A type of dessert", "To eat quickly"], a: 1, hint: "It means something takes very little effort." },
             { q: "What does 'Hit the books' mean?", opts: ["To physically punch books", "To stop reading", "To begin to study hard", "To organize a library"], a: 2, hint: "It's what you do before a big exam." },
@@ -603,39 +555,24 @@ const DB = {
         ]
     },
     "11th - Unit 5 - Reading: Study Abroad Experiences": {
-        active: true,
-        type: "reading_only",
-        activities: ["reading"],
-        readingText: `<b>Study Abroad: A Life-Changing Experience</b><br><br>Studying abroad has become increasingly popular among university students around the world. According to recent statistics from UNESCO, over 5 million students are currently pursuing their education outside their home countries, and this number continues to grow each year. The reasons for this trend are numerous: students seek better educational opportunities, exposure to different cultures, language immersion, and the chance to develop independence and global perspectives.<br><br><b>Why Study Abroad?</b><br>One of the primary motivations for studying abroad is academic advancement. Many countries offer specialized programs that may not be available in a student's home country. For example, a student interested in marine biology might choose Australia because of its proximity to the Great Barrier Reef, while a student passionate about international business might select Singapore, a global financial hub. Additionally, studying abroad allows students to learn from renowned professors and researchers in their field, gaining knowledge and connections that can benefit their future careers.<br><br><b>Cultural Immersion and Language Learning</b><br>Living in a foreign country provides unparalleled opportunities for cultural immersion. Students experience daily life, traditions, and customs firsthand. They try local foods, participate in festivals, and learn the history of their host country. Perhaps most importantly, they learn a new language or improve their existing language skills. Being surrounded by native speakers forces students to communicate in the local language, accelerating their learning process dramatically. Research shows that students who study abroad for at least six months achieve significant improvements in their language proficiency.<br><br><b>Personal Growth and Independence</b><br>The personal benefits of studying abroad are equally significant. Living in a foreign country challenges students to step out of their comfort zones and become more independent. They learn to navigate unfamiliar situations, solve problems, and adapt to different ways of thinking. Many students report that studying abroad transformed their personality, making them more confident, open-minded, and resilient. They also develop important life skills such as budgeting, time management, and cross-cultural communication.<br><br><b>Challenges and Difficulties</b><br>However, studying abroad is not without its challenges. Students often experience homesickness, culture shock, and language barriers. The feeling of loneliness can be particularly intense in the first few months. Financial concerns are another major issue, as tuition fees and living costs in some countries can be extremely high. Additionally, students may face administrative difficulties, such as obtaining visas, transferring credits, and navigating foreign healthcare systems. Despite these obstacles, the vast majority of students consider the experience worthwhile.<br><br><b>Career Benefits</b><br>In today's globalized job market, employers increasingly value international experience. Studying abroad demonstrates that a candidate possesses adaptability, cultural awareness, and the ability to work with diverse teams. According to a recent survey by the Institute of International Education, 90% of employers believe that international experience is important for career success. Furthermore, students who study abroad often build international networks that can lead to job opportunities in different countries.<br><br><b>Popular Destinations</b><br>The United States, the United Kingdom, Australia, Canada, and Germany are among the most popular destinations for international students. Each country offers unique advantages. The US is known for its prestigious universities and research facilities. The UK has a long tradition of academic excellence. Australia offers a high quality of life and beautiful natural environments. Canada is recognized for its welcoming immigration policies. Germany provides tuition-free education at public universities. Other emerging destinations include Japan, South Korea, and Spain.<br><br><b>Conclusion</b><br>In conclusion, studying abroad is a transformative experience that offers numerous academic, personal, and professional benefits. While it involves significant challenges and costs, the rewards often outweigh the difficulties. For students willing to step outside their comfort zones and embrace new experiences, studying abroad can be one of the most valuable decisions of their lives. As the world becomes increasingly interconnected, international education will continue to play a crucial role in preparing the next generation of global citizens.`,
+        active: true, type: "reading_only", activities: ["reading"],
+        readingText: `<b>Study Abroad: A Life-Changing Experience</b><br><br>Studying abroad has become increasingly popular among university students around the world. According to recent statistics from UNESCO, over 5 million students are currently pursuing their education outside their home countries. The reasons for this trend are numerous: students seek better educational opportunities, exposure to different cultures, language immersion, and the chance to develop independence and global perspectives.<br><br><b>Why Study Abroad?</b><br>One of the primary motivations for studying abroad is academic advancement. Many countries offer specialized programs that may not be available in a student's home country. For example, a student interested in marine biology might choose Australia because of its proximity to the Great Barrier Reef, while a student passionate about international business might select Singapore, a global financial hub.<br><br><b>Cultural Immersion and Language Learning</b><br>Living in a foreign country provides unparalleled opportunities for cultural immersion. Students experience daily life, traditions, and customs firsthand. They learn a new language or improve their existing language skills. Being surrounded by native speakers forces students to communicate in the local language, accelerating their learning process dramatically.<br><br><b>Personal Growth and Independence</b><br>The personal benefits of studying abroad are equally significant. Living in a foreign country challenges students to step out of their comfort zones and become more independent. They learn to navigate unfamiliar situations, solve problems, and adapt to different ways of thinking.<br><br><b>Challenges and Difficulties</b><br>However, studying abroad is not without its challenges. Students often experience homesickness, culture shock, and language barriers. Financial concerns are another major issue, as tuition fees and living costs in some countries can be extremely high. Despite these obstacles, the vast majority of students consider the experience worthwhile.<br><br><b>Career Benefits</b><br>In today's globalized job market, employers increasingly value international experience. Studying abroad demonstrates that a candidate possesses adaptability, cultural awareness, and the ability to work with diverse teams. According to a recent survey by the Institute of International Education, 90% of employers believe that international experience is important for career success.<br><br><b>Conclusion</b><br>In conclusion, studying abroad is a transformative experience that offers numerous academic, personal, and professional benefits. While it involves significant challenges and costs, the rewards often outweigh the difficulties.`,
         reading: [
             { q: "1. How many students are currently studying abroad according to UNESCO?", opts: ["Over 1 million", "Over 3 million", "Over 5 million", "Over 10 million"], a: 2 },
             { q: "2. What is one of the primary motivations for studying abroad?", opts: ["Better weather", "Academic advancement", "Cheaper food", "More entertainment"], a: 1 },
             { q: "3. Which country is mentioned as good for marine biology students?", opts: ["Singapore", "Australia", "Canada", "Germany"], a: 1 },
             { q: "4. What is Singapore known for in the text?", opts: ["Beautiful beaches", "Financial hub", "Marine life", "Ancient history"], a: 1 },
             { q: "5. How does living in a foreign country help with language learning?", opts: ["It forces students to communicate in the local language", "It provides translation software", "It offers language classes for free", "It eliminates the need to study"], a: 0 },
-            { q: "6. How long of a study abroad period shows significant language improvement?", opts: ["One month", "Three months", "Six months", "One year"], a: 2 },
-            { q: "7. Which personal benefit of studying abroad is mentioned?", opts: ["Better job offers", "More money", "Greater independence", "Faster internet"], a: 2 },
-            { q: "8. What challenges do students face when studying abroad?", opts: ["Homesickness", "Better education", "More friends", "Better food"], a: 0 },
-            { q: "9. According to the text, what percentage of employers value international experience?", opts: ["70%", "80%", "90%", "100%"], a: 2 },
-            { q: "10. Which country offers tuition-free public university education?", opts: ["United States", "United Kingdom", "Australia", "Germany"], a: 3 },
-            { q: "11. Which destination is recognized for its welcoming immigration policies?", opts: ["Japan", "Canada", "Spain", "France"], a: 1 },
-            { q: "12. What does the text say about the US as a destination?", opts: ["It has the best food", "It has prestigious universities", "It has the cheapest tuition", "It has the best weather"], a: 1 },
-            { q: "13. What is culture shock according to the text?", opts: ["A positive experience", "A challenge students face", "A type of food", "A language school"], a: 1 },
-            { q: "14. What does studying abroad demonstrate to employers?", opts: ["Ability to cook", "Adaptability and cultural awareness", "Athletic skills", "Artistic talent"], a: 1 },
-            { q: "15. What is the Great Barrier Reef associated with in the text?", opts: ["Germany", "Australia", "Canada", "The UK"], a: 1 },
-            { q: "16. What does the Institute of International Education survey show?", opts: ["Most students regret studying abroad", "90% of employers value international experience", "Studying abroad is too expensive", "Most students stay in their home country"], a: 1 },
-            { q: "17. What are emerging destinations mentioned in the text?", opts: ["Brazil and Mexico", "Japan and South Korea", "South Africa and Egypt", "Russia and Turkey"], a: 1 },
-            { q: "18. What is one of the administrative difficulties students face?", opts: ["Finding good restaurants", "Learning the local language", "Obtaining visas", "Making friends"], a: 2 },
-            { q: "19. What does the text say about the rewards of studying abroad?", opts: ["They are difficult to achieve", "They outweigh the difficulties", "They are not worth it", "They are only for rich students"], a: 1 },
-            { q: "20. According to the conclusion, what role will international education play?", opts: ["A minor role", "A crucial role", "No role", "A decreasing role"], a: 1 }
+            { q: "6. Which personal benefit of studying abroad is mentioned?", opts: ["Better job offers", "More money", "Greater independence", "Faster internet"], a: 2 },
+            { q: "7. What challenges do students face when studying abroad?", opts: ["Homesickness", "Better education", "More friends", "Better food"], a: 0 },
+            { q: "8. According to the text, what percentage of employers value international experience?", opts: ["70%", "80%", "90%", "100%"], a: 2 },
+            { q: "9. What does studying abroad demonstrate to employers?", opts: ["Ability to cook", "Adaptability and cultural awareness", "Athletic skills", "Artistic talent"], a: 1 },
+            { q: "10. What does the text say about the rewards of studying abroad?", opts: ["They are difficult to achieve", "They outweigh the difficulties", "They are not worth it", "They are only for rich students"], a: 1 }
         ]
-    }
+    },
     "11th - Unit 6 - Life in the Big City": {
-        active: true,
-        type: "exam",
-        activities: ["vocabulary", "reading"],
+        active: true, type: "exam", activities: ["vocabulary", "reading"],
         vocabulary: [
-            // Definitions
             { q: "Which word means 'a very beautiful or impressive place'?", opts: ["stunning", "tourist", "district", "neighborhood"], a: 0 },
             { q: "Which word means 'the most important city in a country, where the government is'?", opts: ["neighborhood", "capital", "atmosphere", "landmark"], a: 1 },
             { q: "What do we call a person who travels for pleasure?", opts: ["capital", "landmark", "tourist", "atmosphere"], a: 2 },
@@ -643,7 +580,6 @@ const DB = {
             { q: "What is a famous building or object that you can easily see and recognize?", opts: ["landmark", "district", "capital", "stunning"], a: 0 },
             { q: "Which word means 'the feeling or mood of a place'?", opts: ["district", "atmosphere", "tourist", "landmark"], a: 1 },
             { q: "Which word is similar to 'area' or 'zone' of a city?", opts: ["capital", "stunning", "district", "atmosphere"], a: 2 },
-            // Context & Usage
             { q: "Look at the image of the Eiffel Tower. The Eiffel Tower is a very famous ________ in Paris.", opts: ["tourist", "neighborhood", "atmosphere", "landmark"], a: 3 },
             { q: "London is the ________ of the United Kingdom.", opts: ["capital", "district", "tourist", "stunning"], a: 0 },
             { q: "I love the ________ in this cafe. It is very quiet and relaxing.", opts: ["landmark", "atmosphere", "stunning", "neighborhood"], a: 1 },
@@ -655,11 +591,9 @@ const DB = {
         ],
         readingText: "<b>Welcome to Kyoto: A City of Two Worlds</b><br><br>Kyoto was the <b>capital</b> of Japan for over a thousand years. Today, it remains one of the most important cultural centers in the country. When you walk through its streets, you immediately feel a unique <b>atmosphere</b>—a perfect mix of ancient traditions and modern daily life.<br><br>One of the most famous areas is the Arashiyama <b>district</b>, located in the western part of the city. This <b>neighborhood</b> is famous for its beautiful bamboo forest. Every year, millions of people travel here because every <b>tourist</b> wants to see the tall, green bamboo stalks swaying in the wind. The view is absolutely <b>stunning</b>, especially early in the morning before the crowds arrive.<br><br>Another incredible <b>landmark</b> is the Kinkaku-ji, also known as the Golden Pavilion. The top two floors of this temple are completely covered in gold leaf. It sits next to a quiet pond, creating a peaceful reflection on the water.<br><br>While Kyoto has many traditional wooden houses, it is also a working, modern city with a busy downtown area. To get the most out of your visit, it is best to buy a bus pass. The buses connect all the major historical sites quickly. If you want to experience the true heart of Japan, a trip to this incredible city is a must.",
         reading: [
-            // Skimming (Main Idea / Purpose)
             { q: "What is the main idea of this reading?", opts: ["Kyoto is a great place to buy modern technology.", "Kyoto is a beautiful city that mixes history and modern life.", "Kyoto is a bad place for tourists.", "Kyoto only has bamboo forests."], a: 1 },
             { q: "What is the author's purpose in this text?", opts: ["To describe Kyoto and its attractions.", "To teach Japanese history.", "To sell bus tickets.", "To talk about the weather in Japan."], a: 0 },
             { q: "Which title is also good for this text?", opts: ["The Problem with Kyoto", "How to Build a Golden Temple", "A Guide to Historic Kyoto", "Japan's Best Food"], a: 2 },
-            // Scanning (Specific Details)
             { q: "How long was Kyoto the capital of Japan?", opts: ["For 10 years", "For 100 years", "For over 1,000 years", "It was never the capital"], a: 2 },
             { q: "What kind of atmosphere does Kyoto have?", opts: ["Only ancient traditions.", "Only modern daily life.", "A mix of ancient and modern.", "A dangerous and loud mix."], a: 2 },
             { q: "Where is the Arashiyama district located?", opts: ["In the center of the city.", "In the western part of the city.", "In the eastern part of the city.", "Outside of Japan."], a: 1 },
@@ -668,14 +602,14 @@ const DB = {
             { q: "What is another name for Kinkaku-ji?", opts: ["The Bamboo Temple", "The Golden Pavilion", "The Wooden House", "The Silver Pavilion"], a: 1 },
             { q: "What covers the top two floors of Kinkaku-ji?", opts: ["Green bamboo", "Silver paint", "Gold leaf", "Wood"], a: 2 },
             { q: "What is the best way to get around the city quickly?", opts: ["Walk everywhere.", "Take a taxi.", "Buy a bus pass.", "Rent a bicycle."], a: 2 },
-            // Vocab in Context
-            { q: "In the text, what does 'swaying' mean? (Paragraph 2)", opts: ["Moving side to side slowly", "Breaking into pieces", "Growing very fast", "Changing color"], a: 0 },
+            { q: "In the text, what does 'swaying' mean? (Paragraph 2)", opts: ["Moving slowly side to side", "Breaking into pieces", "Growing very fast", "Changing color"], a: 0 },
             { q: "In the text, what does 'crowds' mean? (Paragraph 2)", opts: ["Many cars", "Large groups of people", "Loud noises", "Types of birds"], a: 1 },
             { q: "In the text, what does 'ancient' mean? (Paragraph 1)", opts: ["Very new", "Very old", "Very expensive", "Very tall"], a: 1 },
             { q: "In the text, what does 'downtown' refer to? (Paragraph 4)", opts: ["The countryside", "The main business or city center", "A quiet park", "A religious temple"], a: 1 }
         ]
     }
 };
+
 /* ================================================================
    STATE & SECURITY MODULE
    ================================================================ */
@@ -685,7 +619,6 @@ let usedBlanksWords = [];
 let activitiesList = [];
 let ytPlayer = null;
 
-// --- Anti-Cheat System ---
 function getLockKey() { return 'LOCKED-' + state.name.toLowerCase() + '-' + state.section + '-' + state.unit; }
 function getExitsKey() { return 'EXITS-' + state.name.toLowerCase() + '-' + state.section + '-' + state.unit; }
 function isBlocked() { return localStorage.getItem(getLockKey()) === 'BLOCKED'; }
@@ -735,7 +668,6 @@ function setupAntiCheat(maxExits) {
         setTimeout(function() { isHandlingExit = false; }, 1000);
     }
 
-    // Previene que el detector de trampas se duplique si el alumno recarga una actividad
     document.removeEventListener('visibilitychange', window._visibilityHandler);
     window._visibilityHandler = function() {
         if (document.hidden) { handleExit(); }
@@ -759,9 +691,7 @@ const UI_META = {
     "grammar": { t: "Grammar", d: "Rules & Syntax", i: "fas fa-pen-nib" }
 };
 
-function onYouTubeIframeAPIReady() {
-    // La API está lista. El reproductor se creará al presionar Start Quest.
-}
+function onYouTubeIframeAPIReady() {}
 
 window.onload = function() { 
     setDailyQuote(); 
@@ -864,7 +794,6 @@ function start() {
     var totalPoints = calculateTotalPoints(data);
     var needsVideoLock = (data.type === "countable_module");
     
-    // Generación dinámica de la Interfaz (UI)
     for(let i = 1; i <= 4; i++) {
         let card = document.getElementById('card-' + i);
         if(i <= activitiesList.length) {
@@ -903,15 +832,8 @@ function start() {
                 setTimeout(() => {
                     var btn = document.getElementById('start-mod-btn');
                     if(btn) {
-                        btn.disabled = false;
-                        btn.textContent = "Start Activities (Review Mode)";
-                        btn.style.backgroundColor = "var(--success)";
-                        btn.style.cursor = "pointer";
-                        btn.onclick = function() {
-                            document.getElementById('start-mod-btn').style.display = 'none';
-                            document.getElementById('activity-grid').style.display = 'flex';
-                            document.getElementById('btn-report').style.display = 'inline-block';
-                        }
+                        btn.disabled = false; btn.textContent = "Start Activities (Review Mode)"; btn.style.backgroundColor = "var(--success)"; btn.style.cursor = "pointer";
+                        btn.onclick = function() { document.getElementById('start-mod-btn').style.display = 'none'; document.getElementById('activity-grid').style.display = 'flex'; document.getElementById('btn-report').style.display = 'inline-block'; }
                     }
                 }, 1000);
             } else {
@@ -924,15 +846,8 @@ function start() {
                                 if (event.data === YT.PlayerState.ENDED) {
                                     var btn = document.getElementById('start-mod-btn');
                                     if(btn) {
-                                        btn.disabled = false;
-                                        btn.textContent = "Start Activities";
-                                        btn.style.backgroundColor = "var(--success)";
-                                        btn.style.cursor = "pointer";
-                                        btn.onclick = function() {
-                                            document.getElementById('start-mod-btn').style.display = 'none';
-                                            document.getElementById('activity-grid').style.display = 'flex';
-                                            document.getElementById('btn-report').style.display = 'inline-block';
-                                        }
+                                        btn.disabled = false; btn.textContent = "Start Activities"; btn.style.backgroundColor = "var(--success)"; btn.style.cursor = "pointer";
+                                        btn.onclick = function() { document.getElementById('start-mod-btn').style.display = 'none'; document.getElementById('activity-grid').style.display = 'flex'; document.getElementById('btn-report').style.display = 'inline-block'; }
                                     }
                                 }
                             }
@@ -942,15 +857,8 @@ function start() {
                     setTimeout(function() {
                         var btn = document.getElementById('start-mod-btn');
                         if(btn) { 
-                            btn.disabled = false; 
-                            btn.textContent = "Start Activities (API Error Fallback)"; 
-                            btn.style.backgroundColor = "var(--success)";
-                            btn.style.cursor = "pointer";
-                            btn.onclick = function() {
-                                document.getElementById('start-mod-btn').style.display = 'none';
-                                document.getElementById('activity-grid').style.display = 'flex';
-                                document.getElementById('btn-report').style.display = 'inline-block';
-                            }
+                            btn.disabled = false; btn.textContent = "Start Activities (API Error Fallback)"; btn.style.backgroundColor = "var(--success)"; btn.style.cursor = "pointer";
+                            btn.onclick = function() { document.getElementById('start-mod-btn').style.display = 'none'; document.getElementById('activity-grid').style.display = 'flex'; document.getElementById('btn-report').style.display = 'inline-block'; }
                         }
                     }, 5000);
                 }
@@ -1008,26 +916,16 @@ function updateXPBar() {
         var isUnlocked = (i === 0) ? true : state.done[activitiesList[i-1]];
         
         if (card) {
-            if (isUnlocked) {
-                card.classList.remove('locked-card');
-                if (lock) lock.style.display = 'none';
-            } else {
-                card.classList.add('locked-card');
-                if (lock) lock.style.display = 'block';
-            }
+            if (isUnlocked) { card.classList.remove('locked-card'); if (lock) lock.style.display = 'none'; } 
+            else { card.classList.add('locked-card'); if (lock) lock.style.display = 'block'; }
         }
-        if (seal) {
-            if (state.done[activitiesList[i]]) seal.classList.remove('hidden'); else seal.classList.add('hidden');
-        }
+        if (seal) { if (state.done[activitiesList[i]]) seal.classList.remove('hidden'); else seal.classList.add('hidden'); }
     }
 }
 
 function gateCheck(index) {
-    if (index > 0 && !state.done[activitiesList[index-1]]) {
-        alert('🔒 Complete the previous level first to unlock this one.');
-    } else {
-        go(index);
-    }
+    if (index > 0 && !state.done[activitiesList[index-1]]) { alert('🔒 Complete the previous level first to unlock this one.'); } 
+    else { go(index); }
 }
 
 function go(index) {
@@ -1040,10 +938,8 @@ function go(index) {
     var container = document.getElementById('act-content');
     container.innerHTML = ''; 
 
-    // Dynamic routing
-    if (data.type === "exam" || data.type === "reading_only") {
-        renderExamSection(container, data, activity);
-    } else if (data.type === "countable_module") {
+    if (data.type === "exam" || data.type === "reading_only") { renderExamSection(container, data, activity); } 
+    else if (data.type === "countable_module") {
         if (activity === 'countable-part1') renderCountPart1(container, data);
         else if (activity === 'countable-part2') renderCountPart2(container, data);
     } else {
@@ -1053,10 +949,10 @@ function go(index) {
         else if (activity === 'blanks')    renderBlanks(container, data);
     }
 }
-    /* ================================================================
+
+/* ================================================================
    ACTIVITIES MODULE (Games & Exercises) - WITH SHUFFLE
    ================================================================ */
-
 function renderCountPart1(container, data) {
     var items = data.part1.items.slice().sort(function() { return Math.random()-0.5; });
     var categories = data.part1.categories;
@@ -1133,8 +1029,6 @@ function renderCountPart2(container, data) {
     var qPos = 0; var failCount = 0; var questionsArray = data.part2;
     function render() {
         var qObj = questionsArray[qPos]; failCount = 0;
-        
-        // Shuffle Engine
         var mappedOpts = qObj.opts.map(function(o, i) { return { text: o, isCorrect: (i === qObj.a) }; });
         var shuffledOpts = mappedOpts.sort(function() { return Math.random() - 0.5; });
         var optHtml = shuffledOpts.map(function(obj, i) { 
@@ -1174,8 +1068,6 @@ function renderExamSection(container, data, sectionName) {
     var qPos = 0; var failCount = 0; var questionsArray = data[sectionName];
     function render() {
         var qObj = questionsArray[qPos]; var pct = Math.round((qPos / questionsArray.length) * 100); failCount = 0;
-        
-        // Shuffle Engine
         var mappedOpts = qObj.opts.map(function(o, i) { return { text: o, isCorrect: (i === qObj.a) }; });
         var shuffledOpts = mappedOpts.sort(function() { return Math.random() - 0.5; });
         var optHtml = shuffledOpts.map(function(obj, i) { 
@@ -1254,8 +1146,6 @@ function renderQuiz(container, data) {
         
         if(isCustom) {
             var qObj = data.quiz[qPos]; failCount = 0;
-            
-            // Shuffle Engine
             var mappedOpts = qObj.opts.map(function(o, i) { return { text: o, isCorrect: (i === qObj.a) }; });
             var shuffledOpts = mappedOpts.sort(function() { return Math.random() - 0.5; });
             var optHtml = shuffledOpts.map(function(obj, i) { 
@@ -1440,18 +1330,16 @@ function renderBlanks(container, data) {
     }
     render();
 }
+
 /* ================================================================
    SAVE SYSTEM & CERTIFICATES MODULE
    ================================================================ */
-
 function claimCert() {
-    // 1. Calcular calificación
     var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
     var finalGrade = rawScore.toFixed(1); 
     if (finalGrade > 10) finalGrade = 10.0;
     if (isNaN(finalGrade)) finalGrade = 0.0;
     
-    // 2. Guardar progreso y enviar a Google Sheets (Solo si NO es modo repaso)
     if (!isReviewMode) {
         var urlGoogleScript = "https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec";
         var formData = new FormData();
@@ -1467,7 +1355,6 @@ function claimCert() {
         localStorage.setItem(key, 'COMPLETED');
     }
     
-    // 3. Dibujar el Certificado
     show('cert');
     
     document.getElementById('cert-name').textContent = state.name; 
@@ -1475,21 +1362,15 @@ function claimCert() {
     document.getElementById('cert-final-grade').textContent = finalGrade;
     
     var circle = document.getElementById('grade-circle');
-    if (finalGrade >= 8.0) {
-        circle.style.backgroundColor = 'var(--success)'; 
-    } else if (finalGrade >= 6.0) {
-        circle.style.backgroundColor = 'var(--warning)'; 
-    } else {
-        circle.style.backgroundColor = 'var(--danger)';
-    }
+    if (finalGrade >= 8.0) { circle.style.backgroundColor = 'var(--success)'; } 
+    else if (finalGrade >= 6.0) { circle.style.backgroundColor = 'var(--warning)'; } 
+    else { circle.style.backgroundColor = 'var(--danger)'; }
     
     document.getElementById('cert-time').textContent = 'Completed: ' + new Date().toLocaleString(); 
     document.getElementById('cert-code').textContent = 'AUTH: ' + Math.random().toString(36).substr(2,9).toUpperCase();
     
     var reviewBadge = document.getElementById('review-badge');
-    if(reviewBadge) {
-        reviewBadge.style.display = isReviewMode ? 'block' : 'none';
-    }
+    if(reviewBadge) { reviewBadge.style.display = isReviewMode ? 'block' : 'none'; }
 }
 </script>
 </body>
