@@ -89,7 +89,15 @@
         .btn:active:not(:disabled) { transform: scale(0.98); }
         .btn:disabled { background: #cbd5e1 !important; color: #64748b !important; cursor: not-allowed; pointer-events: none !important; }
 
-        .activity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 30px; max-width: 900px; margin-left: auto; margin-right: auto; justify-content: center; }
+.activity-grid { 
+    display: grid; 
+    grid-template-columns: 1fr; /* Fuerza una sola columna vertical */
+    gap: 20px; 
+    margin-top: 30px; 
+    max-width: 500px; /* Un ancho elegante para computadora y celular */
+    margin-left: auto; 
+    margin-right: auto; 
+}
         .activity-card { 
             background: #fff; border: 2px solid #e2e8f0; 
             padding: 25px 20px; border-radius: 12px; cursor: pointer; 
@@ -432,8 +440,8 @@ const DB = {
         active: true,
         type: "grammar_drill",
         activities: ["rules", "quiz", "chamber", "blanks"],
-        rulesTitle: "The Rules of Simple Present",
-        rulesText: "<b>1. Affirmative (+)</b><br>For <b>I, You, We, They</b>: Use the normal verb.<br><i>Example: They play.</i><br><br>For <b>He, She, It</b>: Add <b>-s</b> or <b>-es</b> to the verb.<br><i>Example: He plays. She watches.</i><br><br><b>2. Negative (-)</b><br>For <b>I, You, We, They</b>: Use <b>don't</b>.<br><i>Example: We don't play.</i><br><br>For <b>He, She, It</b>: Use <b>doesn't</b>. (Important: The main verb loses the 's'!).<br><i>Example: He doesn't play.</i><br><br><b>3. Questions (?)</b><br>For <b>I, You, We, They</b>: Start with <b>Do</b>.<br><i>Example: Do you play?</i><br><br>For <b>He, She, It</b>: Start with <b>Does</b>. (Again, no 's' on the main verb).<br><i>Example: Does she play?</i>",
+        rulesTitle: "Secret Grammar Code 🕵️‍♂️",
+        rulesText: "<div style='text-align:center; font-size:3rem; margin-bottom:10px;'>💡</div><p>Welcome to the <b>Simple Present</b> training! Here is the secret code you need to win:</p><br><p><b>👑 The VIP Club (He, She, It):</b><br>They LOVE the letter <b>S</b>! Their action verbs always need an 's' or 'es' (<i>He plays, She watches</i>). <br>⚠️ But if they say NO, they use <b>doesn't</b> and the main verb loses the 's'. (<i>She doesn't play</i>).</p><br><p><b>👯‍♂️ The Chill Team (I, You, We, They):</b><br>They are relaxed. Their verbs never change! (<i>We play</i>). <br>If they say NO, they just use <b>don't</b>. (<i>We don't play</i>).</p><br><p><b>❓ To ask a Question:</b><br>Use <b>Do</b> for the Chill Team and <b>Does</b> for the VIP Club. (And remember, NO 's' on the verb in questions!).</p><br><p><i>Ready? Let's get those XP! 🚀</i></p>",
         quiz: [
             { q: "He ________ every day.", opts: ["run", "runs", "runes", "running"], a: 1, hint: "He + verb with 's'" },
             { q: "They ________ pizza.", opts: ["like", "likes", "liking", "is like"], a: 0, hint: "They + normal verb" },
@@ -968,6 +976,23 @@ function go(index) {
 /* ================================================================
    ACTIVITIES MODULE (Games & Exercises) - WITH SHUFFLE
    ================================================================ */
+    function triggerMiniConfetti() {
+    if (typeof confetti !== 'undefined') {
+        confetti({ particleCount: 40, spread: 60, origin: { y: 0.7 }, colors: ['#10b981', '#34d399', '#fcd34d'], ticks: 150, gravity: 0.8 });
+    }
+}
+
+function renderRules(container, data) {
+    container.innerHTML = '<h2>' + data.rulesTitle + '</h2>' +
+        '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:100%;"></div></div></div>' +
+        '<div class="reading-box" style="background:#fff; padding:25px; border-left:4px solid var(--primary-blue); margin:25px auto; border-radius:12px; border:2px solid #bfdbfe; max-height:400px; overflow-y:auto; text-align:left; font-size:1.1rem; line-height:1.7; color:var(--text-main);">' + data.rulesText + '</div>' +
+        '<button class="btn" id="rules-btn" style="background:var(--success);"><i class="fas fa-check"></i> I understand the rules</button>';
+        
+    document.getElementById('rules-btn').onclick = function() {
+        state.done['rules'] = true; updateXPBar(); triggerConfetti();
+        container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-unlock-alt" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Level Unlocked!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
+    };
+}
 function renderCountPart1(container, data) {
     var items = data.part1.items.slice().sort(function() { return Math.random()-0.5; });
     var categories = data.part1.categories;
