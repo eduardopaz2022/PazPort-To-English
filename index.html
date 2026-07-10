@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
             --primary-blue: #2563eb;
@@ -357,29 +358,49 @@
     </div>
     <div id="act-content"></div>
 </section>
-
 <section id="screen-cert" class="screen hidden">
-    <div class="cert-area">
-        <i class="fas fa-award" style="font-size:4rem; color:var(--primary-blue); margin-bottom:10px;"></i>
-        <div id="review-badge" style="display:none; background:#fffbeb; color:#d97706; border:1px solid #fcd34d; padding:8px 15px; border-radius:20px; font-weight:600; font-size:0.9rem; margin:0 auto 20px; width:max-content;"><i class="fas fa-info-circle"></i> Review Mode - Score not saved</div>
-        <h1 style="font-size:2rem;" id="cert-title">Quest Completed!</h1>
-        <p style="font-size:1.1rem; color:var(--text-muted);">This certifies that</p>
-        <span id="cert-name"></span>
-        <p style="font-size:1.1rem; color:var(--text-muted); margin-top:10px;">has successfully completed</p>
-        <h3 id="cert-unit" style="color:var(--text-main); font-size:1.3rem; margin-top:5px;"></h3>
-        
-        <div class="final-grade-circle" id="grade-circle">
-            <span id="cert-final-grade">10.0</span>
-            <small>Final Grade</small>
+    <style>
+        .diploma-wrapper { background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); max-width: 800px; margin: 0 auto; }
+        .diploma-inner { border: 6px double var(--primary-blue); padding: 50px 30px; background: #fdfbf7; text-align: center; position: relative; }
+        .diploma-title { font-size: clamp(1.8rem, 4vw, 2.5rem); color: var(--primary-blue); font-family: 'Poppins', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+        .diploma-subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 10px; }
+        .diploma-name { font-size: 2.5rem; font-family: 'Poppins', sans-serif; color: #0f172a; font-weight: 700; border-bottom: 2px solid #cbd5e1; display: inline-block; padding: 0 20px 5px; margin-bottom: 20px; }
+        .diploma-unit { font-size: 1.5rem; color: var(--primary-blue); font-weight: 600; margin: 15px 0; }
+        .diploma-grade-badge { width: 100px; height: 100px; border-radius: 50%; background: var(--primary-blue); color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; margin: 20px auto; box-shadow: 0 5px 15px rgba(37,99,235,0.3); }
+        .diploma-grade-badge span { font-size: 2.2rem; font-weight: 800; line-height: 1; }
+        .diploma-grade-badge small { font-size: 0.7rem; text-transform: uppercase; margin-top: 4px; }
+        .diploma-footer { display: flex; justify-content: space-between; margin-top: 40px; font-size: 0.9rem; color: var(--text-muted); }
+    </style>
+
+    <div id="diploma-capture" class="diploma-wrapper">
+        <div class="diploma-inner">
+            <i class="fas fa-graduation-cap" style="font-size:3rem; color:var(--primary-blue); margin-bottom:15px;"></i>
+            <div id="review-badge" style="display:none; background:#fffbeb; color:#d97706; padding:5px 15px; border-radius:20px; font-size:0.9rem; font-weight:bold; margin:0 auto 15px; width:max-content;"><i class="fas fa-info-circle"></i> Review Mode - Not Saved</div>
+            
+            <div class="diploma-title">Certificate of Completion</div>
+            <div class="diploma-subtitle">This proudly certifies that</div>
+            <div class="diploma-name" id="cert-name">Student Name</div>
+            <div class="diploma-subtitle">has successfully mastered the module</div>
+            <div class="diploma-unit" id="cert-unit">Unit Name</div>
+            
+            <div class="diploma-grade-badge" id="grade-circle">
+                <span id="cert-final-grade">10.0</span>
+                <small>Final Grade</small>
+            </div>
+            
+            <div class="diploma-footer">
+                <div id="cert-time">Date</div>
+                <div id="cert-code" style="font-family:monospace; font-weight:bold;">AUTH ID</div>
+            </div>
         </div>
-        
-        <p id="cert-time" style="margin-top:20px; font-size:0.9rem; color:var(--text-muted);"></p>
-        <div id="cert-code" style="margin-top:10px; font-family:monospace; font-size:0.8rem; background:#f1f5f9; padding:8px; border-radius:4px; display:inline-block; color:var(--text-muted);"></div>
     </div>
-    <button class="btn" style="margin-top:30px;" onclick="location.reload()">Return to Entrance</button>
+
+    <div style="margin-top: 30px; display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
+        <button class="btn" style="background:#10b981; margin-top:0;" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Download PDF</button>
+        <button class="btn" style="margin-top:0;" onclick="location.reload()">Return to Entrance</button>
+    </div>
 </section>
 </div>
-    
 <script>
 function triggerConfetti() {
     if (typeof confetti !== 'undefined') {
@@ -1341,6 +1362,17 @@ function claimCert() {
     document.getElementById('cert-code').textContent = 'AUTH: ' + Math.random().toString(36).substr(2,9).toUpperCase();
     var reviewBadge = document.getElementById('review-badge');
     if(reviewBadge) { reviewBadge.style.display = isReviewMode ? 'block' : 'none'; }
+}
+    function downloadPDF() {
+    var element = document.getElementById('diploma-capture');
+    var opt = {
+        margin:       0.5,
+        filename:     state.name.replace(/\s+/g, '_') + '_Certificate.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
+    };
+    html2pdf().set(opt).from(element).save();
 }
 </script>
 </body>
