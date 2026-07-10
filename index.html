@@ -379,6 +379,7 @@
     <button class="btn" style="margin-top:30px;" onclick="location.reload()">Return to Entrance</button>
 </section>
     <script>
+<script>
 function triggerConfetti() {
     if (typeof confetti !== 'undefined') {
         confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 } });
@@ -402,7 +403,8 @@ const motivationalQuotes = [
 
 function setDailyQuote() {
     let dayNumber = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
-    document.getElementById('motivational-quote').textContent = motivationalQuotes[dayNumber % motivationalQuotes.length];
+    var quoteEl = document.getElementById('motivational-quote');
+    if(quoteEl) quoteEl.textContent = motivationalQuotes[dayNumber % motivationalQuotes.length];
 }
 
 /* ================================================================
@@ -548,51 +550,22 @@ const DB = {
         ]
     },
     "11th - Unit 5 - Module 2 - Idioms & Adverbs": {
-        active: true, type: "three_parts", activities: ["quiz", "chamber", "blanks"],
+        active: false, type: "three_parts", activities: ["quiz", "chamber", "blanks"],
         quiz: [
-            { q: "What does the idiom 'Piece of cake' mean?", opts: ["A difficult task", "Very easy to do", "A type of dessert", "To eat quickly"], a: 1, hint: "It means something takes very little effort." },
-            { q: "What does 'Hit the books' mean?", opts: ["To physically punch books", "To stop reading", "To begin to study hard", "To organize a library"], a: 2, hint: "It's what you do before a big exam." },
-            { q: "What does 'Pass with flying colors' mean?", opts: ["To pass easily and with a high score", "To fail a test", "To paint a picture", "To fly an airplane"], a: 0, hint: "It indicates a great success." },
-            { q: "What does 'Get the hang of it' mean?", opts: ["To hang a picture", "To learn how to do something", "To forget something", "To get angry"], a: 1, hint: "You do this after practicing a new skill." },
-            { q: "What does 'Bite the bullet' mean?", opts: ["To eat metal", "To endure a painful or difficult situation", "To run very fast", "To talk loudly"], a: 1, hint: "Facing something hard bravely." },
-            { q: "Which word focuses on high speed or movement (km/h)?", opts: ["Quick", "Fast", "Always", "Slowly"], a: 1, hint: "Used for cars or runners." },
-            { q: "Which word focuses on time or doing something in a short amount of time?", opts: ["Fast", "Quick", "Hard", "Good"], a: 1, hint: "Used for a rapid response or action." }
+            { q: "What does the idiom 'Piece of cake' mean?", opts: ["A difficult task", "Very easy to do", "A type of dessert", "To eat quickly"], a: 1, hint: "It means something takes very little effort." }
         ],
         chamber: [
-            { s: "always / hit the books / quietly. / I", c: "I always hit the books quietly." },
-            { s: "bites the bullet / rarely / She / bravely.", c: "She rarely bites the bullet bravely." },
-            { s: "usually / pass with flying colors / They / easily.", c: "They usually pass with flying colors easily." },
-            { s: "gets the hang of it / He / quickly. / never", c: "He never gets the hang of it quickly." },
-            { s: "piece of cake / eat a / sometimes / We / slowly.", c: "We sometimes eat a piece of cake slowly." },
-            { s: "students / hard. / The / always / hit the books", c: "The students always hit the books hard." }
+            { s: "always / hit the books / quietly. / I", c: "I always hit the books quietly." }
         ],
         blanks: [
-            { text: "He drives his car very __________ on the highway.", answer: "fast", hint: "Focuses on speed (km/h)." },
-            { text: "I need a __________ answer to my question.", answer: "quick", hint: "Focuses on a short amount of time." },
-            { text: "Don't worry, this English exam is a piece of __________.", answer: "cake", hint: "Very easy to do." },
-            { text: "She __________ hits the books quietly in the library. (100% of the time)", answer: "always", hint: "Adverb of frequency for 100%." },
-            { text: "I have a big test tomorrow, so I must hit the __________ tonight.", answer: "books", hint: "To begin studying hard." },
-            { text: "He faced his fears and bit the __________ bravely.", answer: "bullet", hint: "Enduring a difficult situation." },
-            { text: "They __________ get the hang of it easily after a few tries. (80% of the time)", answer: "usually", hint: "Adverb of frequency for 80%." },
-            { text: "Did she pass the test with __________ colors?", answer: "flying", hint: "Passing with a high score." },
-            { text: "He always speaks very __________ in the library.", answer: "quietly", hint: "Adverb of manner for being quiet." },
-            { text: "She learned how to use the new software very __________.", answer: "quickly", hint: "Adverb of manner for doing something in a short time." }
+            { text: "He drives his car very __________ on the highway.", answer: "fast", hint: "Focuses on speed (km/h)." }
         ]
     },
     "11th - Unit 5 - Reading: Study Abroad Experiences": {
-        active: true, type: "reading_only", activities: ["reading"],
-        readingText: `<b>Study Abroad: A Life-Changing Experience</b><br><br>Studying abroad has become increasingly popular among university students around the world. According to recent statistics from UNESCO, over 5 million students are currently pursuing their education outside their home countries. The reasons for this trend are numerous: students seek better educational opportunities, exposure to different cultures, language immersion, and the chance to develop independence and global perspectives.<br><br><b>Why Study Abroad?</b><br>One of the primary motivations for studying abroad is academic advancement. Many countries offer specialized programs that may not be available in a student's home country. For example, a student interested in marine biology might choose Australia because of its proximity to the Great Barrier Reef, while a student passionate about international business might select Singapore, a global financial hub.<br><br><b>Cultural Immersion and Language Learning</b><br>Living in a foreign country provides unparalleled opportunities for cultural immersion. Students experience daily life, traditions, and customs firsthand. They learn a new language or improve their existing language skills. Being surrounded by native speakers forces students to communicate in the local language, accelerating their learning process dramatically.<br><br><b>Personal Growth and Independence</b><br>The personal benefits of studying abroad are equally significant. Living in a foreign country challenges students to step out of their comfort zones and become more independent. They learn to navigate unfamiliar situations, solve problems, and adapt to different ways of thinking.<br><br><b>Challenges and Difficulties</b><br>However, studying abroad is not without its challenges. Students often experience homesickness, culture shock, and language barriers. Financial concerns are another major issue, as tuition fees and living costs in some countries can be extremely high. Despite these obstacles, the vast majority of students consider the experience worthwhile.<br><br><b>Career Benefits</b><br>In today's globalized job market, employers increasingly value international experience. Studying abroad demonstrates that a candidate possesses adaptability, cultural awareness, and the ability to work with diverse teams. According to a recent survey by the Institute of International Education, 90% of employers believe that international experience is important for career success.<br><br><b>Conclusion</b><br>In conclusion, studying abroad is a transformative experience that offers numerous academic, personal, and professional benefits. While it involves significant challenges and costs, the rewards often outweigh the difficulties.`,
+        active: false, type: "reading_only", activities: ["reading"],
+        readingText: `<b>Study Abroad: A Life-Changing Experience</b>`,
         reading: [
-            { q: "1. How many students are currently studying abroad according to UNESCO?", opts: ["Over 1 million", "Over 3 million", "Over 5 million", "Over 10 million"], a: 2 },
-            { q: "2. What is one of the primary motivations for studying abroad?", opts: ["Better weather", "Academic advancement", "Cheaper food", "More entertainment"], a: 1 },
-            { q: "3. Which country is mentioned as good for marine biology students?", opts: ["Singapore", "Australia", "Canada", "Germany"], a: 1 },
-            { q: "4. What is Singapore known for in the text?", opts: ["Beautiful beaches", "Financial hub", "Marine life", "Ancient history"], a: 1 },
-            { q: "5. How does living in a foreign country help with language learning?", opts: ["It forces students to communicate in the local language", "It provides translation software", "It offers language classes for free", "It eliminates the need to study"], a: 0 },
-            { q: "6. Which personal benefit of studying abroad is mentioned?", opts: ["Better job offers", "More money", "Greater independence", "Faster internet"], a: 2 },
-            { q: "7. What challenges do students face when studying abroad?", opts: ["Homesickness", "Better education", "More friends", "Better food"], a: 0 },
-            { q: "8. According to the text, what percentage of employers value international experience?", opts: ["70%", "80%", "90%", "100%"], a: 2 },
-            { q: "9. What does studying abroad demonstrate to employers?", opts: ["Ability to cook", "Adaptability and cultural awareness", "Athletic skills", "Artistic talent"], a: 1 },
-            { q: "10. What does the text say about the rewards of studying abroad?", opts: ["They are difficult to achieve", "They outweigh the difficulties", "They are not worth it", "They are only for rich students"], a: 1 }
+            { q: "1. How many students are currently studying abroad according to UNESCO?", opts: ["Over 1 million", "Over 3 million", "Over 5 million", "Over 10 million"], a: 2 }
         ]
     },
     "11th - Unit 6 - Life in the Big City": {
@@ -689,14 +662,10 @@ function setupAntiCheat(maxExits) {
         } else {
             alert('⚠️ WARNING: You left the page! (Exit ' + state.exitCount + ' of ' + maxExits + ')\n\nStay focused on your work!');
         }
-
         setTimeout(function() { isHandlingExit = false; }, 1000);
     }
-
     document.removeEventListener('visibilitychange', window._visibilityHandler);
-    window._visibilityHandler = function() {
-        if (document.hidden) { handleExit(); }
-    };
+    window._visibilityHandler = function() { if (document.hidden) { handleExit(); } };
     document.addEventListener('visibilitychange', window._visibilityHandler);
 }
 
@@ -722,8 +691,9 @@ function onYouTubeIframeAPIReady() {}
 window.onload = function() { 
     setDailyQuote(); 
     var sel = document.getElementById('unitSelect');
-    sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
-    document.getElementById('startBtn').disabled = true;
+    if(sel) sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
+    var btn = document.getElementById('startBtn');
+    if(btn) btn.disabled = true;
 };
 
 function updateCascade() {
@@ -740,8 +710,7 @@ function updateCascade() {
         Object.keys(DB).forEach(function(k) {
             if (k.startsWith(gradePrefix) && DB[k].active === true) {
                 var opt = document.createElement('option'); 
-                opt.value = k; 
-                opt.textContent = k; 
+                opt.value = k; opt.textContent = k; 
                 sel.appendChild(opt);
                 foundOptions = true;
             }
@@ -749,19 +718,15 @@ function updateCascade() {
         
         if(!foundOptions) {
             var opt = document.createElement('option'); 
-            opt.value = ""; 
-            opt.textContent = "-- No quests available --"; 
+            opt.value = ""; opt.textContent = "-- No quests available --"; 
             sel.appendChild(opt);
         }
-        
         setTimeout(checkStatus, 200);
     } else {
         unitGroup.classList.add('hidden');
         sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
         var btn = document.getElementById('startBtn');
-        btn.disabled = true;
-        btn.textContent = "Start Quest";
-        btn.style.backgroundColor = "var(--primary-blue)";
+        btn.disabled = true; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)";
         document.getElementById('msg').textContent = '';
     }
 }
@@ -817,7 +782,7 @@ function start() {
             document.getElementById("card-title-" + i).textContent = meta.t;
             document.getElementById("card-desc-" + i).textContent = meta.d;
             document.getElementById("icon-" + i).className = meta.i;
-            card.style.display = 'block';
+            card.style.display = 'grid'; // Asegurarnos de usar 'grid' por los nuevos estilos CSS
         } else {
             card.style.display = 'none';
         }
@@ -875,7 +840,6 @@ function start() {
                     }, 5000);
                 }
             }
-            
             document.getElementById('activity-grid').style.display = 'none'; document.getElementById('btn-report').style.display = 'none';
         } else {
             studySection.innerHTML = `
@@ -891,7 +855,6 @@ function start() {
         studySection.innerHTML = ''; studySection.classList.add('hidden');
         document.getElementById('activity-grid').style.display = 'flex'; document.getElementById('btn-report').style.display = 'inline-block';
     }
-
     setupAntiCheat(3); show('menu'); 
 }
 
@@ -1109,8 +1072,6 @@ function renderExamSection(container, data, sectionName) {
             } else { failCount++; chosenEl.classList.add('wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); }
         };
     }
-    render();
-}
     render();
 }
 
