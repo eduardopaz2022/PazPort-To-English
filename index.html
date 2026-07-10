@@ -1363,13 +1363,13 @@ function claimCert() {
     var reviewBadge = document.getElementById('review-badge');
     if(reviewBadge) { reviewBadge.style.display = isReviewMode ? 'block' : 'none'; }
 }
-    function downloadPDF() {
+ function downloadPDF() {
     var element = document.getElementById('diploma-capture');
     var opt = {
-        margin:       0.5,
+        margin:       0.2,
         filename:     state.name.replace(/\s+/g, '_') + '_Certificate.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
+        html2canvas:  { scale: 2, useCORS: true, letterRendering: true, width: 850 },
         jsPDF:        { unit: 'in', format: 'letter', orientation: 'landscape' }
     };
     html2pdf().set(opt).from(element).save();
