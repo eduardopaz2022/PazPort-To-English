@@ -443,7 +443,7 @@ const DB = {
         active: true, type: "grammar_drill",
         activities: ["rules", "quiz", "chamber", "blanks"],
         rulesTitle: "Secret Grammar Code 🕵️‍♂️",
-        rulesText: "<div style='text-align:center; font-size:3rem; margin-bottom:10px;'>💡</div><p>Welcome to the <b>Simple Present</b> training! Here is the secret code you need to win:</p><br><p><b>👑 The VIP Club (He, She, It):</b><br>They LOVE the letter <b>S</b>! Their action verbs always need an 's' or 'es' (<i>He plays, She watches</i>). <br>⚠️ But if they say NO, they use <b>doesn't</b> and the main verb loses the 's'. (<i>She doesn't play</i>).</p><br><p><b>👯‍♂️ The Chill Team (I, You, We, They):</b><br>They are relaxed. Their verbs never change! (<i>We play</i>). <br>If they say NO, they just use <b>don't</b>. (<i>We don't play</i>).</p><br><p><b>❓ To ask a Question:</b><br>Use <b>Do</b> for the Chill Team and <b>Does</b> for the VIP Club. (And remember, NO 's' on the verb in questions!).</p><br><p><i>Ready? Let's get those XP! 🚀</i></p>",
+        rulesText: "<div style='text-align:center; font-size:3rem; margin-bottom:10px;'>💡</div><p>Welcome to the <b>Simple Present</b> training! Here is the secret code you need to win:</p><br><p><b>👑 The VIP Club (He, She, It):</b><br>They LOVE the letter <b>S</b>! Their action verbs always need an 's' or 'es' (<i>He plays, She watches</i>).<br>✨ <b>Special Rule:</b> If the verb ends in consonant + <b>y</b>, change the 'y' to 'i' and add 'es' (<i>study ➔ studies, cry ➔ cries</i>).<br>⚠️ But if they say NO, they use <b>doesn't</b> and the main verb loses the 's/es/ies'. (<i>She doesn't play</i>).</p><br><p><b>👯‍♂️ The Chill Team (I, You, We, They):</b><br>They are relaxed. Their verbs never change! (<i>We play</i>). <br>If they say NO, they just use <b>don't</b>. (<i>We don't play</i>).</p><br><p><b>❓ To ask a Question:</b><br>Use <b>Do</b> for the Chill Team and <b>Does</b> for the VIP Club. (And remember, NO extra 's' on the verb in questions!).</p><br><p><i>Ready? Let's get those XP! 🚀</i></p>",
         quiz: [
             { q: "He ________ every day.", opts: ["run", "runs", "runes", "running"], a: 1, hint: "He + verb with 's'" },
             { q: "They ________ pizza.", opts: ["like", "likes", "liking", "is like"], a: 0, hint: "They + normal verb" },
@@ -1085,10 +1085,12 @@ function renderExamSection(container, data, sectionName) {
         
         var headerHtml = '<h2 style="color:var(--primary-blue); text-transform:capitalize;">' + (data.type === "reading_only" ? "Reading Comprehension" : sectionName) + ' <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(qPos+1)+'/'+questionsArray.length+')</span></h2>' +
                          '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="background:var(--primary-blue); width:'+pct+'%;"></div></div></div>';
-        var audioHtml = sectionName === 'listening' ? '<div class="media-card" style="background:#f8fafc; border:2px dashed #cbd5e1; padding:20px; border-radius:12px; margin-bottom:20px; text-align:center;"><p style="font-weight:600; margin-bottom:12px; color:var(--text-main);"><i class="fas fa-headphones text-blue-600"></i> Listen to the audio for this section:</p><audio controls style="width:100%; max-width:400px; margin:0 auto;"><source src="' + data.audioFile + '" type="audio/mpeg">Tu navegador no soporta el reproductor de audio.</audio></div>' : '';
-        var readingHtml = (sectionName === 'reading' || data.type === "reading_only") ? '<div class="reading-box" style="background:#eff6ff; padding:20px; border-left:4px solid var(--primary-blue); margin-bottom:25px; border-radius:8px; border:1px solid #bfdbfe; max-height: 250px; overflow-y: auto;"><strong><i class="fas fa-book-open"></i> Reading Text Panel:</strong><br><br>' + data.readingText + '</div>' : '';
+        
+        var audioHtml = sectionName === 'listening' ? '<div class="media-card" style="background:#f8fafc; border:2px dashed #cbd5e1; padding:20px; border-radius:12px; margin: 0 auto 20px auto; max-width: 600px; text-align:center;"><p style="font-weight:600; margin-bottom:12px; color:var(--text-main);"><i class="fas fa-headphones text-blue-600"></i> Listen to the audio for this section:</p><audio controls style="width:100%; max-width:400px; margin:0 auto;"><source src="' + data.audioFile + '" type="audio/mpeg">Tu navegador no soporta el reproductor de audio.</audio></div>' : '';
+        
+        var readingHtml = (sectionName === 'reading' || data.type === "reading_only") ? '<div class="reading-box" style="background:#eff6ff; padding:20px; border-left:4px solid var(--primary-blue); margin: 0 auto 25px auto; max-width: 750px; border-radius:8px; border:1px solid #bfdbfe; max-height: 250px; overflow-y: auto;"><strong><i class="fas fa-book-open"></i> Reading Text Panel:</strong><br><br>' + data.readingText + '</div>' : '';
 
-        container.innerHTML = headerHtml + audioHtml + readingHtml + '<p style="font-size:1.25rem; margin:25px 0; font-weight:600; color:var(--text-main); text-align:left;">' + qObj.q + '</p>' + optHtml + '<div id="hint-box" class="hint-box"><i class="fas fa-exclamation-triangle"></i> Incorrect. Try again.</div>';
+        container.innerHTML = headerHtml + audioHtml + readingHtml + '<p style="font-size:1.25rem; margin:25px auto; max-width:600px; font-weight:600; color:var(--text-main); text-align:left;">' + qObj.q + '</p>' + optHtml + '<div id="hint-box" class="hint-box"><i class="fas fa-exclamation-triangle"></i> Incorrect. Try again.</div>';
 
         window.checkExamOpt = function(chosen, isCorrect) {
             var chosenEl = document.getElementById('eopt-'+chosen);
@@ -1107,6 +1109,8 @@ function renderExamSection(container, data, sectionName) {
             } else { failCount++; chosenEl.classList.add('wrong', 'shake'); document.getElementById('hint-box').classList.add('active'); }
         };
     }
+    render();
+}
     render();
 }
 
