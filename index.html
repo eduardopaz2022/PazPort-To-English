@@ -793,6 +793,7 @@ function calculateTotalPoints(data) {
         case "conditional_review": return (data.words.length * 2) + data.sentences.length;
         case "reading_only": return data.reading.length;
         case "two_parts": return data.quiz.length + data.blanks.length;
+        case "two_parts": return data.words.length + data.listening.length;
         case "three_parts": return data.quiz.length + data.chamber.length + data.blanks.length;
         case "grammar_drill": return data.quiz.length + data.chamber.length + data.blanks.length;
         case "countable_module": return data.part1.items.length + data.part2.length;
@@ -945,6 +946,8 @@ function go(index) {
         else if (activity === 'quiz')      renderQuiz(container, data);
         else if (activity === 'chamber')   renderChamber(container, data);
         else if (activity === 'blanks')    renderBlanks(container, data);
+        else if (activity === 'vocabulary') renderVocabulary(container, data);
+        else if (activity === 'listening')  renderListening(container, data);
     }
 }
 
@@ -1340,7 +1343,16 @@ function renderBlanks(container, data) {
     }
     render();
 }
+function renderVocabulary(container, data) {
+    // Es básicamente el renderQuiz pero usando las definiciones del vocabulario
+    data.type = "normal"; // Truco para que el renderQuiz funcione con el vocabulario de 10mo
+    renderQuiz(container, data);
+}
 
+function renderListening(container, data) {
+    // Usamos la misma lógica que el examen pero apuntando al listening
+    renderExamSection(container, data, 'listening');
+}
 /* ================================================================
    SAVE SYSTEM & CERTIFICATES MODULE
    ================================================================ */
