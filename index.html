@@ -786,14 +786,13 @@ function checkStatus() {
         isReviewMode = false; btn.disabled = false; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; 
     }
 }
-
 function calculateTotalPoints(data) {
+    if (!data) return 10; // Protección extra
     switch(data.type) {
         case "normal":
         case "conditional_review": return (data.words.length * 2) + data.sentences.length;
         case "reading_only": return data.reading.length;
         case "two_parts": return data.quiz.length + data.blanks.length;
-        case "two_parts": return data.words.length + data.listening.length;
         case "three_parts": return data.quiz.length + data.chamber.length + data.blanks.length;
         case "grammar_drill": return data.quiz.length + data.chamber.length + data.blanks.length;
         case "countable_module": return data.part1.items.length + data.part2.length;
@@ -801,7 +800,6 @@ function calculateTotalPoints(data) {
         default: return 10;
     }
 }
-
 function start() {
     var name = document.getElementById('studentName').value.trim();
     var section = document.getElementById('sectionSelect').value;
