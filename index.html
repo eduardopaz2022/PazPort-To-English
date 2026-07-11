@@ -569,21 +569,27 @@ const DB = {
             { q: "10. What polite phrase should you say if you make eye contact with someone eating in Mexico?", opts: ["Hello", "Gracias", "Provecho", "Salud"], a: 2 }
         ]
     },
-   "10th - Unit 6 - Module 1": {
+   "10th - Unit 6 - Module 1 - Vocabulary Quiz": {
         active: true,
-        type: "two_parts", // Cambiamos a two_parts para que soporte vocabulario + listening
-        audioFile: 'https://drive.google.com/uc?export=download&id=1oeY-igg9LB5eqXMxfu6NXm5rpB-xWjVM', 
-        activities: ["vocabulary", "listening"], // Ahora incluye ambos
+        type: "two_parts",
+        activities: ["scrolls", "quiz"],
         words: ["Informed", "Honest", "Enthusiastic", "Sensitive", "Persuasive", "Caring", "Strict", "Patient", "Risk-taker", "Hardworking", "Praise", "Criticize"],
         defs: ["Having or showing knowledge.", "Truthful and sincere.", "Showing intense enjoyment or interest.", "Quick to detect or respond to slight changes.", "Good at convincing someone to do or believe something.", "Displaying kindness and concern for others.", "Demanding that rules are obeyed.", "Able to accept or tolerate delays.", "A person who is willing to take chances.", "Working with a great deal of effort.", "To express approval or admiration.", "To express disapproval of someone."],
+        examples: ["She is very informed about current events.", "He is an honest person who never lies.", "The students were enthusiastic about the project.", "She is sensitive to other people's feelings.", "He gave a persuasive speech.", "She is a caring nurse who helps everyone.", "The teacher is very strict with homework.", "The doctor is patient with his patients.", "He is a risk-taker who started his own business.", "She is hardworking and always does her best.", "The coach praised the team for their effort.", "The teacher criticized the student for being late."],
         hints: ["Knowledgeable", "Truthful", "Excited", "Aware of feelings", "Convincing", "Kind", "Follows rules", "Calm in delays", "Daring", "Diligent", "Approval", "Disapproval"],
-        listening: [
-            { q: "1. How is Jeff?", opts: ["patient", "informed"], a: 0 },
-            { q: "2. How is Sheila?", opts: ["persuasive", "caring"], a: 0 },
-            { q: "3. How is Mary?", opts: ["honest", "enthusiastic"], a: 1 },
-            { q: "4. How is the boss?", opts: ["strict", "patient"], a: 0 },
-            { q: "5. How is Dave Thomas?", opts: ["informed", "sensitive"], a: 0 },
-            { q: "6. How is the landlady?", opts: ["strict", "caring"], a: 1 }
+        quiz: [
+            { q: "My teacher always ________ me when I do good work.", opts: ["praises", "criticizes", "ignores", "forgets"], a: 0, hint: "To express approval or admiration." },
+            { q: "She is very ________ about the new project.", opts: ["informed", "enthusiastic", "strict", "patient"], a: 1, hint: "Showing intense enjoyment or interest." },
+            { q: "He is a ________ person who always tells the truth.", opts: ["sensitive", "caring", "honest", "persuasive"], a: 2, hint: "Truthful and sincere." },
+            { q: "The boss is very ________ with the employees.", opts: ["informed", "enthusiastic", "strict", "hardworking"], a: 2, hint: "Demanding that rules are obeyed." },
+            { q: "She is a ________ person who always helps others.", opts: ["sensitive", "caring", "honest", "patient"], a: 1, hint: "Displaying kindness and concern for others." },
+            { q: "He is a ________ who loves to take chances.", opts: ["hardworking", "risk-taker", "strict", "informed"], a: 1, hint: "A person who is willing to take chances." },
+            { q: "She is ________ about the feelings of others.", opts: ["enthusiastic", "caring", "sensitive", "informed"], a: 2, hint: "Quick to detect or respond to slight changes." },
+            { q: "The manager ________ the employee for being late.", opts: ["praised", "criticized", "helped", "ignored"], a: 1, hint: "To express disapproval of someone." },
+            { q: "He is very ________ and works many hours.", opts: ["hardworking", "patient", "persuasive", "strict"], a: 0, hint: "Working with a great deal of effort." },
+            { q: "She is ________ about the latest news.", opts: ["informed", "enthusiastic", "sensitive", "hardworking"], a: 0, hint: "Having or showing knowledge." },
+            { q: "He is a ________ speaker who convinces people.", opts: ["caring", "persuasive", "strict", "informed"], a: 1, hint: "Good at convincing someone to do or believe something." },
+            { q: "The doctor is very ________ with his patients.", opts: ["strict", "enthusiastic", "patient", "sensitive"], a: 2, hint: "Able to accept or tolerate delays." }
         ]
     },
     "11th - Unit 5 - Module 2 - Idioms & Adverbs": {
@@ -744,7 +750,6 @@ function updateCascade() {
         var foundOptions = false;
         sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
 Object.keys(DB).forEach(function(k) {
-    // Verificamos que el nombre del grado esté en la llave (ej: "10th" está en "10th - Unit 6...")
     if (k.includes(gradePrefix) && DB[k].active === true) {
         var opt = document.createElement('option'); 
         opt.value = k; 
@@ -787,30 +792,59 @@ function checkStatus() {
         isReviewMode = false; btn.disabled = false; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; 
     }
 }
+
 function calculateTotalPoints(data) {
-    if (!data) return 10; // Protección extra
+    if (!data) return 10;
     switch(data.type) {
         case "normal":
-        case "conditional_review": return (data.words.length * 2) + data.sentences.length;
-        case "reading_only": return data.reading.length;
-        case "two_parts": return data.quiz.length + data.blanks.length;
-        case "three_parts": return data.quiz.length + data.chamber.length + data.blanks.length;
-        case "grammar_drill": return data.quiz.length + data.chamber.length + data.blanks.length;
-        case "countable_module": return data.part1.items.length + data.part2.length;
-        case "exam": return 30;
-        default: return 10;
+        case "conditional_review": 
+            return ((data.words && data.words.length) ? data.words.length * 2 : 0) + ((data.sentences && data.sentences.length) ? data.sentences.length : 0);
+        case "reading_only": 
+            return (data.reading && data.reading.length) ? data.reading.length : 0;
+        case "two_parts": 
+            var qLen = (data.quiz && data.quiz.length) ? data.quiz.length : 0;
+            var bLen = (data.blanks && data.blanks.length) ? data.blanks.length : 0;
+            return qLen + bLen;
+        case "three_parts": 
+            var qLen2 = (data.quiz && data.quiz.length) ? data.quiz.length : 0;
+            var cLen = (data.chamber && data.chamber.length) ? data.chamber.length : 0;
+            var bLen2 = (data.blanks && data.blanks.length) ? data.blanks.length : 0;
+            return qLen2 + cLen + bLen2;
+        case "grammar_drill": 
+            var qLen3 = (data.quiz && data.quiz.length) ? data.quiz.length : 0;
+            var cLen2 = (data.chamber && data.chamber.length) ? data.chamber.length : 0;
+            var bLen3 = (data.blanks && data.blanks.length) ? data.blanks.length : 0;
+            return qLen3 + cLen2 + bLen3;
+        case "countable_module": 
+            var p1 = (data.part1 && data.part1.items) ? data.part1.items.length : 0;
+            var p2 = (data.part2 && data.part2.length) ? data.part2.length : 0;
+            return p1 + p2;
+        case "exam": 
+            var vLen2 = (data.vocabulary && data.vocabulary.length) ? data.vocabulary.length : 0;
+            var rLen = (data.reading && data.reading.length) ? data.reading.length : 0;
+            return vLen2 + rLen;
+        default: 
+            return 10;
     }
 }
+
 function start() {
     var name = document.getElementById('studentName').value.trim();
     var section = document.getElementById('sectionSelect').value;
     var unit = document.getElementById('unitSelect').value;
     var data = DB[unit];
     
+    // Protección: si no existe la unidad, mostrar error
+    if (!data) {
+        alert('Error: La unidad seleccionada no existe. Por favor selecciona otra.');
+        return;
+    }
+    
     activitiesList = data.activities || [];
     var totalPoints = calculateTotalPoints(data);
     var needsVideoLock = (data.type === "countable_module");
     
+    // Mostrar solo las tarjetas que corresponden a las actividades
     for(let i = 1; i <= 4; i++) {
         let card = document.getElementById('card-' + i);
         if(i <= activitiesList.length) {
@@ -819,7 +853,7 @@ function start() {
             document.getElementById("card-title-" + i).textContent = meta.t;
             document.getElementById("card-desc-" + i).textContent = meta.d;
             document.getElementById("icon-" + i).className = meta.i;
-            card.style.display = 'grid'; // Asegurarnos de usar 'grid' por los nuevos estilos CSS
+            card.style.display = 'grid';
         } else {
             card.style.display = 'none';
         }
@@ -932,11 +966,15 @@ function go(index) {
     if (index > 0 && !state.done[activitiesList[index-1]]) return; 
     if (state.isLocked) { showBlockedScreen(); return; }
     
-    var data = DB[state.unit]; var activity = activitiesList[index];
-    show('act'); var container = document.getElementById('act-content'); container.innerHTML = ''; 
+    var data = DB[state.unit]; 
+    var activity = activitiesList[index];
+    show('act'); 
+    var container = document.getElementById('act-content'); 
+    container.innerHTML = ''; 
 
-    if (data.type === "exam" || data.type === "reading_only") { renderExamSection(container, data, activity); } 
-    else if (data.type === "countable_module") {
+    if (data.type === "exam" || data.type === "reading_only") { 
+        renderExamSection(container, data, activity); 
+    } else if (data.type === "countable_module") {
         if (activity === 'countable-part1') renderCountPart1(container, data);
         else if (activity === 'countable-part2') renderCountPart2(container, data);
     } else {
@@ -1128,23 +1166,19 @@ function renderScrolls(container, data) {
 
     document.getElementById('fc-el').onclick = function() { this.classList.toggle('flipped'); };
     document.getElementById('btn-prev').onclick = function() { if(idx > 0) { idx--; updateCard(); } };
-    document.getElementById('btn-next').onclick = function() { if(idx < (data.words ? data.words.length : data.scrolls.length) - 1) { idx++; updateCard(); } };
+    document.getElementById('btn-next').onclick = function() { if(idx < data.words.length - 1) { idx++; updateCard(); } };
 
     function updateCard() {
-        var isCond = (data.type === "conditional_review");
-        var list = isCond ? data.scrolls : data.words;
-        document.getElementById('scroll-pct').style.width = Math.round((idx / (list.length - 1)) * 100) + '%';
+        document.getElementById('scroll-pct').style.width = Math.round((idx / (data.words.length - 1)) * 100) + '%';
         
-        document.getElementById('fc-word').textContent = isCond ? list[idx].word : list[idx];
-        document.getElementById('fc-def').textContent = isCond ? list[idx].def : data.defs[idx];
-        document.getElementById('fc-example').textContent = '📖 ' + (isCond ? list[idx].ex : data.examples[idx]);
-        document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + list.length + ')';
+        document.getElementById('fc-word').textContent = data.words[idx];
+        document.getElementById('fc-def').textContent = data.defs[idx];
+        document.getElementById('fc-example').textContent = '📖 ' + data.examples[idx];
+        document.getElementById('fc-counter').textContent = '(' + (idx+1) + '/' + data.words.length + ')';
+        document.getElementById('tts-btn').onclick = function(e) { e.stopPropagation(); speak(data.words[idx]); };
         
-        if(!isCond) { document.getElementById('tts-btn').onclick = function(e) { e.stopPropagation(); speak(list[idx]); }; }
-        else { document.getElementById('tts-btn').style.display = 'none'; }
-        
-        document.getElementById('btn-next').disabled = (idx === list.length - 1);
-        if (idx === list.length - 1) { state.done['scrolls'] = true; updateXPBar(); }
+        document.getElementById('btn-next').disabled = (idx === data.words.length - 1);
+        if (idx === data.words.length - 1) { state.done['scrolls'] = true; updateXPBar(); }
         
         document.getElementById('fc-el').classList.remove('flipped');
         document.getElementById('btn-prev').disabled = (idx === 0);
@@ -1343,15 +1377,14 @@ function renderBlanks(container, data) {
     render();
 }
 function renderVocabulary(container, data) {
-    // Es básicamente el renderQuiz pero usando las definiciones del vocabulario
-    data.type = "normal"; // Truco para que el renderQuiz funcione con el vocabulario de 10mo
-    renderQuiz(container, data);
+    // Ya no se usa, pero mantenemos la función por si acaso
+    container.innerHTML = '<p>Vocabulary section is now integrated into the quiz.</p>';
 }
 
 function renderListening(container, data) {
-    // Usamos la misma lógica que el examen pero apuntando al listening
-    renderExamSection(container, data, 'listening');
+    container.innerHTML = '<p>Listening section is no longer available. Please complete the quiz.</p>';
 }
+
 /* ================================================================
    SAVE SYSTEM & CERTIFICATES MODULE
    ================================================================ */
