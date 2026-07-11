@@ -569,11 +569,14 @@ const DB = {
             { q: "10. What polite phrase should you say if you make eye contact with someone eating in Mexico?", opts: ["Hello", "Gracias", "Provecho", "Salud"], a: 2 }
         ]
     },
-      "10th - Unit 6 - Personality & Listening": {
+   "10th - Unit 6 - Module 1 - Vocabulary and Listening": {
         active: true,
-        type: "exam",
-        audioFile: '[https://drive.google.com/uc?export=download&id=1oeY-igg9LB5eqXMxfu6NXm5rpB-xWjVM](https://drive.google.com/uc?1oeY-igg9LB5eqXMxfu6NXm5rpB-xWjVM)', 
-        activities: ["listening"],
+        type: "two_parts", // Cambiamos a two_parts para que soporte vocabulario + listening
+        audioFile: 'https://drive.google.com/uc?export=download&id=1oeY-igg9LB5eqXMxfu6NXm5rpB-xWjVM', 
+        activities: ["vocabulary", "listening"], // Ahora incluye ambos
+        words: ["Informed", "Honest", "Enthusiastic", "Sensitive", "Persuasive", "Caring", "Strict", "Patient", "Risk-taker", "Hardworking", "Praise", "Criticize"],
+        defs: ["Having or showing knowledge.", "Truthful and sincere.", "Showing intense enjoyment or interest.", "Quick to detect or respond to slight changes.", "Good at convincing someone to do or believe something.", "Displaying kindness and concern for others.", "Demanding that rules are obeyed.", "Able to accept or tolerate delays.", "A person who is willing to take chances.", "Working with a great deal of effort.", "To express approval or admiration.", "To express disapproval of someone."],
+        hints: ["Knowledgeable", "Truthful", "Excited", "Aware of feelings", "Convincing", "Kind", "Follows rules", "Calm in delays", "Daring", "Diligent", "Approval", "Disapproval"],
         listening: [
             { q: "1. How is Jeff?", opts: ["patient", "informed"], a: 0 },
             { q: "2. How is Sheila?", opts: ["persuasive", "caring"], a: 0 },
