@@ -592,51 +592,52 @@ const DB = {
             { text: "Do you have ________ homework today?", options: ["A few", "Some", "Any", "Many"], answer: "Any", hint: "Used in questions." }
         ]
     },
-    "9th - Recovery Exam - The Gauntlet": {
+   "9th - Recovery Exam - The Gauntlet": {
         active: true, 
         type: "three_parts", 
         activities: ["chamber", "blanks"],
         
         // FASE 1: THE MONSTER SENTENCES (35 Items)
-        // Oraciones extremas para ordenar, combinando vocabulario, manera y frecuencia.
+        // Oraciones lógicas y precisas evaluando estructura sintáctica.
         chamber: [
-            { s: "lazy / brother / my / sleeps / usually / on / the / sofa", c: "My lazy brother usually sleeps on the sofa" },
-            { s: "smart / always / students / the / finish / their / homework / quickly", c: "The smart students always finish their homework quickly" },
-            { s: "doesn't / she / often / eat / chocolate / cookies / her / because / stomach / hurts", c: "She doesn't often eat chocolate cookies because her stomach hurts" },
-            { s: "much / milk / how / do / usually / you / drink?", c: "How much milk do you usually drink?" },
-            { s: "rarely / cleans / dirty / mirror / my / father / the", c: "My father rarely cleans the dirty mirror" },
-            { s: "always / our / heart / blood / quickly / pumps / through / our / body", c: "Our heart always pumps blood quickly through our body" },
-            { s: "many / do / grapes / how / you / usually / eat / after / your / lunch?", c: "How many grapes do you usually eat after your lunch?" },
-            { s: "carefully / strong / uses / his / biceps / he", c: "He carefully uses his strong biceps" },
-            { s: "never / a / little / I / put / on / my / butter / steak", c: "I never put a little butter on my steak" },
+            { s: "lazy / brother / my / usually / sleeps / on / the / sofa", c: "My lazy brother usually sleeps on the sofa" },
+            { s: "smart / the / students / finish / their / homework / quickly / always", c: "The smart students always finish their homework quickly" },
+            { s: "she / often / doesn't / eat / chocolate / cookies", c: "She doesn't often eat chocolate cookies" },
+            { s: "how / much / milk / do / usually / drink / you", c: "How much milk do you usually drink" },
+            { s: "my / rarely / father / cleans / dirty / mirror / the / well", c: "My father rarely cleans the dirty mirror well" },
+            { s: "heart / our / always / pumps / blood / quickly", c: "Our heart always pumps blood quickly" },
+            { s: "many / grapes / how / eat / you / usually / do", c: "How many grapes do you usually eat" },
+            { s: "carefully / biceps / uses / his / he / always", c: "He always uses his biceps carefully" },
+            { s: "never / I / put / butter / on / my / steak", c: "I never put butter on my steak" },
             { s: "loudly / my / sister / sometimes / yells", c: "My sister sometimes yells loudly" },
-            { s: "slowly / food / the / intestines / process / healthy", c: "The healthy intestines process food slowly" },
-            { s: "don't / we / have / any / extra / pillows / or / blankets / the / in / closet", c: "We don't have any extra pillows or blankets in the closet" },
-            { s: "some / I / usually / need / to / buy / for / the / party / tacos", c: "I usually need to buy some tacos for the party" },
-            { s: "never / my / the / dirty / shelf / in / my / bedroom / mother / cleans", c: "My mother never cleans the dirty shelf in my bedroom" },
-            { s: "works / very / well / when / my / I / run / calf", c: "My calf works very well when I run" },
+            { s: "intestines / the / process / food / slowly", c: "The intestines process food slowly" },
+            { s: "don't / we / have / any / pillows / extra", c: "We don't have any extra pillows" },
+            { s: "some / I / usually / buy / tacos", c: "I usually buy some tacos" },
+            { s: "never / my / the / dirty / shelf / mother / cleans", c: "My mother never cleans the dirty shelf" },
+            { s: "works / well / when / my / I / run / calf", c: "My calf works well when I run" },
             { s: "he / always / watches / television / loudly", c: "He always watches television loudly" },
-            { s: "she / perfectly / organizes / her / slippers", c: "She perfectly organizes her slippers" },
-            { s: "do / you / have / any / extra / blankets / for / the / bed?", c: "Do you have any extra blankets for the bed?" },
-            { s: "how / many / eggs / do / you / usually / eat / for / breakfast?", c: "How many eggs do you usually eat for breakfast?" },
-            { s: "my / little / sister / never / eats / steak / with / her / hands", c: "My little sister never eats steak with her hands" },
-            { s: "the / new / wall / clock / works / perfectly / in / the / kitchen", c: "The new wall clock works perfectly in the kitchen" },
-            { s: "he / doesn't / usually / clean / his / dirty / slippers / well", c: "He doesn't usually clean his dirty slippers well" },
-            { s: "we / often / sit / on / the / new / sofa", c: "We often sit on the sofa" },
-            { s: "she / always / opens / the / curtains / very / quickly", c: "She always opens the curtains very quickly" },
-            { s: "my / strong / pectoral / always / helps / me / push / heavily", c: "My strong pectoral always helps me push heavily" },
-            { s: "healthy / lungs / usually / process / clean / air / very / well", c: "Healthy lungs usually process clean air very well" },
-            { s: "the / human / liver / carefully / cleans / our / blood / every / day", c: "The human liver carefully cleans our blood every day" },
-            { s: "a / healthy / kidney / always / filters / water / very / quickly", c: "A healthy kidney always filters water very quickly" },
-            { s: "he / never / leaves / a / few / cookies / on / the / table", c: "He never leaves a few cookies on the table" },
-            { s: "I / don't / usually / drink / much / milk / in / the / morning", c: "I don't usually drink much milk in the morning" },
-            { s: "she / always / finds / her / remote / control / quickly / on / the / sofa", c: "She always finds her remote control quickly on the sofa" },
-            { s: "they / don't / watch / television / quietly / in / the / bedroom", c: "They don't watch television quietly in the bedroom" },
-            { s: "we / always / need / a / little / butter / to / cook / the / eggs", c: "We always need a little butter to cook the eggs" },
-            { s: "he / destroyed / the / wall / clock / accidentally / yesterday", c: "He destroyed the wall clock accidentally yesterday" },
-            { s: "the / old / armchair / is / rarely / cleaned / properly / by / my / brother", c: "The old armchair is rarely cleaned properly by my brother" }
+            { s: "she / perfectly / organizes / her / slippers / in / the / closet", c: "She organizes her slippers perfectly in the closet" },
+            { s: "do / you / have / any / extra / blankets", c: "Do you have any extra blankets" },
+            { s: "how / many / eggs / do / you / usually / eat", c: "How many eggs do you usually eat" },
+            { s: "my / little / sister / never / eats / steak", c: "My little sister never eats steak" },
+            { s: "the / wall / clock / works / perfectly / in / the / kitchen", c: "The wall clock works perfectly in the kitchen" },
+            { s: "he / doesn't / usually / clean / his / slippers / well", c: "He doesn't usually clean his slippers well" },
+            { s: "we / often / sit / comfortably / on / the / sofa", c: "We often sit comfortably on the sofa" },
+            { s: "she / always / opens / the / curtains / quickly", c: "She always opens the curtains quickly" },
+            { s: "my / pectoral / muscles / always / help / me / push", c: "My pectoral muscles always help me push" },
+            { s: "healthy / lungs / usually / process / air / very / well", c: "Healthy lungs usually process air very well" },
+            { s: "the / liver / carefully / cleans / our / blood", c: "The liver carefully cleans our blood" },
+            { s: "a / healthy / kidney / always / filters / water / quickly", c: "A healthy kidney always filters water quickly" },
+            { s: "he / never / leaves / cookies / on / the / table", c: "He never leaves cookies on the table" },
+            { s: "I / don't / usually / drink / much / milk", c: "I don't usually drink much milk" },
+            { s: "she / always / finds / her / remote / control / quickly", c: "She always finds her remote control quickly" },
+            { s: "they / don't / usually / watch / television / quietly", c: "They don't usually watch television quietly" },
+            { s: "we / always / need / a / little / butter", c: "We always need a little butter" },
+            { s: "he / always / cleans / the / wall / clock / carefully", c: "He always cleans the wall clock carefully" },
+            { s: "my / brother / rarely / cleans / the / armchair / properly", c: "My brother rarely cleans the armchair properly" }
         ],
-    // FASE 2: THE TYPING GAUNTLET (65 Items = 24 Imágenes + 41 Gramática a ciegas)
+
+        // FASE 2: THE TYPING GAUNTLET (65 Items = 24 Imágenes + 41 Gramática a ciegas)
         blanks: [
             // --- 24 IMÁGENES DE VOCABULARIO ---
             { text: "<img src='https://drive.google.com/uc?export=view&id=1MdwB26ahAWo6_r9JIVlx8joyYAgg4stH' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this room:</div>", answer: "bedroom", hint: "A room where people sleep." },
