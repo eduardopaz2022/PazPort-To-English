@@ -592,7 +592,7 @@ const DB = {
             { text: "Do you have ________ homework today?", options: ["A few", "Some", "Any", "Many"], answer: "Any", hint: "Used in questions." }
         ]
     },
-   "9th - Recovery Exam - The Gauntlet": {
+   "9th - Recovery Activity": {
         active: true, 
         type: "three_parts", 
         activities: ["chamber", "blanks"],
@@ -714,7 +714,7 @@ const DB = {
         ]
     },
     "10th - Unit 5 - Module 2 - Indefinite Pronouns": {
-        active: true, type: "two_parts", hasVideoLesson: true, videoUrl: "https://www.youtube.com/embed/z8hoS1BWKVg", videoDesc: "Watch the video carefully to review Indefinite Pronouns before taking the quizzes.",
+        active: false, type: "two_parts", hasVideoLesson: true, videoUrl: "https://www.youtube.com/embed/z8hoS1BWKVg", videoDesc: "Watch the video carefully to review Indefinite Pronouns before taking the quizzes.",
         activities: ["quiz", "blanks"],
         quiz: [
             { q: "I didn't buy _____ at the shop.", opts: ["anything", "nothing", "something", "anywhere"], a: 0, hint: "In negative sentences, we use words starting with 'any-'." },
@@ -752,7 +752,7 @@ const DB = {
         ]
     },
     "10th - Unit 5 - Module 3 - Reading": {
-        active: true, type: "reading_only", activities: ["reading"],
+        active: false, type: "reading_only", activities: ["reading"],
         readingText: "<b>Dining Customs Around the World</b><br><br>Food is an essential part of discovering a new culture, but knowing how to eat is just as important as knowing what to eat. Restaurant etiquette varies wildly from country to country.<br><br><b>Italy</b><br>In Italy, never ask for cheese on seafood pasta; it is considered a culinary crime. Also, do not order a cappuccino after a meal. Italians believe milk disrupts digestion after eating, so they stick to espresso. Tipping is not mandatory, as a service charge (coperto) is usually included in the bill.<br><br><b>South Korea</b><br>Respect for elders is crucial in South Korea. You should never pick up your chopsticks or start eating before the oldest person at the table does. When someone older pours a drink for you, hold your glass with both hands. It is also polite to leave a little food on your plate to show that the host provided more than enough.<br><br><b>Morocco</b><br>In Morocco, eating with your hands is very common, but you must only use your right hand. Bread is often used as a utensil to scoop up food from communal tajines. If you are full, leave a bit of food; otherwise, your host will keep filling your plate. Hand washing before the meal is a strict ritual.<br><br><b>Mexico</b><br>In Mexico, meals are social events that can last for hours, a tradition known as 'sobremesa'. It is considered rude to eat tacos with a knife and fork—you must use your hands! If you catch someone's eye while they are eating, it is polite to say 'provecho' (enjoy your meal).",
         reading: [
             { q: "1. In Italy, what is considered a culinary crime?", opts: ["Asking for cheese on seafood", "Ordering pizza at night", "Leaving a tip", "Drinking espresso after a meal"], a: 0 },
@@ -768,7 +768,7 @@ const DB = {
         ]
     },
    "10th - Unit 6 - Module 1 - Vocabulary Quiz": {
-        active: true,
+        active: false,
         type: "two_parts",
         activities: ["scrolls", "quiz"],
         words: ["Informed", "Honest", "Enthusiastic", "Sensitive", "Persuasive", "Caring", "Strict", "Patient", "Risk-taker", "Hardworking", "Praise", "Criticize"],
@@ -788,6 +788,168 @@ const DB = {
             { q: "She is ________ about the latest news.", opts: ["informed", "enthusiastic", "sensitive", "hardworking"], a: 0, hint: "Having or showing knowledge." },
             { q: "He is a ________ speaker who convinces people.", opts: ["caring", "persuasive", "strict", "informed"], a: 1, hint: "Good at convincing someone to do or believe something." },
             { q: "The doctor is very ________ with his patients.", opts: ["strict", "enthusiastic", "patient", "sensitive"], a: 2, hint: "Able to accept or tolerate delays." }
+        ]
+    },
+    "10th - Recovery Activity": {
+        active: true, 
+        type: "three_parts", 
+        activities: ["chamber", "blanks", "quiz"],
+
+        // FASE 1: GRAMMAR CHAMBER (30 Items)
+        // 15 Indefinite Pronouns + 15 Conditionals (Zero & First)
+        chamber: [
+            // Conditionals (Zero & First - Cortas y lógicas)
+            { s: "if / you / heat / ice / it / melts / quickly", c: "If you heat ice it melts quickly" },
+            { s: "if / you / mix / red / and / blue / you / get / purple", c: "If you mix red and blue you get purple" },
+            { s: "water / freezes / if / the / temperature / reaches / zero / degrees", c: "Water freezes if the temperature reaches zero degrees" },
+            { s: "if / I / am / very / tired / I / go / to / sleep", c: "If I am very tired I go to sleep" },
+            { s: "plants / always / die / if / they / don't / get / water", c: "Plants always die if they don't get water" },
+            { s: "if / you / press / this / button / the / machine / starts", c: "If you press this button the machine starts" },
+            { s: "I / feel / sick / if / I / eat / too / much / chocolate", c: "I feel sick if I eat too much chocolate" },
+            { s: "if / it / rains / tomorrow / I / will / stay / home", c: "If it rains tomorrow I will stay home" },
+            { s: "she / will / pass / the / exam / if / she / studies / hard", c: "She will pass the exam if she studies hard" },
+            { s: "if / you / don't / hurry / you / will / miss / the / bus", c: "If you don't hurry you will miss the bus" },
+            { s: "we / will / go / to / the / park / if / it / is / sunny", c: "We will go to the park if it is sunny" },
+            { s: "if / my / mother / calls / me / I / will / answer / the / phone", c: "If my mother calls me I will answer the phone" },
+            { s: "you / will / feel / cold / if / you / don't / wear / a / jacket", c: "You will feel cold if you don't wear a jacket" },
+            { s: "if / they / practice / more / they / will / win / the / game", c: "If they practice more they will win the game" },
+            { s: "I / will / completely / help / you / if / you / ask / me", c: "I will completely help you if you ask me" },
+            
+            // Indefinite Pronouns
+            { s: "I / didn't / buy / anything / at / the / large / supermarket", c: "I didn't buy anything at the large supermarket" },
+            { s: "there / is / absolutely / nothing / inside / this / empty / box", c: "There is absolutely nothing inside this empty box" },
+            { s: "somebody / knocked / on / the / front / door / very / loudly", c: "Somebody knocked on the front door very loudly" },
+            { s: "did / anybody / see / my / car / keys / on / the / table", c: "Did anybody see my car keys on the table" },
+            { s: "I / really / want / to / travel / somewhere / hot / and / sunny", c: "I really want to travel somewhere hot and sunny" },
+            { s: "everybody / in / this / room / needs / to / sleep / well / tonight", c: "Everybody in this room needs to sleep well tonight" },
+            { s: "we / sadly / have / nowhere / to / go / this / rainy / weekend", c: "We sadly have nowhere to go this rainy weekend" },
+            { s: "can / someone / please / help / me / with / these / heavy / bags", c: "Can someone please help me with these heavy bags" },
+            { s: "my / smart / teacher / knows / everything / about / Japanese / history", c: "My smart teacher knows everything about Japanese history" },
+            { s: "I / looked / everywhere / but / I / couldn't / find / my / phone", c: "I looked everywhere but I couldn't find my phone" },
+            { s: "nobody / in / the / class / understands / this / difficult / math / problem", c: "Nobody in the class understands this difficult math problem" },
+            { s: "is / there / anything / interesting / to / watch / on / television / tonight", c: "Is there anything interesting to watch on television tonight" },
+            { s: "let's / go / anywhere / but / here / right / now", c: "Let's go anywhere but here right now" },
+            { s: "someone / forgot / their / blue / umbrella / in / the / classroom / yesterday", c: "Someone forgot their blue umbrella in the classroom yesterday" },
+            { s: "I / have / absolutely / nothing / to / wear / for / the / party", c: "I have absolutely nothing to wear for the party" }
+        ],
+
+        // FASE 2: VOCABULARY BLANKS (20 Items)
+        // Unit 6 Personality adjectives & verbs. Escribir a ciegas.
+        blanks: [
+            { text: "The new student is very ________ (showing intense interest) about the science project.", answer: "enthusiastic", hint: "E_ _ h _ _ _ a _ _ _ c" },
+            { text: "My boss is a very ________ (truthful) person who never lies to his employees.", answer: "honest", hint: "H _ _ _ s t" },
+            { text: "He gave a very ________ (convincing) speech and changed everyone's mind.", answer: "persuasive", hint: "P _ _ s _ _ s i _ _" },
+            { text: "The ________ (demanding rules) teacher gave us extra homework for talking in class.", answer: "strict", hint: "S _ r _ c _" },
+            { text: "Nurses need to be very ________ (displaying kindness) with sick patients at the hospital.", answer: "caring", hint: "C _ r _ n _" },
+            { text: "She is highly ________ (having knowledge) about international news and global events.", answer: "informed", hint: "I _ f _ _ m _ d" },
+            { text: "A good psychologist is ________ (quick to detect feelings) to your emotions.", answer: "sensitive", hint: "S _ n s _ _ _ _ e" },
+            { text: "A teacher must be ________ (able to tolerate delays) when students don't understand quickly.", answer: "patient", hint: "P _ t _ _ n _" },
+            { text: "Elon Musk is a famous ________ (person willing to take chances) in the business world.", answer: "risk-taker", hint: "R _ _ k - t _ _ _ r (Don't forget the hyphen!)" },
+            { text: "Maria is very ________ (working with great effort); she studies for five hours every day.", answer: "hardworking", hint: "H _ _ d w _ _ _ i _ g" },
+            { text: "Parents should always ________ (express approval) their children when they do a good job.", answer: "praise", hint: "P _ a _ s _" },
+            { text: "It is not polite to ________ (express disapproval) someone in front of other people.", answer: "criticize", hint: "C _ _ t _ c _ _ e" },
+            { text: "He reads five newspapers a day, so he is very ________ (having knowledge) about politics.", answer: "informed", hint: "I _ f _ _ m _ d" },
+            { text: "The fans were very ________ (excited) when their team won the championship.", answer: "enthusiastic", hint: "E _ t h _ _ _ a s _ _ c" },
+            { text: "You must be completely ________ (truthful) even when telling the truth is difficult.", answer: "honest", hint: "H _ n _ s _" },
+            { text: "A ________ (displaying kindness) mother always tries to protect her children.", answer: "caring", hint: "C a _ _ n g" },
+            { text: "You need to be a ________ (daring person) to start a new company from zero.", answer: "risk-taker", hint: "R _ s k - t _ _ _ r" },
+            { text: "My father is very ________ (calm); he never yells at me when I make a mistake.", answer: "patient", hint: "P _ t _ _ n _" },
+            { text: "The coach always ________ (expresses disapproval - 3rd person singular) the players when they don't practice hard.", answer: "criticizes", hint: "Don't forget the 's' at the end." },
+            { text: "My mother ________ (expresses approval - 3rd person singular) me when I get a 10 on my exams.", answer: "praises", hint: "Don't forget the 's' at the end." }
+        ],
+
+        // FASE 3: THE READING GAUNTLET (50 Items)
+        // 5 Lecturas x 10 Preguntas. Integrado en el motor 'quiz'.
+        quiz: [
+            // LECTURA 1: Dining Customs (De la BD original)
+            ...Array(10).fill().map((_, i) => {
+                const reading1 = "<div style='height:180px; overflow-y:auto; background:#eff6ff; padding:15px; border-radius:8px; font-size:0.9rem; margin-bottom:15px; text-align:left; border:1px solid #bfdbfe;'><b>Reading 1: Dining Customs Around the World</b><br><br>Food is an essential part of discovering a new culture, but knowing how to eat is just as important as knowing what to eat. Restaurant etiquette varies wildly from country to country.<br><br><b>Italy:</b> Never ask for cheese on seafood pasta; it is considered a culinary crime. Also, do not order a cappuccino after a meal. Italians believe milk disrupts digestion after eating, so they stick to espresso. Tipping is not mandatory, as a service charge (coperto) is usually included.<br><br><b>South Korea:</b> Respect for elders is crucial. You should never pick up your chopsticks or start eating before the oldest person does. When someone older pours a drink for you, hold your glass with both hands. Leave a little food on your plate to show the host provided enough.<br><br><b>Morocco:</b> Eating with your hands is common, but use only your right hand. Bread is used to scoop up food from communal tajines. If you are full, leave a bit of food; otherwise, they will keep filling your plate. Hand washing before the meal is a strict ritual.<br><br><b>Mexico:</b> Meals are social events that can last for hours, known as 'sobremesa'. It is rude to eat tacos with a knife and fork—use your hands! Say 'provecho' (enjoy your meal) to be polite.</div>";
+                const qList = [
+                    { q: "Based on the text, why do Italians avoid drinking cappuccino after eating dinner?", opts: ["It makes them sleepy", "It has too much sugar", "Milk disrupts their digestion", "It is too expensive in restaurants"], a: 2, hint: "Look at the Italy section about milk." },
+                    { q: "If you finish all the food on your plate in South Korea, what might the host think?", opts: ["That you hated the food", "That they didn't provide enough food for you", "That you want a cappuccino", "That you are very polite"], a: 1, hint: "Why should you leave a little food?" },
+                    { q: "In Morocco, what is considered the primary 'utensil' for scooping up food?", opts: ["A fork", "A spoon", "Chopsticks", "Bread"], a: 3, hint: "Look at the Morocco section about communal tajines." },
+                    { q: "What does the Mexican tradition of 'sobremesa' involve?", opts: ["Cooking tacos slowly", "Staying at the table socializing for hours", "Washing your hands before eating", "Paying the restaurant bill quickly"], a: 1, hint: "It is described as a social event." },
+                    { q: "Which action is considered a 'culinary crime' in Italy?", opts: ["Eating pizza with hands", "Tipping the waiter", "Putting cheese on seafood pasta", "Drinking espresso"], a: 2, hint: "Look at the first rule in the Italy section." },
+                    { q: "In South Korea, who dictates when the meal officially begins?", opts: ["The youngest child", "The person who cooked", "The oldest person at the table", "The restaurant waiter"], a: 2, hint: "Respect for elders is crucial." },
+                    { q: "What physical action must you do when an older person pours you a drink in South Korea?", opts: ["Stand up", "Hold the glass with both hands", "Look away", "Say provecho"], a: 1, hint: "It involves your hands." },
+                    { q: "In Morocco, which hand is strictly forbidden for eating?", opts: ["The right hand", "The left hand", "Both hands together", "It doesn't matter"], a: 1, hint: "The text says 'use ONLY your right hand'." },
+                    { q: "How should you eat a taco in Mexico according to the text?", opts: ["With a knife and fork", "With your hands", "With bread", "With chopsticks"], a: 1, hint: "It is considered rude to use cutlery for it." },
+                    { q: "Which two countries share the rule of 'leaving a little bit of food on your plate' for different reasons?", opts: ["Italy and Mexico", "South Korea and Morocco", "Morocco and Mexico", "Italy and South Korea"], a: 1, hint: "Read the endings of both the Korean and Moroccan paragraphs." }
+                ];
+                return { q: reading1 + "<b>Question " + (i+1) + ":</b> " + qList[i].q, opts: qList[i].opts, a: qList[i].a, hint: qList[i].hint };
+            }),
+
+            // LECTURA 2: Personalities at Work
+            ...Array(10).fill().map((_, i) => {
+                const reading2 = "<div style='height:180px; overflow-y:auto; background:#f0fdf4; padding:15px; border-radius:8px; font-size:0.9rem; margin-bottom:15px; text-align:left; border:1px solid #bbf7d0;'><b>Reading 2: The Perfect Team</b><br><br>Every successful company needs a mix of different personalities. If everyone is a risk-taker, the company might lose all its money quickly. If everybody is too careful, the company will never grow. <br><br>First, you need a strict leader. This person ensures that nobody breaks the rules and everybody arrives on time. However, a good leader shouldn't only criticize mistakes; they must also praise employees when they do a great job. <br><br>Second, you need hardworking employees. They are the engine of the company. If they are enthusiastic about their work, they will motivate others. <br><br>Third, a company needs a persuasive salesperson. If a salesperson is honest and informed about the product, customers will trust them. <br><br>Finally, human resources managers must be caring and sensitive. If an employee has a personal problem, the manager needs to be patient and listen. Everywhere in the world, a balanced team is the key to success.</div>";
+                const qList = [
+                    { q: "Why is it dangerous for a company if EVERYONE is a risk-taker?", opts: ["They will never grow", "They might lose all their money quickly", "They will talk too much", "They will become too strict"], a: 1, hint: "Read the first paragraph." },
+                    { q: "According to the text, what happens if a company is 'too careful'?", opts: ["It will never grow", "It will lose money", "Employees will quit", "The boss will get angry"], a: 0, hint: "Look at the end of the first paragraph." },
+                    { q: "What is the primary role of a 'strict leader' in this text?", opts: ["To sell products", "To listen to personal problems", "To ensure rules are followed and people are on time", "To take financial risks"], a: 2, hint: "Read the second paragraph." },
+                    { q: "What two actions must a good leader balance?", opts: ["Sleeping and working", "Criticizing mistakes and praising good jobs", "Being sensitive and persuasive", "Buying and selling"], a: 1, hint: "Look at the verbs used for a good leader." },
+                    { q: "Who does the text describe as 'the engine of the company'?", opts: ["The strict leader", "The persuasive salesperson", "The caring manager", "The hardworking employees"], a: 3, hint: "Read the third paragraph." },
+                    { q: "What happens if hardworking employees are 'enthusiastic'?", opts: ["They will motivate others", "They will make mistakes", "They will ask for more money", "They will become risk-takers"], a: 0, hint: "Enthusiasm is contagious." },
+                    { q: "What makes customers trust a salesperson?", opts: ["If they are strict and patient", "If they are honest and informed", "If they are risk-takers", "If they criticize the competition"], a: 1, hint: "Look at the section about the persuasive salesperson." },
+                    { q: "What personality traits are essential for a Human Resources manager?", opts: ["Strict and persuasive", "Hardworking and enthusiastic", "Caring and sensitive", "Risk-taker and honest"], a: 2, hint: "Read the final paragraph." },
+                    { q: "What should a patient manager do if an employee has a personal problem?", opts: ["Criticize them", "Listen to them", "Fire them", "Give them extra homework"], a: 1, hint: "Look at the final paragraph." },
+                    { q: "Which grammar structures are heavily used in this text to explain cause and effect?", opts: ["Zero and First Conditionals", "Past tense", "Adverbs of frequency only", "Comparatives"], a: 0, hint: "Look at sentences starting with 'If...'." }
+                ];
+                return { q: reading2 + "<b>Question " + (i+1) + ":</b> " + qList[i].q, opts: qList[i].opts, a: qList[i].a, hint: qList[i].hint };
+            }),
+
+            // LECTURA 3: Scientific Facts & Future Rules (Conditionals)
+            ...Array(10).fill().map((_, i) => {
+                const reading3 = "<div style='height:180px; overflow-y:auto; background:#fdf4ff; padding:15px; border-radius:8px; font-size:0.9rem; margin-bottom:15px; text-align:left; border:1px solid #fbcfe8;'><b>Reading 3: Science Lab Rules & Facts</b><br><br>Welcome to the University Science Lab. Before we start, everybody must understand the rules of chemistry and biology.<br><br>First, let's talk about facts. If you mix water and oil, they don't combine. If you heat water to 100 degrees Celsius, it boils. If you touch a hot stove, you burn your hand immediately. These are universal truths.<br><br>Now, let's review the lab rules for tomorrow's experiment. If you don't wear safety glasses, you will not enter the lab. If anyone breaks a glass tube, the teacher will criticize them loudly. If you follow all instructions carefully, the experiment will be perfectly safe. <br><br>Remember, your internal organs are fragile. If you inhale toxic gases, your lungs will suffer damage. If somebody accidentally drinks a chemical, their stomach and liver will need immediate medical attention. We expect everyone to be patient and informed.</div>";
+                const qList = [
+                    { q: "What happens if you mix water and oil?", opts: ["They explode", "They combine perfectly", "They don't combine", "They freeze"], a: 2, hint: "Read the facts section." },
+                    { q: "What temperature makes water boil according to the text?", opts: ["0 degrees", "50 degrees", "100 degrees", "200 degrees"], a: 2, hint: "It's a universal truth." },
+                    { q: "The sentence 'If you touch a hot stove, you burn your hand' is an example of:", opts: ["First Conditional", "Zero Conditional", "Present Continuous", "Simple Past"], a: 1, hint: "It expresses a universal fact." },
+                    { q: "What will happen if a student does NOT wear safety glasses tomorrow?", opts: ["They will buy new ones", "They will not enter the lab", "They will stand in the corner", "The teacher will praise them"], a: 1, hint: "Read the rules for tomorrow." },
+                    { q: "What will the teacher do if someone breaks a glass tube?", opts: ["Clean it up quietly", "Criticize them loudly", "Call the police", "Ignore it"], a: 1, hint: "Look at the consequences of breaking glass." },
+                    { q: "The sentence 'If you don't wear safety glasses, you will not enter' is an example of:", opts: ["Zero Conditional", "First Conditional", "Past tense", "Adverb of manner"], a: 1, hint: "It talks about a specific future condition using 'will'." },
+                    { q: "According to the text, which internal organs will need medical attention if you drink a chemical?", opts: ["Heart and lungs", "Stomach and liver", "Kidneys and brain", "Calf and biceps"], a: 1, hint: "Look at the final paragraph." },
+                    { q: "Which organ will suffer damage if you inhale toxic gases?", opts: ["Lungs", "Heart", "Liver", "Small intestine"], a: 0, hint: "The organ responsible for breathing." },
+                    { q: "What two personality adjectives does the text expect from the students?", opts: ["Strict and risk-taker", "Enthusiastic and hardworking", "Patient and informed", "Honest and persuasive"], a: 2, hint: "Look at the very last sentence." },
+                    { q: "What pronoun is used to say that ALL students must understand the rules?", opts: ["Somebody", "Everybody", "Nobody", "Anywhere"], a: 1, hint: "Look at the first paragraph." }
+                ];
+                return { q: reading3 + "<b>Question " + (i+1) + ":</b> " + qList[i].q, opts: qList[i].opts, a: qList[i].a, hint: qList[i].hint };
+            }),
+
+            // LECTURA 4: The Mystery (Indefinite Pronouns focus)
+            ...Array(10).fill().map((_, i) => {
+                const reading4 = "<div style='height:180px; overflow-y:auto; background:#fffbeb; padding:15px; border-radius:8px; font-size:0.9rem; margin-bottom:15px; text-align:left; border:1px solid #fde68a;'><b>Reading 4: The Empty Mansion</b><br><br>Detective Smith looked everywhere inside the old mansion, but he found nothing. The house was completely empty. 'Did anybody live here recently?' he asked his assistant. <br><br>'Nobody has lived here for ten years,' the assistant replied. 'But someone definitely opened the front door yesterday. Look, there are footprints.'<br><br>Smith walked into the huge bedroom. There were no blankets, no pillows, and the closet was empty. However, he noticed something strange on the floor: a television remote control. 'Why is there a remote control if there is absolutely nothing else in the room?' he thought.<br><br>He searched everywhere else—the kitchen, the bathrooms, the living room. Everything was covered in dust. He shouted loudly, 'Is anyone hiding here?' but only silence answered him. If somebody was hiding, they were very good at it. He realized he needed to find somewhere to sit and think. This mystery wasn't going to be solved quickly.</div>";
+                const qList = [
+                    { q: "Where did Detective Smith look for clues?", opts: ["Nowhere", "Somewhere", "Everywhere", "Anywhere"], a: 2, hint: "Look at the very first sentence." },
+                    { q: "What did the detective find inside the mansion initially?", opts: ["Everything", "Something", "Nothing", "Somebody"], a: 2, hint: "The house was completely empty." },
+                    { q: "How long has the mansion been empty?", opts: ["Ten months", "Ten years", "Nobody knows", "A few days"], a: 1, hint: "Read the assistant's reply." },
+                    { q: "What evidence showed that 'someone' opened the door yesterday?", opts: ["A broken window", "Footprints", "A loud noise", "A note on the door"], a: 1, hint: "Look at what the assistant points out." },
+                    { q: "What was inside the bedroom's closet?", opts: ["Blankets", "Pillows", "A television", "It was empty"], a: 3, hint: "Read the description of the huge bedroom." },
+                    { q: "What strange object did the detective find on the bedroom floor?", opts: ["A mirror", "A remote control", "A wall clock", "A pair of slippers"], a: 1, hint: "It is an electronic device accessory." },
+                    { q: "Why was the object on the floor considered strange?", opts: ["Because it was broken", "Because it belonged to the assistant", "Because there was absolutely nothing else in the room", "Because somebody was holding it"], a: 2, hint: "Think about the context of an empty room." },
+                    { q: "What condition were the kitchen and living room in?", opts: ["Perfectly clean", "Covered in dust", "Full of furniture", "Painted newly"], a: 1, hint: "It shows nobody lived there recently." },
+                    { q: "What adverb of manner describes how the detective shouted?", opts: ["Carefully", "Quickly", "Loudly", "Slowly"], a: 2, hint: "He wanted someone to hear him." },
+                    { q: "What did the detective need to find at the end of the story?", opts: ["Nowhere to sleep", "Somewhere to sit and think", "Anything to eat", "Everybody in the town"], a: 1, hint: "Look at the second to last sentence." }
+                ];
+                return { q: reading4 + "<b>Question " + (i+1) + ":</b> " + qList[i].q, opts: qList[i].opts, a: qList[i].a, hint: qList[i].hint };
+            }),
+
+            // LECTURA 5: Travel & Culture (Kyoto & Landmarks)
+            ...Array(10).fill().map((_, i) => {
+                const reading5 = "<div style='height:180px; overflow-y:auto; background:#f8fafc; padding:15px; border-radius:8px; font-size:0.9rem; margin-bottom:15px; text-align:left; border:1px solid #cbd5e1;'><b>Reading 5: Exploring Historic Kyoto</b><br><br>Kyoto is a stunning city. It was the capital of Japan for over a thousand years. Today, it has a unique atmosphere that mixes ancient traditions with modern life. <br><br>If you visit the Arashiyama district, you will see a spectacular bamboo forest. Every tourist wants to take pictures there. However, if you don't wake up early, the neighborhood will be extremely crowded.<br><br>Another famous landmark is the Golden Pavilion (Kinkaku-ji). If the sun shines brightly, the gold leaf on the temple reflects beautifully on the water of the pond. <br><br>Traveling teaches you to be sensitive to other cultures. In Japan, you must always take off your shoes before entering traditional houses. They usually provide slippers for guests. Also, it is important to be polite; never criticize the local food even if you don't like it. If you respect the locals, they will treat you with incredible kindness.</div>";
+                const qList = [
+                    { q: "How long was Kyoto the capital of Japan?", opts: ["For ten years", "For a hundred years", "For over a thousand years", "It was never the capital"], a: 2, hint: "Read the first paragraph." },
+                    { q: "What makes Kyoto's atmosphere 'unique'?", opts: ["It is completely modern", "It mixes ancient traditions with modern life", "It has no tourists", "It has no buildings"], a: 1, hint: "Look at the end of the first paragraph." },
+                    { q: "What natural attraction is located in the Arashiyama district?", opts: ["A gold temple", "A large volcano", "A spectacular bamboo forest", "A big lake"], a: 2, hint: "Read the second paragraph." },
+                    { q: "According to the text (First Conditional), what will happen if you don't wake up early?", opts: ["You will miss breakfast", "The neighborhood will be extremely crowded", "The temple will close", "You will lose your camera"], a: 1, hint: "Look at the warning about the Arashiyama district." },
+                    { q: "What is another name for the famous landmark Kinkaku-ji?", opts: ["The Silver Temple", "The Golden Pavilion", "The Bamboo House", "The Water Reflection"], a: 1, hint: "Read the third paragraph." },
+                    { q: "According to the Zero Conditional used, what happens if the sun shines brightly?", opts: ["The bamboo grows faster", "Tourists stay inside", "The gold leaf reflects beautifully on the pond", "It rains in Kyoto"], a: 2, hint: "Look at the description of the Golden Pavilion." },
+                    { q: "What personality adjective is used to describe how traveling makes you toward other cultures?", opts: ["Persuasive", "Sensitive", "Strict", "Risk-taker"], a: 1, hint: "Look at the beginning of the final paragraph." },
+                    { q: "What must you always do before entering a traditional Japanese house?", opts: ["Take off your shoes", "Wash your hands", "Pay a fee", "Sing a song"], a: 0, hint: "Look at the cultural rules in the final paragraph." },
+                    { q: "What item of house vocabulary do Japanese hosts usually provide for guests?", opts: ["Blankets", "Pillows", "Slippers", "Mirrors"], a: 2, hint: "Soft shoes for inside." },
+                    { q: "What should you NEVER do regarding the local food?", opts: ["Praise it", "Eat it quickly", "Criticize it", "Pay for it"], a: 2, hint: "Look at the rule about being polite." }
+                ];
+                return { q: reading5 + "<b>Question " + (i+1) + ":</b> " + qList[i].q, opts: qList[i].opts, a: qList[i].a, hint: qList[i].hint };
+            })
         ]
     },
     "11th - Unit 5 - Module 2 - Idioms & Adverbs": {
