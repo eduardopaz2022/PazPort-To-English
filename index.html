@@ -1009,6 +1009,140 @@ const DB = {
             { q: "In the text, what does 'downtown' refer to? (Paragraph 4)", opts: ["The countryside", "The main business or city center", "A quiet park", "A religious temple"], a: 1 }
         ]
     }
+    "11th - Recovery Exam - The Gauntlet": {
+        active: true, 
+        type: "two_parts", 
+        activities: ["blanks", "quiz"],
+
+        // FASE 1: CONTEXTUAL VOCABULARY (30 Items)
+        // Completar a ciegas con el vocabulario exacto y la ortografía perfecta.
+        blanks: [
+            { text: "Paris is not only a beautiful city, it is also the ________ of France.", answer: "capital", hint: "C _ p _ t _ l (The most important city)" },
+            { text: "The Eiffel Tower is probably the most famous ________ in the entire world.", answer: "landmark", hint: "L _ n d m _ _ k (A famous building or object)" },
+            { text: "The financial ________ of New York is full of tall bank buildings and busy people.", answer: "district", hint: "D _ s t _ _ c t (An area or zone of a city)" },
+            { text: "I love the relaxing ________ of this small coffee shop.", answer: "atmosphere", hint: "A t m _ _ p _ _ r _ (The feeling or mood of a place)" },
+            { text: "Every summer, millions of ________ visit the Colosseum in Rome.", answer: "tourists", hint: "T _ u r _ _ t s (Plural - People who travel for pleasure)" },
+            { text: "The view of the ocean from the top of the mountain was absolutely ________.", answer: "stunning", hint: "S t _ _ n _ n g (Very beautiful or impressive)" },
+            { text: "I live in a very quiet ________; all my neighbors are very friendly.", answer: "neighborhood", hint: "N _ _ g h b _ _ r h _ _ d (Area where people live)" },
+            { text: "The math exam was a ________ of cake; I finished it in ten minutes.", answer: "piece", hint: "P _ _ c _ (Idiom part: Very easy)" },
+            { text: "I have a final exam tomorrow, so I need to hit the ________ tonight.", answer: "books", hint: "B _ _ k _ (Idiom part: To study hard)" },
+            { text: "London is the ________ of the United Kingdom.", answer: "capital", hint: "C _ p _ t _ l" },
+            { text: "You can easily see that building from far away; it is a historical ________.", answer: "landmark", hint: "L _ n d m _ _ k" },
+            { text: "The theater ________ in London is famous for its amazing plays and musicals.", answer: "district", hint: "D _ s t _ _ c t" },
+            { text: "If you want to experience a romantic ________, you should visit Venice at night.", answer: "atmosphere", hint: "A t m _ _ p _ _ r _" },
+            { text: "That restaurant is a trap for ________; the food is bad and extremely expensive.", answer: "tourists", hint: "T _ u r _ _ t s (Plural)" },
+            { text: "She bought a ________ dress for the graduation party; everyone looked at her.", answer: "stunning", hint: "S t _ _ n _ n g" },
+            { text: "My ________ is very safe; kids play in the street all the time.", answer: "neighborhood", hint: "N _ _ g h b _ _ r h _ _ d" },
+            { text: "Don't worry about the driving test, it is a piece of ________.", answer: "cake", hint: "C _ k _ (Idiom part)" },
+            { text: "I can't go to the party, I have to ________ the books and study for history.", answer: "hit", hint: "H _ _ (Idiom part)" },
+            { text: "Tokyo is the bustling ________ of Japan.", answer: "capital", hint: "C _ p _ t _ l" },
+            { text: "The Statue of Liberty is an iconic ________ of New York City.", answer: "landmark", hint: "L _ n d m _ _ k" },
+            { text: "Many artists and musicians live in the cultural ________ of the city.", answer: "district", hint: "D _ s t _ _ c t" },
+            { text: "The haunted house had a very creepy ________ during Halloween.", answer: "atmosphere", hint: "A t m _ _ p _ _ r _" },
+            { text: "A polite ________ always respects the local customs of the country they visit.", answer: "tourist", hint: "T _ u r _ _ t (Singular)" },
+            { text: "The special effects in that new sci-fi movie were ________.", answer: "stunning", hint: "S t _ _ n _ n g" },
+            { text: "We are organizing a barbecue for everyone in our ________ this weekend.", answer: "neighborhood", hint: "N _ _ g h b _ _ r h _ _ d" },
+            { text: "Fixing this old bicycle will be a ________ of cake for my dad.", answer: "piece", hint: "P _ _ c _" },
+            { text: "Finals week is here! It's time to hit the ________.", answer: "books", hint: "B _ _ k _" },
+            { text: "Washington D.C. is the ________ of the United States.", answer: "capital", hint: "C _ p _ t _ l" },
+            { text: "The Great Wall is a ________ you must see if you travel to China.", answer: "landmark", hint: "L _ n d m _ _ k" },
+            { text: "Because of the rain, the ________ in the stadium was a little sad.", answer: "atmosphere", hint: "A t m _ _ p _ _ r _" }
+        ],
+
+        // FASE 2: THE READING GAUNTLET (50 Items)
+        // 5 Lecturas x 10 Preguntas de comprensión e inferencia.
+        quiz: [
+            // LECTURA 1: Kyoto (Reciclada y expandida de la BD original)
+            ...Array(10).fill().map((_, i) => {
+                const reading1 = "<div style='height:180px; overflow-y:auto; background:#eff6ff; padding:15px; border-radius:8px; font-size:0.9rem; margin-bottom:15px; text-align:left; border:1px solid #bfdbfe;'><b>Reading 1: Welcome to Kyoto</b><br><br>Kyoto was the capital of Japan for over a thousand years. Today, it remains one of the most important cultural centers in the country. When you walk through its streets, you immediately feel a unique atmosphere—a perfect mix of ancient traditions and modern daily life.<br><br>One of the most famous areas is the Arashiyama district, located in the western part of the city. This neighborhood is famous for its beautiful bamboo forest. Every year, millions of people travel here because every tourist wants to see the tall, green bamboo stalks swaying in the wind. The view is absolutely stunning, especially early in the morning before the crowds arrive.<br><br>Another incredible landmark is the Kinkaku-ji, also known as the Golden Pavilion. The top two floors of this temple are completely covered in gold leaf. It sits next to a quiet pond, creating a peaceful reflection on the water.</div>";
+                const qList = [
+                    { q: "What role did Kyoto play in Japan for over a millennium?", opts: ["It was a fishing village", "It was the capital", "It was a modern technological center", "It was a dangerous district"], a: 1, hint: "Read the first sentence." },
+                    { q: "How does the author describe the 'atmosphere' of Kyoto?", opts: ["Completely ancient", "Strictly modern", "A perfect mix of old and new", "Very noisy and polluted"], a: 2, hint: "Look at the end of the first paragraph." },
+                    { q: "Where exactly is the Arashiyama district located?", opts: ["In the north", "In the eastern part", "In the western part", "Outside of Japan"], a: 2, hint: "Read the beginning of the second paragraph." },
+                    { q: "What specific natural feature makes the Arashiyama neighborhood famous?", opts: ["A gold temple", "A quiet pond", "A beautiful bamboo forest", "A tall mountain"], a: 2, hint: "Look at the second paragraph." },
+                    { q: "Why is early morning the best time to see the bamboo forest?", opts: ["Because the bamboo changes color", "Before the crowds of tourists arrive", "Because the sun is too hot later", "Because it closes at noon"], a: 1, hint: "Look at the end of the second paragraph." },
+                    { q: "Which vocabulary word is used to describe the view of the bamboo forest?", opts: ["Atmosphere", "Stunning", "Capital", "Landmark"], a: 1, hint: "It means very impressive or beautiful." },
+                    { q: "What is Kinkaku-ji considered in the text?", opts: ["A neighborhood", "A district", "An incredible landmark", "A tourist"], a: 2, hint: "Read the first sentence of the third paragraph." },
+                    { q: "What makes the top two floors of the Golden Pavilion special?", opts: ["They are made of bamboo", "They are covered in gold leaf", "They have no windows", "They are under the water"], a: 1, hint: "Read the description of Kinkaku-ji." },
+                    { q: "What does the Golden Pavilion sit next to?", opts: ["A quiet pond", "A busy street", "The bamboo forest", "The capital building"], a: 0, hint: "Look at the end of the text." },
+                    { q: "In the text, what does 'swaying' mean? (Paragraph 2)", opts: ["Breaking into pieces", "Moving slowly side to side", "Growing very fast", "Changing color"], a: 1, hint: "Think about how tall bamboo moves in the wind." }
+                ];
+                return { q: reading1 + "<b>Question " + (i+1) + ":</b> " + qList[i].q, opts: qList[i].opts, a: qList[i].a, hint: qList[i].hint };
+            }),
+
+            // LECTURA 2: Study Abroad Experiences
+            ...Array(10).fill().map((_, i) => {
+                const reading2 = "<div style='height:180px; overflow-y:auto; background:#f0fdf4; padding:15px; border-radius:8px; font-size:0.9rem; margin-bottom:15px; text-align:left; border:1px solid #bbf7d0;'><b>Reading 2: Study Abroad - A Life-Changing Experience</b><br><br>According to UNESCO, over 5 million students are currently studying abroad, a number that continues to grow every year. Moving to a different country for your education is not just about academics; it is about personal growth. <br><br>When you live in a new capital city or a quiet foreign neighborhood, you are forced to step out of your comfort zone. At first, passing exams in a foreign language might not be a piece of cake. You will have to hit the books harder than ever before. However, the reward is immense.<br><br>Immersing yourself in a different atmosphere changes the way you see the world. You stop acting like a typical tourist and start living like a local. You learn the secrets of your new district, find hidden cafes, and walk past historical landmarks on your way to class. Most students report that studying abroad made them more independent and adaptable.</div>";
+                const qList = [
+                    { q: "According to UNESCO, how many students are currently studying abroad?", opts: ["Over 1 million", "Over 3 million", "Over 5 million", "Over 10 million"], a: 2, hint: "Look at the first sentence." },
+                    { q: "What does the author say studying abroad is REALLY about, besides academics?", opts: ["Taking a vacation", "Personal growth", "Learning to cook", "Making money"], a: 1, hint: "Look at the end of the first paragraph." },
+                    { q: "What does the idiom 'not be a piece of cake' mean in this context?", opts: ["It will not be sweet", "It will not be very easy", "It will involve cooking", "It will be a party"], a: 1, hint: "If something is NOT a piece of cake, it is difficult." },
+                    { q: "What does the author mean by 'you will have to hit the books harder'?", opts: ["You will have to read more books", "You will have to throw your books away", "You will have to study very hard", "You will have to buy new books"], a: 2, hint: "An idiom related to intense studying." },
+                    { q: "What happens when you immerse yourself in a different 'atmosphere'?", opts: ["You fail your exams", "You get lost in the capital", "It changes the way you see the world", "You become a permanent tourist"], a: 2, hint: "Read the beginning of the third paragraph." },
+                    { q: "What is the difference between acting like a tourist and living like a local?", opts: ["Tourists study harder", "Locals find hidden cafes and secrets in the district", "Tourists know the neighborhood better", "Locals take more photos of landmarks"], a: 1, hint: "Read the third paragraph." },
+                    { q: "What might a student walk past on their way to class abroad?", opts: ["UNESCO headquarters", "Historical landmarks", "Millions of students", "Their comfort zone"], a: 1, hint: "Look at the middle of the third paragraph." },
+                    { q: "How do most students feel after studying abroad?", opts: ["More independent and adaptable", "More tired and stressed", "Like a typical tourist", "Bored of studying"], a: 0, hint: "Read the very last sentence." },
+                    { q: "What does 'step out of your comfort zone' mean?", opts: ["To buy comfortable furniture", "To leave your neighborhood", "To do things that are new and challenging", "To stop studying"], a: 2, hint: "It means trying things you are not used to." },
+                    { q: "What is the author's main tone or attitude toward studying abroad?", opts: ["Negative and discouraging", "Positive and encouraging", "Neutral and boring", "Angry and strict"], a: 1, hint: "The author calls it 'a life-changing experience' and 'immense reward'." }
+                ];
+                return { q: reading2 + "<b>Question " + (i+1) + ":</b> " + qList[i].q, opts: qList[i].opts, a: qList[i].a, hint: qList[i].hint };
+            }),
+
+            // LECTURA 3: The Ghost Tour
+            ...Array(10).fill().map((_, i) => {
+                const reading3 = "<div style='height:180px; overflow-y:auto; background:#fdf4ff; padding:15px; border-radius:8px; font-size:0.9rem; margin-bottom:15px; text-align:left; border:1px solid #fbcfe8;'><b>Reading 3: The Dark Side of Edinburgh</b><br><br>Edinburgh, the capital of Scotland, is famous for its stunning architecture and rich history. But when the sun goes down, the atmosphere in the city center completely changes. <br><br>Every night, groups of tourists gather in the Old Town district to take the famous 'Ghost Tours'. The guides take them through dark, narrow streets in the oldest neighborhoods. They tell terrifying stories about ghosts, mysteries, and history. <br><br>One of the most famous stops is the Edinburgh Castle, a massive landmark that dominates the city skyline. Some people say that if you listen closely near the castle walls at night, you can hear the drums of a ghost soldier. Many people think taking a ghost tour is a piece of cake, but some tourists actually cry because the atmosphere is so genuinely spooky!</div>";
+                const qList = [
+                    { q: "What happens to Edinburgh when the sun goes down?", opts: ["The tourists leave", "The atmosphere completely changes", "The landmarks close", "The capital moves"], a: 1, hint: "Read the end of the first paragraph." },
+                    { q: "What do groups of tourists do in the Old Town district every night?", opts: ["Eat dinner", "Take Ghost Tours", "Hit the books", "Sleep in the castle"], a: 1, hint: "Read the second paragraph." },
+                    { q: "Where do the guides take the tourists?", opts: ["Through dark, narrow streets in old neighborhoods", "To modern districts", "To the capital building", "Inside the stunning churches"], a: 0, hint: "Look at the second paragraph." },
+                    { q: "What is Edinburgh Castle considered in the text?", opts: ["A neighborhood", "A massive landmark", "A ghost", "A piece of cake"], a: 1, hint: "Read the beginning of the third paragraph." },
+                    { q: "What is the legend about the Edinburgh Castle walls at night?", opts: ["You can see a ghost king", "You can hear the drums of a ghost soldier", "You can find hidden treasure", "You can see the stunning city"], a: 1, hint: "Read the middle of the third paragraph." },
+                    { q: "What does the text mean when it says some people think the tour is 'a piece of cake'?", opts: ["They think they will get food", "They think the tour is very easy and not scary", "They think the tour is expensive", "They think the tour is a bakery"], a: 1, hint: "Idiom: very easy to handle." },
+                    { q: "Why do some tourists actually cry on the tour?", opts: ["Because they are tired", "Because the atmosphere is genuinely spooky", "Because they lost their money", "Because they hit the books too hard"], a: 1, hint: "Look at the very last sentence." },
+                    { q: "Which word best describes the architecture of Edinburgh according to the text?", opts: ["Ugly", "Stunning", "Modern", "Boring"], a: 1, hint: "Look at the very first sentence." },
+                    { q: "What is Edinburgh?", opts: ["A district in London", "The capital of Scotland", "A small neighborhood", "A ghost town"], a: 1, hint: "Look at the first sentence." },
+                    { q: "What is the main topic of this reading?", opts: ["How to study in Scotland", "A spooky tourist attraction in a historic capital", "The best places to eat in Edinburgh", "The history of Scottish castles"], a: 1, hint: "Think about what the paragraphs describe." }
+                ];
+                return { q: reading3 + "<b>Question " + (i+1) + ":</b> " + qList[i].q, opts: qList[i].opts, a: qList[i].a, hint: qList[i].hint };
+            }),
+
+            // LECTURA 4: New York's Districts
+            ...Array(10).fill().map((_, i) => {
+                const reading4 = "<div style='height:180px; overflow-y:auto; background:#fffbeb; padding:15px; border-radius:8px; font-size:0.9rem; margin-bottom:15px; text-align:left; border:1px solid #fde68a;'><b>Reading 4: The City That Never Sleeps</b><br><br>New York City is not the capital of the USA, but it is certainly its most famous city. It is divided into five boroughs, and each borough has many distinct districts and neighborhoods. <br><br>If you want a busy, artistic atmosphere, you should visit the Theater District in Manhattan, where Broadway is located. It is always packed with tourists taking photos. If you prefer a quiet, family-friendly neighborhood, you might travel to parts of Queens or Brooklyn.<br><br>The city is famous for its stunning landmarks. The Statue of Liberty, the Empire State Building, and Central Park are known worldwide. Navigating the subway system to see all these landmarks isn't a piece of cake for beginners; you have to study the map carefully. But once you understand the train lines, exploring the different districts becomes a fantastic adventure.</div>";
+                const qList = [
+                    { q: "Is New York City the capital of the USA?", opts: ["Yes, it is", "No, it is not", "The text doesn't say", "Only in the summer"], a: 1, hint: "Read the very first sentence." },
+                    { q: "What is New York City divided into?", opts: ["Fifty states", "Five boroughs", "Two capitals", "Ten landmarks"], a: 1, hint: "Look at the second sentence." },
+                    { q: "What kind of atmosphere does the Theater District have?", opts: ["Quiet and family-friendly", "Busy and artistic", "Scary and spooky", "Relaxing and empty"], a: 1, hint: "Read the beginning of the second paragraph." },
+                    { q: "Who usually packs the Theater District?", opts: ["Families from Queens", "Tourists taking photos", "Students hitting the books", "Government officials"], a: 1, hint: "Look at the second paragraph." },
+                    { q: "Where should you go if you want a quiet, family-friendly neighborhood?", opts: ["Broadway", "The Theater District", "Parts of Queens or Brooklyn", "The Empire State Building"], a: 2, hint: "Look at the end of the second paragraph." },
+                    { q: "Which of these is NOT mentioned as a stunning landmark in New York?", opts: ["The Statue of Liberty", "The Golden Pavilion", "The Empire State Building", "Central Park"], a: 1, hint: "Read the third paragraph carefully." },
+                    { q: "Why is navigating the subway system 'not a piece of cake' for beginners?", opts: ["Because it is very easy", "Because the trains are broken", "Because it is complicated and requires studying the map", "Because tourists are not allowed"], a: 2, hint: "Idiom: not a piece of cake = not easy." },
+                    { q: "What must you do to understand the subway system?", opts: ["Study the map carefully", "Ask a tourist", "Walk through the neighborhoods", "Buy a car"], a: 0, hint: "Look at the middle of the third paragraph." },
+                    { q: "What does exploring the different districts become once you understand the trains?", opts: ["A piece of cake", "A fantastic adventure", "A boring trip", "A dangerous journey"], a: 1, hint: "Look at the very last sentence." },
+                    { q: "What is the overall purpose of this text?", opts: ["To warn people about New York subways", "To describe the variety of areas and landmarks in NYC", "To explain why New York is the capital", "To review a Broadway show"], a: 1, hint: "It describes districts, neighborhoods, and landmarks." }
+                ];
+                return { q: reading4 + "<b>Question " + (i+1) + ":</b> " + qList[i].q, opts: qList[i].opts, a: qList[i].a, hint: qList[i].hint };
+            }),
+
+            // LECTURA 5: A Local's Perspective
+            ...Array(10).fill().map((_, i) => {
+                const reading5 = "<div style='height:180px; overflow-y:auto; background:#f8fafc; padding:15px; border-radius:8px; font-size:0.9rem; margin-bottom:15px; text-align:left; border:1px solid #cbd5e1;'><b>Reading 5: Escaping the Crowds</b><br><br>I live in Rome, the beautiful capital of Italy. Living near stunning historical landmarks like the Pantheon is wonderful, but the constant crowds of tourists can be exhausting. <br><br>When I want a break from the busy atmosphere, I leave the central district and walk to my favorite quiet neighborhood, Trastevere. Most tourists don't cross the river to get here, so it feels authentic. <br><br>In Trastevere, you won't find big souvenir shops. Instead, you will find small bakeries where getting a fresh pizza is a piece of cake. The university students come here to hit the books in quiet cafes. For me, the true beauty of a city is not just in its famous landmarks, but in the peaceful neighborhoods where real life happens.</div>";
+                const qList = [
+                    { q: "Where does the narrator live?", opts: ["In Trastevere only", "In Rome, the capital of Italy", "In New York", "In a small village outside Italy"], a: 1, hint: "Read the first sentence." },
+                    { q: "What is the Pantheon an example of, according to the text?", opts: ["A quiet neighborhood", "A stunning historical landmark", "A central district", "A bakery"], a: 1, hint: "Look at the first paragraph." },
+                    { q: "Why does the narrator find living near landmarks exhausting sometimes?", opts: ["Because they are ugly", "Because of the constant crowds of tourists", "Because it is too quiet", "Because there is no food"], a: 1, hint: "Look at the end of the first paragraph." },
+                    { q: "What does the narrator do to get a break from the busy atmosphere?", opts: ["Leaves the central district and walks to Trastevere", "Takes photos of the Pantheon", "Hits the books in a large library", "Talks to tourists"], a: 0, hint: "Read the second paragraph." },
+                    { q: "Why does Trastevere feel 'authentic'?", opts: ["Because it has many souvenir shops", "Because most tourists don't cross the river to get there", "Because it has famous landmarks", "Because it is a capital"], a: 1, hint: "Look at the end of the second paragraph." },
+                    { q: "What will you NOT find in Trastevere?", opts: ["Quiet cafes", "Small bakeries", "Big souvenir shops", "University students"], a: 2, hint: "Read the third paragraph." },
+                    { q: "What is 'a piece of cake' to do in Trastevere?", opts: ["Getting a fresh pizza at a small bakery", "Finding a huge souvenir shop", "Seeing the Pantheon", "Meeting tourists"], a: 0, hint: "Idiom: very easy to get." },
+                    { q: "Why do university students go to Trastevere?", opts: ["To buy souvenirs", "To hit the books in quiet cafes", "To visit landmarks", "To act like tourists"], a: 1, hint: "Read the middle of the third paragraph." },
+                    { q: "Where does the narrator believe the 'true beauty' of a city lies?", opts: ["Only in its famous landmarks", "In the peaceful neighborhoods where real life happens", "In the central busy district", "In the large capital buildings"], a: 1, hint: "Look at the very last sentence." },
+                    { q: "Which word best describes the atmosphere of Trastevere?", opts: ["Busy", "Exhausting", "Crowded", "Peaceful"], a: 3, hint: "The text contrasts it with the busy central district." }
+                ];
+                return { q: reading5 + "<b>Question " + (i+1) + ":</b> " + qList[i].q, opts: qList[i].opts, a: qList[i].a, hint: qList[i].hint };
+            })
+        ]
+    }
 };
 
 /* ================================================================
