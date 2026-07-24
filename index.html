@@ -1135,18 +1135,34 @@ function show(screen) {
 
 function updateXPBar() {
     var doneCount = activitiesList.filter(function(a) { return state.done[a]; }).length;
+    
+    // Verificación de Administrador
+    var isAdmin = (state.name.trim().toLowerCase() === "mr. paz" || state.name.trim().toLowerCase() === "mr paz");
+
     document.getElementById('xp-fill').style.width = (doneCount / activitiesList.length * 100) + '%';
     document.getElementById('xp-text').textContent = doneCount + ' / ' + activitiesList.length + ' activities';
 
     var submitBtn = document.getElementById('btn-report');
-    if (doneCount === activitiesList.length) { submitBtn.disabled = false; submitBtn.style.background = 'var(--success)'; submitBtn.textContent = "Submit and Get Grade"; } 
-    else { submitBtn.disabled = true; submitBtn.style.background = '#cbd5e1'; submitBtn.textContent = "Complete all to Submit"; }
+    // Si es admin, el botón siempre está habilitado
+    if (doneCount === activitiesList.length || isAdmin) { 
+        submitBtn.disabled = false; 
+        submitBtn.style.background = 'var(--success)'; 
+        submitBtn.textContent = "Submit and Get Grade"; 
+    } else { 
+        submitBtn.disabled = true; 
+        submitBtn.style.background = '#cbd5e1'; 
+        submitBtn.textContent = "Complete all to Submit"; 
+    }
 
     for (var i = 0; i < activitiesList.length; i++) {
         var card = document.getElementById('card-' + (i+1));
         var lock = document.getElementById('lock-' + (i+1));
         var seal = document.getElementById('s-' + (i+1));
+        
         var isUnlocked = (i === 0) ? true : state.done[activitiesList[i-1]];
+        
+        // ¡Magia de administrador! Desbloquea todo visualmente
+        if (isAdmin) isUnlocked = true; 
         
         if (card) {
             if (isUnlocked) { card.classList.remove('locked-card'); if (lock) lock.style.display = 'none'; } 
@@ -1157,11 +1173,19 @@ function updateXPBar() {
 }
 
 function gateCheck(index) {
-    if (index > 0 && !state.done[activitiesList[index-1]]) { alert('🔒 Complete the previous level first to unlock this one.'); } else { go(index); }
+    var isAdmin = (state.name.trim().toLowerCase() === "mr. paz" || state.name.trim().toLowerCase() === "mr paz");
+    // Permite el paso si completó la anterior O si es admin
+    if (index > 0 && !state.done[activitiesList[index-1]] && !isAdmin) { 
+        alert('🔒 Complete the previous level first to unlock this one.'); 
+    } else { 
+        go(index); 
+    }
 }
 
 function go(index) {
-    if (index > 0 && !state.done[activitiesList[index-1]]) return; 
+    var isAdmin = (state.name.trim().toLowerCase() === "mr. paz" || state.name.trim().toLowerCase() === "mr paz");
+    // Doble candado de seguridad, bypass para admin
+    if (index > 0 && !state.done[activitiesList[index-1]] && !isAdmin) return; 
     if (state.isLocked) { showBlockedScreen(); return; }
     
     var data = DB[state.unit]; 
