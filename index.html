@@ -545,8 +545,33 @@ function triggerConfetti() {
 function speak(text) {
     if (!('speechSynthesis' in window)) return;
     window.speechSynthesis.cancel();
+    
     var u = new SpeechSynthesisUtterance(text); 
-    u.lang = 'en-US'; u.rate = 0.85; window.speechUtteranceHack = u; window.speechSynthesis.speak(u);
+    u.lang = 'en-US'; 
+    u.rate = 1.0; // Velocidad normal para evitar distorsión robótica
+    
+    // Filtro para buscar la mejor voz disponible en el dispositivo del alumno
+    var voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+        // Busca voces premium de Google, Apple o genéricas en inglés fluido
+        var bestVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Siri'))) 
+                     || voices.find(v => v.lang.startsWith('en-US'))
+                     || voices.find(v => v.lang.startsWith('en-GB'));
+        
+        if (bestVoice) {
+            u.voice = bestVoice;
+        }
+    }
+    
+    window.speechUtteranceHack = u; 
+    window.speechSynthesis.speak(u);
+}
+
+// Truco para que el navegador cargue las voces ocultas al iniciar la página
+if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = function() {
+        window.speechSynthesis.getVoices();
+    };
 }
 
 const motivationalQuotes = [
