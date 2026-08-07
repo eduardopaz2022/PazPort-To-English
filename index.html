@@ -28,7 +28,13 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        /* ANTI-TRADUCTOR Y ANTI-COPIA */
+        body {
+            -webkit-user-select: none; /* Safari */
+            -moz-user-select: none; /* Firefox */
+            -ms-user-select: none; /* IE10+/Edge */
+            user-select: none; /* Standard */
+        }
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
@@ -556,7 +562,9 @@ function setDailyQuote() {
     var quoteEl = document.getElementById('motivational-quote');
     if(quoteEl) quoteEl.textContent = motivationalQuotes[dayNumber % motivationalQuotes.length];
 }
-
+// BLOQUEAR CLIC DERECHO Y COPIAR
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('copy', function(e) { e.preventDefault(); });
 /* ================================================================
    DATABASE MODULE
    ================================================================ */
@@ -843,35 +851,44 @@ const DB = {
             { text: "She answered the questions ________ (quick) and won the game.", answer: "quickly", hint: "Adverb of manner." }
         ]
     },
-    "9th - Q3 - Module 1": {
+   "9th - Q3 - Module 1": {
         active: true, 
         type: "three_parts", 
-        activities: ["quiz", "chamber", "blanks"],
-      // FASE 1: VISUAL VOCABULARY QUIZ (10 Items)
-        // Iconos universales gigantes. Cargan al instante y no fallan nunca.
-        quiz: [
-            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>👕</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Shirt", "T-shirt", "Jacket", "Sweater"], a: 1, hint: "It has short sleeves and no buttons. Very casual." },
-            
-            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>👔</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["T-shirt", "Dress", "Shirt", "Hoodie"], a: 2, hint: "It has a collar and buttons down the front." },
-            
-            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>🧥</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Skirt", "Sweater", "Jacket", "Hoodie"], a: 2, hint: "Worn over other clothes to keep you warm or for style. Usually has a zipper." },
-            
-            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>🩳</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Jeans", "Shorts", "Boots", "Skirt"], a: 1, hint: "Pants that don't cover your whole leg. Used in summer." },
-            
-            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>👗</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Dress", "Skirt", "Shorts", "Shirt"], a: 0, hint: "A one-piece garment for women that covers the body and extends down." },
-            
-            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>🧣</div><div style='text-align:center;'>Identify this piece of winter clothing:</div>", opts: ["Hoodie", "Jacket", "T-shirt", "Sweater"], a: 3, hint: "A knitted piece of clothing used in winter, with no zipper or buttons." },
-            
-            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>👢</div><div style='text-align:center;'>Identify this footwear:</div>", opts: ["Shorts", "Boots", "Jeans", "Slippers"], a: 1, hint: "Footwear that covers your foot and part of your leg." },
-            
-            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>👖</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Shorts", "Boots", "Jeans", "Skirt"], a: 2, hint: "Casual pants usually made of blue denim." },
+        activities: ["memory", "quiz", "chamber"], // <--- El nuevo orden que pediste
 
-            { q: "<div style='text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'><i class='fas fa-user-ninja' style='font-size: 4rem; color: #64748b;'></i></div><div style='text-align:center;'>Identify this piece of clothing (usually has a hood):</div>", opts: ["Skirt", "Sweater", "Jacket", "Hoodie"], a: 3, hint: "It has a 'hood' to cover your head." },
-
-            { q: "<div style='text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'><i class='fas fa-female' style='font-size: 4rem; color: #64748b;'></i><br><small style='color:#94a3b8; font-size:1rem;'>(Lower body garment)</small></div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Dress", "Skirt", "Shorts", "Shirt"], a: 1, hint: "A piece of clothing worn by women that hangs from the waist." }
+        // FASE 1: HONESTY CARDS & SUDDEN DEATH
+        words: [
+            "T-shirt", "Shirt", "Hoodie", "Shorts", "Skirt", 
+            "Dress", "Jacket", "Sweater", "Boots", "Jeans"
         ],
-        // FASE 2: GRAMMAR CHAMBER (10 Items)
-        // Sentences mixing Clothes with Personal & Object Pronouns
+        defs: [
+            "A casual shirt with short sleeves and no collar or buttons.",
+            "A piece of clothing for the upper body with a collar and buttons down the front.",
+            "A warm sweatshirt with a part attached to cover your head.",
+            "Short pants that usually end above the knees, worn in warm weather.",
+            "A piece of clothing for women or girls that hangs down from the waist.",
+            "A single piece of clothing for women that covers the top half of the body and hangs down.",
+            "A short coat worn outside to keep warm, usually with a zipper.",
+            "A warm, knitted piece of clothing for the upper body, usually without a zipper.",
+            "Sturdy footwear that covers the foot and the lower part of the leg.",
+            "Casual pants made of strong, usually blue, cotton cloth called denim."
+        ],
+
+        // FASE 2: GRAMMAR QUIZ (Subject and Object Pronouns)
+        quiz: [
+            { q: "My brother needs a new jacket. I will buy one for ________.", opts: ["He", "Him", "His", "Me"], a: 1, hint: "Object pronoun for a boy." },
+            { q: "Maria is wearing a beautiful dress. Look at ________!", opts: ["She", "Her", "Hers", "Him"], a: 1, hint: "Object pronoun for a girl." },
+            { q: "Where are my boots? I can't find ________.", opts: ["They", "It", "Them", "Their"], a: 2, hint: "Object pronoun for a plural object (boots)." },
+            { q: "________ are going to the mall to buy some jeans.", opts: ["We", "Us", "Our", "They"], a: 0, hint: "Subject pronoun to start the sentence." },
+            { q: "Please give ________ that blue hoodie. It is very cold.", opts: ["I", "Me", "My", "Mine"], a: 1, hint: "Object pronoun for yourself." },
+            { q: "I bought a nice shirt for my dad. I hope ________ likes it.", opts: ["He", "Him", "His", "She"], a: 0, hint: "Subject pronoun starting a new clause for a boy." },
+            { q: "The sweater is too small. I want to return ________.", opts: ["Them", "Him", "It", "Its"], a: 2, hint: "Object pronoun for a singular object (sweater)." },
+            { q: "Mom bought new T-shirts for my sister and me. She bought them for ________.", opts: ["We", "Them", "Us", "Our"], a: 2, hint: "Object pronoun for 'my sister and me'." },
+            { q: "Do ________ want to wear this skirt to the party?", opts: ["You", "Your", "She", "Me"], a: 0, hint: "Subject pronoun for the person you are talking to." },
+            { q: "My parents like these shorts. I will buy them for ________.", opts: ["They", "Their", "Them", "Us"], a: 2, hint: "Object pronoun for plural people (parents)." }
+        ],
+
+        // FASE 3: SYNTAX BUILDER / CHAMBER
         chamber: [
             { s: "I / bought / a / jacket / for / him", c: "I bought a jacket for him" },
             { s: "she / gave / the / hoodie / to / me", c: "She gave the hoodie to me" },
@@ -883,28 +900,6 @@ const DB = {
             { s: "I / want / to / buy / a / shirt / for / you", c: "I want to buy a shirt for you" },
             { s: "look / at / that / skirt / I / love / it", c: "Look at that skirt I love it" },
             { s: "she / washed / the / T-shirt / for / him", c: "She washed the T-shirt for him" }
-        ],
-
-        // FASE 3: THE FINAL MIX (15 Items)
-        // Multiple choice and fill in the blanks combining both topics
-        blanks: [
-            { text: "My brother needs a new jacket. I will buy one for ________.", options: ["He", "Him", "His", "Me"], answer: "Him", hint: "Object pronoun for 'My brother'." },
-            { text: "Maria is wearing a beautiful dress. Look at ________!", options: ["She", "Her", "Hers", "Him"], answer: "Her", hint: "Object pronoun for 'Maria'." },
-            { text: "Where are my boots? I can't find ________.", options: ["They", "It", "Them", "Their"], answer: "Them", hint: "Object pronoun for a plural object (boots)." },
-            { text: "________ are going to the mall to buy some jeans.", options: ["We", "Us", "Our", "They"], answer: "We", hint: "Subject pronoun to start the sentence." },
-            { text: "Please give ________ that blue hoodie. It is very cold.", options: ["I", "Me", "My", "Mine"], answer: "Me", hint: "Object pronoun for yourself." },
-            { text: "I bought a nice shirt for my dad. I hope ________ likes it.", options: ["He", "Him", "His", "She"], answer: "He", hint: "Subject pronoun starting a new clause for 'dad'." },
-            { text: "The sweater is too small. I want to return ________.", options: ["Them", "Him", "It", "Its"], answer: "It", hint: "Object pronoun for a singular object (sweater)." },
-            { text: "Mom bought new T-shirts for my sister and me. She bought them for ________.", options: ["We", "Them", "Us", "Our"], answer: "Us", hint: "Object pronoun for 'my sister and me'." },
-            { text: "Do ________ want to wear this skirt to the party?", options: ["You", "Your", "She", "Me"], answer: "You", hint: "Subject pronoun for the person you are talking to." },
-            { text: "My parents like these shorts. I will buy them for ________.", options: ["They", "Their", "Them", "Us"], answer: "Them", hint: "Object pronoun for plural people (parents)." },
-            
-            // Tipeo ciego para vocabulario de ropa
-            { text: "A casual shirt with no collar and short sleeves is called a ________.", answer: ["t-shirt", "tshirt", "t shirt"], hint: "Starts with the letter T." },
-            { text: "A warm piece of clothing with a part to cover your head is a ________.", answer: "hoodie", hint: "It has a 'hood'." },
-            { text: "Pants made of strong blue cotton cloth (denim) are called ________.", answer: "jeans", hint: "Starts with J." },
-            { text: "A formal top for men or women, with a collar and buttons, is a ________.", answer: "shirt", hint: "Not a T-shirt, just a..." },
-            { text: "Heavy shoes that go over your ankle, great for winter, are called ________.", answer: "boots", hint: "Starts with B." }
         ]
     },
     "10th - Unit 5 - Module 2 - Indefinite Pronouns": {
@@ -1414,6 +1409,7 @@ const UI_META = {
     "countable-part2": { t: "Quantifier Quiz", d: "Select the quantifier", i: "fas fa-list-ul" },
     "listening": { t: "Listening", d: "Audio comprehension", i: "fas fa-headphones" },
     "vocabulary": { t: "Vocabulary", d: "Definitions & Context", i: "fas fa-spell-check" },
+    "memory": { t: "Honesty Cards", d: "Memory & Sudden Death", i: "fas fa-brain" },
     "grammar": { t: "Grammar", d: "Rules & Syntax", i: "fas fa-pen-nib" }
 };
 
@@ -1690,16 +1686,16 @@ function go(index) {
         if (activity === 'countable-part1') renderCountPart1(container, data);
         else if (activity === 'countable-part2') renderCountPart2(container, data);
     } else {
-        if      (activity === 'rules')     renderRules(container, data);
-        else if (activity === 'scrolls')   renderScrolls(container, data);
-        else if (activity === 'quiz')      renderQuiz(container, data);
-        else if (activity === 'chamber')   renderChamber(container, data);
-        else if (activity === 'blanks')    renderBlanks(container, data);
+        if      (activity === 'rules')      renderRules(container, data);
+        else if (activity === 'scrolls')    renderScrolls(container, data);
+        else if (activity === 'memory')     renderMemoryCards(container, data); // <--- AQUÍ ESTÁ EL NUEVO MOTOR
+        else if (activity === 'quiz')       renderQuiz(container, data);
+        else if (activity === 'chamber')    renderChamber(container, data);
+        else if (activity === 'blanks')     renderBlanks(container, data);
         else if (activity === 'vocabulary') renderVocabulary(container, data);
         else if (activity === 'listening')  renderListening(container, data);
     }
 }
-
 /* ================================================================
    ACTIVITIES MODULE (Games & Exercises)
    ================================================================ */
@@ -1896,6 +1892,100 @@ function renderScrolls(container, data) {
         document.getElementById('btn-prev').disabled = (idx === 0);
     }
     updateCard();
+}
+    function renderMemoryCards(container, data) {
+    var honestyQueue = data.words.slice().sort(function() { return Math.random() - 0.5; });
+    var deathQueue = [];
+    var currentMode = 'honesty'; // Puede ser 'honesty' o 'death'
+    var failCount = 0; // Solo para llevar control de la muerte súbita
+    
+    function render() {
+        if (currentMode === 'honesty') {
+            if (honestyQueue.length === 0) {
+                // Termina la fase de honestidad, barajamos y pasamos a Muerte Súbita
+                deathQueue = deathQueue.sort(function() { return Math.random() - 0.5; });
+                currentMode = 'death';
+                render();
+                return;
+            }
+            
+            var word = honestyQueue[0];
+            var totalCards = data.words.length;
+            var processed = totalCards - honestyQueue.length;
+            
+            container.innerHTML = '<h2>Honesty Check <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(processed)+'/'+totalCards+')</span></h2>' +
+                '<p style="color:var(--text-muted); margin-bottom:10px;">Do you remember the meaning of this word?</p>' +
+                '<div class="flashcard" style="cursor:default; height:200px;"><div class="flashcard-inner"><div class="front" style="border-color:var(--warning);"><h3 style="font-size:3rem; color:var(--text-main);">' + word + '</h3></div></div></div>' +
+                '<div style="margin-top:20px; display:flex; justify-content:center; gap:15px;">' +
+                '<button id="btn-no" class="btn" style="margin:0; background:var(--danger);"><i class="fas fa-times"></i> I don\'t remember</button>' +
+                '<button id="btn-yes" class="btn" style="margin:0; background:var(--success);"><i class="fas fa-check"></i> I know it</button></div>';
+
+            document.getElementById('btn-no').onclick = function() {
+                var w = honestyQueue.shift(); // Saca la palabra
+                honestyQueue.push(w); // La manda al final de la cola
+                render(); // Vuelve a renderizar
+            };
+            
+            document.getElementById('btn-yes').onclick = function() {
+                var w = honestyQueue.shift(); // Saca la palabra
+                deathQueue.push(w); // La manda a la cola de la muerte súbita
+                render(); // Vuelve a renderizar
+            };
+            
+        } else if (currentMode === 'death') {
+            if (deathQueue.length === 0) {
+                state.done['memory'] = true; updateXPBar(); triggerConfetti();
+                container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-skull-crossbones" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Sudden Death Survived!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
+                return;
+            }
+            
+            var word = deathQueue[0];
+            var wordIndex = data.words.indexOf(word);
+            var definition = data.defs[wordIndex];
+            
+            // Generar opciones falsas (distractoras)
+            var wrongPool = data.words.filter(function(w) { return w !== word; }).sort(function() { return Math.random() - 0.5; }).slice(0, 3);
+            var options = [word].concat(wrongPool).sort(function() { return Math.random() - 0.5; });
+            var correctOpt = options.indexOf(word);
+            
+            var optHtml = options.map(function(o, i) { 
+                return '<div class="quiz-option" id="sd-opt-'+i+'" onclick="window.checkSDOpt('+i+','+(i === correctOpt)+')">' + o + '</div>'; 
+            }).join('');
+
+            container.innerHTML = '<h2 style="color:var(--danger);">Sudden Death <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">(Remaining: '+deathQueue.length+')</span></h2>' +
+                '<p style="font-size:1.3rem; margin:20px 0;">Select the word for this definition:</p>' +
+                '<div style="background:#fef2f2; padding:20px; border-radius:8px; border-left:4px solid var(--danger); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + definition + '"</div>' +
+                optHtml + '<div id="hint-box" class="hint-box" style="background:#fee2e2; border-color:var(--danger); color:#991b1b;"><i class="fas fa-skull"></i> <strong>WRONG!</strong> You said you knew this. 0 points for this word.</div>';
+
+            window.checkSDOpt = function(chosen, isCorrect) {
+                var chosenEl = document.getElementById('sd-opt-'+chosen);
+                if (chosenEl.classList.contains('wrong') || chosenEl.classList.contains('correct')) return;
+                
+                document.querySelectorAll('.quiz-option').forEach(el => el.style.pointerEvents = 'none');
+                
+                if (isCorrect) {
+                    chosenEl.classList.add('correct'); triggerMiniConfetti();
+                    state.firstTryPoints++; // Gana el punto porque fue honesto y la supo
+                    setTimeout(function() {
+                        deathQueue.shift(); // Saca la palabra de la cola
+                        render();
+                    }, 800);
+                } else {
+                    // Muerte súbita: se equivoca, pantalla roja, sin pistas, 0 puntos
+                    chosenEl.classList.add('wrong', 'shake');
+                    document.getElementById('hint-box').classList.add('active');
+                    // Mostrar la correcta para que aprenda el error
+                    document.getElementById('sd-opt-'+correctOpt).classList.add('correct');
+                    
+                    setTimeout(function() {
+                        deathQueue.shift(); // Saca la palabra de la cola (no le vuelve a salir, perdió el punto)
+                        render();
+                    }, 2000); // Le da 2 segundos para ver su error
+                }
+            };
+        }
+    }
+    render();
 }
 
 function renderQuiz(container, data) {
