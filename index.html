@@ -847,31 +847,29 @@ const DB = {
         active: true, 
         type: "three_parts", 
         activities: ["quiz", "chamber", "blanks"],
-
-        // FASE 1: VISUAL VOCABULARY QUIZ (10 Items)
-        // Imágenes generadas automáticamente por IA, no necesitas subir nada.
+      // FASE 1: VISUAL VOCABULARY QUIZ (10 Items)
+        // Iconos universales gigantes. Cargan al instante y no fallan nunca.
         quiz: [
-            { q: "<img src='https://image.pollinations.ai/prompt/a-simple-cotton-t-shirt-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Shirt", "T-shirt", "Jacket", "Sweater"], a: 1, hint: "It has short sleeves and no buttons. Very casual." },
+            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>👕</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Shirt", "T-shirt", "Jacket", "Sweater"], a: 1, hint: "It has short sleeves and no buttons. Very casual." },
             
-            { q: "<img src='https://image.pollinations.ai/prompt/a-formal-button-down-shirt-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["T-shirt", "Dress", "Shirt", "Hoodie"], a: 2, hint: "It has a collar and buttons down the front." },
+            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>👔</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["T-shirt", "Dress", "Shirt", "Hoodie"], a: 2, hint: "It has a collar and buttons down the front." },
             
-            { q: "<img src='https://image.pollinations.ai/prompt/a-cozy-hoodie-with-a-hood-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Skirt", "Sweater", "Jacket", "Hoodie"], a: 3, hint: "It has a 'hood' to cover your head." },
+            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>🧥</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Skirt", "Sweater", "Jacket", "Hoodie"], a: 2, hint: "Worn over other clothes to keep you warm or for style. Usually has a zipper." },
             
-            { q: "<img src='https://image.pollinations.ai/prompt/a-pair-of-summer-shorts-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Jeans", "Shorts", "Boots", "Skirt"], a: 1, hint: "Pants that don't cover your whole leg. Used in summer." },
+            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>🩳</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Jeans", "Shorts", "Boots", "Skirt"], a: 1, hint: "Pants that don't cover your whole leg. Used in summer." },
             
-            { q: "<img src='https://image.pollinations.ai/prompt/a-beautiful-skirt-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Dress", "Skirt", "Shorts", "Shirt"], a: 1, hint: "A piece of clothing worn by women that hangs from the waist." },
+            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>👗</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Dress", "Skirt", "Shorts", "Shirt"], a: 0, hint: "A one-piece garment for women that covers the body and extends down." },
             
-            { q: "<img src='https://image.pollinations.ai/prompt/an-elegant-dress-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Skirt", "T-shirt", "Dress", "Jacket"], a: 2, hint: "A one-piece garment for women that covers the body and extends down." },
+            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>🧣</div><div style='text-align:center;'>Identify this piece of winter clothing:</div>", opts: ["Hoodie", "Jacket", "T-shirt", "Sweater"], a: 3, hint: "A knitted piece of clothing used in winter, with no zipper or buttons." },
             
-            { q: "<img src='https://image.pollinations.ai/prompt/a-leather-jacket-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Jacket", "Sweater", "Shirt", "Hoodie"], a: 0, hint: "Worn over other clothes to keep you warm or for style. Usually has a zipper." },
+            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>👢</div><div style='text-align:center;'>Identify this footwear:</div>", opts: ["Shorts", "Boots", "Jeans", "Slippers"], a: 1, hint: "Footwear that covers your foot and part of your leg." },
             
-            { q: "<img src='https://image.pollinations.ai/prompt/a-knitted-winter-sweater-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Hoodie", "Jacket", "T-shirt", "Sweater"], a: 3, hint: "A knitted piece of clothing used in winter, with no zipper or buttons." },
-            
-            { q: "<img src='https://image.pollinations.ai/prompt/a-pair-of-leather-boots-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this footwear:</div>", opts: ["Shorts", "Boots", "Jeans", "Slippers"], a: 1, hint: "Footwear that covers your foot and part of your leg." },
-            
-            { q: "<img src='https://image.pollinations.ai/prompt/a-pair-of-blue-denim-jeans-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Shorts", "Boots", "Jeans", "Skirt"], a: 2, hint: "Casual pants made of denim." }
-        ],
+            { q: "<div style='font-size: 5rem; text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'>👖</div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Shorts", "Boots", "Jeans", "Skirt"], a: 2, hint: "Casual pants usually made of blue denim." },
 
+            { q: "<div style='text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'><i class='fas fa-user-ninja' style='font-size: 4rem; color: #64748b;'></i></div><div style='text-align:center;'>Identify this piece of clothing (usually has a hood):</div>", opts: ["Skirt", "Sweater", "Jacket", "Hoodie"], a: 3, hint: "It has a 'hood' to cover your head." },
+
+            { q: "<div style='text-align: center; margin: 20px 0; background: #f8fafc; padding: 20px; border-radius: 12px; border: 2px dashed #cbd5e1;'><i class='fas fa-female' style='font-size: 4rem; color: #64748b;'></i><br><small style='color:#94a3b8; font-size:1rem;'>(Lower body garment)</small></div><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Dress", "Skirt", "Shorts", "Shirt"], a: 1, hint: "A piece of clothing worn by women that hangs from the waist." }
+        ],
         // FASE 2: GRAMMAR CHAMBER (10 Items)
         // Sentences mixing Clothes with Personal & Object Pronouns
         chamber: [
