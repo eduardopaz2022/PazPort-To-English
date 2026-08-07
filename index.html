@@ -1914,11 +1914,18 @@ function claimCert() {
     
     if (!isReviewMode) {
         var urlGoogleScript = "https://script.google.com/macros/s/AKfycbxeubqXtPDtnevgtk93zvcs9Y1z4GEbpl_KU-FFlBPGeGY_n0Yipbm92brwns-AElHhVg/exec";
+        // Determinar el nombre de la pestaña según el grado
+        var targetSheet = "General Results";
+        if (state.section.startsWith("9")) targetSheet = "9th Grade - Q3";
+        if (state.section.startsWith("10")) targetSheet = "10th Grade - P4";
+        if (state.section.startsWith("11")) targetSheet = "11th Grade - P4";
+
         var formData = new FormData();
         formData.append("name", state.name); 
         formData.append("section", state.section); 
         formData.append("unit", state.unit); 
         formData.append("score", finalGrade); 
+        formData.append("sheetName", targetSheet);
         
         fetch(urlGoogleScript, { method: "POST", body: formData, mode: "no-cors" }).catch(e => console.error(e));
         var key = state.name.toLowerCase() + '-' + state.section + '-' + state.unit;
