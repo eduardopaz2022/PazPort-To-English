@@ -646,7 +646,7 @@ const DB = {
         ]
     },
     "9th - Mock Exam - Final Review": {
-        active: true, 
+        active: false, 
         type: "three_parts", 
         activities: ["quiz", "chamber", "blanks"],
         
@@ -723,7 +723,7 @@ const DB = {
         ]
     },
    "9th - Recovery Activity": {
-        active: true, 
+        active: false, 
         type: "three_parts", 
         activities: ["chamber", "blanks"],
         
@@ -841,6 +841,72 @@ const DB = {
             { text: "The liver ________ (filter) toxins from the blood.", answer: "filters", hint: "Third person singular." },
             { text: "You must walk ________ (slow) on the wet floor.", answer: "slowly", hint: "Adverb of manner." },
             { text: "She answered the questions ________ (quick) and won the game.", answer: "quickly", hint: "Adverb of manner." }
+        ]
+    },
+    "9th - Q3 - Module 1": {
+        active: true, 
+        type: "three_parts", 
+        activities: ["quiz", "chamber", "blanks"],
+
+        // FASE 1: VISUAL VOCABULARY QUIZ (10 Items)
+        // Imágenes generadas automáticamente por IA, no necesitas subir nada.
+        quiz: [
+            { q: "<img src='https://image.pollinations.ai/prompt/a-simple-cotton-t-shirt-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Shirt", "T-shirt", "Jacket", "Sweater"], a: 1, hint: "It has short sleeves and no buttons. Very casual." },
+            
+            { q: "<img src='https://image.pollinations.ai/prompt/a-formal-button-down-shirt-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["T-shirt", "Dress", "Shirt", "Hoodie"], a: 2, hint: "It has a collar and buttons down the front." },
+            
+            { q: "<img src='https://image.pollinations.ai/prompt/a-cozy-hoodie-with-a-hood-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Skirt", "Sweater", "Jacket", "Hoodie"], a: 3, hint: "It has a 'hood' to cover your head." },
+            
+            { q: "<img src='https://image.pollinations.ai/prompt/a-pair-of-summer-shorts-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Jeans", "Shorts", "Boots", "Skirt"], a: 1, hint: "Pants that don't cover your whole leg. Used in summer." },
+            
+            { q: "<img src='https://image.pollinations.ai/prompt/a-beautiful-skirt-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Dress", "Skirt", "Shorts", "Shirt"], a: 1, hint: "A piece of clothing worn by women that hangs from the waist." },
+            
+            { q: "<img src='https://image.pollinations.ai/prompt/an-elegant-dress-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Skirt", "T-shirt", "Dress", "Jacket"], a: 2, hint: "A one-piece garment for women that covers the body and extends down." },
+            
+            { q: "<img src='https://image.pollinations.ai/prompt/a-leather-jacket-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Jacket", "Sweater", "Shirt", "Hoodie"], a: 0, hint: "Worn over other clothes to keep you warm or for style. Usually has a zipper." },
+            
+            { q: "<img src='https://image.pollinations.ai/prompt/a-knitted-winter-sweater-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Hoodie", "Jacket", "T-shirt", "Sweater"], a: 3, hint: "A knitted piece of clothing used in winter, with no zipper or buttons." },
+            
+            { q: "<img src='https://image.pollinations.ai/prompt/a-pair-of-leather-boots-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this footwear:</div>", opts: ["Shorts", "Boots", "Jeans", "Slippers"], a: 1, hint: "Footwear that covers your foot and part of your leg." },
+            
+            { q: "<img src='https://image.pollinations.ai/prompt/a-pair-of-blue-denim-jeans-flat-lay-white-background?width=400&height=300&nologo=true' style='max-height:180px; border-radius:8px; margin:0 auto 15px; display:block; box-shadow:0 4px 6px rgba(0,0,0,0.1);'><div style='text-align:center;'>Identify this piece of clothing:</div>", opts: ["Shorts", "Boots", "Jeans", "Skirt"], a: 2, hint: "Casual pants made of denim." }
+        ],
+
+        // FASE 2: GRAMMAR CHAMBER (10 Items)
+        // Sentences mixing Clothes with Personal & Object Pronouns
+        chamber: [
+            { s: "I / bought / a / jacket / for / him", c: "I bought a jacket for him" },
+            { s: "she / gave / the / hoodie / to / me", c: "She gave the hoodie to me" },
+            { s: "they / like / the / blue / jeans / very / much", c: "They like the blue jeans very much" },
+            { s: "we / saw / her / wearing / a / dress", c: "We saw her wearing a dress" },
+            { s: "he / bought / some / shorts / for / us", c: "He bought some shorts for us" },
+            { s: "the / boots / are / dirty / please / clean / them", c: "The boots are dirty please clean them" },
+            { s: "can / you / lend / me / your / sweater", c: "Can you lend me your sweater" },
+            { s: "I / want / to / buy / a / shirt / for / you", c: "I want to buy a shirt for you" },
+            { s: "look / at / that / skirt / I / love / it", c: "Look at that skirt I love it" },
+            { s: "she / washed / the / T-shirt / for / him", c: "She washed the T-shirt for him" }
+        ],
+
+        // FASE 3: THE FINAL MIX (15 Items)
+        // Multiple choice and fill in the blanks combining both topics
+        blanks: [
+            { text: "My brother needs a new jacket. I will buy one for ________.", options: ["He", "Him", "His", "Me"], answer: "Him", hint: "Object pronoun for 'My brother'." },
+            { text: "Maria is wearing a beautiful dress. Look at ________!", options: ["She", "Her", "Hers", "Him"], answer: "Her", hint: "Object pronoun for 'Maria'." },
+            { text: "Where are my boots? I can't find ________.", options: ["They", "It", "Them", "Their"], answer: "Them", hint: "Object pronoun for a plural object (boots)." },
+            { text: "________ are going to the mall to buy some jeans.", options: ["We", "Us", "Our", "They"], answer: "We", hint: "Subject pronoun to start the sentence." },
+            { text: "Please give ________ that blue hoodie. It is very cold.", options: ["I", "Me", "My", "Mine"], answer: "Me", hint: "Object pronoun for yourself." },
+            { text: "I bought a nice shirt for my dad. I hope ________ likes it.", options: ["He", "Him", "His", "She"], answer: "He", hint: "Subject pronoun starting a new clause for 'dad'." },
+            { text: "The sweater is too small. I want to return ________.", options: ["Them", "Him", "It", "Its"], answer: "It", hint: "Object pronoun for a singular object (sweater)." },
+            { text: "Mom bought new T-shirts for my sister and me. She bought them for ________.", options: ["We", "Them", "Us", "Our"], answer: "Us", hint: "Object pronoun for 'my sister and me'." },
+            { text: "Do ________ want to wear this skirt to the party?", options: ["You", "Your", "She", "Me"], answer: "You", hint: "Subject pronoun for the person you are talking to." },
+            { text: "My parents like these shorts. I will buy them for ________.", options: ["They", "Their", "Them", "Us"], answer: "Them", hint: "Object pronoun for plural people (parents)." },
+            
+            // Tipeo ciego para vocabulario de ropa
+            { text: "A casual shirt with no collar and short sleeves is called a ________.", answer: ["t-shirt", "tshirt", "t shirt"], hint: "Starts with the letter T." },
+            { text: "A warm piece of clothing with a part to cover your head is a ________.", answer: "hoodie", hint: "It has a 'hood'." },
+            { text: "Pants made of strong blue cotton cloth (denim) are called ________.", answer: "jeans", hint: "Starts with J." },
+            { text: "A formal top for men or women, with a collar and buttons, is a ________.", answer: "shirt", hint: "Not a T-shirt, just a..." },
+            { text: "Heavy shoes that go over your ankle, great for winter, are called ________.", answer: "boots", hint: "Starts with B." }
         ]
     },
     "10th - Unit 5 - Module 2 - Indefinite Pronouns": {
