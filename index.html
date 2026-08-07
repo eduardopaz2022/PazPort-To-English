@@ -1685,8 +1685,13 @@ function go(index) {
     // Doble candado de seguridad, bypass para admin
     if (index > 0 && !state.done[activitiesList[index-1]] && !isAdmin) return; 
     
-    // Mostrar la pantalla PRIMERO (esto arregla el bug visual)
+    // Mostrar la pantalla PRIMERO
     show('act'); 
+    
+    // ¡AQUÍ ESTÁ LA CORRECCIÓN! Fuerza al botón de retroceso a estar siempre visible
+    var backBtn = document.getElementById('act-back-btn-container');
+    if (backBtn) backBtn.style.display = 'block';
+
     var container = document.getElementById('act-content'); 
     container.innerHTML = ''; 
 
