@@ -851,12 +851,12 @@ const DB = {
             { text: "She answered the questions ________ (quick) and won the game.", answer: "quickly", hint: "Adverb of manner." }
         ]
     },
-   "9th - Q3 - Module 1": {
+"9th - Q3 - Module 1": {
         active: true, 
         type: "three_parts", 
-        activities: ["memory", "quiz", "chamber"], // <--- El nuevo orden que pediste
+        activities: ["memory", "quiz", "chamber"],
 
-        // FASE 1: HONESTY CARDS & SUDDEN DEATH
+        // FASE 1: VOCABULARY FLASHCARDS
         words: [
             "T-shirt", "Shirt", "Hoodie", "Shorts", "Skirt", 
             "Dress", "Jacket", "Sweater", "Boots", "Jeans"
@@ -872,6 +872,18 @@ const DB = {
             "A warm, knitted piece of clothing for the upper body, usually without a zipper.",
             "Sturdy footwear that covers the foot and the lower part of the leg.",
             "Casual pants made of strong, usually blue, cotton cloth called denim."
+        ],
+        spanish: [
+            "Camiseta (casual, sin cuello)",
+            "Camisa (formal, con cuello y botones)",
+            "Sudadera con capucha",
+            "Pantalones cortos / Shorts",
+            "Falda",
+            "Vestido",
+            "Chaqueta / Chumpa",
+            "Suéter (tejido)",
+            "Botas",
+            "Pantalones de lona / Jeans"
         ],
 
         // FASE 2: GRAMMAR QUIZ (Subject and Object Pronouns)
@@ -1893,57 +1905,73 @@ function renderScrolls(container, data) {
     }
     updateCard();
 }
-    function renderMemoryCards(container, data) {
-    var honestyQueue = data.words.slice().sort(function() { return Math.random() - 0.5; });
-    var deathQueue = [];
-    var currentMode = 'honesty'; // Puede ser 'honesty' o 'death'
-    var failCount = 0; // Solo para llevar control de la muerte súbita
+function renderMemoryCards(container, data) {
+    var flashQueue = data.words.slice().sort(function() { return Math.random() - 0.5; });
+    var testQueue = [];
+    var currentMode = 'flashcards';
     
     function render() {
-        if (currentMode === 'honesty') {
-            if (honestyQueue.length === 0) {
-                // Termina la fase de honestidad, barajamos y pasamos a Muerte Súbita
-                deathQueue = deathQueue.sort(function() { return Math.random() - 0.5; });
-                currentMode = 'death';
+        if (currentMode === 'flashcards') {
+            if (flashQueue.length === 0) {
+                testQueue = testQueue.sort(function() { return Math.random() - 0.5; });
+                currentMode = 'test';
                 render();
                 return;
             }
             
-            var word = honestyQueue[0];
+            var word = flashQueue[0];
+            var wordIndex = data.words.indexOf(word);
+            var def = data.defs[wordIndex];
+            var spa = data.spanish ? data.spanish[wordIndex] : "";
             var totalCards = data.words.length;
-            var processed = totalCards - honestyQueue.length;
+            var processed = totalCards - flashQueue.length;
             
-            container.innerHTML = '<h2>Honesty Check <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(processed)+'/'+totalCards+')</span></h2>' +
-                '<p style="color:var(--text-muted); margin-bottom:10px;">Do you remember the meaning of this word?</p>' +
-                '<div class="flashcard" style="cursor:default; height:200px;"><div class="flashcard-inner"><div class="front" style="border-color:var(--warning);"><h3 style="font-size:3rem; color:var(--text-main);">' + word + '</h3></div></div></div>' +
-                '<div style="margin-top:20px; display:flex; justify-content:center; gap:15px;">' +
-                '<button id="btn-no" class="btn" style="margin:0; background:var(--danger);"><i class="fas fa-times"></i> I don\'t remember</button>' +
-                '<button id="btn-yes" class="btn" style="margin:0; background:var(--success);"><i class="fas fa-check"></i> I know it</button></div>';
+            container.innerHTML = '<h2>Vocabulary Flashcards <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">('+(processed)+'/'+totalCards+')</span></h2>' +
+                '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" style="width:'+Math.round((processed / totalCards) * 100)+'%;"></div></div></div>' +
+                '<p style="color:var(--text-muted); margin-bottom:10px;">Do you remember this word?</p>' +
+                '<div class="flashcard" id="mem-card" style="cursor:default; height:250px;">' +
+                    '<div class="flashcard-inner">' +
+                        '<div class="front" style="border-color:var(--primary-blue);">' +
+                            '<h3 style="font-size:3.5rem; color:var(--primary-blue);">' + word + '</h3>' +
+                        '</div>' +
+                        '<div class="back" style="border-color:var(--primary-blue); background:#f8fafc; display:flex; flex-direction:column; justify-content:center;">' +
+                            '<button class="tts-btn" onclick="speak(\''+word+'\')" style="margin:0 auto 15px;"><i class="fas fa-volume-up"></i></button>' +
+                            '<p style="font-size:1.1rem; color:var(--text-main); font-weight:600; margin-bottom:10px; padding:0 15px;">' + def + '</p>' +
+                            '<p style="font-size:0.95rem; color:var(--text-muted); font-style:italic;">' + spa + '</p>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div id="action-btns" style="margin-top:20px; display:flex; justify-content:center; gap:15px;">' +
+                '<button id="btn-no" class="btn" style="margin:0; background:var(--danger); width:70px; font-size:1.5rem;" title="I don\'t remember"><i class="fas fa-times"></i></button>' +
+                '<button id="btn-yes" class="btn" style="margin:0; background:var(--success); width:70px; font-size:1.5rem;" title="I know it"><i class="fas fa-check"></i></button></div>';
 
             document.getElementById('btn-no').onclick = function() {
-                var w = honestyQueue.shift(); // Saca la palabra
-                honestyQueue.push(w); // La manda al final de la cola
-                render(); // Vuelve a renderizar
+                document.getElementById('mem-card').classList.add('flipped');
+                document.getElementById('action-btns').innerHTML = '<button id="btn-cont" class="btn" style="margin:0; background:var(--primary-blue);">Continue <i class="fas fa-arrow-right"></i></button>';
+                document.getElementById('btn-cont').onclick = function() {
+                    var w = flashQueue.shift();
+                    flashQueue.push(w); // Regresa al final de la cola
+                    render();
+                };
             };
             
             document.getElementById('btn-yes').onclick = function() {
-                var w = honestyQueue.shift(); // Saca la palabra
-                deathQueue.push(w); // La manda a la cola de la muerte súbita
-                render(); // Vuelve a renderizar
+                var w = flashQueue.shift();
+                testQueue.push(w);
+                render();
             };
             
-        } else if (currentMode === 'death') {
-            if (deathQueue.length === 0) {
+        } else if (currentMode === 'test') {
+            if (testQueue.length === 0) {
                 state.done['memory'] = true; updateXPBar(); triggerConfetti();
-                container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-skull-crossbones" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Sudden Death Survived!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
+                container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-check-circle" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Vocabulary Mastered!</h2><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
                 return;
             }
             
-            var word = deathQueue[0];
+            var word = testQueue[0];
             var wordIndex = data.words.indexOf(word);
             var definition = data.defs[wordIndex];
             
-            // Generar opciones falsas (distractoras)
             var wrongPool = data.words.filter(function(w) { return w !== word; }).sort(function() { return Math.random() - 0.5; }).slice(0, 3);
             var options = [word].concat(wrongPool).sort(function() { return Math.random() - 0.5; });
             var correctOpt = options.indexOf(word);
@@ -1952,10 +1980,10 @@ function renderScrolls(container, data) {
                 return '<div class="quiz-option" id="sd-opt-'+i+'" onclick="window.checkSDOpt('+i+','+(i === correctOpt)+')">' + o + '</div>'; 
             }).join('');
 
-            container.innerHTML = '<h2 style="color:var(--danger);">Sudden Death <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">(Remaining: '+deathQueue.length+')</span></h2>' +
-                '<p style="font-size:1.3rem; margin:20px 0;">Select the word for this definition:</p>' +
-                '<div style="background:#fef2f2; padding:20px; border-radius:8px; border-left:4px solid var(--danger); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + definition + '"</div>' +
-                optHtml + '<div id="hint-box" class="hint-box" style="background:#fee2e2; border-color:var(--danger); color:#991b1b;"><i class="fas fa-skull"></i> <strong>WRONG!</strong> You said you knew this. 0 points for this word.</div>';
+            container.innerHTML = '<h2 style="color:var(--primary-blue);">Now your turn! <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;">(Remaining: '+testQueue.length+')</span></h2>' +
+                '<p style="font-size:1.3rem; margin:20px 0;">Select the correct word for this definition:</p>' +
+                '<div style="background:#eff6ff; padding:20px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.2rem; color:var(--text-main); margin-bottom:20px;">"' + definition + '"</div>' +
+                optHtml + '<div id="hint-box" class="hint-box" style="background:#fffbeb; border-color:var(--warning); color:#92400e;"><i class="fas fa-info-circle"></i> Incorrect. You didn\'t get the point for this word.</div>';
 
             window.checkSDOpt = function(chosen, isCorrect) {
                 var chosenEl = document.getElementById('sd-opt-'+chosen);
@@ -1965,22 +1993,20 @@ function renderScrolls(container, data) {
                 
                 if (isCorrect) {
                     chosenEl.classList.add('correct'); triggerMiniConfetti();
-                    state.firstTryPoints++; // Gana el punto porque fue honesto y la supo
+                    state.firstTryPoints++; 
                     setTimeout(function() {
-                        deathQueue.shift(); // Saca la palabra de la cola
+                        testQueue.shift(); 
                         render();
                     }, 800);
                 } else {
-                    // Muerte súbita: se equivoca, pantalla roja, sin pistas, 0 puntos
                     chosenEl.classList.add('wrong', 'shake');
                     document.getElementById('hint-box').classList.add('active');
-                    // Mostrar la correcta para que aprenda el error
                     document.getElementById('sd-opt-'+correctOpt).classList.add('correct');
                     
                     setTimeout(function() {
-                        deathQueue.shift(); // Saca la palabra de la cola (no le vuelve a salir, perdió el punto)
+                        testQueue.shift(); 
                         render();
-                    }, 2000); // Le da 2 segundos para ver su error
+                    }, 2000); 
                 }
             };
         }
