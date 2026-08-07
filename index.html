@@ -1421,7 +1421,7 @@ const UI_META = {
     "countable-part2": { t: "Quantifier Quiz", d: "Select the quantifier", i: "fas fa-list-ul" },
     "listening": { t: "Listening", d: "Audio comprehension", i: "fas fa-headphones" },
     "vocabulary": { t: "Vocabulary", d: "Definitions & Context", i: "fas fa-spell-check" },
-    "memory": { t: "Honesty Cards", d: "Memory & Sudden Death", i: "fas fa-brain" },
+    "memory": { t: "Vocabulary Flashcards", d: "Learn and test", i: "fas fa-brain" },
     "grammar": { t: "Grammar", d: "Rules & Syntax", i: "fas fa-pen-nib" }
 };
 
@@ -1679,18 +1679,25 @@ function gateCheck(index) {
         go(index); 
     }
 }
-
 function go(index) {
     var isAdmin = (state.name.trim().toLowerCase() === "mr. paz" || state.name.trim().toLowerCase() === "mr paz");
+    
     // Doble candado de seguridad, bypass para admin
     if (index > 0 && !state.done[activitiesList[index-1]] && !isAdmin) return; 
-    if (state.isLocked) { showBlockedScreen(); return; }
     
-    var data = DB[state.unit]; 
-    var activity = activitiesList[index];
+    // Mostrar la pantalla PRIMERO (esto arregla el bug visual)
     show('act'); 
     var container = document.getElementById('act-content'); 
     container.innerHTML = ''; 
+
+    // Revisar si está bloqueado (¡Mr Paz es INMUNE a los bloqueos!)
+    if (state.isLocked && !isAdmin) { 
+        showBlockedScreen(); 
+        return; 
+    }
+    
+    var data = DB[state.unit]; 
+    var activity = activitiesList[index];
 
     if (data.type === "exam" || data.type === "reading_only") { 
         renderExamSection(container, data, activity); 
@@ -1700,7 +1707,7 @@ function go(index) {
     } else {
         if      (activity === 'rules')      renderRules(container, data);
         else if (activity === 'scrolls')    renderScrolls(container, data);
-        else if (activity === 'memory')     renderMemoryCards(container, data); // <--- AQUÍ ESTÁ EL NUEVO MOTOR
+        else if (activity === 'memory')     renderMemoryCards(container, data);
         else if (activity === 'quiz')       renderQuiz(container, data);
         else if (activity === 'chamber')    renderChamber(container, data);
         else if (activity === 'blanks')     renderBlanks(container, data);
