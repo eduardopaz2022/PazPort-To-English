@@ -1586,7 +1586,7 @@ const DB = {
         ]
     },
     "11th - P4 - Module 1": {
-        active: true, 
+        active: false, 
         type: "three_parts", 
         activities: ["memory", "quiz", "chamber"],
 
@@ -1650,7 +1650,7 @@ const DB = {
     },
 
     "11th - P4 - Module 2": {
-        active: true, 
+        active: false, 
         type: "three_parts", 
         activities: ["memory", "quiz", "chamber"],
 
@@ -1710,6 +1710,133 @@ const DB = {
             { s: "you / will / need / to / be / organized", c: "You will need to be organized" },
             { s: "I / am / going / to / be / hard-working", c: "I am going to be hard-working" },
             { s: "will / you / be / flexible / with / us", c: "Will you be flexible with us" }
+        ]
+    }
+    "10th - Unit 11 - Module 3": {
+        active: true, 
+        type: "three_parts", 
+        activities: ["memory", "quiz", "chamber"],
+
+        // FASE 1: VOCABULARY FLASHCARDS (Personal Finance & Education)
+        words: [
+            "Manage", "Budget", "Expenses", "Rent", "Groceries", 
+            "Scholarship", "Tuition", "Transportation", "Salary", "Income"
+        ],
+        defs: [
+            "To control or be in charge of something, especially time or money.",
+            "A plan to show how much money you earn and how much you will spend.",
+            "The money that you spend on things you need.",
+            "Money that you pay regularly to live in a house or apartment.",
+            "Food and other items you buy at a supermarket.",
+            "Money given to a student by an organization to help pay for their education.",
+            "The money you pay to be taught in a school, college, or university.",
+            "Vehicles used to travel from one place to another, like buses or cars.",
+            "The money you receive every month for doing your job.",
+            "All the money you receive, usually from working or investments."
+        ],
+        spanish: [
+            "Administrar / Manejar",
+            "Presupuesto",
+            "Gastos",
+            "Renta / Alquiler",
+            "Comestibles / Provisiones",
+            "Beca",
+            "Matrícula / Colegiatura",
+            "Transporte",
+            "Salario / Sueldo",
+            "Ingresos"
+        ],
+
+        // FASE 2: GRAMMAR QUIZ (Simple Past - Regular Verbs Spelling Rules)
+        quiz: [
+            { q: "She ________ (study) hard for her math exam last night.", opts: ["studyed", "studied", "studid", "studyes"], a: 1, hint: "Rule: Change 'y' to 'i' and add 'ed'." },
+            { q: "The driver ________ (stop) the bus at the red light.", opts: ["stoped", "stooped", "stopped", "stoppid"], a: 2, hint: "Rule: 1 syllable, 1 vowel, 1 consonant = Double the last consonant." },
+            { q: "He ________ (play) soccer with his friends yesterday.", opts: ["plaied", "played", "playyed", "playd"], a: 1, hint: "Rule: Vowel before 'y' = Just add 'ed'." },
+            { q: "I ________ (live) in that small apartment two years ago.", opts: ["liveed", "livved", "lived", "livid"], a: 2, hint: "Rule: Verb ends in 'e' = Just add 'd'." },
+            { q: "The baby ________ (cry) for an hour this morning.", opts: ["cried", "cryed", "cryied", "creid"], a: 0, hint: "Rule: Consonant before 'y' = Change 'y' to 'i' and add 'ed'." },
+            { q: "We ________ (plan) our summer budget very carefully.", opts: ["planed", "plained", "planned", "planid"], a: 2, hint: "Rule: 1 syllable, 1 vowel, 1 consonant = Double the last consonant." },
+            { q: "The supermarket ________ (open) at 8:00 AM yesterday.", opts: ["opened", "openned", "opended", "open"], a: 0, hint: "Rule: Just add 'ed' (stress is on the first syllable)." },
+            { q: "She ________ (try) to organize her monthly expenses.", opts: ["tryed", "tried", "triyed", "treid"], a: 1, hint: "Rule: Change 'y' to 'i' and add 'ed'." },
+            { q: "I ________ (watch) a great movie about finance last night.", opts: ["watchd", "watched", "watchhed", "watch"], a: 1, hint: "Rule: Just add 'ed'." },
+            { q: "He ________ (carry) the heavy groceries to the kitchen.", opts: ["carryed", "carried", "carred", "carriid"], a: 1, hint: "Rule: Consonant before 'y' = Change 'y' to 'i' and add 'ed'." }
+        ],
+
+        // FASE 3: SYNTAX BUILDER
+        chamber: [
+            { s: "I / managed / my / budget / perfectly / last / month", c: "I managed my budget perfectly last month" },
+            { s: "she / received / her / salary / yesterday / morning", c: "She received her salary yesterday morning" },
+            { s: "we / planned / our / expenses / very / carefully", c: "We planned our expenses very carefully" },
+            { s: "he / stopped / paying / the / high / rent", c: "He stopped paying the high rent" },
+            { s: "they / tried / to / get / a / scholarship", c: "They tried to get a scholarship" },
+            { s: "I / calculated / the / tuition / and / transportation", c: "I calculated the tuition and transportation" },
+            { s: "she / carried / the / heavy / groceries / home", c: "She carried the heavy groceries home" },
+            { s: "we / lived / on / a / small / income", c: "We lived on a small income" },
+            { s: "he / saved / his / salary / for / a / car", c: "He saved his salary for a car" },
+            { s: "they / checked / their / daily / expenses / quickly", c: "They checked their daily expenses quickly" }
+        ]
+    },
+
+    "10th - Unit 11 - Module 4": {
+        active: true, 
+        type: "three_parts", 
+        activities: ["memory", "quiz", "chamber"],
+
+        // FASE 1: VOCABULARY FLASHCARDS (Banking & Debt)
+        words: [
+            "Save", "Borrow", "Buy", "Spend", "Earn", 
+            "Lend", "Closing date", "Due date", "Loan", "Debt"
+        ],
+        defs: [
+            "To keep money instead of spending it.",
+            "To take money from someone or a bank with the promise to return it later.",
+            "To get something by paying money for it.",
+            "To use money to pay for goods or services.",
+            "To get money by working.",
+            "To give money to someone who will return it later.",
+            "The last day of a billing cycle for a credit card.",
+            "The specific day by which a bill or debt must be paid.",
+            "Money that an organization or person lends you, usually with interest.",
+            "Money that you owe to someone else or to a bank."
+        ],
+        spanish: [
+            "Ahorrar",
+            "Pedir prestado",
+            "Comprar",
+            "Gastar",
+            "Ganar (dinero por trabajo)",
+            "Prestar (dar a alguien)",
+            "Fecha de corte",
+            "Fecha de vencimiento / límite",
+            "Préstamo",
+            "Deuda"
+        ],
+
+        // FASE 2: GRAMMAR QUIZ (Simple Past - Mix of Regular and Irregular Verbs)
+        quiz: [
+            { q: "I ________ a new laptop for my university classes yesterday.", opts: ["buyed", "bought", "buys", "buying"], a: 1, hint: "Irregular past tense of 'buy'." },
+            { q: "She ________ all her money on expensive clothes.", opts: ["spended", "spend", "spent", "spending"], a: 2, hint: "Irregular past tense of 'spend'." },
+            { q: "He ________ $50 from his best friend to buy dinner.", opts: ["borrowed", "borrow", "borrows", "borrowing"], a: 0, hint: "Regular verb. Just add 'ed'." },
+            { q: "My brother ________ me his car for the weekend.", opts: ["lended", "lend", "lent", "lending"], a: 2, hint: "Irregular past tense of 'lend'." },
+            { q: "They ________ a lot of money working at the restaurant.", opts: ["earnt", "earned", "earn", "earning"], a: 1, hint: "Regular verb in US English. Just add 'ed'." },
+            { q: "We ________ the credit card bill before the due date.", opts: ["payed", "paid", "pays", "paying"], a: 1, hint: "Irregular past tense of 'pay'." },
+            { q: "I ________ to the bank to ask for a student loan.", opts: ["goed", "went", "gone", "going"], a: 1, hint: "Irregular past tense of 'go'." },
+            { q: "She ________ half of her salary in her savings account.", opts: ["saved", "save", "saves", "saving"], a: 0, hint: "Regular verb ending in 'e'. Just add 'd'." },
+            { q: "The bank ________ my application for a new loan.", opts: ["approves", "approved", "approve", "approving"], a: 1, hint: "Regular verb ending in 'e'. Just add 'd'." },
+            { q: "He ________ a huge debt after finishing college.", opts: ["haved", "has", "had", "having"], a: 2, hint: "Irregular past tense of 'have'." }
+        ],
+
+        // FASE 3: SYNTAX BUILDER
+        chamber: [
+            { s: "I / bought / a / car / with / a / loan", c: "I bought a car with a loan" },
+            { s: "she / spent / all / her / money / yesterday", c: "She spent all her money yesterday" },
+            { s: "he / paid / the / bill / before / the / due / date", c: "He paid the bill before the due date" },
+            { s: "they / borrowed / money / to / pay / the / debt", c: "They borrowed money to pay the debt" },
+            { s: "we / went / to / the / bank / to / get / a / loan", c: "We went to the bank to get a loan" },
+            { s: "I / saved / enough / money / to / buy / a / house", c: "I saved enough money to buy a house" },
+            { s: "she / earned / a / great / salary / last / year", c: "She earned a great salary last year" },
+            { s: "my / father / lent / me / money / for / rent", c: "My father lent me money for rent" },
+            { s: "he / checked / the / closing / date / on / his / card", c: "He checked the closing date on his card" },
+            { s: "they / had / a / huge / debt / to / pay", c: "They had a huge debt to pay" }
         ]
     }
 };
