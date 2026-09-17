@@ -1838,7 +1838,96 @@ const DB = {
             { s: "he / checked / the / closing / date / on / his / card", c: "He checked the closing date on his card" },
             { s: "they / had / a / huge / debt / to / pay", c: "They had a huge debt to pay" }
         ]
-    }
+    },
+    "11th - Mock Exam - Final Review": {
+        active: true, 
+        type: "three_parts", 
+        activities: ["blanks", "chamber", "quiz"],
+
+        // FASE 1: THE VOCABULARY GAUNTLET (20 Items)
+        // Evaluación estricta de ortografía y comprensión (Profesiones, Lugares, Debilidades)
+        blanks: [
+            { text: "A doctor who performs difficult medical operations is called a ________.", answer: "surgeon", hint: "S _ r _ _ _ n" },
+            { text: "Someone who plans and designs the inside of houses or offices is an ________ ________.", answer: ["interior designer", "interior design"], hint: "Two words. I _ _ _ _ _ _ r   D _ _ _ _ _ _ r" },
+            { text: "A doctor who treats sick animals is called a ________.", answer: ["vet", "veterinarian"], hint: "V _ t" },
+            { text: "A person who writes fiction books and stories as a career is a ________.", answer: "novelist", hint: "N _ v _ l _ _ t" },
+            { text: "An entertainer whose job is to make people laugh is a ________.", answer: "comedian", hint: "C _ m _ d _ _ n" },
+            { text: "A journalist who reports news from other countries is a ________.", answer: "correspondent", hint: "C _ r r _ s p _ n _ _ n t" },
+            { text: "A beauty specialist who paints and shapes your fingernails is a ________ ________.", answer: ["nail technician", "nail tech"], hint: "Two words. N _ _ l   T _ c h _ _ _ _ _ n" },
+            { text: "Someone who plays sports for a living and gets paid for it is a ________ ________.", answer: "professional athlete", hint: "Two words. P _ _ f _ s s _ _ n _ l   A _ h l _ _ e" },
+            { text: "A person who cooks professionally in a restaurant is a ________.", answer: "chef", hint: "C h _ f" },
+            { text: "A person whose job is to keep or inspect financial accounts is an ________.", answer: "accountant", hint: "A _ c _ u n _ _ n t" },
+            { text: "In an interview, if you say you always try to make everything 100% flawless, your weakness is ________.", answer: "perfectionism", hint: "P _ r f _ c t _ _ n _ s m" },
+            { text: "If you always say 'yes' to every project and get stressed, you have a tendency to ________.", answer: "overcommit", hint: "O v _ r c _ m m _ t" },
+            { text: "If you hate arguing with people at work, your weakness is that you avoid ________.", answer: "conflict", hint: "C _ n f l _ c t" },
+            { text: "If you just graduated from university, your main weakness is a lack of ________.", answer: "experience", hint: "E x p _ r _ _ n c _" },
+            { text: "A new employee might be nervous and need time to gain ________.", answer: "confidence", hint: "C _ n f _ d _ n c _" },
+            { text: "The feeling or mood of a specific place is called its ________.", answer: "atmosphere", hint: "A t m _ s p h _ r _" },
+            { text: "The Eiffel Tower is a very famous historic ________ in Paris.", answer: "landmark", hint: "L _ n d m _ r k" },
+            { text: "A view that is extremely beautiful and impressive is ________.", answer: "stunning", hint: "S t _ n n _ n g" },
+            { text: "An area of a city where people live is a ________.", answer: "neighborhood", hint: "N _ _ g h b _ _ r h _ _ d" },
+            { text: "A person visiting a city for pleasure and taking photos is a ________.", answer: "tourist", hint: "T _ u r _ s t" }
+        ],
+
+        // FASE 2: THE FUTURE SYNTAX (20 Items)
+        // Mezclando vocabulario laboral con Will vs Going To
+        chamber: [
+            { s: "I / am / going / to / study / to / be / a / surgeon", c: "I am going to study to be a surgeon" },
+            { s: "he / will / probably / get / a / high / salary", c: "He will probably get a high salary" },
+            { s: "we / are / going / to / visit / the / capital / district", c: "We are going to visit the capital district" },
+            { s: "she / will / be / a / responsible / interior / designer", c: "She will be a responsible interior designer" },
+            { s: "they / are / going / to / have / an / interview / tomorrow", c: "They are going to have an interview tomorrow" },
+            { s: "I / will / completely / improve / my / lack / of / experience", c: "I will completely improve my lack of experience" },
+            { s: "are / you / going / to / be / a / professional / athlete", c: "Are you going to be a professional athlete" },
+            { s: "the / tourist / will / love / the / stunning / landmark", c: "The tourist will love the stunning landmark" },
+            { s: "I / am / going / to / work / on / my / perfectionism", c: "I am going to work on my perfectionism" },
+            { s: "he / will / not / avoid / conflict / at / work / anymore", c: "He will not avoid conflict at work anymore" },
+            { s: "we / are / going / to / hire / a / creative / chef", c: "We are going to hire a creative chef" },
+            { s: "will / she / need / a / degree / to / be / a / novelist", c: "Will she need a degree to be a novelist" },
+            { s: "I / am / not / going / to / overcommit / this / month", c: "I am not going to overcommit this month" },
+            { s: "the / comedian / will / perform / in / our / neighborhood", c: "The comedian will perform in our neighborhood" },
+            { s: "they / are / not / going / to / travel / to / the / capital", c: "They are not going to travel to the capital" },
+            { s: "will / the / correspondent / report / the / news / tomorrow", c: "Will the correspondent report the news tomorrow" },
+            { s: "I / will / give / you / time / to / gain / confidence", c: "I will give you time to gain confidence" },
+            { s: "she / is / going / to / show / her / leadership / skills", c: "She is going to show her leadership skills" },
+            { s: "the / accountant / will / organize / the / budget / perfectly", c: "The accountant will organize the budget perfectly" },
+            { s: "we / are / going / to / find / a / hard-working / vet", c: "We are going to find a hard-working vet" }
+        ],
+
+        // FASE 3: THE READING & GRAMMAR FINALE (20 Items)
+        // 10 preguntas de Skimming/Scanning + 10 preguntas de gramática pura
+        quiz: [
+            // LECTURA: The Big Interview (10 Preguntas)
+            ...Array(10).fill().map((_, i) => {
+                const readingText = "<div style='height:200px; overflow-y:auto; background:#f8fafc; padding:15px; border-radius:8px; font-size:0.95rem; margin-bottom:15px; text-align:left; border:1px solid #cbd5e1;'><h3 style='color:var(--primary-blue); margin-bottom:10px;'>The Big Interview</h3><b>Paragraph 1:</b> David arrived in the capital city on a Monday morning. He wasn't just a tourist taking photos of stunning landmarks. He was there for a very specific reason. As he walked through the financial district, he loved the energetic atmosphere of the neighborhood. 'I am going to live here one day,' he promised himself.<br><br><b>Paragraph 2:</b> David is an architect. He recently got his degree and was invited for an interview at a prestigious firm. He knew the job would require great skills and creativity, but the salary they offered was incredible.<br><br><b>Paragraph 3:</b> During the interview, the manager asked about his strengths. 'I am highly organized, responsible, and I value teamwork and leadership,' David answered confidently. <br><br><b>Paragraph 4:</b> 'And what are your weaknesses?' the manager asked. David was honest. 'Because I just graduated, I have a slight lack of experience. I also have a tendency to overcommit to projects because I want to help everyone. However, I just need a little time to gain confidence.' He made sure not to mention perfectionism or avoiding conflict, as those could sound like excuses.<br><br><b>Paragraph 5:</b> The manager smiled. 'We need someone exactly like you. We are going to offer you the job.' David was thrilled. 'Thank you! I promise I will be the most hard-working architect in this company!'</div>";
+                const qList = [
+                    { q: "SKIMMING: What is the main idea of this text?", opts: ["A tourist visiting famous landmarks in a capital.", "A recent graduate traveling to a new city for an important job interview.", "A manager looking for a comedian to hire.", "The history of the financial district."], a: 1, hint: "Read the first sentences of Paragraph 1 and 2." },
+                    { q: "SCANNING: What is David's profession?", opts: ["Interior Designer", "Programmer", "Architect", "Correspondent"], a: 2, hint: "Look at the first sentence of Paragraph 2." },
+                    { q: "SCANNING: Which of the following is NOT a strength David mentioned?", opts: ["Leadership", "Flexible", "Teamwork", "Organized"], a: 1, hint: "Check Paragraph 3 carefully." },
+                    { q: "SCANNING: What are the two weaknesses David admitted to having?", opts: ["Perfectionism and avoiding conflict", "Lack of experience and a tendency to overcommit", "Bad teamwork and no degree", "Needing time to gain confidence and being a tourist"], a: 1, hint: "Check Paragraph 4." },
+                    { q: "SCANNING: Why does David have a tendency to overcommit?", opts: ["Because he wants a higher salary", "Because he is a perfectionist", "Because he wants to help everyone", "Because he avoids conflict"], a: 2, hint: "Look at his explanation in Paragraph 4." },
+                    { q: "SCANNING: Which weaknesses did David intentionally NOT mention?", opts: ["Lack of experience", "Time to gain confidence", "Perfectionism and avoiding conflict", "A tendency to overcommit"], a: 2, hint: "Look at the very end of Paragraph 4." },
+                    { q: "SKIMMING: What is the main purpose of Paragraph 1?", opts: ["To describe David's job skills", "To explain his weaknesses", "To set the scene and show David's goal in the new city", "To talk about his university degree"], a: 2, hint: "It talks about his arrival and his promise to himself." },
+                    { q: "SCANNING: What did the manager say at the end of the interview?", opts: ["'We will call you tomorrow.'", "'We are going to offer you the job.'", "'You need more experience.'", "'The salary is too high.'"], a: 1, hint: "Check Paragraph 5." },
+                    { q: "GRAMMAR IN CONTEXT: In Paragraph 1, David says: 'I am going to live here one day'. This represents:", opts: ["A spontaneous decision made at the moment of speaking", "A future plan or strong intention", "A scientific fact", "A past habit"], a: 1, hint: "He promised it to himself, making it an intention." },
+                    { q: "GRAMMAR IN CONTEXT: In Paragraph 5, David says: 'I will be the most hard-working architect'. This represents:", opts: ["A prior plan made weeks ago", "An action currently happening", "A strong promise made at that exact moment", "A scheduled flight"], a: 2, hint: "Notice he says 'I promise I will...'." }
+                ];
+                return { q: readingText + "<b>Question " + (i+1) + ":</b> " + qList[i].q, opts: qList[i].opts, a: qList[i].a, hint: qList[i].hint };
+            }),
+
+            // PREDICCIONES Y PROMESAS (Gramática Pura - 10 Preguntas)
+            { q: "The phone is ringing! Don't get up, I ________ answer it.", opts: ["am going to", "going to", "will", "wills"], a: 2, hint: "A spontaneous decision made at the moment of speaking." },
+            { q: "Look at those completely black clouds! It ________ rain very soon.", opts: ["will", "is going to", "going to", "wills"], a: 1, hint: "A prediction based on clear present evidence (the black clouds)." },
+            { q: "She already bought the plane tickets. She ________ travel to Paris next week.", opts: ["will", "is going to", "wills", "going to"], a: 1, hint: "A planned action that has already been organized." },
+            { q: "I promise I ________ keep your secret. I won't tell anyone.", opts: ["will", "am going to", "wills", "going to"], a: 0, hint: "Promises always use this modal verb." },
+            { q: "We are packing our bags because we ________ move to a new neighborhood.", opts: ["will", "are going to", "going to", "wills"], a: 1, hint: "An intention or plan (they are already packing)." },
+            { q: "I think people ________ live on Mars in the year 2080.", opts: ["are going to", "going to", "will", "wills"], a: 2, hint: "A prediction based on personal opinion (I think)." },
+            { q: "A: 'We don't have any milk left.' <br>B: 'Really? Then I ________ go to the supermarket right now.'", opts: ["will", "am going to", "going to", "wills"], a: 0, hint: "B didn't know before. It's a spontaneous decision." },
+            { q: "A: 'Why did you buy all that paint?' <br>B: 'Because I ________ paint my bedroom tomorrow.'", opts: ["will", "am going to", "going to", "wills"], a: 1, hint: "B already bought the paint, so it is a definite plan." },
+            { q: "Maybe the new nail technician ________ do a good job.", opts: ["is going to", "going to", "will", "wills"], a: 2, hint: "Uncertain prediction using 'Maybe'." },
+            { q: "Watch out! You ________ drop those glass cups!", opts: ["will", "are going to", "going to", "wills"], a: 1, hint: "Prediction based on evidence happening right now (Watch out!)." }
+        ]
+    }    
 };
 
 /* ================================================================
