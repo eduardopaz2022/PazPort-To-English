@@ -1995,17 +1995,17 @@ const DB = {
         ]
     },
     "11th - FINAL EXAM - Part 1 (Vocab & Reading)": {
-        active: false, 
+        active: true, 
         type: "exam", 
         isStrictExam: true,  // Activa el bloqueo de entrada única
         timeLimit: 40,       // 40 minutos para la primera parte
-        audioFile: "https://drive.google.com/uc?export=download&id=1cKDswNNrM0EYKRHE8QT4I2GgGZdRqeZs", // Sube tu audio a Drive o Vocaroo y pega el link aquí
+        audioFile: "https://media1.vocaroo.com/mp3/1nmRrV8d4LjX", // Sube tu audio a Drive o Vocaroo y pega el link aquí
         activities: ["listening", "vocabulary", "reading_elena", "reading_cities"],
 
-        // LISTENING (10 Items)
+      // LISTENING (10 Items)
         listening: [
             { q: "1. What is David mainly talking about?", opts: ["His favorite school subjects", "The history of his city", "A recent trip to a hospital", "His friends' future careers"], a: 3 },
-            { q: "2. What is David's dream job?", opts: ["Surgeon", "Accountant", "Novelist", "Correspondent"], a: 3 },
+            { q: "2. What is David's dream job?", opts: ["Surgeon", "Accountant", "Novelist", "Correspondent"], a: 0 }, // <--- ¡Corregido a Surgeon!
             { q: "3. What will David need for his future job?", opts: ["A quiet atmosphere", "A stunning office", "A lot of experience", "A new neighborhood"], a: 2 },
             { q: "4. What will Sarah become in the future?", opts: ["A nail technician", "A professional athlete", "A famous chef", "A vet"], a: 3 },
             { q: "5. Where will Sarah open her clinic?", opts: ["In a quiet neighborhood", "Inside a famous landmark", "Next to a big hospital", "In the capital city"], a: 0 },
