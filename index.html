@@ -2336,7 +2336,7 @@ function go(index) {
     // Mostrar la pantalla PRIMERO
     show('act'); 
     
-    // ¡AQUÍ ESTÁ LA CORRECCIÓN! Fuerza al botón de retroceso a estar siempre visible
+    // Fuerza al botón de retroceso a estar siempre visible
     var backBtn = document.getElementById('act-back-btn-container');
     if (backBtn) backBtn.style.display = 'block';
 
@@ -2360,18 +2360,13 @@ function go(index) {
     } else {
         if      (activity === 'rules')      renderRules(container, data);
         else if (activity === 'scrolls')    renderScrolls(container, data);
+        else if (activity === 'dojo')       renderDojo(container, data); // <--- Aquí está el Dojo correctamente
         else if (activity === 'memory')     renderMemoryCards(container, data);
         else if (activity === 'quiz')       renderQuiz(container, data);
         else if (activity === 'chamber')    renderChamber(container, data);
         else if (activity === 'blanks')     renderBlanks(container, data);
         else if (activity === 'vocabulary') renderVocabulary(container, data);
         else if (activity === 'listening')  renderListening(container, data);
-        } else {
-        if      (activity === 'rules')      renderRules(container, data);
-        else if (activity === 'scrolls')    renderScrolls(container, data);
-        else if (activity === 'dojo')       renderDojo(container, data); // <--- NUEVO MOTOR
-        else if (activity === 'memory')     renderMemoryCards(container, data);
-        // ... (el resto sigue igual)
     }
 }
 /* ================================================================
