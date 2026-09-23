@@ -1267,6 +1267,69 @@ const DB = {
             })
         ]
     },
+    "10th - Simple Past Mastery": {
+        active: true, 
+        type: "three_parts", 
+        // El nuevo Dojo va primero como entrenamiento, luego el Quiz evaluado y el Chamber
+        activities: ["dojo", "quiz", "chamber"], 
+
+        // FASE 1: THE IRREGULAR DOJO (30 Verbos - Solo práctica)
+        verbs: [
+            {v1: "Go", v2: "Went", spa: "Ir"}, {v1: "See", v2: "Saw", spa: "Ver"}, 
+            {v1: "Take", v2: "Took", spa: "Tomar"}, {v1: "Come", v2: "Came", spa: "Venir"},
+            {v1: "Know", v2: "Knew", spa: "Saber/Conocer"}, {v1: "Get", v2: "Got", spa: "Obtener"},
+            {v1: "Give", v2: "Gave", spa: "Dar"}, {v1: "Find", v2: "Found", spa: "Encontrar"},
+            {v1: "Think", v2: "Thought", spa: "Pensar"}, {v1: "Tell", v2: "Told", spa: "Decir"},
+            {v1: "Become", v2: "Became", spa: "Convertirse"}, {v1: "Show", v2: "Showed", spa: "Mostrar"},
+            {v1: "Leave", v2: "Left", spa: "Dejar/Salir"}, {v1: "Feel", v2: "Felt", spa: "Sentir"},
+            {v1: "Put", v2: "Put", spa: "Poner"}, {v1: "Bring", v2: "Brought", spa: "Traer"},
+            {v1: "Begin", v2: "Began", spa: "Empezar"}, {v1: "Keep", v2: "Kept", spa: "Mantener"},
+            {v1: "Hold", v2: "Held", spa: "Sostener"}, {v1: "Write", v2: "Wrote", spa: "Escribir"},
+            {v1: "Stand", v2: "Stood", spa: "Ponerse de pie"}, {v1: "Hear", v2: "Heard", spa: "Oír"},
+            {v1: "Let", v2: "Let", spa: "Permitir"}, {v1: "Mean", v2: "Meant", spa: "Significar"},
+            {v1: "Set", v2: "Set", spa: "Establecer"}, {v1: "Meet", v2: "Met", spa: "Conocer (gente)"},
+            {v1: "Run", v2: "Ran", spa: "Correr"}, {v1: "Pay", v2: "Paid", spa: "Pagar"},
+            {v1: "Sit", v2: "Sat", spa: "Sentarse"}, {v1: "Speak", v2: "Spoke", spa: "Hablar"}
+        ],
+
+        // FASE 2: GRAMMAR QUIZ (Regular Spelling Rules & Irregulars - 15 Items)
+        quiz: [
+            { q: "Yesterday, the baby ________ (cry) for two hours.", opts: ["cryed", "cried", "cryied", "creid"], a: 1, hint: "Regular Rule: Consonant + Y = Change to I + ED." },
+            { q: "The car suddenly ________ (stop) in the middle of the street.", opts: ["stoped", "stopped", "stoppid", "stooped"], a: 1, hint: "Regular Rule: 1 syllable, 1 vowel, 1 consonant = Double the last consonant." },
+            { q: "We ________ (go) to the cinema last weekend.", opts: ["goed", "went", "gone", "going"], a: 1, hint: "Irregular verb: Go." },
+            { q: "She ________ (play) video games all night.", opts: ["plaied", "played", "playyed", "playd"], a: 1, hint: "Regular Rule: Vowel + Y = Just add ED." },
+            { q: "I ________ (think) the test was tomorrow, not today!", opts: ["thinked", "thought", "thougth", "thank"], a: 1, hint: "Irregular verb: Think." },
+            { q: "The movie ________ (begin) at 8:00 PM.", opts: ["begined", "begun", "began", "beggined"], a: 2, hint: "Irregular verb: Begin." },
+            { q: "He ________ (plan) his trip to Europe very carefully.", opts: ["planed", "plained", "planned", "planid"], a: 2, hint: "Regular Rule: 1 syllable, 1 vowel, 1 consonant = Double the consonant." },
+            { q: "I ________ (leave) my keys on the table this morning.", opts: ["leaved", "left", "leaft", "leaf"], a: 1, hint: "Irregular verb: Leave." },
+            { q: "They ________ (not/see) the accident happen.", opts: ["didn't saw", "don't see", "didn't see", "not saw"], a: 2, hint: "Negative: Did not (didn't) + Base Verb." },
+            { q: "________ you ________ (find) your lost phone?", opts: ["Do / find", "Did / found", "Are / find", "Did / find"], a: 3, hint: "Question: Did + Subject + Base Verb." },
+            { q: "The teacher ________ (give) us a lot of homework.", opts: ["gived", "gave", "given", "gaved"], a: 1, hint: "Irregular verb: Give." },
+            { q: "She ________ (study) really hard for the final exam.", opts: ["studyed", "studied", "studid", "studyes"], a: 1, hint: "Regular Rule: Consonant + Y = Change to I + ED." },
+            { q: "We ________ (bring) pizzas for the party.", opts: ["bringed", "brought", "brang", "broght"], a: 1, hint: "Irregular verb: Bring." },
+            { q: "He ________ (write) a beautiful poem for her.", opts: ["writed", "wrote", "written", "wrotte"], a: 1, hint: "Irregular verb: Write." },
+            { q: "________ she ________ (know) the answer?", opts: ["Did / knew", "Does / know", "Did / know", "Did / knows"], a: 2, hint: "Question: Did + Subject + Base Verb." }
+        ],
+
+        // FASE 3: SYNTAX BUILDER (Mix of Regular, Irregular, Negatives & Questions - 15 Items)
+        chamber: [
+            { s: "I / went / to / the / beach / last / summer", c: "I went to the beach last summer" },
+            { s: "she / didn't / study / for / the / math / exam", c: "She didn't study for the math exam" },
+            { s: "did / you / see / the / new / Marvel / movie", c: "Did you see the new Marvel movie" },
+            { s: "they / stopped / the / game / because / of / the / rain", c: "They stopped the game because of the rain" },
+            { s: "he / thought / about / his / future / career", c: "He thought about his future career" },
+            { s: "we / left / the / party / very / early / yesterday", c: "We left the party very early yesterday" },
+            { s: "the / baby / cried / a / lot / last / night", c: "The baby cried a lot last night" },
+            { s: "I / didn't / know / the / correct / answer", c: "I didn't know the correct answer" },
+            { s: "did / she / bring / her / laptop / to / class", c: "Did she bring her laptop to class" },
+            { s: "he / planned / a / huge / surprise / for / her", c: "He planned a huge surprise for her" },
+            { s: "they / felt / very / tired / after / the / workout", c: "They felt very tired after the workout" },
+            { s: "I / finally / found / my / lost / car / keys", c: "I finally found my lost car keys" },
+            { s: "she / didn't / take / the / bus / this / morning", c: "She didn't take the bus this morning" },
+            { s: "we / played / basketball / in / the / park", c: "We played basketball in the park" },
+            { s: "did / they / write / the / essay / on / time", c: "Did they write the essay on time" }
+        ]
+    },
     "10th - P4 - Module 1": {
         active: false, 
         type: "three_parts", 
@@ -2006,6 +2069,7 @@ const UI_META = {
     "listening": { t: "Listening", d: "Audio comprehension", i: "fas fa-headphones" },
     "vocabulary": { t: "Vocabulary", d: "Definitions & Context", i: "fas fa-spell-check" },
     "memory": { t: "Vocabulary Flashcards", d: "Learn and test", i: "fas fa-brain" },
+    "dojo": { t: "Irregular Dojo", d: "Tap, flip and memorize", i: "fas fa-yin-yang" },
     "grammar": { t: "Grammar", d: "Rules & Syntax", i: "fas fa-pen-nib" }
 };
 
@@ -2302,6 +2366,12 @@ function go(index) {
         else if (activity === 'blanks')     renderBlanks(container, data);
         else if (activity === 'vocabulary') renderVocabulary(container, data);
         else if (activity === 'listening')  renderListening(container, data);
+        } else {
+        if      (activity === 'rules')      renderRules(container, data);
+        else if (activity === 'scrolls')    renderScrolls(container, data);
+        else if (activity === 'dojo')       renderDojo(container, data); // <--- NUEVO MOTOR
+        else if (activity === 'memory')     renderMemoryCards(container, data);
+        // ... (el resto sigue igual)
     }
 }
 /* ================================================================
@@ -2609,7 +2679,62 @@ function renderMemoryCards(container, data) {
     }
     render();
 }
+function renderDojo(container, data) {
+    var verbs = data.verbs; 
+    var flippedCount = 0;
+    var flippedState = new Array(verbs.length).fill(false);
 
+    var html = '<h2>Irregular Dojo <span style="font-size:1rem; color:var(--text-muted); font-weight:normal;" id="dojo-count">(0/'+verbs.length+')</span></h2>' +
+               '<div class="activity-progress"><div class="activity-progress-track"><div class="activity-progress-fill" id="dojo-pct" style="width:0%;"></div></div></div>' +
+               '<p style="color:var(--text-muted); margin-bottom:20px;">Tap every verb to reveal its past tense and memorize it. You must reveal all to continue!</p>' +
+               '<div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; max-width:850px; margin:0 auto 30px;">';
+
+    verbs.forEach(function(v, i) {
+        html += '<div class="dojo-card" id="dojo-card-'+i+'" onclick="window.flipDojo('+i+')" style="background:#fff; border:2px solid var(--primary-blue); border-radius:8px; padding:15px; width:130px; cursor:pointer; text-align:center; transition:all 0.3s; box-shadow:0 4px 6px rgba(0,0,0,0.05);">' +
+                '<div id="dojo-front-'+i+'" style="font-weight:bold; font-size:1.2rem; color:var(--primary-blue); height:45px; display:flex; align-items:center; justify-content:center;">' + v.v1 + '</div>' +
+                '<div id="dojo-back-'+i+'" class="hidden" style="display:none; flex-direction:column; justify-content:center; align-items:center; height:45px;">' +
+                '<span style="font-weight:bold; font-size:1.2rem; color:var(--success);">' + v.v2 + '</span>' +
+                '<span style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">' + v.spa + '</span>' +
+                '</div></div>';
+    });
+
+    html += '</div><button class="btn" id="dojo-finish-btn" disabled style="background:#cbd5e1; cursor:not-allowed;">Reveal all to Finish</button>';
+    container.innerHTML = html;
+
+    window.flipDojo = function(i) {
+        var card = document.getElementById('dojo-card-'+i);
+        var front = document.getElementById('dojo-front-'+i);
+        var back = document.getElementById('dojo-back-'+i);
+
+        if (!flippedState[i]) {
+            flippedState[i] = true;
+            flippedCount++;
+            document.getElementById('dojo-count').textContent = '('+flippedCount+'/'+verbs.length+')';
+            document.getElementById('dojo-pct').style.width = Math.round((flippedCount / verbs.length) * 100) + '%';
+
+            card.style.transform = 'scale(0.95)';
+            card.style.borderColor = 'var(--success)';
+            setTimeout(function() {
+                front.style.display = 'none';
+                back.style.display = 'flex';
+                card.style.transform = 'scale(1)';
+                card.style.background = '#f0fdf4';
+            }, 150);
+
+            if (flippedCount === verbs.length) {
+                var btn = document.getElementById('dojo-finish-btn');
+                btn.disabled = false;
+                btn.style.background = 'var(--primary-blue)';
+                btn.style.cursor = 'pointer';
+                btn.textContent = "Finish Training 🥋";
+                btn.onclick = function() {
+                    state.done['dojo'] = true; updateXPBar(); triggerConfetti();
+                    container.innerHTML = '<div style="text-align:center; padding: 40px 0;"><i class="fas fa-yin-yang" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>Dojo Mastered!</h2><p>You are now ready for the test.</p><br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
+                };
+            }
+        }
+    };
+}
 function renderQuiz(container, data) {
     var qPos = 0; var failCount = 0; 
     function render() {
