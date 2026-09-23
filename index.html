@@ -1395,7 +1395,7 @@ const DB = {
     },
 
     "10th - P4 - Module 2": {
-        active: true, 
+        active: false, 
         type: "three_parts", 
         activities: ["memory", "quiz", "chamber"],
 
@@ -1776,7 +1776,7 @@ const DB = {
         ]
     },
     "10th - P4 - Module 3": {
-        active: true, 
+        active: false, 
         type: "three_parts", 
         activities: ["memory", "quiz", "chamber"],
 
@@ -2687,7 +2687,8 @@ function renderDojo(container, data) {
     verbs.forEach(function(v, i) {
         html += '<div class="dojo-card" id="dojo-card-'+i+'" onclick="window.flipDojo('+i+')" style="background:#fff; border:2px solid var(--primary-blue); border-radius:8px; padding:15px; width:130px; cursor:pointer; text-align:center; transition:all 0.3s; box-shadow:0 4px 6px rgba(0,0,0,0.05);">' +
                 '<div id="dojo-front-'+i+'" style="font-weight:bold; font-size:1.2rem; color:var(--primary-blue); height:45px; display:flex; align-items:center; justify-content:center;">' + v.v1 + '</div>' +
-                '<div id="dojo-back-'+i+'" class="hidden" style="display:none; flex-direction:column; justify-content:center; align-items:center; height:45px;">' +
+                // LA CORRECCIÓN ESTÁ AQUÍ: Quité el class="hidden" de la siguiente línea
+                '<div id="dojo-back-'+i+'" style="display:none; flex-direction:column; justify-content:center; align-items:center; height:45px;">' +
                 '<span style="font-weight:bold; font-size:1.2rem; color:var(--success);">' + v.v2 + '</span>' +
                 '<span style="font-size:0.8rem; color:var(--text-muted); margin-top:2px;">' + v.spa + '</span>' +
                 '</div></div>';
@@ -2711,7 +2712,7 @@ function renderDojo(container, data) {
             card.style.borderColor = 'var(--success)';
             setTimeout(function() {
                 front.style.display = 'none';
-                back.style.display = 'flex';
+                back.style.display = 'flex'; // Ahora sí funcionará sin el bloqueo de CSS
                 card.style.transform = 'scale(1)';
                 card.style.background = '#f0fdf4';
             }, 150);
