@@ -1270,69 +1270,6 @@ const DB = {
             })
         ]
     },
-    "10th - P4 - Module 3": {
-        active: true, 
-        type: "three_parts", 
-        // El nuevo Dojo va primero como entrenamiento, luego el Quiz evaluado y el Chamber
-        activities: ["dojo", "quiz", "chamber"], 
-
-        // FASE 1: THE IRREGULAR DOJO (30 Verbos - Solo práctica)
-        verbs: [
-            {v1: "Go", v2: "Went", spa: "Ir"}, {v1: "See", v2: "Saw", spa: "Ver"}, 
-            {v1: "Take", v2: "Took", spa: "Tomar"}, {v1: "Come", v2: "Came", spa: "Venir"},
-            {v1: "Know", v2: "Knew", spa: "Saber/Conocer"}, {v1: "Get", v2: "Got", spa: "Obtener"},
-            {v1: "Give", v2: "Gave", spa: "Dar"}, {v1: "Find", v2: "Found", spa: "Encontrar"},
-            {v1: "Think", v2: "Thought", spa: "Pensar"}, {v1: "Tell", v2: "Told", spa: "Decir"},
-            {v1: "Become", v2: "Became", spa: "Convertirse"}, {v1: "Show", v2: "Showed", spa: "Mostrar"},
-            {v1: "Leave", v2: "Left", spa: "Dejar/Salir"}, {v1: "Feel", v2: "Felt", spa: "Sentir"},
-            {v1: "Put", v2: "Put", spa: "Poner"}, {v1: "Bring", v2: "Brought", spa: "Traer"},
-            {v1: "Begin", v2: "Began", spa: "Empezar"}, {v1: "Keep", v2: "Kept", spa: "Mantener"},
-            {v1: "Hold", v2: "Held", spa: "Sostener"}, {v1: "Write", v2: "Wrote", spa: "Escribir"},
-            {v1: "Stand", v2: "Stood", spa: "Ponerse de pie"}, {v1: "Hear", v2: "Heard", spa: "Oír"},
-            {v1: "Let", v2: "Let", spa: "Permitir"}, {v1: "Mean", v2: "Meant", spa: "Significar"},
-            {v1: "Set", v2: "Set", spa: "Establecer"}, {v1: "Meet", v2: "Met", spa: "Conocer (gente)"},
-            {v1: "Run", v2: "Ran", spa: "Correr"}, {v1: "Pay", v2: "Paid", spa: "Pagar"},
-            {v1: "Sit", v2: "Sat", spa: "Sentarse"}, {v1: "Speak", v2: "Spoke", spa: "Hablar"}
-        ],
-
-        // FASE 2: GRAMMAR QUIZ (Regular Spelling Rules & Irregulars - 15 Items)
-        quiz: [
-            { q: "Yesterday, the baby ________ (cry) for two hours.", opts: ["cryed", "cried", "cryied", "creid"], a: 1, hint: "Regular Rule: Consonant + Y = Change to I + ED." },
-            { q: "The car suddenly ________ (stop) in the middle of the street.", opts: ["stoped", "stopped", "stoppid", "stooped"], a: 1, hint: "Regular Rule: 1 syllable, 1 vowel, 1 consonant = Double the last consonant." },
-            { q: "We ________ (go) to the cinema last weekend.", opts: ["goed", "went", "gone", "going"], a: 1, hint: "Irregular verb: Go." },
-            { q: "She ________ (play) video games all night.", opts: ["plaied", "played", "playyed", "playd"], a: 1, hint: "Regular Rule: Vowel + Y = Just add ED." },
-            { q: "I ________ (think) the test was tomorrow, not today!", opts: ["thinked", "thought", "thougth", "thank"], a: 1, hint: "Irregular verb: Think." },
-            { q: "The movie ________ (begin) at 8:00 PM.", opts: ["begined", "begun", "began", "beggined"], a: 2, hint: "Irregular verb: Begin." },
-            { q: "He ________ (plan) his trip to Europe very carefully.", opts: ["planed", "plained", "planned", "planid"], a: 2, hint: "Regular Rule: 1 syllable, 1 vowel, 1 consonant = Double the consonant." },
-            { q: "I ________ (leave) my keys on the table this morning.", opts: ["leaved", "left", "leaft", "leaf"], a: 1, hint: "Irregular verb: Leave." },
-            { q: "They ________ (not/see) the accident happen.", opts: ["didn't saw", "don't see", "didn't see", "not saw"], a: 2, hint: "Negative: Did not (didn't) + Base Verb." },
-            { q: "________ you ________ (find) your lost phone?", opts: ["Do / find", "Did / found", "Are / find", "Did / find"], a: 3, hint: "Question: Did + Subject + Base Verb." },
-            { q: "The teacher ________ (give) us a lot of homework.", opts: ["gived", "gave", "given", "gaved"], a: 1, hint: "Irregular verb: Give." },
-            { q: "She ________ (study) really hard for the final exam.", opts: ["studyed", "studied", "studid", "studyes"], a: 1, hint: "Regular Rule: Consonant + Y = Change to I + ED." },
-            { q: "We ________ (bring) pizzas for the party.", opts: ["bringed", "brought", "brang", "broght"], a: 1, hint: "Irregular verb: Bring." },
-            { q: "He ________ (write) a beautiful poem for her.", opts: ["writed", "wrote", "written", "wrotte"], a: 1, hint: "Irregular verb: Write." },
-            { q: "________ she ________ (know) the answer?", opts: ["Did / knew", "Does / know", "Did / know", "Did / knows"], a: 2, hint: "Question: Did + Subject + Base Verb." }
-        ],
-
-        // FASE 3: SYNTAX BUILDER (Mix of Regular, Irregular, Negatives & Questions - 15 Items)
-        chamber: [
-            { s: "I / went / to / the / beach / last / summer", c: "I went to the beach last summer" },
-            { s: "she / didn't / study / for / the / math / exam", c: "She didn't study for the math exam" },
-            { s: "did / you / see / the / new / Marvel / movie", c: "Did you see the new Marvel movie" },
-            { s: "they / stopped / the / game / because / of / the / rain", c: "They stopped the game because of the rain" },
-            { s: "he / thought / about / his / future / career", c: "He thought about his future career" },
-            { s: "we / left / the / party / very / early / yesterday", c: "We left the party very early yesterday" },
-            { s: "the / baby / cried / a / lot / last / night", c: "The baby cried a lot last night" },
-            { s: "I / didn't / know / the / correct / answer", c: "I didn't know the correct answer" },
-            { s: "did / she / bring / her / laptop / to / class", c: "Did she bring her laptop to class" },
-            { s: "he / planned / a / huge / surprise / for / her", c: "He planned a huge surprise for her" },
-            { s: "they / felt / very / tired / after / the / workout", c: "They felt very tired after the workout" },
-            { s: "I / finally / found / my / lost / car / keys", c: "I finally found my lost car keys" },
-            { s: "she / didn't / take / the / bus / this / morning", c: "She didn't take the bus this morning" },
-            { s: "we / played / basketball / in / the / park", c: "We played basketball in the park" },
-            { s: "did / they / write / the / essay / on / time", c: "Did they write the essay on time" }
-        ]
-    },
     "10th - P4 - Module 1": {
         active: false, 
         type: "three_parts", 
@@ -1458,6 +1395,132 @@ const DB = {
             { s: "the / coach / is / looking / at / the / scale", c: "The coach is looking at the scale" },
             { s: "is / the / team / eating / healthy / food", c: "Is the team eating healthy food" },
             { s: "I / am / not / stopping / my / routine", c: "I am not stopping my routine" }
+        ]
+    },
+      "10th - P4 - Module 3": {
+        active: false, 
+        type: "three_parts", 
+        activities: ["memory", "quiz", "chamber"],
+
+        // FASE 1: VOCABULARY FLASHCARDS (Personal Finance & Education)
+        words: [
+            "Manage", "Budget", "Expenses", "Rent", "Groceries", 
+            "Scholarship", "Tuition", "Transportation", "Salary", "Income"
+        ],
+        defs: [
+            "To control or be in charge of something, especially time or money.",
+            "A plan to show how much money you earn and how much you will spend.",
+            "The money that you spend on things you need.",
+            "Money that you pay regularly to live in a house or apartment.",
+            "Food and other items you buy at a supermarket.",
+            "Money given to a student by an organization to help pay for their education.",
+            "The money you pay to be taught in a school, college, or university.",
+            "Vehicles used to travel from one place to another, like buses or cars.",
+            "The money you receive every month for doing your job.",
+            "All the money you receive, usually from working or investments."
+        ],
+        spanish: [
+            "Administrar / Manejar",
+            "Presupuesto",
+            "Gastos",
+            "Renta / Alquiler",
+            "Comestibles / Provisiones",
+            "Beca",
+            "Matrícula / Colegiatura",
+            "Transporte",
+            "Salario / Sueldo",
+            "Ingresos"
+        ],
+
+        // FASE 2: GRAMMAR QUIZ (Simple Past - Regular Verbs Spelling Rules)
+        quiz: [
+            { q: "She ________ (study) hard for her math exam last night.", opts: ["studyed", "studied", "studid", "studyes"], a: 1, hint: "Rule: Change 'y' to 'i' and add 'ed'." },
+            { q: "The driver ________ (stop) the bus at the red light.", opts: ["stoped", "stooped", "stopped", "stoppid"], a: 2, hint: "Rule: 1 syllable, 1 vowel, 1 consonant = Double the last consonant." },
+            { q: "He ________ (play) soccer with his friends yesterday.", opts: ["plaied", "played", "playyed", "playd"], a: 1, hint: "Rule: Vowel before 'y' = Just add 'ed'." },
+            { q: "I ________ (live) in that small apartment two years ago.", opts: ["liveed", "livved", "lived", "livid"], a: 2, hint: "Rule: Verb ends in 'e' = Just add 'd'." },
+            { q: "The baby ________ (cry) for an hour this morning.", opts: ["cried", "cryed", "cryied", "creid"], a: 0, hint: "Rule: Consonant before 'y' = Change 'y' to 'i' and add 'ed'." },
+            { q: "We ________ (plan) our summer budget very carefully.", opts: ["planed", "plained", "planned", "planid"], a: 2, hint: "Rule: 1 syllable, 1 vowel, 1 consonant = Double the last consonant." },
+            { q: "The supermarket ________ (open) at 8:00 AM yesterday.", opts: ["opened", "openned", "opended", "open"], a: 0, hint: "Rule: Just add 'ed' (stress is on the first syllable)." },
+            { q: "She ________ (try) to organize her monthly expenses.", opts: ["tryed", "tried", "triyed", "treid"], a: 1, hint: "Rule: Change 'y' to 'i' and add 'ed'." },
+            { q: "I ________ (watch) a great movie about finance last night.", opts: ["watchd", "watched", "watchhed", "watch"], a: 1, hint: "Rule: Just add 'ed'." },
+            { q: "He ________ (carry) the heavy groceries to the kitchen.", opts: ["carryed", "carried", "carred", "carriid"], a: 1, hint: "Rule: Consonant before 'y' = Change 'y' to 'i' and add 'ed'." }
+        ],
+
+        // FASE 3: SYNTAX BUILDER
+        chamber: [
+            { s: "I / managed / my / budget / perfectly / last / month", c: "I managed my budget perfectly last month" },
+            { s: "she / received / her / salary / yesterday / morning", c: "She received her salary yesterday morning" },
+            { s: "we / planned / our / expenses / very / carefully", c: "We planned our expenses very carefully" },
+            { s: "he / stopped / paying / the / high / rent", c: "He stopped paying the high rent" },
+            { s: "they / tried / to / get / a / scholarship", c: "They tried to get a scholarship" },
+            { s: "I / calculated / the / tuition / and / transportation", c: "I calculated the tuition and transportation" },
+            { s: "she / carried / the / heavy / groceries / home", c: "She carried the heavy groceries home" },
+            { s: "we / lived / on / a / small / income", c: "We lived on a small income" },
+            { s: "he / saved / his / salary / for / a / car", c: "He saved his salary for a car" },
+            { s: "they / checked / their / daily / expenses / quickly", c: "They checked their daily expenses quickly" }
+        ]
+    },
+      "10th - P4 - Module 4": {
+        active: true, 
+        type: "three_parts", 
+        // El nuevo Dojo va primero como entrenamiento, luego el Quiz evaluado y el Chamber
+        activities: ["dojo", "quiz", "chamber"], 
+
+        // FASE 1: THE IRREGULAR DOJO (30 Verbos - Solo práctica)
+        verbs: [
+            {v1: "Go", v2: "Went", spa: "Ir"}, {v1: "See", v2: "Saw", spa: "Ver"}, 
+            {v1: "Take", v2: "Took", spa: "Tomar"}, {v1: "Come", v2: "Came", spa: "Venir"},
+            {v1: "Know", v2: "Knew", spa: "Saber/Conocer"}, {v1: "Get", v2: "Got", spa: "Obtener"},
+            {v1: "Give", v2: "Gave", spa: "Dar"}, {v1: "Find", v2: "Found", spa: "Encontrar"},
+            {v1: "Think", v2: "Thought", spa: "Pensar"}, {v1: "Tell", v2: "Told", spa: "Decir"},
+            {v1: "Become", v2: "Became", spa: "Convertirse"}, {v1: "Show", v2: "Showed", spa: "Mostrar"},
+            {v1: "Leave", v2: "Left", spa: "Dejar/Salir"}, {v1: "Feel", v2: "Felt", spa: "Sentir"},
+            {v1: "Put", v2: "Put", spa: "Poner"}, {v1: "Bring", v2: "Brought", spa: "Traer"},
+            {v1: "Begin", v2: "Began", spa: "Empezar"}, {v1: "Keep", v2: "Kept", spa: "Mantener"},
+            {v1: "Hold", v2: "Held", spa: "Sostener"}, {v1: "Write", v2: "Wrote", spa: "Escribir"},
+            {v1: "Stand", v2: "Stood", spa: "Ponerse de pie"}, {v1: "Hear", v2: "Heard", spa: "Oír"},
+            {v1: "Let", v2: "Let", spa: "Permitir"}, {v1: "Mean", v2: "Meant", spa: "Significar"},
+            {v1: "Set", v2: "Set", spa: "Establecer"}, {v1: "Meet", v2: "Met", spa: "Conocer (gente)"},
+            {v1: "Run", v2: "Ran", spa: "Correr"}, {v1: "Pay", v2: "Paid", spa: "Pagar"},
+            {v1: "Sit", v2: "Sat", spa: "Sentarse"}, {v1: "Speak", v2: "Spoke", spa: "Hablar"}
+        ],
+
+        // FASE 2: GRAMMAR QUIZ (Regular Spelling Rules & Irregulars - 15 Items)
+        quiz: [
+            { q: "Yesterday, the baby ________ (cry) for two hours.", opts: ["cryed", "cried", "cryied", "creid"], a: 1, hint: "Regular Rule: Consonant + Y = Change to I + ED." },
+            { q: "The car suddenly ________ (stop) in the middle of the street.", opts: ["stoped", "stopped", "stoppid", "stooped"], a: 1, hint: "Regular Rule: 1 syllable, 1 vowel, 1 consonant = Double the last consonant." },
+            { q: "We ________ (go) to the cinema last weekend.", opts: ["goed", "went", "gone", "going"], a: 1, hint: "Irregular verb: Go." },
+            { q: "She ________ (play) video games all night.", opts: ["plaied", "played", "playyed", "playd"], a: 1, hint: "Regular Rule: Vowel + Y = Just add ED." },
+            { q: "I ________ (think) the test was tomorrow, not today!", opts: ["thinked", "thought", "thougth", "thank"], a: 1, hint: "Irregular verb: Think." },
+            { q: "The movie ________ (begin) at 8:00 PM.", opts: ["begined", "begun", "began", "beggined"], a: 2, hint: "Irregular verb: Begin." },
+            { q: "He ________ (plan) his trip to Europe very carefully.", opts: ["planed", "plained", "planned", "planid"], a: 2, hint: "Regular Rule: 1 syllable, 1 vowel, 1 consonant = Double the consonant." },
+            { q: "I ________ (leave) my keys on the table this morning.", opts: ["leaved", "left", "leaft", "leaf"], a: 1, hint: "Irregular verb: Leave." },
+            { q: "They ________ (not/see) the accident happen.", opts: ["didn't saw", "don't see", "didn't see", "not saw"], a: 2, hint: "Negative: Did not (didn't) + Base Verb." },
+            { q: "________ you ________ (find) your lost phone?", opts: ["Do / find", "Did / found", "Are / find", "Did / find"], a: 3, hint: "Question: Did + Subject + Base Verb." },
+            { q: "The teacher ________ (give) us a lot of homework.", opts: ["gived", "gave", "given", "gaved"], a: 1, hint: "Irregular verb: Give." },
+            { q: "She ________ (study) really hard for the final exam.", opts: ["studyed", "studied", "studid", "studyes"], a: 1, hint: "Regular Rule: Consonant + Y = Change to I + ED." },
+            { q: "We ________ (bring) pizzas for the party.", opts: ["bringed", "brought", "brang", "broght"], a: 1, hint: "Irregular verb: Bring." },
+            { q: "He ________ (write) a beautiful poem for her.", opts: ["writed", "wrote", "written", "wrotte"], a: 1, hint: "Irregular verb: Write." },
+            { q: "________ she ________ (know) the answer?", opts: ["Did / knew", "Does / know", "Did / know", "Did / knows"], a: 2, hint: "Question: Did + Subject + Base Verb." }
+        ],
+
+        // FASE 3: SYNTAX BUILDER (Mix of Regular, Irregular, Negatives & Questions - 15 Items)
+        chamber: [
+            { s: "I / went / to / the / beach / last / summer", c: "I went to the beach last summer" },
+            { s: "she / didn't / study / for / the / math / exam", c: "She didn't study for the math exam" },
+            { s: "did / you / see / the / new / Marvel / movie", c: "Did you see the new Marvel movie" },
+            { s: "they / stopped / the / game / because / of / the / rain", c: "They stopped the game because of the rain" },
+            { s: "he / thought / about / his / future / career", c: "He thought about his future career" },
+            { s: "we / left / the / party / very / early / yesterday", c: "We left the party very early yesterday" },
+            { s: "the / baby / cried / a / lot / last / night", c: "The baby cried a lot last night" },
+            { s: "I / didn't / know / the / correct / answer", c: "I didn't know the correct answer" },
+            { s: "did / she / bring / her / laptop / to / class", c: "Did she bring her laptop to class" },
+            { s: "he / planned / a / huge / surprise / for / her", c: "He planned a huge surprise for her" },
+            { s: "they / felt / very / tired / after / the / workout", c: "They felt very tired after the workout" },
+            { s: "I / finally / found / my / lost / car / keys", c: "I finally found my lost car keys" },
+            { s: "she / didn't / take / the / bus / this / morning", c: "She didn't take the bus this morning" },
+            { s: "we / played / basketball / in / the / park", c: "We played basketball in the park" },
+            { s: "did / they / write / the / essay / on / time", c: "Did they write the essay on time" }
         ]
     },
     "11th - Unit 5 - Module 2 - Idioms & Adverbs": {
@@ -1778,133 +1841,7 @@ const DB = {
             { s: "will / you / be / flexible / with / us", c: "Will you be flexible with us" }
         ]
     },
-    "10th - P4 - Module 3": {
-        active: false, 
-        type: "three_parts", 
-        activities: ["memory", "quiz", "chamber"],
 
-        // FASE 1: VOCABULARY FLASHCARDS (Personal Finance & Education)
-        words: [
-            "Manage", "Budget", "Expenses", "Rent", "Groceries", 
-            "Scholarship", "Tuition", "Transportation", "Salary", "Income"
-        ],
-        defs: [
-            "To control or be in charge of something, especially time or money.",
-            "A plan to show how much money you earn and how much you will spend.",
-            "The money that you spend on things you need.",
-            "Money that you pay regularly to live in a house or apartment.",
-            "Food and other items you buy at a supermarket.",
-            "Money given to a student by an organization to help pay for their education.",
-            "The money you pay to be taught in a school, college, or university.",
-            "Vehicles used to travel from one place to another, like buses or cars.",
-            "The money you receive every month for doing your job.",
-            "All the money you receive, usually from working or investments."
-        ],
-        spanish: [
-            "Administrar / Manejar",
-            "Presupuesto",
-            "Gastos",
-            "Renta / Alquiler",
-            "Comestibles / Provisiones",
-            "Beca",
-            "Matrícula / Colegiatura",
-            "Transporte",
-            "Salario / Sueldo",
-            "Ingresos"
-        ],
-
-        // FASE 2: GRAMMAR QUIZ (Simple Past - Regular Verbs Spelling Rules)
-        quiz: [
-            { q: "She ________ (study) hard for her math exam last night.", opts: ["studyed", "studied", "studid", "studyes"], a: 1, hint: "Rule: Change 'y' to 'i' and add 'ed'." },
-            { q: "The driver ________ (stop) the bus at the red light.", opts: ["stoped", "stooped", "stopped", "stoppid"], a: 2, hint: "Rule: 1 syllable, 1 vowel, 1 consonant = Double the last consonant." },
-            { q: "He ________ (play) soccer with his friends yesterday.", opts: ["plaied", "played", "playyed", "playd"], a: 1, hint: "Rule: Vowel before 'y' = Just add 'ed'." },
-            { q: "I ________ (live) in that small apartment two years ago.", opts: ["liveed", "livved", "lived", "livid"], a: 2, hint: "Rule: Verb ends in 'e' = Just add 'd'." },
-            { q: "The baby ________ (cry) for an hour this morning.", opts: ["cried", "cryed", "cryied", "creid"], a: 0, hint: "Rule: Consonant before 'y' = Change 'y' to 'i' and add 'ed'." },
-            { q: "We ________ (plan) our summer budget very carefully.", opts: ["planed", "plained", "planned", "planid"], a: 2, hint: "Rule: 1 syllable, 1 vowel, 1 consonant = Double the last consonant." },
-            { q: "The supermarket ________ (open) at 8:00 AM yesterday.", opts: ["opened", "openned", "opended", "open"], a: 0, hint: "Rule: Just add 'ed' (stress is on the first syllable)." },
-            { q: "She ________ (try) to organize her monthly expenses.", opts: ["tryed", "tried", "triyed", "treid"], a: 1, hint: "Rule: Change 'y' to 'i' and add 'ed'." },
-            { q: "I ________ (watch) a great movie about finance last night.", opts: ["watchd", "watched", "watchhed", "watch"], a: 1, hint: "Rule: Just add 'ed'." },
-            { q: "He ________ (carry) the heavy groceries to the kitchen.", opts: ["carryed", "carried", "carred", "carriid"], a: 1, hint: "Rule: Consonant before 'y' = Change 'y' to 'i' and add 'ed'." }
-        ],
-
-        // FASE 3: SYNTAX BUILDER
-        chamber: [
-            { s: "I / managed / my / budget / perfectly / last / month", c: "I managed my budget perfectly last month" },
-            { s: "she / received / her / salary / yesterday / morning", c: "She received her salary yesterday morning" },
-            { s: "we / planned / our / expenses / very / carefully", c: "We planned our expenses very carefully" },
-            { s: "he / stopped / paying / the / high / rent", c: "He stopped paying the high rent" },
-            { s: "they / tried / to / get / a / scholarship", c: "They tried to get a scholarship" },
-            { s: "I / calculated / the / tuition / and / transportation", c: "I calculated the tuition and transportation" },
-            { s: "she / carried / the / heavy / groceries / home", c: "She carried the heavy groceries home" },
-            { s: "we / lived / on / a / small / income", c: "We lived on a small income" },
-            { s: "he / saved / his / salary / for / a / car", c: "He saved his salary for a car" },
-            { s: "they / checked / their / daily / expenses / quickly", c: "They checked their daily expenses quickly" }
-        ]
-    },
-
-    "10th - P4 - Module 4": {
-        active: true, 
-        type: "three_parts", 
-        activities: ["memory", "quiz", "chamber"],
-
-        // FASE 1: VOCABULARY FLASHCARDS (Banking & Debt)
-        words: [
-            "Save", "Borrow", "Buy", "Spend", "Earn", 
-            "Lend", "Closing date", "Due date", "Loan", "Debt"
-        ],
-        defs: [
-            "To keep money instead of spending it.",
-            "To take money from someone or a bank with the promise to return it later.",
-            "To get something by paying money for it.",
-            "To use money to pay for goods or services.",
-            "To get money by working.",
-            "To give money to someone who will return it later.",
-            "The last day of a billing cycle for a credit card.",
-            "The specific day by which a bill or debt must be paid.",
-            "Money that an organization or person lends you, usually with interest.",
-            "Money that you owe to someone else or to a bank."
-        ],
-        spanish: [
-            "Ahorrar",
-            "Pedir prestado",
-            "Comprar",
-            "Gastar",
-            "Ganar (dinero por trabajo)",
-            "Prestar (dar a alguien)",
-            "Fecha de corte",
-            "Fecha de vencimiento / límite",
-            "Préstamo",
-            "Deuda"
-        ],
-
-        // FASE 2: GRAMMAR QUIZ (Simple Past - Mix of Regular and Irregular Verbs)
-        quiz: [
-            { q: "I ________ a new laptop for my university classes yesterday.", opts: ["buyed", "bought", "buys", "buying"], a: 1, hint: "Irregular past tense of 'buy'." },
-            { q: "She ________ all her money on expensive clothes.", opts: ["spended", "spend", "spent", "spending"], a: 2, hint: "Irregular past tense of 'spend'." },
-            { q: "He ________ $50 from his best friend to buy dinner.", opts: ["borrowed", "borrow", "borrows", "borrowing"], a: 0, hint: "Regular verb. Just add 'ed'." },
-            { q: "My brother ________ me his car for the weekend.", opts: ["lended", "lend", "lent", "lending"], a: 2, hint: "Irregular past tense of 'lend'." },
-            { q: "They ________ a lot of money working at the restaurant.", opts: ["earnt", "earned", "earn", "earning"], a: 1, hint: "Regular verb in US English. Just add 'ed'." },
-            { q: "We ________ the credit card bill before the due date.", opts: ["payed", "paid", "pays", "paying"], a: 1, hint: "Irregular past tense of 'pay'." },
-            { q: "I ________ to the bank to ask for a student loan.", opts: ["goed", "went", "gone", "going"], a: 1, hint: "Irregular past tense of 'go'." },
-            { q: "She ________ half of her salary in her savings account.", opts: ["saved", "save", "saves", "saving"], a: 0, hint: "Regular verb ending in 'e'. Just add 'd'." },
-            { q: "The bank ________ my application for a new loan.", opts: ["approves", "approved", "approve", "approving"], a: 1, hint: "Regular verb ending in 'e'. Just add 'd'." },
-            { q: "He ________ a huge debt after finishing college.", opts: ["haved", "has", "had", "having"], a: 2, hint: "Irregular past tense of 'have'." }
-        ],
-
-        // FASE 3: SYNTAX BUILDER
-        chamber: [
-            { s: "I / bought / a / car / with / a / loan", c: "I bought a car with a loan" },
-            { s: "she / spent / all / her / money / yesterday", c: "She spent all her money yesterday" },
-            { s: "he / paid / the / bill / before / the / due / date", c: "He paid the bill before the due date" },
-            { s: "they / borrowed / money / to / pay / the / debt", c: "They borrowed money to pay the debt" },
-            { s: "we / went / to / the / bank / to / get / a / loan", c: "We went to the bank to get a loan" },
-            { s: "I / saved / enough / money / to / buy / a / house", c: "I saved enough money to buy a house" },
-            { s: "she / earned / a / great / salary / last / year", c: "She earned a great salary last year" },
-            { s: "my / father / lent / me / money / for / rent", c: "My father lent me money for rent" },
-            { s: "he / checked / the / closing / date / on / his / card", c: "He checked the closing date on his card" },
-            { s: "they / had / a / huge / debt / to / pay", c: "They had a huge debt to pay" }
-        ]
-    },
     "11th - Mock Exam - Final Review": {
         active: true, 
         type: "three_parts", 
@@ -2392,7 +2329,7 @@ function go(index) {
     } else {
         if      (activity === 'rules')      renderRules(container, data);
         else if (activity === 'scrolls')    renderScrolls(container, data);
-        else if (activity === 'dojo')       (container, data);
+        else if (activity === 'dojo')       renderDojo(container, data);
         else if (activity === 'memory')     renderMemoryCards(container, data);
         else if (activity === 'quiz')       renderQuiz(container, data);
         else if (activity === 'blanks')     renderBlanks(container, data);
