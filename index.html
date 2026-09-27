@@ -181,6 +181,15 @@
     </style>
 </head>
 <body>
+    <span id="translate-canary" translate="yes" aria-hidden="true" style="position:absolute; left:-9999px; top:0; font-size:12px;">The quick brown fox jumps over the lazy dog</span>
+    <div id="translate-overlay" translate="no" class="notranslate" style="display:none; position:fixed; inset:0; z-index:99999; background:#0f172a; color:#fff; align-items:center; justify-content:center; text-align:center; padding:30px; font-family:Poppins, sans-serif;">
+        <div>
+            <div style="font-size:4rem; margin-bottom:15px;">🚫🌐</div>
+            <h2 style="font-size:1.8rem; margin-bottom:12px;">Translator detected</h2>
+            <p style="font-size:1.1rem; margin-bottom:8px;">Turn off the translator to continue. This has been recorded.</p>
+            <p style="font-size:1rem; opacity:0.75;">Traductor detectado. Desactívalo para continuar. Esto ha quedado registrado.</p>
+        </div>
+    </div>
     <div id="exam-timer" class="hidden" style="position:fixed; top:20px; right:20px; background:var(--danger); color:white; padding:10px 20px; border-radius:30px; font-weight:bold; font-size:1.2rem; z-index:1000; box-shadow:0 4px 10px rgba(0,0,0,0.2);">
         <i class="fas fa-clock"></i> <span id="time-display">70:00</span>
     </div>
@@ -368,6 +377,75 @@
         }
         document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
         document.addEventListener('copy', function(e) { e.preventDefault(); });
+
+        /* ================================================================
+           TEACHER MODE (password stored only as a SHA-256 fingerprint)
+           ================================================================ */
+        var TEACHER_HASH = "61c3f657e78b9d0574f7b5aa8607199d3dccdaf254ce30bea853e2467fedc21d";
+        var isTeacher = false;
+        function sha256(ascii) {
+            function rr(v, a) { return (v >>> a) | (v << (32 - a)); }
+            var mp = Math.pow, maxWord = mp(2, 32), result = '', words = [], bitLen = ascii.length * 8, i, j;
+            var hash = [], k = [], primeCounter = 0, isComposite = {};
+            for (var c = 2; primeCounter < 64; c++) {
+                if (!isComposite[c]) {
+                    for (i = 0; i < 313; i += c) isComposite[i] = c;
+                    if (primeCounter < 8) hash[primeCounter] = (mp(c, .5) * maxWord) | 0;
+                    k[primeCounter++] = (mp(c, 1 / 3) * maxWord) | 0;
+                }
+            }
+            ascii += '\x80';
+            while (ascii.length % 64 - 56) ascii += '\x00';
+            for (i = 0; i < ascii.length; i++) { j = ascii.charCodeAt(i); if (j >> 8) return ''; words[i >> 2] |= j << ((3 - i) % 4) * 8; }
+            words[words.length] = ((bitLen / maxWord) | 0); words[words.length] = bitLen;
+            for (j = 0; j < words.length;) {
+                var w = words.slice(j, j += 16), oldHash = hash; hash = hash.slice(0, 8);
+                for (i = 0; i < 64; i++) {
+                    var w15 = w[i - 15], w2 = w[i - 2], a = hash[0], e = hash[4];
+                    var t1 = hash[7] + (rr(e, 6) ^ rr(e, 11) ^ rr(e, 25)) + ((e & hash[5]) ^ ((~e) & hash[6])) + k[i] +
+                        (w[i] = (i < 16) ? w[i] : (w[i - 16] + (rr(w15, 7) ^ rr(w15, 18) ^ (w15 >>> 3)) + w[i - 7] + (rr(w2, 17) ^ rr(w2, 19) ^ (w2 >>> 10))) | 0);
+                    var t2 = (rr(a, 2) ^ rr(a, 13) ^ rr(a, 22)) + ((a & hash[1]) ^ (a & hash[2]) ^ (hash[1] & hash[2]));
+                    hash = [(t1 + t2) | 0].concat(hash); hash[4] = (hash[4] + t1) | 0;
+                }
+                for (i = 0; i < 8; i++) hash[i] = (hash[i] + oldHash[i]) | 0;
+            }
+            for (i = 0; i < 8; i++) for (j = 3; j + 1; j--) { var b = (hash[i] >> (j * 8)) & 255; result += ((b < 16) ? 0 : '') + b.toString(16); }
+            return result;
+        }
+        function isTeacherKey(text) {
+            var clean = (text || '').trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+            return clean.length > 0 && sha256(clean) === TEACHER_HASH;
+        }
+
+        /* ================================================================
+           RANDOM ORDER (each student gets questions in a different order)
+           ================================================================ */
+        function shuffleInPlace(arr) {
+            if (!Array.isArray(arr)) return;
+            for (var i = arr.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = arr[i]; arr[i] = arr[j]; arr[j] = t; }
+        }
+
+        /* ================================================================
+           TRANSLATION GUARD (detects browser translators, hides content)
+           ================================================================ */
+        var translateCount = 0, translateActive = false;
+        function isPageTranslated() {
+            var h = document.documentElement;
+            if (h.classList.contains('translated-ltr') || h.classList.contains('translated-rtl')) return true;
+            var lang = (h.getAttribute('lang') || 'en').toLowerCase();
+            if (lang.indexOf('en') !== 0) return true;
+            var canary = document.getElementById('translate-canary');
+            if (canary && canary.textContent.trim() !== 'The quick brown fox jumps over the lazy dog') return true;
+            if (document.querySelector('font[style*="vertical-align"], [_msttexthash], [_mstmutation], .goog-te-banner-frame, #goog-gt-tt')) return true;
+            return false;
+        }
+        function checkTranslation() {
+            var on = isPageTranslated();
+            var overlay = document.getElementById('translate-overlay');
+            if (on && !translateActive) { translateActive = true; translateCount++; if (overlay) overlay.style.display = 'flex'; }
+            else if (!on && translateActive) { translateActive = false; if (overlay) overlay.style.display = 'none'; }
+        }
+        setInterval(checkTranslation, 1000);
 
         /* ================================================================
            DATABASE MODULE
@@ -1018,7 +1096,7 @@
             _antiCheatReady = false;
             setTimeout(function() { _antiCheatReady = true; }, 2000);
             function handleExit() {
-                if (!_antiCheatReady || state.isLocked || isHandlingExit || isReviewMode) return;
+                if (!_antiCheatReady || state.isLocked || isHandlingExit || isReviewMode || isTeacher) return;
                 isHandlingExit = true;
                 state.exitCount++;
                 localStorage.setItem(exitsKey, state.exitCount.toString());
@@ -1097,7 +1175,7 @@
                 btn.disabled = true; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; return; 
             }
             var key = name.toLowerCase() + '-' + section + '-' + unit;
-            var isAdmin = (name.toLowerCase() === "mr. paz" || name.toLowerCase() === "mr paz");
+            var isAdmin = isTeacherKey(name);
             if (localStorage.getItem(key) === 'COMPLETED') {
                 isReviewMode = true; btn.disabled = false; btn.textContent = "Review Mode 🔁"; btn.style.backgroundColor = "var(--warning)"; msg.textContent = 'You completed this previously. Score will not be saved.';
             } else if (localStorage.getItem(key + '_STARTED') === 'true' && !isAdmin) {
@@ -1129,16 +1207,16 @@
             var section = document.getElementById('sectionSelect').value;
             var unit = document.getElementById('unitSelect').value;
             var data = DB[unit];
-            var isAdmin = (name.toLowerCase() === "mr. paz" || name.toLowerCase() === "mr paz");
+            var isAdmin = isTeacherKey(name);
             if (!data) return;
+            isTeacher = isAdmin;
+            if (isTeacher) name = "Mr. Paz";
+            ['quiz', 'chamber', 'blanks', 'verbs'].forEach(function(key) { shuffleInPlace(data[key]); });
             activitiesList = data.activities || [];
             if (data.isStrictExam && !isAdmin) {
                 localStorage.setItem(name.toLowerCase() + '-' + section + '-' + unit + '_STARTED', 'true');
                 timeRemaining = (data.timeLimit || 45) * 60;
                 startTimer();
-                setupAntiCheat(1);
-            } else {
-                setupAntiCheat(3);
             }
             for(let i = 1; i <= 4; i++) {
                 let card = document.getElementById('card-' + i);
@@ -1151,13 +1229,16 @@
                     card.style.display = 'grid';
                 } else { card.style.display = 'none'; }
             }
-            state = { name: name, section: section, unit: unit, scores: {}, done: {}, firstTryPoints: 0, totalPossiblePoints: calculateTotalPoints(data), exitCount: 0, isLocked: false };
+            state = { name: name, section: section, unit: unit, scores: {}, done: {}, firstTryPoints: 0, totalPossiblePoints: calculateTotalPoints(data), exitCount: 0, isLocked: false, startedAt: Date.now() };
+            translateCount = translateActive ? 1 : 0;
             usedBlanksWords = []; 
-            document.getElementById('userGreet').textContent = 'Welcome, ' + name.split(' ')[0];
+            document.getElementById('userGreet').textContent = 'Welcome, ' + (isTeacher ? name : name.split(' ')[0]);
             document.getElementById('self-study-section').classList.add('hidden');
             document.getElementById('activity-grid').style.display = 'flex'; 
             document.getElementById('btn-report').style.display = 'inline-block';
             show('menu'); 
+            setupAntiCheat((data.isStrictExam && !isAdmin) ? 1 : 3);
+            if (state.isLocked && !isTeacher) { show('act'); showBlockedScreen(); }
         }
 
         function show(screen) {
@@ -1168,7 +1249,7 @@
 
         function updateXPBar() {
             var doneCount = activitiesList.filter(function(a) { return state.done[a]; }).length;
-            var isAdmin = (state.name.trim().toLowerCase() === "mr. paz" || state.name.trim().toLowerCase() === "mr paz");
+            var isAdmin = isTeacher;
             document.getElementById('xp-fill').style.width = (doneCount / activitiesList.length * 100) + '%';
             document.getElementById('xp-text').textContent = doneCount + ' / ' + activitiesList.length + ' activities';
             var submitBtn = document.getElementById('btn-report');
@@ -1192,13 +1273,13 @@
         }
 
         function gateCheck(index) {
-            var isAdmin = (state.name.trim().toLowerCase() === "mr. paz" || state.name.trim().toLowerCase() === "mr paz");
+            var isAdmin = isTeacher;
             if (index > 0 && !state.done[activitiesList[index-1]] && !isAdmin) { alert('🔒 Complete the previous level first to unlock this one.'); } 
             else { go(index); }
         }
 
         function go(index) {
-            var isAdmin = (state.name.trim().toLowerCase() === "mr. paz" || state.name.trim().toLowerCase() === "mr paz");
+            var isAdmin = isTeacher;
             if (index > 0 && !state.done[activitiesList[index-1]] && !isAdmin) return; 
             show('act'); 
             var backBtn = document.getElementById('act-back-btn-container');
@@ -1595,7 +1676,7 @@
             var finalGrade = rawScore.toFixed(1); 
             if (finalGrade > 10) finalGrade = 10.0;
             if (isNaN(finalGrade)) finalGrade = 0.0;
-            if (!isReviewMode) {
+            if (!isReviewMode && !isTeacher) {
                 var urlGoogleScript = "https://script.google.com/macros/s/AKfycbyrrk0Lj8yLe86HXl6pvJbIcAddLK8IuTH2bRxVNIc7r2V7Dh0hasQK1sZUNPak8s95nw/exec";
                 var targetSheet = "General Results";
                 if (state.section.startsWith("9")) targetSheet = "9th Grade - Q3";
@@ -1605,6 +1686,8 @@
                 formData.append("name", state.name); formData.append("section", state.section); 
                 formData.append("unit", state.unit); formData.append("score", finalGrade); 
                 formData.append("sheetName", targetSheet);
+                var minutes = state.startedAt ? ((Date.now() - state.startedAt) / 60000).toFixed(1) : "";
+                formData.append("time", minutes); formData.append("exits", state.exitCount || 0); formData.append("translated", translateCount);
                 fetch(urlGoogleScript, { method: "POST", body: formData, mode: "no-cors" }).catch(e => console.error(e));
                 var key = state.name.toLowerCase() + '-' + state.section + '-' + state.unit;
                 localStorage.setItem(key, 'COMPLETED');
