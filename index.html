@@ -1676,7 +1676,7 @@
             var finalGrade = rawScore.toFixed(1); 
             if (finalGrade > 10) finalGrade = 10.0;
             if (isNaN(finalGrade)) finalGrade = 0.0;
-            if (!isReviewMode && !isTeacher) {
+            if (!isReviewMode || isTeacher) {
                 var urlGoogleScript = "https://script.google.com/macros/s/AKfycbyrrk0Lj8yLe86HXl6pvJbIcAddLK8IuTH2bRxVNIc7r2V7Dh0hasQK1sZUNPak8s95nw/exec";
                 var targetSheet = "General Results";
                 if (state.section.startsWith("9")) targetSheet = "9th Grade - Q3";
@@ -1690,7 +1690,7 @@
                 formData.append("time", minutes); formData.append("exits", state.exitCount || 0); formData.append("translated", translateCount);
                 fetch(urlGoogleScript, { method: "POST", body: formData, mode: "no-cors" }).catch(e => console.error(e));
                 var key = state.name.toLowerCase() + '-' + state.section + '-' + state.unit;
-                localStorage.setItem(key, 'COMPLETED');
+                if (!isTeacher) localStorage.setItem(key, 'COMPLETED');
             }
             show('cert');
             document.getElementById('cert-name').textContent = state.name; 
