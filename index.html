@@ -721,7 +721,7 @@
                 unlock: { after: "11th - Recovery - Module 2: Future Careers", minScore: 7 },
                 stages: [
                     { id: "vocab", kind: "cards", title: "Vocabulary", desc: "10 words: job interviews", icon: "fas fa-user-tie",
-                      intro: "<h3 style='margin-bottom:8px;'>🔥 Module 3 · The Job Interview</h3><p>Same rules: <b>60 minutes</b>, <b>2 exits</b>, <b>7/10</b> to open the Final Exam, <b>3 attempts</b>. Study the words: you will <b>write</b> them later. ✍️</p>",
+                      intro: "<h3 style='margin-bottom:8px;'>🔥 Module 3 · The Job Interview</h3><p>Same rules: <b>60 minutes</b>, <b>2 exits</b>, <b>7/10</b> to open the Mock Exam, <b>3 attempts</b>. Study the words: you will <b>write</b> them later. ✍️</p>",
                       items: [
                         { term: "interview", emoji: "🤝", meaning: "A formal meeting where a company asks you questions for a job.", spanish: "Entrevista", example: "I have a job interview tomorrow." },
                         { term: "strength", emoji: "💪", meaning: "A good quality that you have.", spanish: "Fortaleza", example: "My greatest strength is teamwork." },
@@ -849,15 +849,15 @@
                       ] }
                 ]
             },
-            "11th - Recovery - Final Exam": {
-                active: false, type: "block", sheet: "11th Grade - Recovery",
-                attempts: 1, timeLimit: 60, maxExits: 2,
+            "11th - Recovery - Mock Exam (Practice)": {
+                active: true, type: "block", sheet: "11th Grade - Recovery",
+                attempts: 99, timeLimit: 60, maxExits: 2,
                 unlock: { after: "11th - Recovery - Module 3: The Job Interview", minScore: 7 },
                 stages: [
-                    { id: "rules", kind: "quiz", title: "Final Exam Rules", desc: "Read before you start", icon: "fas fa-exclamation-triangle",
-                      intro: "<h3 style='margin-bottom:10px;'>🎓 Recovery Final Exam</h3><p>⚠️ You have <b>ONLY ONE ATTEMPT</b>. You can't repeat it.</p><p>⏱️ <b>60 minutes</b>. When the time is over, the exam is submitted automatically.</p><p>🚪 If you leave the page <b>2 times</b>, the exam ends with your current score.</p><p>📋 Parts: <b>Reading</b> (10) · <b>Listening</b> (10) · <b>Dictation</b> (5) · <b>Grammar & Vocabulary</b> (20).</p><p>💡 Find a quiet place, use headphones and Google Chrome.</p>",
+                    { id: "rules", kind: "quiz", title: "Mock Exam Rules", desc: "Read before you start", icon: "fas fa-exclamation-triangle",
+                      intro: "<h3 style='margin-bottom:10px;'>🎯 Mock Exam (Practice)</h3><p>This is a <b>practice exam</b>. It helps you prepare for the <b>real exam at school</b> (on paper). The score here is <b>not</b> your official grade.</p><p>🔁 You can repeat it as many times as you want. Every time the questions change.</p><p>⏱️ <b>60 minutes</b> · 🚪 <b>2 exits</b> and the attempt ends.</p><p>📋 Parts: <b>Reading</b> (10) · <b>Listening</b> (10) · <b>Dictation</b> (5) · <b>Grammar & Vocabulary</b> (20).</p><p>💡 Do it like the real exam: quiet place, no notes, no help.</p>",
                       items: [
-                        { q: "How many attempts do you have for the Final Exam?", opts: ["Only one", "Two", "Three", "Unlimited"], a: 0, hint: "Read the rules again." }
+                        { q: "Is this score your official exam grade?", opts: ["No, it is only practice", "Yes, it is my final grade", "Yes, it is 60% of my grade", "Yes, it is 40% of my grade"], a: 0, hint: "Read the rules again." }
                       ] },
                     { id: "reading", kind: "quiz", title: "Reading", desc: "Rivergate and Sunport · 10", icon: "fas fa-book-open", graded: true, keepOrder: true,
                       passage: "<h3 style='margin-bottom:8px;'>📖 Rivergate and Sunport</h3><p><b>(1)</b> In the next twenty years, experts predict that two small towns, Rivergate and Sunport, will change completely. Today, both places are very quiet, but they will soon become important centers of culture and technology. However, they will develop in very different ways.</p><p><b>(2)</b> Rivergate will become a popular destination for tourists who love history and art. The local government will rebuild the old historic district and protect its famous landmarks. They will also build a large traditional theater where famous comedians and actors will perform every weekend. The atmosphere in Rivergate will stay traditional, relaxing and peaceful. Correspondents from travel magazines say that Rivergate will be the perfect place for people who want to rest and enjoy stunning architecture.</p><p><b>(3)</b> On the other hand, Sunport will focus on modern technology and international sports. The city will build huge stadiums, and professional athletes from around the world will travel there to compete. Sunport will also have tall glass buildings and fast public transportation. Unlike Rivergate, the atmosphere in Sunport will be fast, energetic and crowded. Many young programmers and engineers will move to Sunport because they will find excellent jobs and high salaries.</p><p><b>(4)</b> Both cities will face different challenges. Rivergate will need to control the number of tourists. If too many people visit at the same time, the local residents will feel uncomfortable. Meanwhile, Sunport will have to manage heavy traffic and pollution because of its fast growth.</p><p><b>(5)</b> If you prefer a quiet walk near old buildings, you will love Rivergate. But if you want a modern lifestyle with sports and technology, Sunport will be your ideal home.</p>",
@@ -2876,7 +2876,7 @@
                 record(unit).then(function(r) {
                     var used = Math.max(lc.count, r.count); var best = Math.max(lc.best, r.best);
                     if (used >= data.attempts) { deny('⛔ You have used all your attempts (' + used + '/' + data.attempts + '). Best score: ' + best + '/10.'); return; }
-                    allow('📝 Attempt ' + (used + 1) + ' of ' + data.attempts + (used ? ' · Best score so far: ' + best + '/10' : '') + (data.timeLimit ? ' · Time limit: ' + data.timeLimit + ' min' : ''));
+                    allow('📝 ' + (data.attempts >= 50 ? 'Practice attempt ' + (used + 1) : 'Attempt ' + (used + 1) + ' of ' + data.attempts) + (used ? ' · Best score so far: ' + best + '/10' : '') + (data.timeLimit ? ' · Time limit: ' + data.timeLimit + ' min' : ''));
                 });
             });
         }

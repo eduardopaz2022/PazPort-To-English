@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Teacher Audio</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; }
+  .card { background: #1e293b; border-radius: 16px; padding: 32px; max-width: 520px; width: 100%; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+  h1 { font-size: 1.4rem; margin: 0 0 6px; }
+  p { color: #94a3b8; margin: 6px 0 18px; }
+  input[type=password], select { width: 100%; padding: 12px; border-radius: 8px; border: 2px solid #334155; background: #0f172a; color: #fff; font-size: 1rem; box-sizing: border-box; margin-bottom: 12px; }
+  button { padding: 14px 24px; border: 0; border-radius: 10px; font-size: 1.05rem; font-weight: bold; cursor: pointer; margin: 6px; color: #fff; background: #2563eb; }
+  button.stop { background: #dc2626; } button:disabled { background: #475569; cursor: not-allowed; }
+  .hidden { display: none; }
+  #status { font-size: 1.1rem; color: #fbbf24; min-height: 1.5em; margin-top: 14px; }
+  label { display: block; text-align: left; color: #94a3b8; font-size: .9rem; margin-bottom: 4px; }
+  .count { font-size: 2.2rem; font-weight: bold; color: #fff; }
+</style>
+</head>
+<body>
+<div class="card">
+  <div id="lock">
+    <h1>🔒 Teacher Audio</h1>
+    <p>Enter the teacher password to load the exam audio.</p>
+    <input type="password" id="pw" placeholder="Password" autocomplete="off">
+    <button id="open">Open</button>
+    <div id="err" style="color:#f87171; min-height:1.4em;"></div>
+  </div>
+  <div id="player" class="hidden">
+    <h1 id="title"></h1>
+    <p>Connect the speakers, press <b>Play</b> and let it finish. Play it <b>two times</b>.</p>
+    <label>Speed</label>
+    <select id="rate"><option value="0.8">Slow</option><option value="0.9" selected>Normal for students</option><option value="1">Natural</option></select>
+    <label>Voice for Diego</label><select id="v1"></select>
+    <label>Voice for Sofia</label><select id="v2"></select>
+    <div><button id="play">▶ Play</button><button id="stop" class="stop">■ Stop</button></div>
+    <div id="status"></div>
+    <p>Times played: <span class="count" id="count">0</span></p>
+  </div>
+</div>
+<script>
+var BLOB = {"s":"J28H6gvqAZ5iBEdalpynhA==","i":"oSsvsnpSO71Nkyhq","d":"25b7aISnvtov/LeWdf2xs7+ZVCNNvYaVnbzgWwxtU9p1u3go8MGutPk1RhCgmbNOgh6yuqA4coK+mGMsaqKNP9lbnqrFVHlLD7MzgVKrngPe8k+DKsbUIdvzuZaMfDBbpYMsuK9cXZTqy9yRlU6KogAlhVPLetQd0uLOqdxwJu1T/VKZP1rtOwYdoFYaF1u7AZchv2LUHLhOHHcUEOXQxveqBrXVxGX/5EjCKNLMaZXzfbSPx2eCmOYxrEAWhLGK+H73Uq5gD6YgMxHjk773XmrPqgXsdkNJJGuXteEw3nISXZIUAX7dfC4cmcWLLvxc26XKaBHKmp+dsX23QeYtKAsbEGZ6SKvQ/s/FqpXSIHNmirEkixw+kVbzPmDeGcoa38tWY4rf0UKhUkPIeu1zXriJ2vWTapCJNKuLehqVDgN2QNpOgeBnoDU6qZEYpePXLhJRw3vmv0B7CXOS3ttAdoyLMlm5ezfb5NE5bfb5jP0P1PwL90Iw/uS2G8PYDCL9VJsEotkr7bm77Y2XM57AGzcPFELaYISPG+RqmpSekxJwP2Sax+iotVL5/xmewZ3KPvZJ+RqYnxiQuLN5MoVqeGDEICwMavYwNHYEoC0GUaZMCABOEs0yKlvgZizGKiAUo22iPO3mV/yTXXZzZ3YsUfvIp+yvAxI49EbdSyIIHQI8dNSlNgX4keORmiXJYt4Bqs5K1w8LX/GFBAmZgV9q9ilk+tVTttPrZsYk5BU8pUH9JW3982JOLGpQBMy428xdyPEg2J/8MB1FVgCcun8egSxiwDgDbVpltGq3Yv2KuohPJqZuaK3D+qkdadd1/iefOuDtptaq2CbSUHtSw/baytlMBy4JZmAm1M/ozAlPNJ7zHicSNhifjf3/yCAr7K2y0SwImCSaaqo+eX9sLAbFYKQxN/0vGavZOsp0L6MxA6q5ygEEhNkTebBedpUaNVYyufVX4WxNpgHnvgnBTxsKCuvEUfw8MQVLY5kIUOZI9SbLHQ6FhkPAupGt7Rw8Yif3xrKYkXmDpACXUnq21qIUc8vEIXhKEXnFIWIBSwEoupq88/98lWo0EvcNJih5e1ap8MMdg0K9dCTy12xb87+Q72CYV90N3MOiKEQVXbgunhHEJbEj9rar1LICRQolCeAiwjWgpCJapTfgbBnDQHRzgbD8c9X36WE9kPED+pRSZTtYAPrdz8nStmuandX2fYAtIXeU1I1D1Pmss5I65OH67yTJaTApVEFR8mhCHlVeR2BW28h5a2yfY0rl7i4iEuRUQdaJi/O6Z/nLm9nUlaRPCHFw8bu6Ld54IFlIFJU5jyCWx1vzeOxJE++vR3nYewrVXdSIvuajyAk6XY1GvoucBkqwSRj7p9Xz5w0hDFhIDGVmExChsBKm2hZdQyZfWwJeZrO9TqnzzfSK8kKUawStCpIz59FH7FoVSHn1fd7TsSN0Gc8ACuUXmA7NnmyI8WNiN+k="};
+var data = null, plays = 0, playing = false;
+function b64(s) { return Uint8Array.from(atob(s), function(c) { return c.charCodeAt(0); }); }
+function norm(t) { return t.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''); }
+document.getElementById('open').onclick = unlock;
+document.getElementById('pw').onkeydown = function(e) { if (e.key === 'Enter') unlock(); };
+function unlock() {
+  var pw = norm(document.getElementById('pw').value), err = document.getElementById('err');
+  if (!window.crypto || !crypto.subtle) { err.textContent = 'Open this page with https in Google Chrome.'; return; }
+  crypto.subtle.importKey('raw', new TextEncoder().encode(pw), 'PBKDF2', false, ['deriveKey']).then(function(k) {
+    return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: b64(BLOB.s), iterations: 150000, hash: 'SHA-256' }, k, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+  }).then(function(key) {
+    return crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64(BLOB.i) }, key, b64(BLOB.d));
+  }).then(function(buf) {
+    data = JSON.parse(new TextDecoder().decode(buf));
+    document.getElementById('lock').classList.add('hidden'); document.getElementById('player').classList.remove('hidden');
+    document.getElementById('title').textContent = '🎧 ' + data.title; fillVoices();
+  }).catch(function() { err.textContent = 'Wrong password.'; });
+}
+function enVoices() { return speechSynthesis.getVoices().filter(function(v) { return v.lang && v.lang.toLowerCase().indexOf('en') === 0; }); }
+function fillVoices() {
+  var vs = enVoices(), s1 = document.getElementById('v1'), s2 = document.getElementById('v2');
+  if (!vs.length) { s1.innerHTML = s2.innerHTML = '<option value="">Default voice</option>'; return; }
+  var html = vs.map(function(v, i) { return '<option value="' + i + '">' + v.name + ' (' + v.lang + ')</option>'; }).join('');
+  s1.innerHTML = html; s2.innerHTML = html;
+  var male = vs.findIndex(function(v) { return /male|david|mark|alex|daniel|guy|james|fred/i.test(v.name) && !/female/i.test(v.name); });
+  var female = vs.findIndex(function(v) { return /female|samantha|zira|jenny|aria|susan|karen|victoria|google us english/i.test(v.name); });
+  s1.value = male > -1 ? male : 0; s2.value = female > -1 ? female : (vs.length > 1 ? 1 : 0);
+}
+if ('speechSynthesis' in window) speechSynthesis.onvoiceschanged = function() { if (data) fillVoices(); };
+document.getElementById('play').onclick = function() {
+  if (playing || !data) return;
+  if (!('speechSynthesis' in window)) { document.getElementById('status').textContent = 'This browser cannot play audio. Use Google Chrome.'; return; }
+  var vs = enVoices(), rate = parseFloat(document.getElementById('rate').value), speakers = [];
+  data.lines.forEach(function(l) { if (speakers.indexOf(l[0]) === -1) speakers.push(l[0]); });
+  var sel = [document.getElementById('v1').value, document.getElementById('v2').value];
+  speechSynthesis.cancel(); playing = true; this.disabled = true; var left = data.lines.length, btn = this;
+  document.getElementById('status').textContent = '🔊 Playing…';
+  data.lines.forEach(function(l) {
+    var u = new SpeechSynthesisUtterance(l[1]); var si = speakers.indexOf(l[0]) % 2;
+    u.lang = 'en-US'; u.rate = rate; if (vs.length && sel[si] !== '') u.voice = vs[parseInt(sel[si])];
+    if (sel[0] === sel[1]) u.pitch = si === 0 ? 0.8 : 1.3;
+    u.onend = u.onerror = function() { left--; if (left === 0 && playing) { playing = false; btn.disabled = false; plays++; document.getElementById('count').textContent = plays; document.getElementById('status').textContent = '✅ Finished.'; } };
+    speechSynthesis.speak(u);
+  });
+};
+document.getElementById('stop').onclick = function() { playing = false; speechSynthesis.cancel(); document.getElementById('play').disabled = false; document.getElementById('status').textContent = 'Stopped.'; };
+</script>
+</body>
+</html>
