@@ -225,7 +225,7 @@
             <h2 id="userGreet" style="color:var(--text-main); margin-bottom:4px;"></h2>
             <p style="color:var(--text-muted); font-size:1rem; margin-bottom:0;">Complete all activities to unlock your final grade.</p>
             <div id="self-study-section" class="hidden"></div>
-            <div class="exit-warning" id="global-exit-warning"><i class="fas fa-exclamation-triangle"></i> Exits: <span class="exit-counter" id="global-exit-counter">0</span> / 3</div>
+            <div class="exit-warning" id="global-exit-warning"><i class="fas fa-exclamation-triangle"></i> Exits: <span class="exit-counter" id="global-exit-counter">0</span> / <span id="exit-max">3</span></div>
             <div class="xp-wrap">
                 <div class="xp-label"><span>Overall Progress</span><span id="xp-text">0 / 4 activities</span></div>
                 <div class="xp-track"><div class="xp-fill" id="xp-fill" style="width:0%;"></div></div>
@@ -1402,7 +1402,11 @@
                 var warnEl = document.getElementById('global-exit-warning');
                 var warnCnt = document.getElementById('global-exit-counter');
                 if(warnEl) { warnEl.classList.add('active'); warnCnt.textContent = state.exitCount; }
-                if (state.exitCount >= maxExits) {
+                if (state.exitCount >= maxExits && DB[state.unit] && DB[state.unit].attempts) {
+                    localStorage.removeItem(exitsKey);
+                    alert('🚫 You left the page ' + maxExits + ' times. This attempt ends now and your current score will be submitted.');
+                    claimCert();
+                } else if (state.exitCount >= maxExits) {
                     state.isLocked = true;
                     setBlocked();
                     alert('🚫 You have left the page ' + maxExits + ' times. This activity is now BLOCKED. Contact your teacher.');
@@ -1475,13 +1479,13 @@
             }
             var key = name.toLowerCase() + '-' + section + '-' + unit;
             var isAdmin = isTeacherKey(name);
-            if (localStorage.getItem(key) === 'COMPLETED') {
+            if (localStorage.getItem(key) === 'COMPLETED' && !(DB[unit] && DB[unit].attempts)) {
                 isReviewMode = true; btn.disabled = false; btn.textContent = "Review Mode 🔁"; btn.style.backgroundColor = "var(--warning)"; msg.textContent = 'You completed this previously. Score will not be saved.';
             } else if (localStorage.getItem(key + '_STARTED') === 'true' && !isAdmin) {
                 btn.disabled = true; btn.textContent = "Access Denied"; btn.style.backgroundColor = "var(--danger)"; msg.textContent = 'You cannot re-enter an exam once it has been started.';
             } else {
                 isReviewMode = false; btn.disabled = false; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; 
-                if (DB[unit] && DB[unit].unlock) checkBlockGate(name, section, unit, DB[unit]);
+                if (DB[unit] && (DB[unit].unlock || DB[unit].attempts)) checkBlockGate(name, section, unit, DB[unit]);
             }
         }
 
@@ -1547,7 +1551,10 @@
             document.getElementById('activity-grid').style.display = 'flex'; 
             document.getElementById('btn-report').style.display = 'inline-block';
             show('menu'); 
-            setupAntiCheat((data.isStrictExam && !isAdmin) ? 1 : 3);
+            if (data.timeLimit && !data.isStrictExam && !isAdmin) { timeRemaining = data.timeLimit * 60; document.getElementById('time-display').textContent = data.timeLimit + ':00'; startTimer(); }
+            var maxEx = (data.isStrictExam && !isAdmin) ? 1 : (data.maxExits || 3);
+            var exMax = document.getElementById('exit-max'); if (exMax) exMax.textContent = maxEx;
+            setupAntiCheat(maxEx);
             if (state.isLocked && !isTeacher) { show('act'); showBlockedScreen(); }
         }
 
@@ -1996,7 +2003,14 @@
 
         function escHtml(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
         function escJs(t) { return String(t).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
-        function normAnswer(t) { return String(t).trim().toLowerCase().replace(/[.!?]+$/, '').replace(/\s+/g, ' '); }
+        function normAnswer(t) {
+            var x = ' ' + String(t).toLowerCase().replace(/[\u2019\u2018`]/g, "'").replace(/[.,!?;:"\u00bf\u00a1]/g, ' ') + ' ';
+            x = x.replace(/won't/g, 'will not').replace(/can't/g, 'can not').replace(/cannot/g, 'can not').replace(/n't/g, ' not')
+                 .replace(/'ll/g, ' will').replace(/'m/g, ' am').replace(/'re/g, ' are').replace(/'ve/g, ' have')
+                 .replace(/\b(he|she|it|that|there|what|where|who)'s/g, '$1 is');
+            return x.replace(/\s+/g, ' ').trim();
+        }
+        function unitSheet(section, unit) { return (DB[unit] && DB[unit].sheet) || sheetFor(section); }
 
         function prepareBlock(data) {
             var total = 0;
@@ -2217,8 +2231,10 @@
                 if (stage.script) top += playerHtml();
                 if (stage.passage) top += '<div class="reading-box" style="max-height:340px; overflow-y:auto;">' + stage.passage + '</div>';
                 if (stage.examples) top += '<div class="reading-box">' + stage.examples + '</div>';
-                if (stage.intro && !stage.video && !stage.script && p.pos === 0) top += '<div class="reading-box">' + stage.intro + '</div>';
-                var say = it.say ? '<button class="btn" style="margin:0 0 15px; background:#0ea5e9;" onclick="speak(\'' + escJs(it.say) + '\')"><i class="fas fa-volume-up"></i> Listen</button>' : '';
+                if (stage.intro && !stage.video && !stage.script && p.pos === 0) top += '<div class="reading-box" style="max-height:none; overflow:visible;">' + stage.intro + '</div>';
+                if (!p.says) p.says = {};
+                var saysLeft = it.sayMax ? Math.max(0, it.sayMax - (p.says[p.pos] || 0)) : -1;
+                var say = it.say ? '<button class="btn" id="bq-say" style="margin:0 0 15px; background:#0ea5e9;"' + (saysLeft === 0 && !isTeacher ? ' disabled' : '') + '><i class="fas fa-volume-up"></i> Listen' + (it.sayMax ? ' (' + (isTeacher ? '∞' : saysLeft) + ' left)' : '') + '</button>' : '';
                 var qBox = '<div style="background:#f1f5f9; padding:18px; border-radius:8px; border-left:4px solid var(--primary-blue); font-weight:bold; font-size:1.15rem; color:var(--text-main); margin-bottom:18px;">' + (it.emoji ? '<div style="font-size:2.5rem; margin-bottom:6px;">' + it.emoji + '</div>' : '') + it.q + '</div>';
                 var answerHtml;
                 if (it.opts) {
@@ -2230,7 +2246,17 @@
                 container.innerHTML = stageHeader(stage, p.pos, items.length) + top + say + qBox + answerHtml +
                     '<div id="bq-feedback" class="hint-box"></div>';
                 if (stage.script) wirePlayer(function() { var b = document.getElementById('lp-btn'); if (b) { b.innerHTML = '<i class="fas fa-play"></i> Play audio'; var max = stage.maxPlays || 2; b.disabled = !(isTeacher || p.plays < max); } var s = document.getElementById('lp-status'); if (s) s.innerHTML = 'Plays left: <b>' + (isTeacher ? '∞' : Math.max(0, (stage.maxPlays || 2) - p.plays)) + '</b>'; });
-                if (it.say && stage.autoSay !== false) setTimeout(function() { speak(it.say); }, 300);
+                if (it.say) {
+                    document.getElementById('bq-say').onclick = function() {
+                        if (it.sayMax && !isTeacher) {
+                            var used = p.says[p.pos] || 0; if (used >= it.sayMax) return;
+                            p.says[p.pos] = used + 1; var left = it.sayMax - used - 1;
+                            this.innerHTML = '<i class="fas fa-volume-up"></i> Listen (' + left + ' left)'; if (left <= 0) this.disabled = true;
+                        }
+                        speak(it.say);
+                    };
+                    if (!it.sayMax && stage.autoSay !== false) setTimeout(function() { speak(it.say); }, 300);
+                }
                 if (!it.opts) {
                     var inp = document.getElementById('bq-input'); inp.focus();
                     inp.onkeydown = function(e) { if (e.key === 'Enter') typed(); };
@@ -2311,11 +2337,17 @@
         }
         function checkBlockGate(name, section, unit, data) {
             var btn = document.getElementById('startBtn'); var msg = document.getElementById('msg');
-            var token = ++gateToken; var rule = data.unlock; var teacherKey = isTeacherKey(name);
-            var byTeacher = (rule.teacherSections || []).indexOf(section) > -1;
-            function allow() { if (token !== gateToken) return; btn.disabled = false; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = teacherKey ? '👨‍🏫 Teacher mode: this block is open for you.' : ''; }
+            var token = ++gateToken; var rule = data.unlock || null; var teacherKey = isTeacherKey(name);
+            var who = name.toLowerCase() + '-' + section + '-';
+            function allow(text) { if (token !== gateToken) return; btn.disabled = false; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = teacherKey ? '👨‍🏫 Teacher mode: this block is open for you.' : (text || ''); }
             function deny(text) { if (token !== gateToken) return; btn.disabled = true; btn.textContent = "Locked 🔒"; btn.style.backgroundColor = "#94a3b8"; msg.textContent = text; }
+            function record(u) {
+                var url = SHEETS_URL + '?action=done&sheetName=' + encodeURIComponent(unitSheet(section, u)) + '&name=' + encodeURIComponent(name) + '&section=' + encodeURIComponent(section) + '&unit=' + encodeURIComponent(u);
+                return fetchJson(url).then(function(r) { return { count: Math.max(Number(r.count) || 0, r.done === true ? 1 : 0), best: Number(r.best) || 0, ok: true }; }).catch(function() { return { count: 0, best: 0, ok: false }; });
+            }
+            function localRec(u) { return { count: parseInt(localStorage.getItem('ATT-' + who + u) || '0'), best: parseFloat(localStorage.getItem('BEST-' + who + u) || '0'), done: localStorage.getItem(who + u) === 'COMPLETED' }; }
             btn.disabled = true; btn.textContent = "Checking…"; msg.textContent = '';
+            var byTeacher = rule && (rule.teacherSections || []).indexOf(section) > -1;
             if (byTeacher) {
                 var url = SHEETS_URL + '?action=control&section=' + encodeURIComponent(section) + '&unit=' + encodeURIComponent(unit);
                 fetchJson(url).then(function(r) {
@@ -2324,28 +2356,42 @@
                 return;
             }
             if (teacherKey) { allow(); return; }
-            var prevKey = name.toLowerCase() + '-' + section + '-' + rule.after;
-            if (localStorage.getItem(prevKey) === 'COMPLETED') { allow(); return; }
-            var url2 = SHEETS_URL + '?action=done&sheetName=' + encodeURIComponent(sheetFor(section)) + '&name=' + encodeURIComponent(name) + '&section=' + encodeURIComponent(section) + '&unit=' + encodeURIComponent(rule.after);
-            fetchJson(url2).then(function(r) {
-                if (r.done === true) allow(); else deny('🔒 Complete "' + rule.after + '" first. Write your name exactly as you did in Block 1.');
-            }).catch(function() { deny('🔒 Complete "' + rule.after + '" first.'); });
+            var prevStep = Promise.resolve(true);
+            if (rule && rule.after) {
+                var lp = localRec(rule.after);
+                var localOk = rule.minScore ? lp.best >= rule.minScore : (lp.done || lp.count > 0);
+                prevStep = localOk ? Promise.resolve(true) : record(rule.after).then(function(r) {
+                    return rule.minScore ? r.best >= rule.minScore : r.count > 0;
+                });
+            }
+            prevStep.then(function(prevOk) {
+                if (!prevOk) {
+                    deny(rule.minScore ? '🔒 You need at least ' + rule.minScore + '/10 in "' + rule.after + '" to open this module. Write your name exactly as before.' : '🔒 Complete "' + rule.after + '" first. Write your name exactly as you did in Block 1.');
+                    return;
+                }
+                if (!data.attempts) { allow(); return; }
+                var lc = localRec(unit);
+                record(unit).then(function(r) {
+                    var used = Math.max(lc.count, r.count); var best = Math.max(lc.best, r.best);
+                    if (used >= data.attempts) { deny('⛔ You have used all your attempts (' + used + '/' + data.attempts + '). Best score: ' + best + '/10.'); return; }
+                    allow('📝 Attempt ' + (used + 1) + ' of ' + data.attempts + (used ? ' · Best score so far: ' + best + '/10' : '') + (data.timeLimit ? ' · Time limit: ' + data.timeLimit + ' min' : ''));
+                });
+            });
         }
 
         /* ================================================================
            SAVE SYSTEM & CERTIFICATES MODULE
            ================================================================ */
         function claimCert() {
+            if (examInterval) { clearInterval(examInterval); examInterval = null; var et = document.getElementById('exam-timer'); if (et) et.classList.add('hidden'); }
+            if (window._visibilityHandler) document.removeEventListener('visibilitychange', window._visibilityHandler);
             var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
             var finalGrade = rawScore.toFixed(1); 
             if (finalGrade > 10) finalGrade = 10.0;
             if (isNaN(finalGrade)) finalGrade = 0.0;
             if (!isReviewMode || isTeacher) {
                 var urlGoogleScript = "https://script.google.com/macros/s/AKfycbyrrk0Lj8yLe86HXl6pvJbIcAddLK8IuTH2bRxVNIc7r2V7Dh0hasQK1sZUNPak8s95nw/exec";
-                var targetSheet = "General Results";
-                if (state.section.startsWith("9")) targetSheet = "9th Grade - Q3";
-                if (state.section.startsWith("10")) targetSheet = "10th Grade - P4";
-                if (state.section.startsWith("11")) targetSheet = "11th Grade - P4";
+                var targetSheet = unitSheet(state.section, state.unit);
                 var formData = new FormData();
                 formData.append("name", state.name); formData.append("section", state.section); 
                 formData.append("unit", state.unit); formData.append("score", finalGrade); 
@@ -2354,7 +2400,13 @@
                 formData.append("time", minutes); formData.append("exits", state.exitCount || 0); formData.append("translated", translateCount);
                 fetch(urlGoogleScript, { method: "POST", body: formData, mode: "no-cors" }).catch(e => console.error(e));
                 var key = state.name.toLowerCase() + '-' + state.section + '-' + state.unit;
-                if (!isTeacher) localStorage.setItem(key, 'COMPLETED');
+                if (!isTeacher) {
+                    localStorage.setItem(key, 'COMPLETED');
+                    var who = state.name.toLowerCase() + '-' + state.section + '-' + state.unit;
+                    localStorage.setItem('ATT-' + who, String(parseInt(localStorage.getItem('ATT-' + who) || '0') + 1));
+                    if (parseFloat(finalGrade) > parseFloat(localStorage.getItem('BEST-' + who) || '0')) localStorage.setItem('BEST-' + who, String(finalGrade));
+                    localStorage.removeItem(getExitsKey());
+                }
             }
             show('cert');
             document.getElementById('cert-name').textContent = state.name; 

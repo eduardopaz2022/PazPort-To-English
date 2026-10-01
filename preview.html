@@ -2467,8 +2467,8 @@
             function allow(text) { if (token !== gateToken) return; btn.disabled = false; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = teacherKey ? '👨‍🏫 Teacher mode: this block is open for you.' : (text || ''); }
             function deny(text) { if (token !== gateToken) return; btn.disabled = true; btn.textContent = "Locked 🔒"; btn.style.backgroundColor = "#94a3b8"; msg.textContent = text; }
             function record(u) {
-                var url = SHEETS_URL + '?action=record&sheetName=' + encodeURIComponent(unitSheet(section, u)) + '&name=' + encodeURIComponent(name) + '&section=' + encodeURIComponent(section) + '&unit=' + encodeURIComponent(u);
-                return fetchJson(url).then(function(r) { return { count: Number(r.count) || 0, best: Number(r.best) || 0, ok: true }; }).catch(function() { return { count: 0, best: 0, ok: false }; });
+                var url = SHEETS_URL + '?action=done&sheetName=' + encodeURIComponent(unitSheet(section, u)) + '&name=' + encodeURIComponent(name) + '&section=' + encodeURIComponent(section) + '&unit=' + encodeURIComponent(u);
+                return fetchJson(url).then(function(r) { return { count: Math.max(Number(r.count) || 0, r.done === true ? 1 : 0), best: Number(r.best) || 0, ok: true }; }).catch(function() { return { count: 0, best: 0, ok: false }; });
             }
             function localRec(u) { return { count: parseInt(localStorage.getItem('ATT-' + who + u) || '0'), best: parseFloat(localStorage.getItem('BEST-' + who + u) || '0'), done: localStorage.getItem(who + u) === 'COMPLETED' }; }
             btn.disabled = true; btn.textContent = "Checking…"; msg.textContent = '';
