@@ -3179,7 +3179,13 @@
             if (byTeacher) {
                 var url = SHEETS_URL + '?action=control&section=' + encodeURIComponent(section) + '&unit=' + encodeURIComponent(unit);
                 fetchJson(url).then(function(r) {
-                    if (teacherKey || r.open === true) allow(); else deny('🔒 Your teacher has not opened this block yet.');
+                    if (teacherKey) { allow(); return; }
+                    if (r.open !== true) { deny('🔒 Your teacher has not opened this block yet.'); return; }
+                    // The teacher opened it, but Block 1 must still be done first
+                    var lp = localRec(rule.after);
+                    (lp.done || lp.count > 0 ? Promise.resolve(true) : record(rule.after).then(function(x) { return x.count > 0; })).then(function(ok) {
+                        if (ok) allow(); else deny('🔒 Complete "' + rule.after + '" first. Write your name exactly as you did in Block 1.');
+                    });
                 }).catch(function() { if (teacherKey) allow(); else deny('⚠️ Could not check. Verify your internet connection and select the unit again.'); });
                 return;
             }
