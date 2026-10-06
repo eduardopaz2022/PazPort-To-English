@@ -954,7 +954,7 @@
                 ]
             },
             "9th - Not Feeling Good - Block 1": {
-                active: true, type: "block",
+                active: true, sections: ["9A"], until: "2026-10-07T00:00:00Z", // 9A only, hidden from Oct 6, 6:00 p.m. El Salvador time type: "block",
                 stages: [
                     { id: "warmup", kind: "quiz", title: "Warm-up", desc: "What do you already know?", icon: "fas fa-fire",
                       intro: "<h3 style='margin-bottom:8px;'>🤒 Not Feeling Good</h3><p>This week you will learn how to talk about <b>when you feel sick</b>. You already know many words about this topic. Let's see!</p>",
@@ -1032,7 +1032,7 @@
                 ]
             },
             "9th - Not Feeling Good - Block 2": {
-                active: true, type: "block",
+                active: false, type: "block",
                 unlock: { after: "9th - Not Feeling Good - Block 1", teacherSections: ["9B"] },
                 stages: [
                     { id: "review", kind: "quiz", title: "Quick Review", desc: "Remember Block 1", icon: "fas fa-redo",
@@ -1103,7 +1103,7 @@
                 ]
             },
             "10th - Past Tense Lab - Block 1": {
-                active: true, type: "block",
+                active: false, type: "block",
                 stages: [
                     { id: "warmup", kind: "quiz", title: "Warm-up: Irregular Verbs", desc: "10 verbs · graded", icon: "fas fa-yin-yang", graded: true,
                       intro: "<p>🥋 Do you remember the <b>Irregular Dojo</b>? Write the <b>past tense</b> of 10 verbs. This is <b>graded</b> and you have <b>one try</b>.</p>",
@@ -1188,7 +1188,7 @@
                 ]
             },
             "10th - Past Tense Lab - Block 2": {
-                active: true, type: "block",
+                active: false, type: "block",
                 unlock: { after: "10th - Past Tense Lab - Block 1", teacherSections: [] },
                 stages: [
                     { id: "listening", kind: "quiz", title: "Listening", desc: "How was your weekend?", icon: "fas fa-headphones", graded: true, keepOrder: true, maxPlays: 2,
@@ -1249,6 +1249,314 @@
                         { g: "grammar", q: "They didn't ___ their homework.", opts: ["finish", "finished", "finishing", "finishes"], a: 0 },
                         { g: "grammar", q: "A: Did you enjoy the party? B: Yes, I ___.", opts: ["did", "was", "do", "enjoy"], a: 0 },
                         { g: "grammar", q: "He ___ to school on Monday because he was sick.", opts: ["didn't go", "didn't went", "doesn't go", "not went"], a: 0 }
+                      ] }
+                ]
+            },
+            "9th - Not Feeling Good 2 - Block 1": {
+                active: true, type: "block",
+                stages: [
+                    { id: "warmup", kind: "quiz", title: "Warm-up", desc: "Remember last week", icon: "fas fa-fire",
+                      intro: "<h3 style='margin-bottom:8px;'>🤒 Not Feeling Good · Part 2</h3><p>Last week you learned the names of many <b>symptoms</b>. This week you will learn how to <b>give advice</b> to a sick person. First, let's remember!</p>",
+                      items: [
+                        { q: "🤕 My head hurts a lot. I have a…", opts: ["headache", "toothache", "stomachache", "backache"], a: 0, hint: "Head + ache." },
+                        { q: "🤒 My temperature is 39 degrees. I have a…", opts: ["fever", "cough", "cold", "sore throat"], a: 0, hint: "Fiebre / calentura." },
+                        { q: "It hurts when I talk or swallow food. I have a…", opts: ["sore throat", "runny nose", "neck pain", "toothache"], a: 0, hint: "Throat = garganta." },
+                        { q: "😷 'Tos' in English is…", opts: ["cough", "cold", "cut", "cook"], a: 0, hint: "😷 Cough, cough!" },
+                        { q: "I go to bed early, but I can't sleep. I have…", opts: ["sleeping problems", "a runny nose today", "neck pain at night", "a very bad cold"], a: 0, hint: "Problemas para dormir." },
+                        { q: "Complete: She has ___ earache.", opts: ["an", "a", "the", "— (no article)"], a: 0, hint: "Earache begins with a vowel sound." }
+                      ] },
+                    { id: "vocab", kind: "cards", title: "Vocabulary", desc: "10 words: symptoms and remedies", icon: "fas fa-brain",
+                      intro: "<b>10 new words.</b> 6 are about <b>how you feel</b> and 4 are about <b>getting better</b>. Listen, repeat out loud and flip the card. 🗣️",
+                      items: [
+                        { term: "earache", emoji: "👂", meaning: "A pain inside your ear.", spanish: "Dolor de oído", example: "I have an earache. I can't hear very well." },
+                        { term: "backache", emoji: "🧍", meaning: "A pain in your back.", spanish: "Dolor de espalda", example: "My dad has a backache after work." },
+                        { term: "flu", emoji: "🤧", meaning: "An illness like a strong cold, with fever and pain in your body.", spanish: "Gripe / influenza", example: "She has the flu. She is in bed." },
+                        { term: "sneeze", emoji: "💨", meaning: "Air comes out of your nose suddenly: Achoo!", spanish: "Estornudar", example: "Cover your mouth when you sneeze." },
+                        { term: "dizzy", emoji: "😵‍💫", meaning: "You feel that everything is moving around you.", spanish: "Mareado", example: "I feel dizzy. I need to sit down." },
+                        { term: "hurt", emoji: "🩹", meaning: "To feel pain in a part of your body.", spanish: "Doler", example: "My leg hurts when I walk." },
+                        { term: "rest", emoji: "🛌", meaning: "To stop and relax so your body feels better.", spanish: "Descansar", example: "You are sick. You should rest today." },
+                        { term: "pill", emoji: "💊", meaning: "A small piece of medicine that you swallow.", spanish: "Pastilla", example: "Take one pill after breakfast." },
+                        { term: "appointment", emoji: "📅", meaning: "A time to see a doctor (or another person) that you plan before.", spanish: "Cita", example: "I have an appointment with the doctor at 3:00." },
+                        { term: "advice", emoji: "💬", meaning: "An idea that helps a person decide what to do.", spanish: "Consejo", example: "My mom always gives me good advice." }
+                      ] },
+                    { id: "video", kind: "quiz", title: "Grammar Video: Should", desc: "Watch and answer", icon: "fas fa-play-circle",
+                      video: "ELhFzpCWdOo", minSeconds: 120,
+                      intro: "<p>Watch this video about <b>should</b> and <b>shouldn't</b>. We use them to <b>give advice</b>. <b>Pay attention</b>: the questions are about what the video explains. 🎬</p>",
+                      items: [
+                        { q: "We use <b>should</b> to…", opts: ["give advice to a person", "talk about past events", "say what we have now", "describe people we know"], a: 0, hint: "You should rest = it is a good idea to rest." },
+                        { q: "<b>You shouldn't eat candy</b> means…", opts: ["It is not a good idea", "It is a very good idea", "You ate candy yesterday", "You can eat a lot of it"], a: 0, hint: "Shouldn't = should not." },
+                        { q: "After <b>should</b>, the verb is in the…", opts: ["base form (go, eat)", "past form (went, ate)", "-ing form (going)", "-s form (goes, eats)"], a: 0, hint: "You should go… She should eat…" },
+                        { q: "Which sentence is correct?", opts: ["She should see a doctor.", "She shoulds see a doctor.", "She should sees a doctor.", "She should to see a doctor."], a: 0, hint: "Should never changes. No -s, no 'to'." },
+                        { q: "How do we ask for advice?", opts: ["What should I do?", "What I should do?", "What do I should?", "What should do I?"], a: 0, hint: "In questions, should goes before the person." }
+                      ] },
+                    { id: "discover", kind: "quiz", title: "Grammar Detective", desc: "Discover the rule", icon: "fas fa-search",
+                      examples: "<p style='margin-bottom:8px;'><b>🔎 Look at the sentences:</b></p><p>1. You have a fever. You <b style='color:#16a34a;'>should</b> stay in bed.<br>2. He has a toothache. He <b style='color:#16a34a;'>should</b> see the dentist.<br>3. She has a sore throat. She <b style='color:#dc2626;'>shouldn't</b> drink cold soda.<br>4. You have the flu. You <b style='color:#dc2626;'>shouldn't</b> go to school.<br>5. I feel dizzy. What <b style='color:#2563eb;'>should</b> I do?</p>",
+                      items: [
+                        { q: "In sentences 1 and 2, <b>should</b> means…", opts: ["It is a good idea to do it", "It is a rule from the school", "It happened in the past", "It is not possible to do it"], a: 0, hint: "Stay in bed, see the dentist… good ideas!" },
+                        { q: "In sentences 3 and 4, <b>shouldn't</b> means…", opts: ["It is a bad idea to do it", "It is a good idea to do it", "You did it yesterday", "You can do it every day"], a: 0, hint: "Cold soda with a sore throat? Bad idea!" },
+                        { q: "Sentence 2: why do we say 'He should <b>see</b>' and not 'He should <b>sees</b>'?", opts: ["After should, the verb has no -s", "Because 'he' is a plural person", "Because the sentence is a question", "Because the dentist is a specific one"], a: 0, hint: "Should + base verb, always." },
+                        { q: "Sentence 5: where is <b>should</b> in a question?", opts: ["Before the person (I, you, she)", "After the main verb (do, go)", "At the end of the question", "It is not in the question"], a: 0, hint: "What should I do?" },
+                        { q: "Complete: You have a backache. You ___ carry heavy bags.", opts: ["shouldn't", "should", "shoulds", "should to"], a: 0, hint: "Is carrying heavy bags a good idea with a backache?" }
+                      ],
+                      outro: "<h3 style='margin-bottom:10px;'>🕵️ The Secret Code of Advice</h3><p><b style='color:#16a34a;'>SHOULD</b> + base verb → a <b>good idea</b>: You should rest. She should take a pill.</p><p><b style='color:#dc2626;'>SHOULDN'T</b> + base verb → a <b>bad idea</b>: You shouldn't go out. He shouldn't eat candy.</p><p><b style='color:#2563eb;'>QUESTION</b> → should + person + verb: What should I do? Should I see a doctor?</p><p>⚠️ <b>Never</b> 'shoulds', 'should to' or 'should goes'.</p><p>💡 And remember your articles: You should take <b>an</b> aspirin. You should call <b>the</b> doctor.</p>" },
+                    { id: "practice", kind: "builder", title: "Sentence Builder", desc: "Practice: build the advice", icon: "fas fa-align-left",
+                      items: [
+                        { prompt: "🤒 Your friend has a fever.", c: "You should stay in bed today" },
+                        { prompt: "🦷 Your brother has a toothache.", c: "He should see the dentist" },
+                        { prompt: "🗣️ Your mom has a sore throat.", c: "She shouldn't drink cold water" },
+                        { prompt: "😵‍💫 You feel dizzy and you don't know what to do.", c: "What should I do now" },
+                        { prompt: "🤧 Your sister has the flu.", c: "She shouldn't go to school today" },
+                        { prompt: "🤕 Your friend has a headache.", c: "You should take an aspirin" }
+                      ] },
+                    { id: "checkpoint", kind: "quiz", title: "Checkpoint", desc: "10 questions · graded", icon: "fas fa-flag-checkered", graded: true,
+                      intro: "<p>⚠️ <b>This part is graded.</b> You have <b>only one try</b> for each question. Read carefully!</p>",
+                      pick: [["vocab", 5], ["grammar", 5]],
+                      items: [
+                        { g: "vocab", q: "👂 I can't hear well and my ear hurts. I have an…", opts: ["earache", "headache", "backache", "toothache"], a: 0 },
+                        { g: "vocab", q: "I carried a lot of heavy boxes. Now I have a…", opts: ["backache", "toothache", "earache", "runny nose"], a: 0 },
+                        { g: "vocab", q: "Achoo! Achoo! I ___ a lot when there is dust.", opts: ["sneeze", "hurt", "rest", "cough"], a: 0 },
+                        { g: "vocab", q: "Everything is moving around me. I feel…", opts: ["dizzy", "hungry", "sleepy", "angry"], a: 0 },
+                        { g: "vocab", q: "I need to see the doctor. I have an ___ at 4:00.", opts: ["appointment", "advice", "earache", "exercise"], a: 0 },
+                        { g: "vocab", q: "'Pastilla' in English is…", opts: ["pill", "pain", "fill", "peel"], a: 0 },
+                        { g: "vocab", q: "My grandpa has fever, a cough and pain in his body. He has the…", opts: ["flu", "rest", "pill", "advice"], a: 0 },
+                        { g: "vocab", q: "My friend is sad. I give him some ___: \"Talk to your parents.\"", opts: ["advice", "appointment", "pills", "rest"], a: 0 },
+                        { g: "grammar", q: "You have a fever. You ___ stay at home.", opts: ["should", "shouldn't", "shoulds", "should to"], a: 0 },
+                        { g: "grammar", q: "She has a stomachache. She ___ eat more pupusas.", opts: ["shouldn't", "should", "shouldn't to", "don't should"], a: 0 },
+                        { g: "grammar", q: "Choose the correct sentence.", opts: ["He should rest today.", "He shoulds rest today.", "He should rests today.", "He should to rest today."], a: 0 },
+                        { g: "grammar", q: "I feel dizzy. What ___?", opts: ["should I do", "I should do", "should do I", "do I should"], a: 0 },
+                        { g: "grammar", q: "You have a toothache. You should see ___ dentist.", opts: ["the", "an", "a", "— (no article)"], a: 0 },
+                        { g: "grammar", q: "You have a headache. You should take ___ aspirin.", opts: ["an", "a", "the", "— (no article)"], a: 0 },
+                        { g: "grammar", q: "Your eyes hurt. You ___ play video games all night.", opts: ["shouldn't", "should", "don't should", "not should"], a: 0 },
+                        { g: "grammar", q: "A: I have the flu. B: You ___ drink a lot of water.", opts: ["should", "shouldn't", "should to", "shoulds"], a: 0 }
+                      ] }
+                ]
+            },
+            "9th - Not Feeling Good 2 - Block 2": {
+                active: true, type: "block",
+                unlock: { after: "9th - Not Feeling Good 2 - Block 1", teacherSections: ["9B"] },
+                stages: [
+                    { id: "review", kind: "quiz", title: "Quick Review", desc: "Remember Block 1", icon: "fas fa-redo",
+                      intro: "<p>Welcome back! Let's remember what we learned. 💪</p>",
+                      items: [
+                        { q: "'Cita' (con el doctor) in English is…", opts: ["appointment", "apartment", "advice", "assignment"], a: 0, hint: "📅 I have an ___ at 3:00." },
+                        { q: "You have the flu. You ___ go to the party.", opts: ["shouldn't", "should", "shoulds", "should to"], a: 0, hint: "Is it a good idea? No!" },
+                        { q: "'Mareado' in English is…", opts: ["dizzy", "busy", "lazy", "sleepy"], a: 0, hint: "😵‍💫" },
+                        { q: "Choose the correct question.", opts: ["What should I do?", "What I should do?", "What should do I?", "What do I should?"], a: 0, hint: "Should + person + verb." },
+                        { q: "My ear hurts. I have ___ earache.", opts: ["an", "a", "the", "— (no article)"], a: 0, hint: "Vowel sound → an." }
+                      ] },
+                    { id: "listening", kind: "quiz", title: "Listening", desc: "A call to the clinic", icon: "fas fa-headphones", graded: true, keepOrder: true, maxPlays: 2,
+                      listenTitle: "Ana calls the clinic",
+                      intro: "<p>🎧 Ana calls a clinic because she is not feeling good. You can listen <b>only 2 times</b>. The questions are <b>graded</b> (one try).</p>",
+                      script: [
+                        { who: "Receptionist", text: "Good afternoon, Green Valley Clinic. How can I help you?" },
+                        { who: "Ana", text: "Hello. I need an appointment with the doctor, please. I'm not feeling good." },
+                        { who: "Receptionist", text: "I'm sorry. What's the matter?" },
+                        { who: "Ana", text: "I have an earache and I feel dizzy. It started on Sunday night." },
+                        { who: "Receptionist", text: "Do you have a fever?" },
+                        { who: "Ana", text: "No, I don't. But I sneeze a lot." },
+                        { who: "Receptionist", text: "OK. Doctor Morales can see you tomorrow at ten in the morning. Is that OK?" },
+                        { who: "Ana", text: "Yes, perfect. What should I do tonight?" },
+                        { who: "Receptionist", text: "You should rest and drink warm water. You shouldn't listen to loud music with headphones." },
+                        { who: "Ana", text: "OK. Thank you very much!" }
+                      ],
+                      items: [
+                        { q: "Why does Ana call the clinic?", opts: ["To make an appointment", "To buy some medicine", "To talk to her mother", "To ask about her test"], a: 0 },
+                        { q: "What are Ana's symptoms?", opts: ["An earache and dizziness", "A fever and a headache", "A backache and a cough", "A sore throat and a fever"], a: 0 },
+                        { q: "When did her problem start?", opts: ["On Sunday night", "On Monday night", "On Sunday morning", "On Saturday night"], a: 0 },
+                        { q: "Does Ana have a fever?", opts: ["No, but she sneezes a lot", "Yes, and she sneezes a lot", "No, but she coughs a lot", "Yes, and she coughs a lot"], a: 0 },
+                        { q: "When is her appointment?", opts: ["Tomorrow at 10:00 a.m.", "Tomorrow at 2:00 p.m.", "Today at 10:00 a.m.", "Tomorrow at 12:00 p.m."], a: 0 },
+                        { q: "What advice does the receptionist give?", opts: ["Rest and drink warm water", "Take two pills and sleep", "Drink cold water and rest", "Go to the hospital tonight"], a: 0 }
+                      ] },
+                    { id: "reading", kind: "quiz", title: "Reading", desc: "Ask Nurse Rosa", icon: "fas fa-book-open", graded: true, keepOrder: true,
+                      passage: "<h3 style='margin-bottom:8px;'>📖 Ask Nurse Rosa</h3><p><i>Students write to Nurse Rosa, the school nurse, and she gives them advice.</i></p><p><b>Dear Nurse Rosa,</b> I play video games every night until 2 a.m. Now I have a headache every morning and my eyes hurt. What should I do? — <i>Kevin, 15</i></p><p><b>Dear Kevin,</b> Your body needs at least eight hours of sleep. You shouldn't play at night. You should turn off your phone and your games at 9 p.m. Then your headaches will stop. — <i>Nurse Rosa</i></p><p><b>Dear Nurse Rosa,</b> I carry a very heavy backpack to school every day. Now I have a backache. — <i>Daniela, 14</i></p><p><b>Dear Daniela,</b> You should only carry the books you need for that day. You should also use the two straps of your backpack, not just one. — <i>Nurse Rosa</i></p><p><b>Dear Nurse Rosa,</b> My little sister has the flu, and now I sneeze a lot and I have a runny nose. I have a soccer game on Saturday. — <i>Mario, 15</i></p><p><b>Dear Mario,</b> I think you have a cold. You should drink a lot of water and rest. Wash your hands often. You shouldn't play on Saturday if you have a fever. — <i>Nurse Rosa</i></p>",
+                      items: [
+                        { q: "Why does Kevin have headaches?", opts: ["He plays games until very late", "He doesn't eat a good breakfast", "He reads too much at school", "He has a lot of homework"], a: 0 },
+                        { q: "How many hours of sleep does Kevin need?", opts: ["At least eight hours", "At least nine hours", "At least six hours", "At least two hours"], a: 0 },
+                        { q: "What is Daniela's problem?", opts: ["Her back hurts", "Her head hurts", "Her eyes hurt", "Her ear hurts"], a: 0 },
+                        { q: "What is one piece of advice for Daniela?", opts: ["Use the two straps of the backpack", "Buy a new and bigger backpack", "Don't go to school for a week", "Carry all the books every day"], a: 0 },
+                        { q: "Who has the flu in Mario's letter?", opts: ["His little sister", "Mario", "His soccer coach", "His little brother"], a: 0 },
+                        { q: "When shouldn't Mario play soccer?", opts: ["If he has a fever on Saturday", "If he has a runny nose on Friday", "If his sister goes to the game", "If he doesn't wash his hands"], a: 0 }
+                      ] },
+                    { id: "final", kind: "quiz", title: "Final Evaluation", desc: "15 questions · graded", icon: "fas fa-graduation-cap", graded: true,
+                      intro: "<p>🎓 <b>Final evaluation.</b> 15 questions about <b>both weeks</b>, <b>one try</b> each. Good luck!</p>",
+                      pick: [["vocab", 5], ["grammar", 5], ["use", 5]],
+                      items: [
+                        { g: "vocab", q: "'Dolor de espalda' in English is…", opts: ["backache", "earache", "neck pain", "stomachache"], a: 0 },
+                        { g: "vocab", q: "'Consejo' in English is…", opts: ["advice", "appointment", "advance", "address"], a: 0 },
+                        { g: "vocab", q: "My leg ___ when I run.", opts: ["hurts", "rests", "sneezes", "coughs"], a: 0 },
+                        { g: "vocab", q: "You are very tired. You need to ___.", opts: ["rest", "sneeze", "hurt", "cough"], a: 0 },
+                        { g: "vocab", q: "The doctor says: \"Take one ___ every eight hours.\"", opts: ["pill", "flu", "fever", "cold"], a: 0 },
+                        { g: "vocab", q: "My tooth hurts a lot. I have a…", opts: ["toothache", "earache", "backache", "headache"], a: 0 },
+                        { g: "vocab", q: "I have a temperature of 38.5 degrees. I have a…", opts: ["fever", "cough", "cold", "flu"], a: 0 },
+                        { g: "vocab", q: "My nose is like a water tap. I have a…", opts: ["runny nose", "sore throat", "neck pain", "stomachache"], a: 0 },
+                        { g: "grammar", q: "You have a sore throat. You ___ eat ice cream.", opts: ["shouldn't", "should", "don't should", "should not to"], a: 0 },
+                        { g: "grammar", q: "My dad has a backache. He ___ see a doctor.", opts: ["should", "shoulds", "should to", "shouldn't"], a: 0 },
+                        { g: "grammar", q: "Choose the correct sentence.", opts: ["She should take a pill.", "She should takes a pill.", "She shoulds take a pill.", "She should to take a pill."], a: 0 },
+                        { g: "grammar", q: "Choose the correct question.", opts: ["Should I call the doctor?", "I should call the doctor?", "Do I should call the doctor?", "Should call I the doctor?"], a: 0 },
+                        { g: "grammar", q: "I have ___ appointment with the dentist.", opts: ["an", "a", "the", "— (no article)"], a: 0 },
+                        { g: "grammar", q: "My brother has ___ bad cold.", opts: ["a", "an", "the", "— (no article)"], a: 0 },
+                        { g: "grammar", q: "Please call ___ nurse. She is in her office.", opts: ["the", "a", "an", "— (no article)"], a: 0 },
+                        { g: "grammar", q: "My friends have ___ headaches before exams.", opts: ["— (no article)", "a", "an", "the"], a: 0 },
+                        { g: "use", q: "Your friend says: \"I feel dizzy.\" The best advice is…", opts: ["You should sit down.", "You should run fast.", "You should eat candy.", "You should play soccer."], a: 0 },
+                        { g: "use", q: "Your friend has a toothache. The best advice is…", opts: ["You should see the dentist.", "You should eat more candy.", "You should drink cold soda.", "You should go to the gym."], a: 0 },
+                        { g: "use", q: "Which advice is NOT good for the flu?", opts: ["You should go out in the rain.", "You should drink a lot of water.", "You should stay in bed and rest.", "You should take your medicine."], a: 0 },
+                        { g: "use", q: "Your mom asks: \"What's the matter?\" You answer:", opts: ["I have an earache.", "I have a new friend.", "I'm in ninth grade.", "I'm going to the park."], a: 0 },
+                        { g: "use", q: "You want to see the doctor tomorrow. You say:", opts: ["I need an appointment, please.", "I need an advice for you, please.", "I need a pill for the doctor, please.", "I need a dentist in the clinic, please."], a: 0 },
+                        { g: "use", q: "A: I sneeze a lot and I have a runny nose. B: ___", opts: ["I think you have a cold.", "I think you have a backache.", "I think you have a toothache.", "I think you have an earache."], a: 0 },
+                        { g: "use", q: "Your friend has a headache. You say:", opts: ["You shouldn't look at your phone.", "You should listen to loud music.", "You shouldn't drink any water.", "You should play games all night."], a: 0 }
+                      ] }
+                ]
+            },
+            "10th - Past Tense Lab 2 - Block 1": {
+                active: true, type: "block",
+                stages: [
+                    { id: "warmup", kind: "quiz", title: "Warm-up: Do You Remember?", desc: "10 questions · graded", icon: "fas fa-yin-yang", graded: true,
+                      intro: "<p>🥋 Let's see what you remember from last week: <b>5 irregular verbs</b> from the Dojo (write the past) and <b>5 verbs from the Sound Lab</b> (listen and choose the -ed sound). This is <b>graded</b> and you have <b>one try</b>. You can listen to each verb <b>2 times</b>.</p>",
+                      fromVerbs: { unit: "10th - P4 - Module 4", count: 5, plus: 5 },
+                      items: [
+                        { say: "cooked", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/t/", "/d/", "/ɪd/"], a: 0 },
+                        { say: "washed", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/t/", "/d/", "/ɪd/"], a: 0 },
+                        { say: "danced", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/t/", "/d/", "/ɪd/"], a: 0 },
+                        { say: "cleaned", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/d/", "/t/", "/ɪd/"], a: 0 },
+                        { say: "traveled", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/d/", "/t/", "/ɪd/"], a: 0 },
+                        { say: "borrowed", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/d/", "/t/", "/ɪd/"], a: 0 },
+                        { say: "arrived", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/d/", "/t/", "/ɪd/"], a: 0 },
+                        { say: "visited", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/ɪd/", "/t/", "/d/"], a: 0 },
+                        { say: "invested", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/ɪd/", "/t/", "/d/"], a: 0 },
+                        { say: "waited", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/ɪd/", "/t/", "/d/"], a: 0 }
+                      ] },
+                    { id: "money", kind: "cards", title: "Money Words", desc: "6 new + 4 review", icon: "fas fa-piggy-bank",
+                      intro: "<b>Money management vocabulary.</b> 6 new words and 4 words to <b>review</b> 🔁. Listen, repeat and flip each card.",
+                      items: [
+                        { term: "cash", emoji: "💵", meaning: "Money in bills and coins, not on a card.", spanish: "Efectivo", example: "I paid in cash at the store." },
+                        { term: "receipt", say: "receipt", emoji: "🧾", meaning: "A piece of paper that shows what you bought and how much you paid.", spanish: "Recibo / factura", example: "Keep the receipt. You may need it." },
+                        { term: "discount", emoji: "🏷️", meaning: "A lower price than usual.", spanish: "Descuento", example: "I bought these shoes with a 20% discount." },
+                        { term: "owe", emoji: "🤝", meaning: "To have to pay money back to someone.", spanish: "Deber (dinero)", example: "I owe my sister five dollars." },
+                        { term: "withdraw", emoji: "🏧", meaning: "To take money out of a bank account or an ATM.", spanish: "Retirar (dinero)", example: "My mom withdrew $50 from the ATM." },
+                        { term: "deposit", emoji: "🏦", meaning: "To put money into a bank account.", spanish: "Depositar", example: "He deposited his salary in the bank." },
+                        { term: "savings 🔁", say: "savings", emoji: "🐷", meaning: "Money that you keep and don't spend.", spanish: "Ahorros", example: "I didn't use my savings last month." },
+                        { term: "debt 🔁", say: "debt", emoji: "📉", meaning: "Money that you owe to another person or a bank.", spanish: "Deuda", example: "They didn't have any debt." },
+                        { term: "afford 🔁", say: "afford", emoji: "🤑", meaning: "To have enough money to pay for something.", spanish: "Poder pagar / permitirse", example: "We couldn't afford the tickets." },
+                        { term: "loan 🔁", say: "loan", emoji: "🏦", meaning: "Money that a bank or a person gives you and you must pay back.", spanish: "Préstamo", example: "Did your parents ask for a loan?" }
+                      ] },
+                    { id: "video", kind: "quiz", title: "Video: Did and Didn't", desc: "Watch and answer", icon: "fas fa-play-circle",
+                      video: "WGXtNUDUiIQ", minSeconds: 120,
+                      intro: "<p>Watch the video about <b>negatives and questions</b> in the past simple. <b>Pay attention</b>: the questions are about what the video explains. 🎬</p>",
+                      items: [
+                        { q: "To make a <b>negative</b> sentence in the past, we use…", opts: ["didn't + base verb", "didn't + past verb", "don't + past verb", "wasn't + base verb"], a: 0, hint: "I didn't go. She didn't save." },
+                        { q: "To make a <b>question</b> in the past, we use…", opts: ["Did + person + base verb", "Did + person + past verb", "Do + person + past verb", "Was + person + base verb"], a: 0, hint: "Did you go? Did she save?" },
+                        { q: "<b>Didn't</b> is the short form of…", opts: ["did not", "do not", "does not", "was not"], a: 0, hint: "did + not." },
+                        { q: "Which sentence is correct?", opts: ["She didn't buy a phone.", "She didn't bought a phone.", "She not bought a phone.", "She don't bought a phone."], a: 0, hint: "After didn't, the verb goes back to the base form." },
+                        { q: "A: Did you finish your homework? B: Yes, I ___.", opts: ["did", "finished", "do", "was"], a: 0, hint: "Short answer: Yes, I did. / No, I didn't." }
+                      ] },
+                    { id: "discover", kind: "quiz", title: "Grammar Detective", desc: "Discover the rule", icon: "fas fa-search",
+                      examples: "<p style='margin-bottom:8px;'><b>🔎 Look at the sentences:</b></p><p>1. I <b style='color:#16a34a;'>spent</b> $20. → I <b style='color:#dc2626;'>didn't spend</b> $20.<br>2. She <b style='color:#16a34a;'>saved</b> money. → She <b style='color:#dc2626;'>didn't save</b> money.<br>3. They <b style='color:#16a34a;'>paid</b> in cash. → <b style='color:#2563eb;'>Did</b> they <b style='color:#2563eb;'>pay</b> in cash?<br>4. He <b style='color:#16a34a;'>withdrew</b> $50. → How much <b style='color:#2563eb;'>did</b> he <b style='color:#2563eb;'>withdraw</b>?<br>5. A: <b style='color:#2563eb;'>Did</b> you <b style='color:#2563eb;'>keep</b> the receipt? B: No, I <b style='color:#dc2626;'>didn't</b>.</p>",
+                      items: [
+                        { q: "Look at 1 and 2. What happens to the verb after <b>didn't</b>?", opts: ["It goes back to the base form", "It stays in the past form", "It takes an -ing ending", "It takes an -s ending"], a: 0, hint: "spent → didn't spend, saved → didn't save." },
+                        { q: "Does this rule work with <b>regular</b> and <b>irregular</b> verbs?", opts: ["Yes, with both kinds of verbs", "No, only with regular verbs", "No, only with irregular verbs", "Only with verbs about money"], a: 0, hint: "save (regular) and spend (irregular)…" },
+                        { q: "Look at 3 and 4. Where is <b>did</b> in a question?", opts: ["Before the person (you, he, they)", "After the main verb (pay, withdraw)", "At the end of the question", "It is not in the question"], a: 0, hint: "Did they pay…? How much did he withdraw?" },
+                        { q: "Look at 5. How do we give a short answer?", opts: ["No, I didn't.", "No, I didn't keep.", "No, I don't.", "No, I wasn't."], a: 0, hint: "Yes, I did. / No, I didn't." },
+                        { q: "Complete: We ___ a discount at the store.", opts: ["didn't get", "didn't got", "not got", "don't got"], a: 0, hint: "didn't + base verb." }
+                      ],
+                      outro: "<h3 style='margin-bottom:10px;'>🕵️ The Secret Code of DID</h3><p><b style='color:#16a34a;'>✅ Positive</b> → past verb: I <b>spent</b> $10. She <b>saved</b> money.</p><p><b style='color:#dc2626;'>❌ Negative</b> → <b>didn't</b> + base verb: I <b>didn't spend</b> $10.</p><p><b style='color:#2563eb;'>❓ Question</b> → <b>Did</b> + person + base verb: <b>Did</b> she <b>save</b> money?</p><p><b>Short answers:</b> Yes, I did. / No, I didn't.</p><p>⚠️ The past is already in <b>did</b>. Never 'didn't spent' or 'Did you saved?'.</p>" },
+                    { id: "practice", kind: "quiz", title: "Practice: Transform It", desc: "Write negatives and questions", icon: "fas fa-pen",
+                      intro: "<p>✍️ <b>Practice.</b> Write the missing words. You can try again if you make a mistake.</p>",
+                      items: [
+                        { q: "✍️ Negative: <i>She saved money.</i><br>→ She ______ money.", answer: ["didn't save", "did not save"], hint: "didn't + base verb: save." },
+                        { q: "✍️ Negative: <i>I paid in cash.</i><br>→ I ______ in cash.", answer: ["didn't pay", "did not pay"], hint: "paid → pay." },
+                        { q: "✍️ Negative: <i>They bought a new TV.</i><br>→ They ______ a new TV.", answer: ["didn't buy", "did not buy"], hint: "bought → buy." },
+                        { q: "✍️ Negative: <i>He withdrew $100.</i><br>→ He ______ $100.", answer: ["didn't withdraw", "did not withdraw"], hint: "withdrew → withdraw." },
+                        { q: "✍️ Question: <i>You kept the receipt.</i><br>→ ______ the receipt?", answer: ["Did you keep"], hint: "Did + you + base verb (keep)." },
+                        { q: "✍️ Question: <i>She deposited her salary.</i><br>→ ______ her salary?", answer: ["Did she deposit"], hint: "Did + she + deposit." },
+                        { q: "✍️ Question: <i>They got a discount.</i><br>→ ______ a discount?", answer: ["Did they get"], hint: "got → get." },
+                        { q: "✍️ Short answer: <i>Did you spend all your money?</i> (✗)<br>→ No, I ______.", answer: ["didn't", "did not"], hint: "No, I ___. (two words or the short form)" }
+                      ] },
+                    { id: "checkpoint", kind: "quiz", title: "Checkpoint", desc: "10 questions · graded", icon: "fas fa-flag-checkered", graded: true,
+                      intro: "<p>⚠️ <b>This part is graded.</b> You have <b>only one try</b> for each question.</p>",
+                      pick: [["money", 4], ["grammar", 4], ["write", 2]],
+                      items: [
+                        { g: "money", q: "I didn't use my card. I paid in…", opts: ["cash", "debt", "loans", "deposits"], a: 0 },
+                        { g: "money", q: "The shirt was $20, but I paid $15. I got a…", opts: ["discount", "receipt", "deposit", "salary"], a: 0 },
+                        { g: "money", q: "I borrowed $10 from my friend. Now I ___ him $10.", opts: ["owe", "earn", "spend", "afford"], a: 0 },
+                        { g: "money", q: "My dad went to the ATM to ___ some money.", opts: ["withdraw", "deposit", "owe", "afford"], a: 0 },
+                        { g: "money", q: "The cashier gave me a ___ with the prices of everything.", opts: ["receipt", "discount", "budget", "loan"], a: 0 },
+                        { g: "money", q: "Every month, my mom puts money into her bank account. She ___ it.", opts: ["deposits", "withdraws", "owes", "borrows"], a: 0 },
+                        { g: "money", q: "'Ahorros' in English is…", opts: ["savings", "earnings", "debts", "loans"], a: 0 },
+                        { g: "grammar", q: "I ___ any money last weekend.", opts: ["didn't spend", "didn't spent", "not spent", "don't spent"], a: 0 },
+                        { g: "grammar", q: "___ you ___ the receipt?", opts: ["Did / keep", "Did / kept", "Do / kept", "Were / keep"], a: 0 },
+                        { g: "grammar", q: "She ___ a discount because she didn't have her card.", opts: ["didn't get", "didn't got", "doesn't got", "not get"], a: 0 },
+                        { g: "grammar", q: "How much money ___ yesterday?", opts: ["did he withdraw", "did he withdrew", "he did withdraw", "withdrew he did"], a: 0 },
+                        { g: "grammar", q: "A: Did they pay in cash? B: No, they ___.", opts: ["didn't", "don't", "weren't", "didn't pay"], a: 0 },
+                        { g: "grammar", q: "Which sentence is correct?", opts: ["We didn't owe any money.", "We didn't owed any money.", "We not owed any money.", "We don't owed any money."], a: 0 },
+                        { g: "write", q: "✍️ Write the negative: <i>He saved his money.</i><br>→ He ______ his money.", answer: ["didn't save", "did not save"] },
+                        { g: "write", q: "✍️ Write the negative: <i>We went to the bank.</i><br>→ We ______ to the bank.", answer: ["didn't go", "did not go"] },
+                        { g: "write", q: "✍️ Write the question: <i>She paid in cash.</i><br>→ ______ in cash?", answer: ["Did she pay"] },
+                        { g: "write", q: "✍️ Write the question: <i>They deposited the money.</i><br>→ ______ the money?", answer: ["Did they deposit"] }
+                      ] }
+                ]
+            },
+            "10th - Past Tense Lab 2 - Block 2": {
+                active: true, type: "block",
+                unlock: { after: "10th - Past Tense Lab 2 - Block 1", teacherSections: [] },
+                stages: [
+                    { id: "listening", kind: "quiz", title: "Listening", desc: "Where did my money go?", icon: "fas fa-headphones", graded: true, keepOrder: true, maxPlays: 2,
+                      listenTitle: "Luis: Where did my money go?",
+                      intro: "<p>🎧 Luis talks about his money this month. You can listen <b>only 2 times</b>. The questions are <b>graded</b> (one try).</p>",
+                      script: [
+                        { who: "Luis", text: "Hi, it's me, Luis. Do you remember my plan to buy a new bike? Well, it didn't work this month." },
+                        { who: "Luis", text: "On the first day of the month, my uncle paid me sixty dollars for my work at his store. I deposited forty dollars in my savings account and I kept twenty dollars in cash." },
+                        { who: "Luis", text: "Then, on Saturday, I went to the mall with my friends. I didn't want to spend a lot, but the new soccer shoes had a discount. So, I withdrew thirty dollars and I bought them." },
+                        { who: "Luis", text: "The next week, I didn't have money for the bus, so I borrowed five dollars from my sister. Now I owe her five dollars." },
+                        { who: "Luis", text: "Did I keep the receipts? No, I didn't. That was a mistake. Next month, I'm going to make a budget and write down all my expenses." }
+                      ],
+                      items: [
+                        { q: "How much did Luis's uncle pay him?", opts: ["Sixty dollars", "Forty dollars", "Sixteen dollars", "Thirty dollars"], a: 0 },
+                        { q: "How much money did Luis deposit?", opts: ["Forty dollars", "Twenty dollars", "Fourteen dollars", "Sixty dollars"], a: 0 },
+                        { q: "Why did Luis buy the soccer shoes?", opts: ["They had a discount", "His old shoes broke", "His friends paid for them", "He needed them for a game"], a: 0 },
+                        { q: "How much did he withdraw?", opts: ["Thirty dollars", "Thirteen dollars", "Twenty dollars", "Forty dollars"], a: 0 },
+                        { q: "Who does Luis owe money to?", opts: ["His sister", "His uncle", "His friends", "His brother"], a: 0 },
+                        { q: "What is Luis going to do next month?", opts: ["Make a budget", "Ask for a loan", "Buy a new bike", "Work more hours"], a: 0 }
+                      ] },
+                    { id: "reading", kind: "quiz", title: "Reading", desc: "The money diary", icon: "fas fa-book-open", graded: true, keepOrder: true,
+                      passage: "<h3 style='margin-bottom:8px;'>📖 The Money Diary</h3><p><i>Valeria is 16. Her teacher asked the class to write a money diary for one week. This is part of her diary.</i></p><p><b>Monday:</b> My grandma gave me $25 for my birthday. I didn't spend it. I put $20 in my piggy bank for my savings and kept $5 in my wallet.</p><p><b>Wednesday:</b> I bought lunch at school: a sandwich and a juice for $3. The cashier didn't give me a receipt, and I didn't ask for one.</p><p><b>Friday:</b> I went to the pharmacy with my mom. I wanted a new shampoo, but it was $8 and I couldn't afford it. I only had $2. My mom paid for it, so now I owe her $6.</p><p><b>Saturday:</b> My cousin and I went to the market. There was a 50% discount on notebooks! I didn't have cash, so I took $4 from my piggy bank and bought two notebooks for school.</p><p><b>Sunday:</b> Did I follow my budget? Not really. I spent money on things I didn't plan. But I learned something important: I should always write down my expenses.</p>",
+                      items: [
+                        { q: "Why did Valeria get $25?", opts: ["It was her birthday", "She worked for her grandma", "She sold some notebooks", "Her mom gave her a loan"], a: 0 },
+                        { q: "How much money did she save on Monday?", opts: ["$20", "$25", "$5", "$15"], a: 0 },
+                        { q: "Did she get a receipt on Wednesday?", opts: ["No, she didn't.", "Yes, she did.", "No, she doesn't.", "Yes, she does."], a: 0 },
+                        { q: "Why does Valeria owe her mom $6?", opts: ["Her mom paid for the shampoo", "Her mom paid for the notebooks", "Her mom bought her a lunch", "Her mom gave her a gift"], a: 0 },
+                        { q: "Where did the $4 for the notebooks come from?", opts: ["From her piggy bank", "From her mom's wallet", "From her cousin's money", "From a bank account"], a: 0 },
+                        { q: "What did Valeria learn?", opts: ["To write down her expenses", "To ask her mom for money", "To buy things at the market", "To never use her piggy bank"], a: 0 }
+                      ] },
+                    { id: "final", kind: "quiz", title: "Final Evaluation", desc: "15 questions · graded", icon: "fas fa-graduation-cap", graded: true,
+                      intro: "<p>🎓 <b>Final evaluation.</b> 15 questions about <b>both weeks</b>, <b>one try</b> each. Some questions ask you to <b>write</b>. Good luck!</p>",
+                      pick: [["money", 4], ["grammar", 5], ["write", 3], ["verbs", 3]],
+                      items: [
+                        { g: "money", q: "'Efectivo' in English is…", opts: ["cash", "card", "change", "check"], a: 0 },
+                        { g: "money", q: "'Recibo' in English is…", opts: ["receipt", "recipe", "deposit", "discount"], a: 0 },
+                        { g: "money", q: "I can't ___ a new phone. It's too expensive.", opts: ["afford", "owe", "withdraw", "deposit"], a: 0 },
+                        { g: "money", q: "My uncle asked the bank for a ___ to buy a car.", opts: ["loan", "receipt", "discount", "savings"], a: 0 },
+                        { g: "money", q: "I took $40 out of the ATM. I ___ $40.", opts: ["withdrew", "deposited", "owed", "afforded"], a: 0 },
+                        { g: "money", q: "My parents paid all their ___. Now they don't owe money.", opts: ["debts", "savings", "discounts", "receipts"], a: 0 },
+                        { g: "money", q: "My plan for the money I earn and spend every month is my…", opts: ["budget", "receipt", "deposit", "discount"], a: 0 },
+                        { g: "grammar", q: "She ___ her savings for the trip.", opts: ["didn't use", "didn't used", "not used", "doesn't used"], a: 0 },
+                        { g: "grammar", q: "___ your brother ___ the money back?", opts: ["Did / pay", "Did / paid", "Does / paid", "Was / pay"], a: 0 },
+                        { g: "grammar", q: "Where ___ you ___ those shoes?", opts: ["did / buy", "did / bought", "do / bought", "were / buy"], a: 0 },
+                        { g: "grammar", q: "A: Did you get a discount? B: Yes, I ___.", opts: ["did", "got", "do", "was"], a: 0 },
+                        { g: "grammar", q: "We ___ to the mall because we didn't have money.", opts: ["didn't go", "didn't went", "don't went", "not went"], a: 0 },
+                        { g: "grammar", q: "Which question is correct?", opts: ["How much did you spend?", "How much you did spend?", "How much did you spent?", "How much you spent did?"], a: 0 },
+                        { g: "grammar", q: "Which sentence is correct?", opts: ["He didn't keep the receipt.", "He didn't kept the receipt.", "He not kept the receipt.", "He doesn't kept the receipt."], a: 0 },
+                        { g: "write", q: "✍️ Write the negative: <i>I bought a new game.</i><br>→ I ______ a new game.", answer: ["didn't buy", "did not buy"] },
+                        { g: "write", q: "✍️ Write the negative: <i>She owed money to the bank.</i><br>→ She ______ money to the bank.", answer: ["didn't owe", "did not owe"] },
+                        { g: "write", q: "✍️ Write the question: <i>You withdrew money.</i><br>→ ______ money?", answer: ["Did you withdraw"] },
+                        { g: "write", q: "✍️ Write the question: <i>He earned $50.</i><br>→ ______ $50?", answer: ["Did he earn"] },
+                        { g: "write", q: "✍️ Write the past of <b>SPEND</b>: Last week I ______ $30.", answer: ["spent"] },
+                        { g: "verbs", q: "Which verb has the <b>/ɪd/</b> sound?", opts: ["deposited", "worked", "owed", "cashed"], a: 0 },
+                        { g: "verbs", q: "Which verb has the <b>/t/</b> sound?", opts: ["shopped", "saved", "earned", "counted"], a: 0 },
+                        { g: "verbs", q: "Which verb has the <b>/d/</b> sound?", opts: ["borrowed", "worked", "wanted", "helped"], a: 0 },
+                        { g: "verbs", say: "owed", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/d/", "/t/", "/ɪd/"], a: 0 },
+                        { g: "verbs", say: "needed", sayMax: 2, q: "🔊 Listen. What is the -ed sound?", opts: ["/ɪd/", "/t/", "/d/"], a: 0 },
+                        { g: "verbs", q: "Last month my family ___ to the beach.", opts: ["went", "goed", "gone", "wented"], a: 0 },
+                        { g: "verbs", q: "I ___ my wallet at home this morning.", opts: ["left", "leaved", "leaft", "lefted"], a: 0 }
                       ] }
                 ]
             },
@@ -1958,7 +2266,7 @@
                 var foundOptions = false;
                 sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
                 Object.keys(DB).forEach(function(k) {
-                    if (k.includes(gradePrefix) && DB[k].active === true) {
+                    if (k.includes(gradePrefix) && DB[k].active === true && (!DB[k].sections || DB[k].sections.indexOf(section) > -1) && (!DB[k].until || Date.now() < Date.parse(DB[k].until))) {
                         var opt = document.createElement('option'); opt.value = k; opt.textContent = k; sel.appendChild(opt); foundOptions = true;
                     }
                 });
@@ -2524,6 +2832,10 @@
                     items = pool.slice(0, stage.fromVerbs.count).map(function(v) {
                         return { q: 'Write the past tense of <b>' + v.v1.toUpperCase() + '</b> <span style="color:var(--text-muted); font-weight:normal;">(' + v.spa + ')</span>', answer: [v.v2] };
                     });
+                    if (stage.fromVerbs.plus) {
+                        var extra = (stage.items || []).slice(); shuffleInPlace(extra);
+                        items = items.concat(extra.slice(0, stage.fromVerbs.plus)); shuffleInPlace(items);
+                    }
                 } else if (stage.pick) {
                     var picked = [];
                     stage.pick.forEach(function(rule) {
