@@ -1032,7 +1032,7 @@
                 ]
             },
             "9th - Not Feeling Good - Block 2": {
-                active: true, sections: ["9A"], until: "2026-10-07T00:00:00Z", type: "block", // 9A only, hidden from Oct 6, 6:00 p.m. El Salvador time
+                active: true, sections: ["9A"], until: "2026-10-07T00:00:00Z", redoIfZero: true, type: "block", // 9A only, hidden from Oct 6, 6:00 p.m. El Salvador time
                 unlock: { after: "9th - Not Feeling Good - Block 1", teacherSections: ["9B"] },
                 stages: [
                     { id: "review", kind: "quiz", title: "Quick Review", desc: "Remember Block 1", icon: "fas fa-redo",
@@ -2279,6 +2279,7 @@
             }
         }
 
+        var redoChecked = {};
         function checkStatus() {
             var name = document.getElementById('studentName').value.trim();
             var section = document.getElementById('sectionSelect').value;
@@ -2290,6 +2291,17 @@
             }
             var key = name.toLowerCase() + '-' + section + '-' + unit;
             var isAdmin = isTeacherKey(name);
+            if (localStorage.getItem(key) === 'COMPLETED' && !(DB[unit] && DB[unit].attempts) && DB[unit].redoIfZero && !isAdmin && !redoChecked[key]) {
+                // Students who submitted this block empty (score 0) may do it again
+                btn.disabled = true; btn.textContent = "Checking…"; msg.textContent = '';
+                var rurl = SHEETS_URL + '?action=done&sheetName=' + encodeURIComponent(unitSheet(section, unit)) + '&name=' + encodeURIComponent(name) + '&section=' + encodeURIComponent(section) + '&unit=' + encodeURIComponent(unit);
+                fetchJson(rurl).then(function(r) {
+                    redoChecked[key] = true;
+                    if ((Number(r.best) || 0) <= 0) localStorage.removeItem(key);
+                    checkStatus();
+                }).catch(function() { redoChecked[key] = true; checkStatus(); });
+                return;
+            }
             if (localStorage.getItem(key) === 'COMPLETED' && !(DB[unit] && DB[unit].attempts)) {
                 isReviewMode = true; btn.disabled = false; btn.textContent = "Review Mode 🔁"; btn.style.backgroundColor = "var(--warning)"; msg.textContent = 'You completed this previously. Score will not be saved.';
             } else if (localStorage.getItem(key + '_STARTED') === 'true' && !isAdmin) {
