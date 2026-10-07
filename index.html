@@ -1463,9 +1463,9 @@
                       intro: "<p>✍️ <b>Practice.</b> Write the missing words. You can try again if you make a mistake.</p>",
                       items: [
                         { q: "✍️ Negative: <i>She saved money.</i><br>→ She ______ money.", answer: ["didn't save", "did not save"], hint: "didn't + base verb: save." },
-                        { q: "✍️ Negative: <i>I paid in cash.</i><br>→ I ______ in cash.", answer: ["didn't pay", "did not pay"], hint: "paid → pay." },
-                        { q: "✍️ Negative: <i>They bought a new TV.</i><br>→ They ______ a new TV.", answer: ["didn't buy", "did not buy"], hint: "bought → buy." },
-                        { q: "✍️ Negative: <i>He withdrew $100.</i><br>→ He ______ $100.", answer: ["didn't withdraw", "did not withdraw"], hint: "withdrew → withdraw." },
+                        { q: "✍️ Negative: <i>I paid in cash.</i><br>→ I ______ in cash.", answer: ["didn't pay", "did not pay"], hint: "didn't + base verb: paid → pay." },
+                        { q: "✍️ Negative: <i>They bought a new TV.</i><br>→ They ______ a new TV.", answer: ["didn't buy", "did not buy"], hint: "didn't + base verb: bought → buy." },
+                        { q: "✍️ Negative: <i>He withdrew $100.</i><br>→ He ______ $100.", answer: ["didn't withdraw", "did not withdraw"], hint: "didn't + base verb: withdrew → withdraw." },
                         { q: "✍️ Question: <i>You kept the receipt.</i><br>→ ______ the receipt?", answer: ["Did you keep"], hint: "Did + you + base verb (keep)." },
                         { q: "✍️ Question: <i>She deposited her salary.</i><br>→ ______ her salary?", answer: ["Did she deposit"], hint: "Did + she + deposit." },
                         { q: "✍️ Question: <i>They got a discount.</i><br>→ ______ a discount?", answer: ["Did they get"], hint: "got → get." },
@@ -3158,7 +3158,10 @@
                 var it = items[p.pos]; var inp = document.getElementById('bq-input'); if (!inp || inp.disabled) return;
                 var val = normAnswer(inp.value); if (!val) return;
                 var answers = Array.isArray(it.answer) ? it.answer : [it.answer];
-                var ok = answers.some(function(a) { return normAnswer(a) === val; });
+                // Also accept the whole sentence with the blank filled in (e.g. "I didn't pay in cash")
+                var frame = String(it.q || '').split('\u2192').pop().replace(/<[^>]*>/g, ' ');
+                if (!/_{3,}/.test(frame)) frame = '';
+                var ok = answers.some(function(a) { return normAnswer(a) === val || (frame && normAnswer(frame.replace(/_{3,}/, a)) === val); });
                 if (ok) {
                     inp.classList.add('input-correct'); inp.disabled = true; triggerMiniConfetti();
                     if (stage.graded) showFeedback(true, it);
