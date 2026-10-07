@@ -1253,7 +1253,7 @@
                 ]
             },
             "9th - Not Feeling Good 2 - Block 1": {
-                active: false, cleanName: true, from: "2026-10-07T19:00:00Z", type: "block", // opens Wed Oct 7, 1:00 p.m. El Salvador time
+                active: false, cleanName: true, windows: { "9A": ["2026-10-08T19:00:00Z", "2026-10-09T00:00:00Z"], "9B": ["2026-10-08T19:00:00Z", "2026-10-09T00:00:00Z"] }, type: "block", // Thu Oct 8, 1:00-6:00 p.m. El Salvador time
                 stages: [
                     { id: "warmup", kind: "quiz", title: "Warm-up", desc: "Remember last week", icon: "fas fa-fire",
                       intro: "<h3 style='margin-bottom:8px;'>🤒 Not Feeling Good · Part 2</h3><p>Last week you learned the names of many <b>symptoms</b>. This week you will learn how to <b>give advice</b> to a sick person. First, let's remember!</p>",
@@ -1332,7 +1332,7 @@
                 ]
             },
             "9th - Not Feeling Good 2 - Block 2": {
-                active: false, cleanName: true, from: "2026-10-07T19:00:00Z", type: "block", // opens Wed Oct 7, 1:00 p.m. El Salvador time
+                active: false, cleanName: true, windows: { "9A": ["2026-10-08T19:00:00Z", "2026-10-09T00:00:00Z"], "9B": ["2026-10-08T19:00:00Z", "2026-10-09T00:00:00Z"] }, type: "block", // Thu Oct 8, 1:00-6:00 p.m. El Salvador time
                 unlock: { after: "9th - Not Feeling Good 2 - Block 1", teacherSections: ["9B"] },
                 stages: [
                     { id: "review", kind: "quiz", title: "Quick Review", desc: "Remember Block 1", icon: "fas fa-redo",
@@ -1408,7 +1408,7 @@
                 ]
             },
             "10th - Past Tense Lab 2 - Block 1": {
-                active: false, cleanName: true, from: "2026-10-07T19:00:00Z", type: "block", // opens Wed Oct 7, 1:00 p.m. El Salvador time
+                active: false, cleanName: true, windows: { "10A": ["2026-10-07T19:00:00Z", "2026-10-08T00:00:00Z"], "10B": ["2026-10-07T19:00:00Z", "2026-10-08T00:00:00Z"] }, type: "block", // Wed Oct 7, 1:00-6:00 p.m. El Salvador time
                 stages: [
                     { id: "warmup", kind: "quiz", title: "Warm-up: Do You Remember?", desc: "10 questions · graded", icon: "fas fa-yin-yang", graded: true,
                       intro: "<p>🥋 Let's see what you remember from last week: <b>5 irregular verbs</b> from the Dojo (write the past) and <b>5 verbs from the Sound Lab</b> (listen and choose the -ed sound). This is <b>graded</b> and you have <b>one try</b>. You can listen to each verb <b>2 times</b>.</p>",
@@ -1496,7 +1496,7 @@
                 ]
             },
             "10th - Past Tense Lab 2 - Block 2": {
-                active: false, cleanName: true, from: "2026-10-07T19:00:00Z", type: "block", // opens Wed Oct 7, 1:00 p.m. El Salvador time
+                active: false, cleanName: true, windows: { "10B": ["2026-10-07T19:00:00Z", "2026-10-08T00:00:00Z"], "10A": ["2026-10-09T19:00:00Z", "2026-10-10T00:00:00Z"] }, type: "block", // 10B Wed Oct 7, 10A Fri Oct 9, 1:00-6:00 p.m. El Salvador time
                 unlock: { after: "10th - Past Tense Lab 2 - Block 1", teacherSections: [] },
                 stages: [
                     { id: "listening", kind: "quiz", title: "Listening", desc: "Where did my money go?", icon: "fas fa-headphones", graded: true, keepOrder: true, maxPlays: 2,
@@ -2267,7 +2267,7 @@
                 sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
                 Object.keys(DB).forEach(function(k) {
                     var isT = isTeacherKey(document.getElementById('studentName').value.trim());
-                    if (k.includes(gradePrefix) && (DB[k].active === true || (isT && DB[k].from)) && (!DB[k].sections || DB[k].sections.indexOf(section) > -1) && (!DB[k].until || Date.now() < Date.parse(DB[k].until)) && (!DB[k].from || Date.now() >= Date.parse(DB[k].from) || isTeacherKey(document.getElementById('studentName').value.trim()))) {
+                    if (k.includes(gradePrefix) && (isT ? (DB[k].active === true || DB[k].from || DB[k].windows) : (DB[k].active === true && inWindow(DB[k], section))) && (!DB[k].sections || DB[k].sections.indexOf(section) > -1) && (!DB[k].until || Date.now() < Date.parse(DB[k].until)) && (!DB[k].from || Date.now() >= Date.parse(DB[k].from) || isTeacherKey(document.getElementById('studentName').value.trim()))) {
                         var opt = document.createElement('option'); opt.value = k; opt.textContent = k; sel.appendChild(opt); foundOptions = true;
                     }
                 });
@@ -2279,6 +2279,12 @@
             }
         }
 
+        // windows: { "10A": [opens, closes], ... } in UTC; a section not listed never sees the unit
+        function inWindow(u, section) {
+            if (!u.windows) return true;
+            var w = u.windows[section], now = Date.now();
+            return !!w && now >= Date.parse(w[0]) && now < Date.parse(w[1]);
+        }
         var redoChecked = {};
         // Same name every time: no accents, single spaces, Capitalized Words (only for units with cleanName)
         function cleanName(t) {
@@ -2357,7 +2363,7 @@
             var isAdmin = isTeacherKey(name);
             if (!data) return;
             if (!isAdmin && data.cleanName && !onRoster(name, section)) { alert('Write your full name as it appears on the class list.'); return; }
-            if (!isAdmin && (data.active !== true || (data.sections && data.sections.indexOf(section) === -1) || (data.until && Date.now() >= Date.parse(data.until)) || (data.from && Date.now() < Date.parse(data.from)))) { alert('This activity is not available right now.'); location.reload(); return; }
+            if (!isAdmin && (data.active !== true || !inWindow(data, section) || (data.sections && data.sections.indexOf(section) === -1) || (data.until && Date.now() >= Date.parse(data.until)) || (data.from && Date.now() < Date.parse(data.from)))) { alert('This activity is not available right now.'); location.reload(); return; }
             isTeacher = isAdmin;
             if (isTeacher) name = "Mr. Paz";
             ['quiz', 'chamber', 'blanks', 'verbs'].forEach(function(key) { shuffleInPlace(data[key]); });
