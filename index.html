@@ -2316,13 +2316,14 @@
                 msg.textContent = '⚠️ Write your full name as it appears on the class list: first names + last names (e.g. Juan Carlos Pérez López).';
                 return;
             }
-            if (localStorage.getItem(key) === 'COMPLETED' && !(DB[unit] && DB[unit].attempts) && DB[unit].redoIfZero && !isAdmin && !redoChecked[key]) {
-                // Students who submitted this block empty (score 0) may do it again
+            if (localStorage.getItem(key) === 'COMPLETED' && !(DB[unit] && DB[unit].attempts) && (DB[unit].redoIfZero || DB[unit].cleanName) && !isAdmin && !redoChecked[key]) {
+                // Students who submitted this block empty (score 0), or whose grade never reached the sheet, may do it again
                 btn.disabled = true; btn.textContent = "Checking…"; msg.textContent = '';
                 var rurl = SHEETS_URL + '?action=done&sheetName=' + encodeURIComponent(unitSheet(section, unit)) + '&name=' + encodeURIComponent(name) + '&section=' + encodeURIComponent(section) + '&unit=' + encodeURIComponent(unit);
                 fetchJson(rurl).then(function(r) {
                     redoChecked[key] = true;
-                    if ((Number(r.best) || 0) <= 0) localStorage.removeItem(key);
+                    var missing = !(r.done || Number(r.count) > 0);
+                    if (DB[unit].cleanName ? missing : (Number(r.best) || 0) <= 0) localStorage.removeItem(key);
                     checkStatus();
                 }).catch(function() { redoChecked[key] = true; checkStatus(); });
                 return;
@@ -3245,6 +3246,30 @@
         /* ================================================================
            SAVE SYSTEM & CERTIFICATES MODULE
            ================================================================ */
+        // Send the grade and check with the sheet that it arrived; only then mark the block as done
+        function sendAndConfirm(url, formData, sheet, key, finalGrade) {
+            var st = document.getElementById('send-status');
+            if (!st) { st = document.createElement('div'); st.id = 'send-status'; st.style.cssText = 'margin:0 auto 15px; padding:8px 14px; border-radius:12px; font-weight:bold; max-width:420px; text-align:center; position:relative; z-index:2;'; var rb = document.getElementById('review-badge'); rb.parentNode.insertBefore(st, rb); }
+            st.style.background = '#eff6ff'; st.style.color = '#1d4ed8'; st.innerHTML = '⏳ Sending your grade to the teacher… Do not close this page.';
+            var who = key;
+            var check = SHEETS_URL + '?action=done&sheetName=' + encodeURIComponent(sheet) + '&name=' + encodeURIComponent(state.name) + '&section=' + encodeURIComponent(state.section) + '&unit=' + encodeURIComponent(state.unit);
+            function fail() {
+                st.style.background = '#fef2f2'; st.style.color = '#b91c1c';
+                st.innerHTML = '⚠️ Your grade did NOT reach the teacher. Check your internet and press the button.<br><button class="btn" id="send-retry" style="margin-top:8px;">Send again</button>';
+                document.getElementById('send-retry').onclick = function() { sendAndConfirm(url, formData, sheet, key, finalGrade); };
+            }
+            fetch(url, { method: "POST", body: formData, mode: "no-cors" })
+                .then(function() { return new Promise(function(res) { setTimeout(res, 2500); }); })
+                .then(function() { return fetchJson(check, 15000); })
+                .then(function(r) {
+                    if (!(r.done || Number(r.count) > 0)) return fail();
+                    localStorage.setItem(key, 'COMPLETED');
+                    localStorage.setItem('ATT-' + who, String(parseInt(localStorage.getItem('ATT-' + who) || '0') + 1));
+                    if (parseFloat(finalGrade) > parseFloat(localStorage.getItem('BEST-' + who) || '0')) localStorage.setItem('BEST-' + who, String(finalGrade));
+                    localStorage.removeItem(getExitsKey());
+                    st.style.background = '#f0fdf4'; st.style.color = '#15803d'; st.innerHTML = '✅ Your grade was received by the teacher.';
+                }).catch(fail);
+        }
         function claimCert() {
             if (examInterval) { clearInterval(examInterval); examInterval = null; var et = document.getElementById('exam-timer'); if (et) et.classList.add('hidden'); }
             if (window._visibilityHandler) document.removeEventListener('visibilitychange', window._visibilityHandler);
@@ -3261,9 +3286,11 @@
                 formData.append("sheetName", targetSheet);
                 var minutes = state.startedAt ? ((Date.now() - state.startedAt) / 60000).toFixed(1) : "";
                 formData.append("time", minutes); formData.append("exits", state.exitCount || 0); formData.append("translated", translateCount);
-                fetch(urlGoogleScript, { method: "POST", body: formData, mode: "no-cors" }).catch(e => console.error(e));
                 var key = state.name.toLowerCase() + '-' + state.section + '-' + state.unit;
-                if (!isTeacher) {
+                var confirmIt = !isTeacher && DB[state.unit] && DB[state.unit].cleanName;
+                if (confirmIt) { sendAndConfirm(urlGoogleScript, formData, targetSheet, key, finalGrade); }
+                else fetch(urlGoogleScript, { method: "POST", body: formData, mode: "no-cors" }).catch(e => console.error(e));
+                if (!isTeacher && !confirmIt) {
                     localStorage.setItem(key, 'COMPLETED');
                     var who = state.name.toLowerCase() + '-' + state.section + '-' + state.unit;
                     localStorage.setItem('ATT-' + who, String(parseInt(localStorage.getItem('ATT-' + who) || '0') + 1));
