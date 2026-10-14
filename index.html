@@ -7,7 +7,7 @@
     <title>Pazport to English</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
@@ -178,6 +178,45 @@
         .option-btn.wrong { background: #fee2e2 !important; border-color: var(--danger) !important; color: #991b1b !important; animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
         .option-btn:disabled { cursor: not-allowed; opacity: 0.7; }
         .dojo-card { transition: all 0.3s; }
+        /* ===== Pasaporte theme: navy, gold and cream; formal and academic ===== */
+        :root { --primary-blue:#1B2A4A; --primary-hover:#0F1A33; --bg-color:#F4EFE4; --card-bg:#FFFDF8; --text-main:#1B2A4A; --text-muted:#6B6A64; --gold:#B8902F; --cream:#F3EBD9; --line:#E3D8C1; --success:#2F7D5B; --danger:#A93636; --warning:#B8902F; }
+        body { font-family:'Manrope',sans-serif; background-color:var(--bg-color); background-image:radial-gradient(circle at 1px 1px, rgba(27,42,74,.06) 1px, transparent 0); background-size:22px 22px; }
+        h1, h2, h3, .btn, .input-group label, .xp-label, .cert-title, .cert-grade-circle span { font-family:'Fraunces',serif !important; }
+        input, select, textarea, .option-btn { font-family:'Manrope',sans-serif; }
+        .container { border:1px solid var(--line); border-top:5px solid var(--gold); border-radius:14px; box-shadow:0 18px 40px rgba(27,42,74,.10); }
+        h1 { color:var(--primary-blue); letter-spacing:-.3px; }
+        #screen-home h1::before { content:'English Language Program'; display:block; font-family:'Manrope',sans-serif; font-size:.72rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+        h1::after { content:''; display:block; width:64px; height:2px; background:var(--gold); margin:12px auto 0; }
+        .quote-box { background:var(--cream); color:#5B4A21; border-left:3px solid var(--gold); border-radius:6px; font-family:'Fraunces',serif; }
+        .input-group label { color:var(--text-muted); font-size:.85rem; }
+        input[type=text], select { border:1.5px solid #D9CCAF; background:#FFFDF8; border-radius:8px; }
+        input[type=text]:focus, select:focus { border-color:var(--gold); outline:none; box-shadow:0 0 0 3px rgba(184,144,47,.15); }
+        .btn { border-radius:8px; letter-spacing:.3px; box-shadow:0 4px 12px rgba(27,42,74,.18); }
+        .btn:disabled { background:#E7E1D3 !important; color:#9A9384 !important; box-shadow:none; }
+        #bq-say { background:var(--gold) !important; }
+        .activity-card { border:1.5px solid var(--line); border-radius:12px; background:#FFFDF8; }
+        .activity-card:hover { border-color:var(--gold); box-shadow:0 10px 18px rgba(27,42,74,.08); }
+        .activity-card i[id^="icon-"] { color:var(--gold); }
+        .activity-card.locked-card { background:#F7F3EA; }
+        .activity-card.locked-card:hover { border-color:var(--line); }
+        .quiz-option, .option-btn, .food-item-card, .word-tile, .category-box, .front { border-color:var(--line); background:#FFFDF8; }
+        .quiz-option { border-radius:10px; }
+        .quiz-option:hover, .option-btn:hover, .category-box:hover { border-color:var(--gold); background:#FBF6EA; }
+        .option-btn.selected { border-color:var(--primary-blue); background:var(--cream); box-shadow:0 0 0 3px rgba(184,144,47,.25); }
+        .back { background:#FBF7EE; border-color:#D9CCAF; }
+        .tts-btn { background:var(--cream); }
+        .tts-btn:hover { background:#EADFC6; }
+        .reading-box, .self-study-guide, [style*="background:#eff6ff"] { background:#FBF7EE !important; border-color:var(--line) !important; }
+        .reading-box { border-left:4px solid var(--gold) !important; }
+        [style*="background:#f1f5f9"] { background:var(--cream) !important; }
+        .category-box .placed-item { background:var(--cream); border-color:var(--line); }
+        .word-bank, .blanks-word-bank, .food-items-area { background:#FBF7EE; border-color:#D9CCAF; }
+        .xp-fill, .activity-progress-fill { background:linear-gradient(90deg, var(--primary-blue), var(--gold)); }
+        .xp-track, .activity-progress-track { background:#EAE2D0; }
+        .cert-container { background:linear-gradient(135deg, var(--primary-blue), #2A3D66); }
+        .cert-inner { background:#FFFDF8; border:2px solid var(--gold); }
+        [style*="background:#cbd5e1; color:#0f172a"] { background:var(--cream) !important; color:var(--primary-blue) !important; border:1px solid var(--line) !important; box-shadow:none !important; }
+        .cert-grade-circle { box-shadow:0 0 0 3px var(--gold); }
     </style>
 </head>
 <body>
@@ -217,7 +256,7 @@
                 <label>Select Unit / Activity</label>
                 <select id="unitSelect" onchange="checkStatus()"></select>
             </div>
-            <button class="btn" id="startBtn" onclick="start()" disabled>Start Quest</button>
+            <button class="btn" id="startBtn" onclick="start()" disabled>Start</button>
             <p id="msg" style="margin-top:15px; font-weight:500; color:var(--warning); font-size:0.9rem;"></p>
         </section>
 
@@ -2769,12 +2808,12 @@
             var btn = document.getElementById('startBtn');
             var msg = document.getElementById('msg');
             if (!name || !section || !unit || unit === "" || unit === "-- No quests available --") { 
-                btn.disabled = true; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; return; 
+                btn.disabled = true; btn.textContent = "Start"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; return; 
             }
             var key = name.toLowerCase() + '-' + section + '-' + unit;
             var isAdmin = isTeacherKey(name);
             if (DB[unit] && DB[unit].cleanName && !isAdmin && !onRoster(name, section)) {
-                btn.disabled = true; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)";
+                btn.disabled = true; btn.textContent = "Start"; btn.style.backgroundColor = "var(--primary-blue)";
                 msg.textContent = '⚠️ Write your full name as it appears on the class list: first names + last names (e.g. Juan Carlos Pérez López).';
                 return;
             }
@@ -2795,7 +2834,7 @@
             } else if (localStorage.getItem(key + '_STARTED') === 'true' && !isAdmin) {
                 btn.disabled = true; btn.textContent = "Access Denied"; btn.style.backgroundColor = "var(--danger)"; msg.textContent = 'You cannot re-enter an exam once it has been started.';
             } else {
-                isReviewMode = false; btn.disabled = false; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; 
+                isReviewMode = false; btn.disabled = false; btn.textContent = "Start"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = ''; 
                 if (DB[unit] && (DB[unit].unlock || DB[unit].attempts)) checkBlockGate(name, section, unit, DB[unit]);
             }
         }
@@ -3659,7 +3698,7 @@
             var btn = document.getElementById('startBtn'); var msg = document.getElementById('msg');
             var token = ++gateToken; var rule = data.unlock || null; var teacherKey = isTeacherKey(name);
             var who = name.toLowerCase() + '-' + section + '-';
-            function allow(text) { if (token !== gateToken) return; btn.disabled = false; btn.textContent = "Start Quest"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = teacherKey ? '👨‍🏫 Teacher mode: this block is open for you.' : (text || ''); }
+            function allow(text) { if (token !== gateToken) return; btn.disabled = false; btn.textContent = "Start"; btn.style.backgroundColor = "var(--primary-blue)"; msg.textContent = teacherKey ? '👨‍🏫 Teacher mode: this block is open for you.' : (text || ''); }
             function deny(text) { if (token !== gateToken) return; btn.disabled = true; btn.textContent = "Locked 🔒"; btn.style.backgroundColor = "#94a3b8"; msg.textContent = text; }
             function record(u) {
                 var url = SHEETS_URL + '?action=done&sheetName=' + encodeURIComponent(unitSheet(section, u)) + '&name=' + encodeURIComponent(name) + '&section=' + encodeURIComponent(section) + '&unit=' + encodeURIComponent(u);
