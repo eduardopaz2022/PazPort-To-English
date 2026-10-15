@@ -1721,7 +1721,7 @@
                 ]
             },
             "9th - Exam Review - Block 1": {
-                active: true, cleanName: true, windows: { "9A": ["2026-10-15T19:00:00Z", "2026-10-16T01:00:00Z"], "9B": ["2026-10-15T19:00:00Z", "2026-10-16T01:00:00Z"] }, type: "block", // Thu Oct 15, 1:00-7:00 p.m. El Salvador time
+                active: false, cleanName: true, windows: { "9A": ["2026-10-15T19:00:00Z", "2026-10-16T01:00:00Z"], "9B": ["2026-10-15T19:00:00Z", "2026-10-16T01:00:00Z"] }, type: "block", // Thu Oct 15, 1:00-7:00 p.m. El Salvador time
                 stages: [
                     { id: "warmup", kind: "quiz", title: "Warm-up", desc: "What do you remember?", icon: "fas fa-fire",
                       intro: "<h3 style='margin-bottom:8px;'>📝 Exam Review · Block 1</h3><p>This week we review <b>everything</b> for the exam: clothes, accessories, symptoms and grammar. First, let's see what you remember! This part is <b>not graded</b>.</p>",
@@ -1816,7 +1816,7 @@
                 ]
             },
             "9th - Exam Review - Block 2": {
-                active: true, cleanName: true, windows: { "9A": ["2026-10-15T19:00:00Z", "2026-10-16T01:00:00Z"], "9B": ["2026-10-15T19:00:00Z", "2026-10-16T01:00:00Z"] }, type: "block", // Thu Oct 15, 1:00-7:00 p.m. El Salvador time
+                active: false, cleanName: true, windows: { "9A": ["2026-10-15T19:00:00Z", "2026-10-16T01:00:00Z"], "9B": ["2026-10-15T19:00:00Z", "2026-10-16T01:00:00Z"] }, type: "block", // Thu Oct 15, 1:00-7:00 p.m. El Salvador time
                 unlock: { after: "9th - Exam Review - Block 1", teacherSections: ["9B"] },
                 stages: [
                     { id: "review", kind: "quiz", title: "Quick Review", desc: "Articles and should", icon: "fas fa-redo",
@@ -3762,7 +3762,7 @@
         function sendAndConfirm(url, formData, sheet, key, finalGrade) {
             var st = document.getElementById('send-status');
             if (!st) { st = document.createElement('div'); st.id = 'send-status'; st.style.cssText = 'margin:0 auto 15px; padding:8px 14px; border-radius:12px; font-weight:bold; max-width:420px; text-align:center; position:relative; z-index:2;'; var rb = document.getElementById('review-badge'); rb.parentNode.insertBefore(st, rb); }
-            st.style.background = '#eff6ff'; st.style.color = '#1d4ed8'; st.innerHTML = '⏳ Sending your grade to the teacher… Do not close this page.';
+            st.style.background = '#eff6ff'; st.style.color = '#1d4ed8'; st.innerHTML = '⏳ Sending your grade to the teacher… This can take up to 1 minute. Do not close this page.';
             var who = key;
             var check = SHEETS_URL + '?action=done&sheetName=' + encodeURIComponent(sheet) + '&name=' + encodeURIComponent(state.name) + '&section=' + encodeURIComponent(state.section) + '&unit=' + encodeURIComponent(state.unit);
             function fail() {
@@ -3770,11 +3770,21 @@
                 st.innerHTML = '⚠️ Your grade did NOT reach the teacher. Check your internet and press the button.<br><button class="btn" id="send-retry" style="margin-top:8px;">Send again</button>';
                 document.getElementById('send-retry').onclick = function() { sendAndConfirm(url, formData, sheet, key, finalGrade); };
             }
-            fetch(url, { method: "POST", body: formData, mode: "no-cors" })
-                .then(function() { return new Promise(function(res) { setTimeout(res, 2500); }); })
-                .then(function() { return fetchJson(check, 15000); })
-                .then(function(r) {
-                    if (!(r.done || Number(r.count) > 0)) return fail();
+            // The sheet can take a while to save when many students submit at once:
+            // check several times before saying it failed, and never post twice if it already arrived.
+            function isDone(r) { return r && (r.done || Number(r.count) > 0); }
+            function poll(waits) {
+                if (!waits.length) return Promise.resolve(false);
+                return new Promise(function(res) { setTimeout(res, waits[0]); })
+                    .then(function() { return fetchJson(check, 20000).then(isDone, function() { return false; }); })
+                    .then(function(ok) { return ok || poll(waits.slice(1)); });
+            }
+            var already = sendAndConfirm._tried ? fetchJson(check, 20000).then(isDone, function() { return false; }) : Promise.resolve(false);
+            sendAndConfirm._tried = true;
+            already
+                .then(function(ok) { return ok || fetch(url, { method: "POST", body: formData, mode: "no-cors" }).then(function() { return poll([3000, 4000, 5000, 6000, 8000, 10000, 12000]); }); })
+                .then(function(ok) {
+                    if (!ok) return fail();
                     localStorage.setItem(key, 'COMPLETED');
                     localStorage.setItem('ATT-' + who, String(parseInt(localStorage.getItem('ATT-' + who) || '0') + 1));
                     if (parseFloat(finalGrade) > parseFloat(localStorage.getItem('BEST-' + who) || '0')) localStorage.setItem('BEST-' + who, String(finalGrade));
