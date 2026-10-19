@@ -1346,7 +1346,7 @@
                 ]
             },
             "9th - Not Feeling Good - Block 1": {
-                active: false, type: "block",
+                active: true, windows: { "9A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "9B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 stages: [
                     { id: "warmup", kind: "quiz", title: "Warm-up", desc: "What do you already know?", icon: "fas fa-fire",
                       intro: "<h3 style='margin-bottom:8px;'>🤒 Not Feeling Good</h3><p>This week you will learn how to talk about <b>when you feel sick</b>. You already know many words about this topic. Let's see!</p>",
@@ -1424,7 +1424,7 @@
                 ]
             },
             "9th - Not Feeling Good - Block 2": {
-                active: true, sections: ["9A"], until: "2026-10-07T00:00:00Z", redoIfZero: true, type: "block", // 9A only, hidden from Oct 6, 6:00 p.m. El Salvador time
+                active: true, redoIfZero: true, windows: { "9A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "9B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 unlock: { after: "9th - Not Feeling Good - Block 1", teacherSections: [] },
                 stages: [
                     { id: "review", kind: "quiz", title: "Quick Review", desc: "Remember Block 1", icon: "fas fa-redo",
@@ -1495,7 +1495,7 @@
                 ]
             },
             "10th - Past Tense Lab - Block 1": {
-                active: false, type: "block",
+                active: true, windows: { "10A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "10B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 stages: [
                     { id: "warmup", kind: "quiz", title: "Warm-up: Irregular Verbs", desc: "10 verbs · graded", icon: "fas fa-yin-yang", graded: true,
                       intro: "<p>🥋 Do you remember the <b>Irregular Dojo</b>? Write the <b>past tense</b> of 10 verbs. This is <b>graded</b> and you have <b>one try</b>.</p>",
@@ -1580,7 +1580,7 @@
                 ]
             },
             "10th - Past Tense Lab - Block 2": {
-                active: false, type: "block",
+                active: true, windows: { "10A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "10B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 unlock: { after: "10th - Past Tense Lab - Block 1", teacherSections: [] },
                 stages: [
                     { id: "listening", kind: "quiz", title: "Listening", desc: "How was your weekend?", icon: "fas fa-headphones", graded: true, keepOrder: true, maxPlays: 2,
@@ -1645,7 +1645,7 @@
                 ]
             },
             "9th - Not Feeling Good 2 - Block 1": {
-                active: false, cleanName: true, windows: { "9A": ["2026-10-09T20:00:00Z", "2026-10-10T00:00:00Z"], "9B": ["2026-10-09T20:00:00Z", "2026-10-10T00:00:00Z"] }, type: "block", // Fri Oct 9, 2:00-6:00 p.m. El Salvador time (late submissions)
+                active: true, cleanName: true, windows: { "9A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "9B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 stages: [
                     { id: "warmup", kind: "quiz", title: "Warm-up", desc: "Remember last week", icon: "fas fa-fire",
                       intro: "<h3 style='margin-bottom:8px;'>🤒 Not Feeling Good · Part 2</h3><p>Last week you learned the names of many <b>symptoms</b>. This week you will learn how to <b>give advice</b> to a sick person. First, let's remember!</p>",
@@ -1724,7 +1724,7 @@
                 ]
             },
             "9th - Not Feeling Good 2 - Block 2": {
-                active: false, cleanName: true, windows: { "9A": ["2026-10-09T20:00:00Z", "2026-10-10T00:00:00Z"], "9B": ["2026-10-09T20:00:00Z", "2026-10-10T00:00:00Z"] }, type: "block", // Fri Oct 9, 2:00-6:00 p.m. El Salvador time (late submissions)
+                active: true, cleanName: true, windows: { "9A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "9B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 unlock: { after: "9th - Not Feeling Good 2 - Block 1", teacherSections: [] },
                 stages: [
                     { id: "review", kind: "quiz", title: "Quick Review", desc: "Remember Block 1", icon: "fas fa-redo",
@@ -1800,7 +1800,7 @@
                 ]
             },
             "10th - Past Tense Lab 2 - Block 1": {
-                active: false, cleanName: true, windows: { "10A": ["2026-10-08T19:00:00Z", "2026-10-09T00:00:00Z"], "10B": ["2026-10-08T19:00:00Z", "2026-10-09T00:00:00Z"] }, type: "block", // Thu Oct 8, 1:00-6:00 p.m. El Salvador time (late submissions)
+                active: true, cleanName: true, windows: { "10A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "10B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 stages: [
                     { id: "warmup", kind: "quiz", title: "Warm-up: Do You Remember?", desc: "10 questions · graded", icon: "fas fa-yin-yang", graded: true,
                       intro: "<p>🥋 Let's see what you remember from last week: <b>5 irregular verbs</b> from the Dojo (write the past) and <b>5 verbs from the Sound Lab</b> (listen and choose the -ed sound). This is <b>graded</b> and you have <b>one try</b>. You can listen to each verb <b>2 times</b>.</p>",
@@ -1888,7 +1888,7 @@
                 ]
             },
             "10th - Past Tense Lab 2 - Block 2": {
-                active: false, cleanName: true, windows: { "10A": ["2026-10-08T19:00:00Z", "2026-10-09T00:00:00Z"], "10B": ["2026-10-08T19:00:00Z", "2026-10-09T00:00:00Z"] }, type: "block", // Thu Oct 8, 1:00-6:00 p.m. El Salvador time (late submissions)
+                active: true, cleanName: true, windows: { "10A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "10B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 unlock: { after: "10th - Past Tense Lab 2 - Block 1", teacherSections: [] },
                 stages: [
                     { id: "listening", kind: "quiz", title: "Listening", desc: "Where did my money go?", icon: "fas fa-headphones", graded: true, keepOrder: true, maxPlays: 2,
@@ -1953,7 +1953,7 @@
                 ]
             },
             "9th - Exam Review - Block 1": {
-                active: false, cleanName: true, windows: { "9A": ["2026-10-15T19:00:00Z", "2026-10-16T18:00:00Z"], "9B": ["2026-10-15T19:00:00Z", "2026-10-16T18:00:00Z"] }, type: "block", // Thu Oct 15 1:00 p.m. to Fri Oct 16 12:00 p.m. El Salvador time
+                active: true, cleanName: true, windows: { "9A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "9B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 stages: [
                     { id: "warmup", kind: "quiz", title: "Warm-up", desc: "What do you remember?", icon: "fas fa-fire",
                       intro: "<h3 style='margin-bottom:8px;'>📝 Exam Review · Block 1</h3><p>This week we review <b>everything</b> for the exam: clothes, accessories, symptoms and grammar. First, let's see what you remember! This part is <b>not graded</b>.</p>",
@@ -2048,7 +2048,7 @@
                 ]
             },
             "9th - Exam Review - Block 2": {
-                active: false, cleanName: true, windows: { "9A": ["2026-10-15T19:00:00Z", "2026-10-16T18:00:00Z"], "9B": ["2026-10-15T19:00:00Z", "2026-10-16T18:00:00Z"] }, type: "block", // Thu Oct 15 1:00 p.m. to Fri Oct 16 12:00 p.m. El Salvador time
+                active: true, cleanName: true, windows: { "9A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "9B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 unlock: { after: "9th - Exam Review - Block 1", teacherSections: [] },
                 stages: [
                     { id: "review", kind: "quiz", title: "Quick Review", desc: "Articles and should", icon: "fas fa-redo",
@@ -2128,7 +2128,7 @@
                 ]
             },
             "10th - Exam Review - Block 1": {
-                active: false, cleanName: true, windows: { "10A": ["2026-10-14T19:00:00Z", "2026-10-15T00:00:00Z"], "10B": ["2026-10-14T19:00:00Z", "2026-10-15T00:00:00Z"] }, type: "block", // Wed Oct 14, 1:00-6:00 p.m. El Salvador time
+                active: true, cleanName: true, windows: { "10A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "10B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 stages: [
                     { id: "warmup", kind: "quiz", title: "Warm-up: The Dojo", desc: "10 irregular verbs · graded", icon: "fas fa-yin-yang", graded: true,
                       intro: "<h3 style='margin-bottom:8px;'>📝 Exam Review · Block 1</h3><p>This week we review <b>everything</b> for the exam. First, the Dojo: write the <b>past tense</b> of 10 irregular verbs. This is <b>graded</b> and you have <b>one try</b>.</p>",
@@ -2209,7 +2209,7 @@
                 ]
             },
             "10th - Exam Review - Block 2": {
-                active: false, cleanName: true, windows: { "10A": ["2026-10-14T19:00:00Z", "2026-10-15T00:00:00Z"], "10B": ["2026-10-14T19:00:00Z", "2026-10-15T00:00:00Z"] }, type: "block", // Wed Oct 14, 1:00-6:00 p.m. El Salvador time
+                active: true, cleanName: true, windows: { "10A": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"], "10B": ["2026-10-20T00:00:00Z", "2026-10-20T18:00:00Z"] }, type: "block", // Make-up: Mon Oct 19, 6:00 p.m. to Tue Oct 20, 12:00 p.m. El Salvador time
                 unlock: { after: "10th - Exam Review - Block 1", teacherSections: [] },
                 stages: [
                     { id: "soundlab", kind: "quiz", title: "Sound Lab", desc: "Practice: the -ed sound", icon: "fas fa-volume-up",
