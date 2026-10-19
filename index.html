@@ -1122,6 +1122,229 @@
                       ] }
                 ]
             },
+            "9th - Q3 - FINAL EXAM": {
+                active: true, cleanName: true, type: "block",
+                attempts: 1, timeLimit: 60, maxExits: 2,
+                windows: { "9A": ["2026-10-21T22:30:00Z", "2026-10-22T00:00:00Z"], "9B": ["2026-10-21T22:30:00Z", "2026-10-22T00:00:00Z"] }, // Wed Oct 21, 4:30-6:00 p.m. El Salvador time
+                stages: [
+                    { id: "rules", kind: "quiz", title: "Exam Rules", desc: "Read before you start", icon: "fas fa-exclamation-triangle",
+                      intro: "<h3 style='margin-bottom:10px;'>🎓 Final Exam · 9th Grade</h3><p>This is your <b>official exam</b> for this period.</p><p>☝️ You have <b>only ONE attempt</b>. You can't repeat it.</p><p>⏱️ <b>60 minutes</b> · 🚪 If you leave the page <b>2 times</b>, the exam ends.</p><p>🕕 The exam <b>closes at 6:00 p.m.</b> If you start late, you will have less time.</p><p>📋 Parts: <b>Reading</b> (10) · <b>Listening</b> (10) · <b>Dictation</b> (5) · <b>Grammar & Vocabulary</b> (25).</p><p>🔒 No notes, no translator, no help. Write your <b>first names and last names exactly as on the school list</b>.</p><p>🏁 At the end, wait until you see the message that your grade was <b>received</b>.</p>",
+                      items: [
+                        { q: "How many attempts do you have for this exam?", opts: ["Only one attempt", "Two attempts", "Three attempts", "As many as I want"], a: 0, hint: "Read the rules again." }
+                      ] },
+                    { id: "reading", kind: "quiz", title: "Reading", desc: "A cold night in the mountains · 10", icon: "fas fa-book-open", graded: true, keepOrder: true,
+                      passage: "<h3 style='margin-bottom:8px;'>📖 A Cold Night in the Mountains</h3><p><b>(1)</b> Valeria is fifteen years old and she lives in San Salvador with her parents and her little brother, Mateo. Last month, her school organized a trip to the mountains of Chalatenango. The teacher told the students: \"It is very cold there at night. You should bring warm clothes.\"</p><p><b>(2)</b> Valeria packed her bag carefully. She put in two sweaters, a jacket, her jeans and her old boots. She also packed a scarf, a pair of gloves and a wool hat. Mateo looked at her bag and laughed: \"You are going to the mountains, not to the North Pole!\" But Valeria didn't listen to him.</p><p><b>(3)</b> Her best friend, Daniela, didn't pack warm clothes. She packed shorts, T-shirts, a dress and her favorite earrings. \"My clothes are pretty, and it's never cold in El Salvador,\" she said.</p><p><b>(4)</b> On the first night, the temperature was very low and Daniela was freezing. The next morning, she had a sore throat, a runny nose and a terrible headache. She didn't have a fever, but she felt weak and dizzy. Valeria gave her one of her sweaters and her scarf. The teacher took Daniela to the nurse. The nurse said: \"You have a cold. You should drink hot tea and rest. You shouldn't go on the long walk today.\"</p><p><b>(5)</b> Daniela stayed in the cabin, and the other students went on the walk without her. When they came back, Daniela felt better. \"Thank you, Valeria,\" she said. \"Next time, I will listen to the teacher… and to you!\"</p>",
+                      items: [
+                        { q: "What is the main idea of the text?", opts: ["Two friends go on a school trip and one gets sick", "Two friends go shopping for winter clothes", "A nurse explains how to treat the flu", "A family travels to the North Pole"], a: 0 },
+                        { q: "Who is Mateo?", opts: ["Valeria's little brother", "Valeria's best friend", "The school nurse", "Daniela's teacher"], a: 0 },
+                        { q: "What advice did the teacher give the students?", opts: ["They should bring warm clothes", "They shouldn't bring jackets", "They should buy new boots", "They shouldn't go on the trip"], a: 0 },
+                        { q: "Why did Mateo laugh?", opts: ["Valeria packed a lot of warm clothes", "Valeria forgot her boots", "Valeria's bag was empty", "Valeria was going to the beach"], a: 0 },
+                        { q: "What did Daniela pack?", opts: ["Shorts, T-shirts and a dress", "Sweaters, a jacket and boots", "A scarf, gloves and a hat", "Jeans and old boots"], a: 0 },
+                        { q: "In paragraph 3, who does <b>she</b> refer to?", opts: ["Daniela", "Valeria", "The teacher", "The nurse"], a: 0 },
+                        { q: "Which symptom did Daniela NOT have?", opts: ["A fever", "A sore throat", "A runny nose", "A headache"], a: 0 },
+                        { q: "What did the nurse say Daniela shouldn't do?", opts: ["Go on the long walk", "Drink hot tea", "Rest in the cabin", "Wear a sweater"], a: 0 },
+                        { q: "✍️ Find a word in <b>paragraph 4</b> that means 'very, very cold'.", answer: ["freezing"] },
+                        { q: "✍️ Find a word in <b>paragraph 2</b> that means 'coverings for your hands'.", answer: ["gloves"] }
+                      ] },
+                    { id: "listening", kind: "quiz", title: "Listening", desc: "Kevin at the doctor's · 10", icon: "fas fa-headphones", graded: true, keepOrder: true, maxPlays: 2,
+                      listenTitle: "Kevin and his mom visit the doctor",
+                      intro: "<p>🎧 Kevin and his mom are at the doctor's office. You can listen <b>only 2 times</b>. 10 questions.</p>",
+                      script: [
+                        { who: "Doctor", text: "Good afternoon. Please sit down. What's the problem?" },
+                        { who: "Mrs. Flores", text: "Good afternoon, doctor. My son Kevin doesn't feel well. He has a terrible stomachache and he feels dizzy." },
+                        { who: "Doctor", text: "I see. Kevin, when did it start?" },
+                        { who: "Kevin", text: "Yesterday after lunch. I ate two hamburgers and a big ice cream at my friend's party." },
+                        { who: "Doctor", text: "Do you have a fever?" },
+                        { who: "Kevin", text: "No, I don't. But I have a headache, and I can't sleep well." },
+                        { who: "Doctor", text: "OK. You should drink a lot of water and eat soup for two days. You shouldn't eat fast food or candy this week." },
+                        { who: "Mrs. Flores", text: "Should he go to school tomorrow?" },
+                        { who: "Doctor", text: "No, he shouldn't. He should rest at home tomorrow. He can go back on Thursday." },
+                        { who: "Kevin", text: "Oh no! On Thursday I have a soccer game." },
+                        { who: "Doctor", text: "You can play if you feel better. Take this pill twice a day, after breakfast and after dinner." },
+                        { who: "Mrs. Flores", text: "Thank you, doctor. Kevin, put on your jacket. It's cold outside." },
+                        { who: "Kevin", text: "Mom, my jacket is in the car. Can you give me your scarf?" }
+                      ],
+                      items: [
+                        { q: "Who is sick?", opts: ["Kevin, the son", "Mrs. Flores, the mother", "The doctor", "Kevin's friend"], a: 0 },
+                        { q: "What are Kevin's main problems?", opts: ["A stomachache and dizziness", "A toothache and a cough", "A sore throat and a fever", "A backache and an earache"], a: 0 },
+                        { q: "When did the problem start?", opts: ["Yesterday after lunch", "This morning at school", "Last week at a game", "Two days ago at night"], a: 0 },
+                        { q: "What did Kevin eat at the party?", opts: ["Two hamburgers and ice cream", "Soup and a sandwich", "Pizza and candy", "Chicken and rice"], a: 0 },
+                        { q: "Does Kevin have a fever?", opts: ["No, he doesn't", "Yes, he does", "Yes, a very high fever", "The doctor doesn't know"], a: 0 },
+                        { q: "What should Kevin eat for two days?", opts: ["Soup", "Fast food", "Candy", "Ice cream"], a: 0 },
+                        { q: "What does the doctor say about school tomorrow?", opts: ["He shouldn't go; he should rest at home", "He should go in the morning only", "He should go with his mother", "He should go and play soccer"], a: 0 },
+                        { q: "What does Kevin have on Thursday?", opts: ["A soccer game", "A math exam", "A birthday party", "A doctor's appointment"], a: 0 },
+                        { q: "How many times a day should Kevin take the pill?", opts: ["Twice", "Once", "Three times", "Four times"], a: 0 },
+                        { q: "Where is Kevin's jacket?", opts: ["In the car", "At school", "At his friend's house", "In his bag"], a: 0 }
+                      ] },
+                    { id: "dictation", kind: "quiz", title: "Dictation", desc: "Write what you hear · 5", icon: "fas fa-pen",
+                      graded: true, pick: [["d", 5]],
+                      intro: "<p>✍️ Listen and <b>write the complete sentence</b>. Only <b>2 times</b> per sentence.</p>",
+                      items: [
+                        { g: "d", say: "She is wearing a blue dress and black boots.", sayMax: 2, q: "Write the sentence you hear:", answer: ["She is wearing a blue dress and black boots"] },
+                        { g: "d", say: "You should drink hot tea with honey.", sayMax: 2, q: "Write the sentence you hear:", answer: ["You should drink hot tea with honey"] },
+                        { g: "d", say: "My brother has a terrible toothache.", sayMax: 2, q: "Write the sentence you hear:", answer: ["My brother has a terrible toothache"] },
+                        { g: "d", say: "I gave them my old jackets.", sayMax: 2, q: "Write the sentence you hear:", answer: ["I gave them my old jackets"] },
+                        { g: "d", say: "Their gloves are in the car.", sayMax: 2, q: "Write the sentence you hear:", answer: ["Their gloves are in the car"] },
+                        { g: "d", say: "You shouldn't go to school with a fever.", sayMax: 2, q: "Write the sentence you hear:", answer: ["You shouldn't go to school with a fever"] },
+                        { g: "d", say: "I have an earache and a sore throat.", sayMax: 2, q: "Write the sentence you hear:", answer: ["I have an earache and a sore throat"] }
+                      ] },
+                    { id: "test", kind: "quiz", title: "Grammar & Vocabulary", desc: "25 questions", icon: "fas fa-graduation-cap", graded: true,
+                      intro: "<p>🎓 <b>Last part.</b> 25 questions, <b>one try</b> each. Most answers must be <b>written</b>. Check your spelling!</p>",
+                      pick: [["clothes", 4], ["acc", 4], ["health", 5], ["pron", 4], ["poss", 4], ["art", 2], ["should", 2]],
+                      items: [
+                        { g: "clothes", q: "✍️ Blue pants made of denim: <b>j</b>____", answer: ["jeans"] },
+                        { g: "clothes", q: "✍️ A warm sweatshirt with a part for your head: <b>h</b>_____", answer: ["hoodie"] },
+                        { g: "clothes", q: "✍️ Clothing for women that hangs down from the waist: <b>s</b>____", answer: ["skirt"] },
+                        { g: "clothes", q: "✍️ A warm knitted top, usually without a zipper: <b>s</b>______", answer: ["sweater"] },
+                        { g: "clothes", q: "✍️ Shoes that cover your foot and part of your leg: <b>b</b>____", answer: ["boots"] },
+                        { g: "clothes", q: "✍️ 'Chaqueta' in English: <b>j</b>_____", answer: ["jacket"] },
+                        { g: "clothes", q: "It's very hot today. I'm wearing a T-shirt and ___.", opts: ["shorts", "boots", "a sweater", "gloves"], a: 0 },
+                        { g: "acc", q: "✍️ It tells the time and you wear it on your wrist: <b>w</b>____", answer: ["watch"] },
+                        { g: "acc", q: "✍️ Jewelry that you wear on your ears: <b>e</b>_______", answer: ["earrings"] },
+                        { g: "acc", q: "✍️ A long piece of cloth worn around the neck under a collar: <b>t</b>__", answer: ["tie"] },
+                        { g: "acc", q: "✍️ A strip of leather you wear around your waist: <b>b</b>___", answer: ["belt"] },
+                        { g: "acc", q: "✍️ 'Bufanda' in English: <b>s</b>____", answer: ["scarf"] },
+                        { g: "acc", q: "A small bag for a woman's personal things is a…", opts: ["purse", "belt", "cap", "necklace"], a: 0 },
+                        { g: "health", q: "✍️ My temperature is very high. I have a <b>f</b>____.", answer: ["fever"] },
+                        { g: "health", q: "✍️ My tooth hurts. I have a <b>t</b>_______.", answer: ["toothache"] },
+                        { g: "health", q: "✍️ 'Dolor de garganta' in English: <b>s</b>___ <b>t</b>_____", answer: ["sore throat"] },
+                        { g: "health", q: "✍️ A meeting with the doctor at a specific time: <b>a</b>__________", answer: ["appointment"] },
+                        { g: "health", q: "✍️ 'Gripe' in English: <b>f</b>__", answer: ["flu"] },
+                        { g: "health", q: "✍️ My stomach hurts. I have a <b>s</b>_________.", answer: ["stomachache", "stomach ache"] },
+                        { g: "health", q: "I feel like everything is moving around me. I feel…", opts: ["dizzy", "hungry", "sleepy", "warm"], a: 0 },
+                        { g: "pron", q: "✍️ Write the object pronoun: I can't find <i>my boots</i>.<br>→ I can't find ______.", answer: ["them"] },
+                        { g: "pron", q: "✍️ Write the subject pronoun: <i>My sister and I</i> are at the mall.<br>→ ______ are at the mall.", answer: ["we"] },
+                        { g: "pron", q: "✍️ Complete: Carlos is sick. The nurse is helping ______.", answer: ["him"] },
+                        { g: "pron", q: "✍️ Complete: Ana loves this necklace. I'm giving it to ______.", answer: ["her"] },
+                        { g: "pron", q: "___ is wearing a white shirt and a black tie. (Leo)", opts: ["He", "Him", "His", "She"], a: 0 },
+                        { g: "pron", q: "✍️ Find the mistake and write the <b>correct word</b>: \"Please give <u>I</u> your jacket.\"", answer: ["me"] },
+                        { g: "poss", q: "✍️ Write the possessive: <i>the boots of Carlos</i> → ______ boots", answer: ["his"] },
+                        { g: "poss", q: "✍️ Write the possessive: <i>the caps of the students</i> → ______ caps", answer: ["their"] },
+                        { g: "poss", q: "✍️ Complete: We are cold. ______ jackets are at home.", answer: ["our"] },
+                        { g: "poss", q: "✍️ Complete: I have a headache. ______ head hurts a lot.", answer: ["my"] },
+                        { g: "poss", q: "The girl can't find ___ earrings.", opts: ["her", "his", "she", "their"], a: 0 },
+                        { g: "poss", q: "✍️ Find the mistake and write the <b>correct word</b>: \"Maria lost <u>his</u> purse.\"", answer: ["her"] },
+                        { g: "art", q: "✍️ Write <b>a</b> or <b>an</b>: I have ___ earache.", answer: ["an"] },
+                        { g: "art", q: "✍️ Write <b>a</b> or <b>an</b>: She has ___ bad cough.", answer: ["a"] },
+                        { g: "art", q: "✍️ Write <b>a</b> or <b>an</b>: Take ___ aspirin.", answer: ["an"] },
+                        { g: "art", q: "✍️ Write <b>a</b> or <b>an</b>: He has ___ fever.", answer: ["a"] },
+                        { g: "should", q: "✍️ Advice: <i>Your friend has a fever.</i><br>→ She ______ go to school. (a bad idea)", answer: ["shouldn't", "should not"] },
+                        { g: "should", q: "✍️ Advice: <i>You have a cold.</i><br>→ You ______ drink hot tea. (a good idea)", answer: ["should"] },
+                        { g: "should", q: "✍️ Write the QUESTION: \"I should take a pill.\"", answer: ["Should I take a pill"] },
+                        { g: "should", q: "Which sentence is correct?", opts: ["You should see a doctor.", "You should to see a doctor.", "You shoulds see a doctor.", "You should seeing a doctor."], a: 0 },
+                        { g: "should", q: "✍️ Find the mistake and write the <b>correct word</b>: \"She shouldn't <u>eats</u> candy.\"", answer: ["eat"] }
+                      ] }
+                ]
+            },
+            "10th - P4 - FINAL EXAM": {
+                active: true, cleanName: true, type: "block",
+                attempts: 1, timeLimit: 60, maxExits: 2,
+                windows: { "10A": ["2026-10-21T22:30:00Z", "2026-10-22T00:00:00Z"], "10B": ["2026-10-21T22:30:00Z", "2026-10-22T00:00:00Z"] }, // Wed Oct 21, 4:30-6:00 p.m. El Salvador time
+                stages: [
+                    { id: "rules", kind: "quiz", title: "Exam Rules", desc: "Read before you start", icon: "fas fa-exclamation-triangle",
+                      intro: "<h3 style='margin-bottom:10px;'>🎓 Final Exam · 10th Grade</h3><p>This is your <b>official exam</b> for this period.</p><p>☝️ You have <b>only ONE attempt</b>. You can't repeat it.</p><p>⏱️ <b>60 minutes</b> · 🚪 If you leave the page <b>2 times</b>, the exam ends.</p><p>🕕 The exam <b>closes at 6:00 p.m.</b> If you start late, you will have less time.</p><p>📋 Parts: <b>Reading</b> (10) · <b>Listening</b> (10) · <b>Dictation</b> (5) · <b>Grammar & Vocabulary</b> (25).</p><p>🔒 No notes, no translator, no help. Write your <b>first names and last names exactly as on the school list</b>.</p><p>🏁 At the end, wait until you see the message that your grade was <b>received</b>.</p>",
+                      items: [
+                        { q: "How many attempts do you have for this exam?", opts: ["Only one attempt", "Two attempts", "Three attempts", "As many as I want"], a: 0, hint: "Read the rules again." }
+                      ] },
+                    { id: "reading", kind: "quiz", title: "Reading", desc: "Sara's healthy challenge · 10", icon: "fas fa-book-open", graded: true, keepOrder: true,
+                      passage: "<h3 style='margin-bottom:8px;'>📖 Sara's Healthy Challenge</h3><p><b>(1)</b> Sara is sixteen years old and she lives in Santa Tecla. Last January, she felt tired all the time. She didn't have much stamina, and she couldn't run for more than five minutes. Her doctor checked her weight and her blood pressure and gave her some advice: \"You need a healthy routine.\"</p><p><b>(2)</b> So Sara made a plan. She joined a small gym near her house and met a coach named Óscar. He created a workout for her. Every session started with a ten-minute warm-up. Then she ran on the treadmill and lifted light weights to build muscle. At the end, she stretched for five minutes. \"Don't forget your hydration,\" Óscar always said.</p><p><b>(3)</b> Sara also changed her diet. She stopped drinking soda and eating chips, and she started to eat more protein, like eggs, beans and chicken. She counted her calories for two weeks, but she didn't like it, so she stopped.</p><p><b>(4)</b> The gym was not free. The membership cost $25 a month, and Sara didn't have a job. So she made a budget. She saved part of her allowance, and on Saturdays she worked at her aunt's bakery. She earned $40 a month there. She didn't borrow money from anybody, and she didn't get into debt.</p><p><b>(5)</b> Now it is October, and Sara is a different person. Right now, she is running in a 5 km race in the park with her coach. She isn't stopping, and she is smiling. \"I didn't believe it was possible,\" she says, \"but I did it!\"</p>",
+                      items: [
+                        { q: "What is the main idea of the text?", opts: ["A girl changes her routine to be healthier", "A girl opens a bakery with her aunt", "A coach explains how to run a race", "A girl saves money to buy a car"], a: 0 },
+                        { q: "How did Sara feel last January?", opts: ["Tired all the time", "Happy and strong", "Sick with the flu", "Worried about her grades"], a: 0 },
+                        { q: "Who is Óscar?", opts: ["Her coach at the gym", "Her doctor", "Her brother", "The owner of the bakery"], a: 0 },
+                        { q: "What did Sara do at the beginning of every session?", opts: ["A ten-minute warm-up", "Five minutes of stretching", "A 5 km race", "Lifting heavy weights"], a: 0 },
+                        { q: "Why did Sara stop counting calories?", opts: ["She didn't like it", "Her coach said no", "She didn't have time", "Her doctor said it was bad"], a: 0 },
+                        { q: "How much did the gym membership cost?", opts: ["$25 a month", "$40 a month", "$25 a week", "$40 a week"], a: 0 },
+                        { q: "How did Sara pay for the gym?", opts: ["With her savings and her job at the bakery", "With a loan from her aunt", "With money from her coach", "With her doctor's help"], a: 0 },
+                        { q: "What is Sara doing right now?", opts: ["Running in a race", "Working at the bakery", "Counting her calories", "Talking to her doctor"], a: 0 },
+                        { q: "✍️ Find a word in <b>paragraph 1</b> that means 'the energy to do a tiring activity for a long time'.", answer: ["stamina"] },
+                        { q: "✍️ Find a word in <b>paragraph 4</b> that means 'money that you owe to someone'.", answer: ["debt"] }
+                      ] },
+                    { id: "listening", kind: "quiz", title: "Listening", desc: "A phone call between friends · 10", icon: "fas fa-headphones", graded: true, keepOrder: true, maxPlays: 2,
+                      listenTitle: "Andrés calls his friend Paola",
+                      intro: "<p>🎧 Andrés calls his friend Paola. You can listen <b>only 2 times</b>. 10 questions.</p>",
+                      script: [
+                        { who: "Andrés", text: "Hi, Paola! It's Andrés. What are you doing?" },
+                        { who: "Paola", text: "Hi, Andrés! I'm at the supermarket. I'm buying groceries for my mom." },
+                        { who: "Andrés", text: "Cool. Hey, why didn't you come to the gym yesterday? The coach asked about you." },
+                        { who: "Paola", text: "I had a terrible week. On Monday, I lost my wallet on the bus. I had my ID and thirty dollars in it." },
+                        { who: "Andrés", text: "Oh no! Did you find it?" },
+                        { who: "Paola", text: "Yes! A woman found it and called me on Tuesday. But the money wasn't there. Only the ID." },
+                        { who: "Andrés", text: "That's bad. So you didn't pay the gym this month?" },
+                        { who: "Paola", text: "No, I didn't. I couldn't afford it. Now I'm saving money for next month. I'm not buying snacks or soda." },
+                        { who: "Andrés", text: "Good idea. You know, I started a new routine on Wednesday. I'm running on the treadmill for twenty-five minutes every day." },
+                        { who: "Paola", text: "Wow! Is it hard?" },
+                        { who: "Andrés", text: "Yes, I sweat a lot! But my muscles are getting stronger. And I'm drinking two liters of water every day for hydration." },
+                        { who: "Paola", text: "That's great. I'm coming back to the gym on Monday. Can you wait for me at six o'clock?" },
+                        { who: "Andrés", text: "Sure. See you on Monday!" }
+                      ],
+                      items: [
+                        { q: "Where is Paola right now?", opts: ["At the supermarket", "At the gym", "On the bus", "At home"], a: 0 },
+                        { q: "What is Paola doing?", opts: ["Buying groceries for her mom", "Running on the treadmill", "Looking for her wallet", "Talking to her coach"], a: 0 },
+                        { q: "What did Paola lose on Monday?", opts: ["Her wallet", "Her phone", "Her gym bag", "Her bus ticket"], a: 0 },
+                        { q: "How much money was in it?", opts: ["Thirty dollars", "Thirteen dollars", "Forty dollars", "Twenty-five dollars"], a: 0 },
+                        { q: "When did the woman call Paola?", opts: ["On Tuesday", "On Monday", "On Wednesday", "Yesterday"], a: 0 },
+                        { q: "Why didn't Paola pay the gym this month?", opts: ["She couldn't afford it", "She didn't like the coach", "She was sick", "The gym was closed"], a: 0 },
+                        { q: "What is Paola NOT buying now?", opts: ["Snacks or soda", "Groceries", "Water", "Fruit"], a: 0 },
+                        { q: "When did Andrés start his new routine?", opts: ["On Wednesday", "On Monday", "Last month", "Yesterday"], a: 0 },
+                        { q: "How long does Andrés run every day?", opts: ["Twenty-five minutes", "Twenty minutes", "Fifteen minutes", "One hour"], a: 0 },
+                        { q: "When are they meeting at the gym?", opts: ["On Monday at six o'clock", "On Tuesday at six o'clock", "Tomorrow at seven o'clock", "On Saturday morning"], a: 0 }
+                      ] },
+                    { id: "dictation", kind: "quiz", title: "Dictation", desc: "Write what you hear · 5", icon: "fas fa-pen",
+                      graded: true, pick: [["d", 5]],
+                      intro: "<p>✍️ Listen and <b>write the complete sentence</b>. Only <b>2 times</b> per sentence.</p>",
+                      items: [
+                        { g: "d", say: "She is running on the treadmill right now.", sayMax: 2, q: "Write the sentence you hear:", answer: ["She is running on the treadmill right now"] },
+                        { g: "d", say: "We didn't spend all our savings.", sayMax: 2, q: "Write the sentence you hear:", answer: ["We didn't spend all our savings"] },
+                        { g: "d", say: "Did you pay the rent last month?", sayMax: 2, q: "Write the sentence you hear:", answer: ["Did you pay the rent last month"] },
+                        { g: "d", say: "My coach planned a new workout for me.", sayMax: 2, q: "Write the sentence you hear:", answer: ["My coach planned a new workout for me"] },
+                        { g: "d", say: "They are not eating junk food this week.", sayMax: 2, q: "Write the sentence you hear:", answer: ["They are not eating junk food this week"] },
+                        { g: "d", say: "I bought groceries with my salary.", sayMax: 2, q: "Write the sentence you hear:", answer: ["I bought groceries with my salary"] },
+                        { g: "d", say: "He stretched his muscles after the race.", sayMax: 2, q: "Write the sentence you hear:", answer: ["He stretched his muscles after the race"] }
+                      ] },
+                    { id: "test", kind: "quiz", title: "Grammar & Vocabulary", desc: "25 questions", icon: "fas fa-graduation-cap", graded: true,
+                      intro: "<p>🎓 <b>Last part.</b> 25 questions, <b>one try</b> each. Most answers must be <b>written</b>. Check your spelling!</p>",
+                      pick: [["fit", 5], ["money", 5], ["pc", 5], ["past", 5], ["did", 5]],
+                      items: [
+                        { g: "fit", q: "✍️ An exercise machine for running or walking in one place: <b>t</b>________", answer: ["treadmill"] },
+                        { g: "fit", q: "✍️ Giving your body enough water: <b>h</b>________", answer: ["hydration"] },
+                        { g: "fit", q: "✍️ The person who trains people in a sport: <b>c</b>____", answer: ["coach"] },
+                        { g: "fit", q: "✍️ A nutrient in meat, eggs and beans that builds muscle: <b>p</b>______", answer: ["protein"] },
+                        { g: "fit", q: "✍️ Light exercises before an intense workout: <b>w</b>___-<b>u</b>_", answer: ["warm-up", "warm up", "warmup"] },
+                        { g: "fit", q: "✍️ 'Báscula' in English: <b>s</b>____", answer: ["scale"] },
+                        { g: "fit", q: "The salty liquid that comes out of your skin when you are hot is…", opts: ["sweat", "stamina", "pressure", "protein"], a: 0 },
+                        { g: "money", q: "✍️ A plan for the money you earn and spend: <b>b</b>_____", answer: ["budget"] },
+                        { g: "money", q: "✍️ The money you pay to live in a house or apartment: <b>r</b>___", answer: ["rent"] },
+                        { g: "money", q: "✍️ Money that helps a student pay for school: <b>s</b>__________", answer: ["scholarship"] },
+                        { g: "money", q: "✍️ 'Gastos' in English: <b>e</b>_______", answer: ["expenses"] },
+                        { g: "money", q: "✍️ Food and things you buy at the supermarket: <b>g</b>________", answer: ["groceries"] },
+                        { g: "money", q: "I don't have enough money. I can't ___ a new phone.", opts: ["afford", "earn", "owe", "deposit"], a: 0 },
+                        { g: "money", q: "Money that you borrow from a bank is a…", opts: ["loan", "salary", "receipt", "discount"], a: 0 },
+                        { g: "pc", q: "✍️ Look! The coach ______ (watch) us.", answer: ["is watching"] },
+                        { g: "pc", q: "✍️ Right now, I ______ (run) on the treadmill.", answer: ["am running"] },
+                        { g: "pc", q: "✍️ We ______ (not / eat) junk food this month.", answer: ["aren't eating", "are not eating"] },
+                        { g: "pc", q: "✍️ Write the QUESTION: \"They are lifting weights.\"", answer: ["Are they lifting weights"] },
+                        { g: "pc", q: "✍️ Short answer: <i>Is she stretching?</i> (✗)<br>→ No, she ______.", answer: ["isn't", "is not"] },
+                        { g: "pc", q: "Shh! The baby ___ right now.", opts: ["is sleeping", "are sleeping", "sleeping", "slept"], a: 0 },
+                        { g: "pc", q: "✍️ Find the mistake and write the <b>correct word</b>: \"She is <u>drink</u> water now.\"", answer: ["drinking"] },
+                        { g: "past", q: "✍️ Write the past of <b>STUDY</b>.", answer: ["studied"] },
+                        { g: "past", q: "✍️ Write the past of <b>STOP</b>.", answer: ["stopped"] },
+                        { g: "past", q: "✍️ Write the past of <b>PLAN</b>.", answer: ["planned"] },
+                        { g: "past", q: "✍️ Write the past of <b>BUY</b>: Last week, I ______ new shoes.", answer: ["bought"] },
+                        { g: "past", q: "✍️ Write the past of <b>PAY</b>: She ______ $10 for the groceries.", answer: ["paid"] },
+                        { g: "past", q: "✍️ Write the past of <b>BRING</b>: He ______ water to the gym.", answer: ["brought"] },
+                        { g: "past", q: "✍️ Write the past of <b>BEGIN</b>: The race ______ at 7:00.", answer: ["began"] },
+                        { g: "past", q: "Which verb has the <b>/ɪd/</b> sound?", opts: ["wanted", "worked", "played", "cleaned"], a: 0 },
+                        { g: "did", q: "✍️ Write the negative: <i>He spent all his salary.</i><br>→ He ______ all his salary.", answer: ["didn't spend", "did not spend"] },
+                        { g: "did", q: "✍️ Write the question: <i>She paid the rent.</i><br>→ ______ the rent?", answer: ["Did she pay"] },
+                        { g: "did", q: "✍️ Write the NEGATIVE: \"They went to the gym yesterday.\"", answer: ["They didn't go to the gym yesterday", "They did not go to the gym yesterday"] },
+                        { g: "did", q: "✍️ Write the QUESTION: \"You saved money last month.\"", answer: ["Did you save money last month"] },
+                        { g: "did", q: "✍️ Short answer: <i>Did they get a discount?</i> (✗)<br>→ No, they ______.", answer: ["didn't", "did not"] },
+                        { g: "did", q: "How much ___ for the shoes?", opts: ["did you pay", "did you paid", "you did pay", "you paid did"], a: 0 },
+                        { g: "did", q: "✍️ Find the mistake and write the <b>correct word</b>: \"I didn't <u>kept</u> the receipt.\"", answer: ["keep"] }
+                      ] }
+                ]
+            },
             "9th - Not Feeling Good - Block 1": {
                 active: false, type: "block",
                 stages: [
@@ -2923,7 +3146,14 @@
             document.getElementById('activity-grid').style.display = 'flex'; 
             document.getElementById('btn-report').style.display = 'inline-block';
             show('menu'); 
-            if (data.timeLimit && !data.isStrictExam && !isAdmin) { timeRemaining = data.timeLimit * 60; document.getElementById('time-display').textContent = data.timeLimit + ':00'; startTimer(); }
+            if (data.timeLimit && !data.isStrictExam && !isAdmin) {
+                timeRemaining = data.timeLimit * 60;
+                // The timer never runs past the moment the unit closes for this section
+                var win = data.windows && data.windows[section];
+                if (win) timeRemaining = Math.max(60, Math.min(timeRemaining, Math.floor((Date.parse(win[1]) - Date.now()) / 1000)));
+                document.getElementById('time-display').textContent = Math.floor(timeRemaining / 60) + ':' + (timeRemaining % 60 < 10 ? '0' : '') + timeRemaining % 60;
+                startTimer();
+            }
             var maxEx = (data.isStrictExam && !isAdmin) ? 1 : (data.maxExits || 3);
             var exMax = document.getElementById('exit-max'); if (exMax) exMax.textContent = maxEx;
             setupAntiCheat(maxEx);
