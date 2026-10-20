@@ -257,7 +257,7 @@
             <div class="quote-box" id="motivational-quote"></div>
             <div class="input-group">
                 <label>Student Full Name</label>
-                <input type="text" id="studentName" placeholder="E.g., Juan Pérez..." oninput="checkStatus()">
+                <input type="text" id="studentName" placeholder="E.g., Juan Pérez..." oninput="checkStatus(); markDoneSoon()">
             </div>
             <div class="input-group">
                 <label>Select your Grade and Section</label>
@@ -3017,10 +3017,31 @@
                 });
                 if(!foundOptions) { sel.innerHTML = '<option value="">-- No quests available --</option>'; }
                 setTimeout(checkStatus, 200);
+                markDoneSoon();
             } else {
                 unitGroup.classList.add('hidden'); sel.innerHTML = '<option value="">-- Select Unit / Activity --</option>';
                 document.getElementById('startBtn').disabled = true;
             }
+        }
+
+        // A ✓ next to the activities this student already completed (found in the grade sheet under their name)
+        var doneCache = {}; var markTimer = null;
+        function markDoneSoon() { clearTimeout(markTimer); markTimer = setTimeout(markDone, 700); }
+        function markDone() {
+            var section = document.getElementById('sectionSelect').value;
+            var raw = document.getElementById('studentName').value.trim();
+            var opts = Array.prototype.slice.call(document.getElementById('unitSelect').options);
+            opts.forEach(function(opt) {
+                var unit = opt.value; if (!unit || !DB[unit]) return;
+                opt.textContent = unit;
+                if (!DB[unit].cleanName || !section || !raw || isTeacherKey(raw) || !onRoster(raw, section)) return;
+                var name = cleanName(raw); var key = name.toLowerCase() + '-' + section + '-' + unit;
+                function paint(done) { if (done && opt.value === unit && document.getElementById('studentName').value.trim() === raw) opt.textContent = '✓ ' + unit + ' (completed)'; }
+                if (localStorage.getItem(key) === 'COMPLETED' || doneCache[key]) { paint(true); return; }
+                if (doneCache[key] === false) return;
+                var url = SHEETS_URL + '?action=done&sheetName=' + encodeURIComponent(unitSheet(section, unit)) + '&name=' + encodeURIComponent(name) + '&section=' + encodeURIComponent(section) + '&unit=' + encodeURIComponent(unit);
+                fetchJson(url, 20000).then(function(r) { doneCache[key] = !!(r && (r.done || Number(r.count) > 0)); paint(doneCache[key]); }, function() {});
+            });
         }
 
         // windows: { "10A": [opens, closes], ... } in UTC; a section not listed never sees the unit
