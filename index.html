@@ -3060,20 +3060,23 @@
                 msg.textContent = '⚠️ Write your full name as it appears on the class list: first names + last names (e.g. Juan Carlos Pérez López).';
                 return;
             }
-            if (localStorage.getItem(key) === 'COMPLETED' && !(DB[unit] && DB[unit].attempts) && (DB[unit].redoIfZero || DB[unit].cleanName) && !isAdmin && !redoChecked[key]) {
-                // Students who submitted this block empty (score 0), or whose grade never reached the sheet, may do it again
+            var checkSheet = DB[unit].cleanName || localStorage.getItem(key) === 'COMPLETED';
+            if (checkSheet && !(DB[unit] && DB[unit].attempts) && (DB[unit].redoIfZero || DB[unit].cleanName) && !isAdmin && !redoChecked[key]) {
+                // Students who submitted this block empty (score 0), or whose grade never reached the sheet, may do it again.
+                // With cleanName, a block already in the sheet counts as done on any device, so it is not graded twice.
                 btn.disabled = true; btn.textContent = "Checking…"; msg.textContent = '';
                 var rurl = SHEETS_URL + '?action=done&sheetName=' + encodeURIComponent(unitSheet(section, unit)) + '&name=' + encodeURIComponent(name) + '&section=' + encodeURIComponent(section) + '&unit=' + encodeURIComponent(unit);
                 fetchJson(rurl).then(function(r) {
                     redoChecked[key] = true;
                     var missing = !(r.done || Number(r.count) > 0);
                     if (DB[unit].cleanName ? missing : (Number(r.best) || 0) <= 0) localStorage.removeItem(key);
+                    else if (DB[unit].cleanName) localStorage.setItem(key, 'COMPLETED');
                     checkStatus();
                 }).catch(function() { redoChecked[key] = true; checkStatus(); });
                 return;
             }
             if (localStorage.getItem(key) === 'COMPLETED' && !(DB[unit] && DB[unit].attempts)) {
-                isReviewMode = true; btn.disabled = false; btn.textContent = "Review Mode 🔁"; btn.style.backgroundColor = "var(--warning)"; msg.textContent = 'You completed this previously. Score will not be saved.';
+                isReviewMode = true; btn.disabled = false; btn.textContent = "Review Mode 🔁"; btn.style.backgroundColor = "var(--warning)"; msg.textContent = 'You completed this previously. Score will not be saved.' + (Object.keys(DB).some(function(u) { return DB[u].unlock && DB[u].unlock.after === unit; }) ? ' Your grade is already saved: go to Block 2.' : '');
             } else if (localStorage.getItem(key + '_STARTED') === 'true' && !isAdmin) {
                 btn.disabled = true; btn.textContent = "Access Denied"; btn.style.backgroundColor = "var(--danger)"; msg.textContent = 'You cannot re-enter an exam once it has been started.';
             } else {
