@@ -408,7 +408,7 @@
             window.speechSynthesis.cancel();
             var u = new SpeechSynthesisUtterance(text); 
             u.lang = 'en-US'; 
-            u.rate = 1.0;
+            u.rate = 0.9;
             var voices = window.speechSynthesis.getVoices();
             if (voices.length > 0) {
                 var bestVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('Google') || v.name.includes('Samantha') || v.name.includes('Siri'))) 
@@ -1411,8 +1411,8 @@
                       graded: true, pick: [["d", 8]],
                       intro: "<p>✍️ Listen and <b>write the complete sentence</b>. Only <b>2 times</b> per sentence.</p>",
                       items: [
-                        { g: "d", say: "My sister can't find her black boots and her scarf.", sayMax: 2, q: "Write the sentence you hear:", answer: ["My sister can't find her black boots and her scarf"] },
-                        { g: "d", say: "You shouldn't go outside without a warm jacket.", sayMax: 2, q: "Write the sentence you hear:", answer: ["You shouldn't go outside without a warm jacket"] },
+                        { g: "d", say: "My sister cannot find her black boots and her scarf.", sayMax: 2, q: "Write the sentence you hear:", answer: ["My sister cannot find her black boots and her scarf"] },
+                        { g: "d", say: "You should not go outside without a warm jacket.", sayMax: 2, q: "Write the sentence you hear:", answer: ["You should not go outside without a warm jacket"] },
                         { g: "d", say: "The nurse gave him an aspirin for his headache.", sayMax: 2, q: "Write the sentence you hear:", answer: ["The nurse gave him an aspirin for his headache"] },
                         { g: "d", say: "Their grandmother is wearing a beautiful necklace.", sayMax: 2, q: "Write the sentence you hear:", answer: ["Their grandmother is wearing a beautiful necklace"] },
                         { g: "d", say: "We should take our gloves because it is very cold.", sayMax: 2, q: "Write the sentence you hear:", answer: ["We should take our gloves because it is very cold", "We should take our gloves because it's very cold"] },
@@ -1541,7 +1541,7 @@
                         { q: "How much does Jorge earn a week?", opts: ["Eighty dollars", "Eighteen dollars", "Fifteen dollars", "Thirty dollars"], a: 0 },
                         { q: "What did Jorge buy last month?", opts: ["Running shoes", "A new phone", "A bicycle", "A gym membership"], a: 0 },
                         { q: "What discount did the shoes have?", opts: ["Thirty percent", "Thirteen percent", "Fifteen percent", "Fifty percent"], a: 0 },
-                        { q: "What happened last Sunday?", opts: ["He ran 8 km and stopped twice", "He ran 10 km and didn't stop", "He ran 8 km and didn't stop", "He ran 10 km and stopped twice"], a: 0 },
+                        { q: "What happened last Sunday?", opts: ["He ran 8 kilometers and stopped twice", "He ran 10 kilometers and didn't stop", "He ran 8 kilometers and didn't stop", "He ran 10 kilometers and stopped twice"], a: 0 },
                         { q: "What does Jorge's coach say?", opts: ["He needs more stamina", "He needs new shoes", "He should stop running", "He should eat less"], a: 0 },
                         { q: "What did Jorge have before the run?", opts: ["Only a coffee", "Eggs and oatmeal", "Nothing at all", "A soda and water"], a: 0 },
                         { q: "When is the race?", opts: ["On November fifteenth", "On November fifth", "On December fifteenth", "On October fifteenth"], a: 0 },
@@ -1552,14 +1552,14 @@
                       intro: "<p>✍️ Listen and <b>write the complete sentence</b>. Only <b>2 times</b> per sentence.</p>",
                       items: [
                         { g: "d", say: "She is lifting weights at the gym right now.", sayMax: 2, q: "Write the sentence you hear:", answer: ["She is lifting weights at the gym right now"] },
-                        { g: "d", say: "We didn't buy groceries last week.", sayMax: 2, q: "Write the sentence you hear:", answer: ["We didn't buy groceries last week"] },
+                        { g: "d", say: "We did not buy groceries last week.", sayMax: 2, q: "Write the sentence you hear:", answer: ["We did not buy groceries last week"] },
                         { g: "d", say: "Did they pay the rent on time?", sayMax: 2, q: "Write the sentence you hear:", answer: ["Did they pay the rent on time"] },
                         { g: "d", say: "He saved part of his salary every month.", sayMax: 2, q: "Write the sentence you hear:", answer: ["He saved part of his salary every month"] },
-                        { g: "d", say: "I'm not drinking soda this month.", sayMax: 2, q: "Write the sentence you hear:", answer: ["I'm not drinking soda this month"] },
+                        { g: "d", say: "I am not drinking soda this month.", sayMax: 2, q: "Write the sentence you hear:", answer: ["I am not drinking soda this month"] },
                         { g: "d", say: "Why did you borrow money from your brother?", sayMax: 2, q: "Write the sentence you hear:", answer: ["Why did you borrow money from your brother"] },
                         { g: "d", say: "They are stretching their muscles after the race.", sayMax: 2, q: "Write the sentence you hear:", answer: ["They are stretching their muscles after the race"] },
                         { g: "d", say: "She bought new shoes with a big discount.", sayMax: 2, q: "Write the sentence you hear:", answer: ["She bought new shoes with a big discount"] },
-                        { g: "d", say: "I didn't keep the receipt from the store.", sayMax: 2, q: "Write the sentence you hear:", answer: ["I didn't keep the receipt from the store"] },
+                        { g: "d", say: "I did not keep the receipt from the store.", sayMax: 2, q: "Write the sentence you hear:", answer: ["I did not keep the receipt from the store"] },
                         { g: "d", say: "My coach planned a difficult workout for us.", sayMax: 2, q: "Write the sentence you hear:", answer: ["My coach planned a difficult workout for us"] }
                       ] },
                     { id: "test", kind: "quiz", title: "Grammar & Vocabulary", desc: "35 questions", icon: "fas fa-graduation-cap", graded: true,
@@ -3902,7 +3902,7 @@
         function escHtml(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
         function escJs(t) { return String(t).replace(/\\/g, '\\\\').replace(/'/g, "\\'"); }
         function normAnswer(t) {
-            var x = ' ' + String(t).toLowerCase().replace(/[\u2019\u2018`]/g, "'").replace(/[.,!?;:"\u00bf\u00a1]/g, ' ') + ' ';
+            var x = ' ' + String(t).toLowerCase().replace(/[\u2019\u2018\u00b4\u02bc\u2032`]/g, "'").replace(/[.,!?;:"\u00bf\u00a1]/g, ' ') + ' ';
             x = x.replace(/won't/g, 'will not').replace(/can't/g, 'can not').replace(/cannot/g, 'can not').replace(/n't/g, ' not')
                  .replace(/'ll/g, ' will').replace(/'m/g, ' am').replace(/'re/g, ' are').replace(/'ve/g, ' have')
                  .replace(/\b(he|she|it|that|there|what|where|who)'s/g, '$1 is');
@@ -4053,7 +4053,9 @@
         function playScript(lines, onEnd) {
             if (!('speechSynthesis' in window)) { onEnd(false); return; }
             var synth = window.speechSynthesis; synth.cancel();
-            var voices = synth.getVoices().filter(function(v) { return v.lang && v.lang.toLowerCase().startsWith('en'); });
+            var voices = synth.getVoices().filter(function(v) { return v.lang && v.lang.toLowerCase().startsWith('en'); })
+            function voiceRank(v) { var l = v.lang.toLowerCase().replace('_', '-'); return (l === 'en-us' ? 0 : l === 'en-gb' ? 2 : 4) + (/google|samantha|microsoft|siri/i.test(v.name) ? 0 : 1); }
+            voices.sort(function(x, y) { return voiceRank(x) - voiceRank(y); });
             var speakers = []; lines.forEach(function(l) { if (speakers.indexOf(l.who) === -1) speakers.push(l.who); });
             var remaining = lines.length, finished = false;
             function done(ok) { if (finished) return; finished = true; onEnd(ok); }
