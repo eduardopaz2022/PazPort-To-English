@@ -3960,9 +3960,6 @@
             var p = stageProg(stage);
             state.done[stage.id] = true; p.done = true;
             updateXPBar(); triggerConfetti();
-            // Submit automatically when the last activity is finished, so the grade is sent even if the student never presses the button.
-            var allDone = activitiesList.every(function(a) { return state.done[a]; });
-            if (allDone && !isTeacher && !isReviewMode && !state.autoSubmitted) { state.autoSubmitted = true; setTimeout(function() { claimCert(); }, 1800); }
             var scoreLine = stage.graded ? '<p style="font-size:1.2rem; margin:10px 0 0;">Score: <b>' + p.score + ' / ' + stage._items.length + '</b></p>' : '';
             container.innerHTML = '<div style="text-align:center; padding:40px 0;"><i class="' + (stage.icon || 'fas fa-check-circle') + '" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>' + stage.title + ' complete!</h2>' + scoreLine + '<br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
         }
