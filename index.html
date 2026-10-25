@@ -3960,6 +3960,9 @@
             var p = stageProg(stage);
             state.done[stage.id] = true; p.done = true;
             updateXPBar(); triggerConfetti();
+            // Submit automatically when the last activity is finished, so the grade is sent even if the student never presses the button.
+            var allDone = activitiesList.every(function(a) { return state.done[a]; });
+            if (allDone && !isTeacher && !isReviewMode && !state.autoSubmitted) { state.autoSubmitted = true; setTimeout(function() { claimCert(); }, 1800); }
             var scoreLine = stage.graded ? '<p style="font-size:1.2rem; margin:10px 0 0;">Score: <b>' + p.score + ' / ' + stage._items.length + '</b></p>' : '';
             container.innerHTML = '<div style="text-align:center; padding:40px 0;"><i class="' + (stage.icon || 'fas fa-check-circle') + '" style="font-size:4rem; color:var(--success); margin-bottom:20px;"></i><h2>' + stage.title + ' complete!</h2>' + scoreLine + '<br><button class="btn" onclick="show(\'menu\')">Return to Menu</button></div>';
         }
@@ -4307,6 +4310,12 @@
            SAVE SYSTEM & CERTIFICATES MODULE
            ================================================================ */
         // Send the grade and check with the sheet that it arrived; only then mark the block as done
+        // sendBeacon keeps delivering the grade even if the student closes the page right away.
+        function postGrade(url, formData) {
+            try { if (navigator.sendBeacon && navigator.sendBeacon(url, formData)) return Promise.resolve(); } catch (e) {}
+            return fetch(url, { method: "POST", body: formData, mode: "no-cors", keepalive: true });
+        }
+
         function sendAndConfirm(url, formData, sheet, key, finalGrade) {
             var st = document.getElementById('send-status');
             if (!st) { st = document.createElement('div'); st.id = 'send-status'; st.style.cssText = 'margin:0 auto 15px; padding:8px 14px; border-radius:12px; font-weight:bold; max-width:420px; text-align:center; position:relative; z-index:2;'; var rb = document.getElementById('review-badge'); rb.parentNode.insertBefore(st, rb); }
@@ -4330,7 +4339,7 @@
             var already = sendAndConfirm._tried ? fetchJson(check, 20000).then(isDone, function() { return false; }) : Promise.resolve(false);
             sendAndConfirm._tried = true;
             already
-                .then(function(ok) { return ok || fetch(url, { method: "POST", body: formData, mode: "no-cors" }).then(function() { return poll([3000, 4000, 5000, 6000, 8000, 10000, 12000]); }); })
+                .then(function(ok) { return ok || postGrade(url, formData).then(function() { return poll([3000, 4000, 5000, 6000, 8000, 10000, 12000]); }); })
                 .then(function(ok) {
                     if (!ok) return fail();
                     localStorage.setItem(key, 'COMPLETED');
@@ -4341,6 +4350,8 @@
                 }).catch(fail);
         }
         function claimCert() {
+            if (state.submitted) { show('cert'); return; }
+            state.submitted = true;
             if (examInterval) { clearInterval(examInterval); examInterval = null; var et = document.getElementById('exam-timer'); if (et) et.classList.add('hidden'); }
             if (window._visibilityHandler) document.removeEventListener('visibilitychange', window._visibilityHandler);
             var rawScore = (state.firstTryPoints / state.totalPossiblePoints) * 10;
@@ -4359,7 +4370,7 @@
                 var key = state.name.toLowerCase() + '-' + state.section + '-' + state.unit;
                 var confirmIt = !isTeacher && DB[state.unit] && DB[state.unit].cleanName;
                 if (confirmIt) { sendAndConfirm(urlGoogleScript, formData, targetSheet, key, finalGrade); }
-                else fetch(urlGoogleScript, { method: "POST", body: formData, mode: "no-cors" }).catch(e => console.error(e));
+                else postGrade(urlGoogleScript, formData).catch(e => console.error(e));
                 if (!isTeacher && !confirmIt) {
                     localStorage.setItem(key, 'COMPLETED');
                     var who = state.name.toLowerCase() + '-' + state.section + '-' + state.unit;
