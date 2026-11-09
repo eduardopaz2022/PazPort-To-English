@@ -1015,6 +1015,8 @@
             "11th - Recovery - FINAL EXAM": {
                 active: true, type: "block", sheet: "11th Grade - Recovery",
                 attempts: 1, timeLimit: 60, maxExits: 2,
+                // One more attempt for a student whose exam ended by page exits on Nov 9 (fingerprints of section|word, no names in the code)
+                extraAttempts: [{ section: "11A", words: ["d4209eab07cb653310cd06772fe387bf0c9c7c4c94457a24fa2dda9a72e7f050", "1e82fc583e00e9b7a2da1a4e5f604d32cbbf0c7cbf693fb95b9bdca227f8dec8"], extra: 1 }, { section: "11A", words: ["9fb0f55110bc5ceb0c69d7eb6dbb3313022a595fa1024fcac6f8e25f5d50902c", "1e82fc583e00e9b7a2da1a4e5f604d32cbbf0c7cbf693fb95b9bdca227f8dec8"], extra: 1 }],
                 windows: { "11A": ["2026-11-09T19:00:00Z", "2026-11-10T05:59:00Z"], "11B": ["2026-11-09T19:00:00Z", "2026-11-10T05:59:00Z"] }, // Mon Nov 9, 1:00 p.m. to 11:59 p.m. El Salvador time
                 stages: [
                     { id: "rules", kind: "quiz", title: "Exam Rules", desc: "Read before you start", icon: "fas fa-exclamation-triangle",
@@ -4251,6 +4253,13 @@
             var timer = setTimeout(function() { if (ctrl) ctrl.abort(); }, ms || 8000);
             return fetch(url, ctrl ? { signal: ctrl.signal } : {}).then(function(r) { clearTimeout(timer); return r.json(); });
         }
+        // extraAttempts: [{ section, words: [sha256("section|word"), ...], extra }] gives one student more attempts; every word must be in the name
+        function extraAttemptsFor(data, name, section) {
+            var words = cleanName(name).toLowerCase().split(' ').map(function(w) { return sha256(section + '|' + w); });
+            return (data.extraAttempts || []).reduce(function(n, x) {
+                return n + (x.section === section && x.words.every(function(w) { return words.indexOf(w) > -1; }) ? x.extra : 0);
+            }, 0);
+        }
         function checkBlockGate(name, section, unit, data) {
             var btn = document.getElementById('startBtn'); var msg = document.getElementById('msg');
             var token = ++gateToken; var rule = data.unlock || null; var teacherKey = isTeacherKey(name);
@@ -4297,8 +4306,9 @@
                 var lc = localRec(unit);
                 record(unit).then(function(r) {
                     var used = Math.max(lc.count, r.count); var best = Math.max(lc.best, r.best);
-                    if (used >= data.attempts) { deny('⛔ You have used all your attempts (' + used + '/' + data.attempts + '). Best score: ' + best + '/10.'); return; }
-                    allow('📝 ' + (data.attempts >= 50 ? 'Practice attempt ' + (used + 1) : 'Attempt ' + (used + 1) + ' of ' + data.attempts) + (used ? ' · Best score so far: ' + best + '/10' : '') + (data.timeLimit ? ' · Time limit: ' + data.timeLimit + ' min' : ''));
+                    var limit = data.attempts + extraAttemptsFor(data, name, section);
+                    if (used >= limit) { deny('⛔ You have used all your attempts (' + used + '/' + limit + '). Best score: ' + best + '/10.'); return; }
+                    allow('📝 ' + (data.attempts >= 50 ? 'Practice attempt ' + (used + 1) : 'Attempt ' + (used + 1) + ' of ' + limit) + (used ? ' · Best score so far: ' + best + '/10' : '') + (data.timeLimit ? ' · Time limit: ' + data.timeLimit + ' min' : ''));
                 });
             });
         }
