@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>Pazport to English · Pilot</title>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --side:#0F2D63; --blue:#1F5FD1; --blue-d:#1747A6; --sky:#38BDF8; --bg:#EEF4FC; --ink:#0F2347; --muted:#5B6B84; --line:#DCE6F3; --green:#16A36A; --red:#E1484C; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:Manrope, sans-serif; background:var(--bg); color:var(--ink); min-height:100vh; display:grid; grid-template-columns:1.1fr 1fr; }
+  .panel { background:linear-gradient(140deg,#0B2350,#1747A6 60%,#2C8BE6); color:#fff; padding:48px 56px; display:flex; flex-direction:column; justify-content:center; gap:16px; }
+  .panel h1 { font-family:Fraunces, serif; font-size:2.6rem; line-height:1.1; }
+  .panel p { opacity:.9; font-size:1.05rem; line-height:1.5; max-width:460px; }
+  .tag { align-self:flex-start; background:rgba(255,255,255,.15); padding:6px 12px; border-radius:999px; font-weight:800; font-size:.8rem; letter-spacing:1.5px; }
+  .main { display:flex; align-items:center; justify-content:center; padding:32px 16px; }
+  .box { background:#fff; border:1px solid var(--line); border-radius:20px; padding:32px 28px; width:100%; max-width:440px; box-shadow:0 18px 40px rgba(15,45,99,.08); text-align:center; }
+  .box img.logo { width:60px; }
+  h2 { font-family:Fraunces, serif; font-size:1.5rem; margin:10px 0 6px; }
+  .muted { color:var(--muted); font-size:.92rem; line-height:1.45; }
+  .gbtn { display:flex; align-items:center; justify-content:center; gap:12px; width:100%; padding:13px; border:1.5px solid #c9d3de; border-radius:999px; background:#fff; font:800 1rem Manrope, sans-serif; color:#1f1f1f; cursor:pointer; margin-top:22px; }
+  .gbtn:hover { background:#f6f9fd; }
+  .btn { width:100%; padding:13px; border:none; border-radius:12px; background:var(--blue); color:#fff; font:800 1rem Manrope, sans-serif; cursor:pointer; margin-top:14px; box-shadow:0 4px 0 var(--blue-d); }
+  .btn.ghost { background:#EEF2F8; color:var(--ink); box-shadow:none; }
+  .msg { margin-top:16px; padding:12px 14px; border-radius:12px; font-size:.9rem; text-align:left; line-height:1.45; word-break:break-word; user-select:text; }
+  .ok { background:#DDF6EA; color:#0d6b45; }
+  .err { background:#FDE4E4; color:#8d2c2f; }
+  .who { display:flex; align-items:center; gap:12px; text-align:left; margin:18px 0 6px; padding:12px; border:1px solid var(--line); border-radius:14px; }
+  .who img { width:44px; height:44px; border-radius:50%; }
+  .who b { display:block; }
+  .stat { display:flex; justify-content:space-between; padding:10px 2px; border-bottom:1px solid var(--line); font-size:.92rem; }
+  .stat span:last-child { font-weight:800; }
+  table { width:100%; border-collapse:collapse; font-size:.82rem; margin-top:10px; text-align:left; }
+  th, td { padding:7px 4px; border-bottom:1px solid var(--line); }
+  th { color:var(--muted); font-size:.72rem; text-transform:uppercase; }
+  .hidden { display:none !important; }
+  @media (max-width: 860px) { body { grid-template-columns:1fr; } .panel { padding:32px 20px; } .panel h1 { font-size:2rem; } }
+</style>
+</head>
+<body>
+  <section class="panel">
+    <span class="tag">PILOT · LOGIN TEST</span>
+    <h1>Pazport to English</h1>
+    <p>This page only tests signing in with a school Google account and saving progress in the cloud. It does not change the platform or any grades.</p>
+  </section>
+
+  <section class="main">
+    <div class="box">
+      <img class="logo" src="icons/logo-128.png" alt="Pazport logo">
+
+      <div id="view-out">
+        <h2>Welcome</h2>
+        <p class="muted">Sign in with your school account</p>
+        <button class="gbtn" id="btn-in">
+          <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.5 0 6.6 1.2 9.1 3.6l6.8-6.8C35.8 2.4 30.3 0 24 0 14.6 0 6.6 5.4 2.6 13.2l7.9 6.2C12.4 13.6 17.7 9.5 24 9.5z"/><path fill="#4285F4" d="M46.5 24.5c0-1.6-.1-3.1-.4-4.5H24v9h12.7c-.6 2.9-2.2 5.4-4.7 7.1l7.6 5.9c4.4-4.1 6.9-10.1 6.9-17.5z"/><path fill="#FBBC05" d="M10.5 28.6A14.5 14.5 0 0 1 9.5 24c0-1.6.3-3.2.8-4.6l-7.9-6.2A24 24 0 0 0 0 24c0 3.9.9 7.5 2.6 10.8l7.9-6.2z"/><path fill="#34A853" d="M24 48c6.5 0 11.9-2.1 15.9-5.8l-7.6-5.9c-2.1 1.4-4.9 2.3-8.3 2.3-6.3 0-11.6-4.1-13.5-9.9l-7.9 6.2C6.6 42.6 14.6 48 24 48z"/></svg>
+          Sign in with Google
+        </button>
+        <p class="muted" style="margin-top:14px; font-size:.8rem;">Only @citala.edu.sv accounts</p>
+      </div>
+
+      <div id="view-in" class="hidden">
+        <div class="who"><img id="u-photo" alt=""><div><b id="u-name"></b><span class="muted" id="u-email"></span></div></div>
+        <div class="stat"><span>Practice sessions saved</span><span id="s-count">0</span></div>
+        <div class="stat"><span>Last saved</span><span id="s-last">never</span></div>
+        <div class="stat"><span>Devices used</span><span id="s-dev">0</span></div>
+        <button class="btn" id="btn-save">Save a test practice</button>
+        <button class="btn ghost" id="btn-out">Sign out</button>
+
+        <div id="teacher" class="hidden" style="margin-top:22px; text-align:left;">
+          <b>Teacher view: everyone who signed in</b>
+          <table><thead><tr><th>Name</th><th>Email</th><th>Saves</th><th>Last</th></tr></thead><tbody id="t-rows"></tbody></table>
+        </div>
+      </div>
+
+      <div id="msg" class="msg hidden"></div>
+    </div>
+  </section>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc, getDocs, collection, serverTimestamp, increment, arrayUnion } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  // Public web config (not a secret; access is controlled by the Firestore rules)
+  const firebaseConfig = {
+    apiKey: "AIzaSyAdYVdiMcb4JVyKngwsZ7m7T906xZ7y4CI",
+    authDomain: "pazport-6a9f8.firebaseapp.com",
+    projectId: "pazport-6a9f8",
+    storageBucket: "pazport-6a9f8.firebasestorage.app",
+    messagingSenderId: "881514411279",
+    appId: "1:881514411279:web:7c3de24d76eb9349ee7a7a"
+  };
+  const SCHOOL_DOMAIN = "citala.edu.sv";
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+  provider.setCustomParameters({ prompt: "select_account" });
+
+  const $ = (id) => document.getElementById(id);
+  const say = (text, kind) => { const m = $("msg"); m.className = "msg " + kind; m.textContent = text; };
+  const hideMsg = () => $("msg").className = "msg hidden";
+  const esc = (s) => String(s || "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const device = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? "phone" : "computer";
+  let teacher = false;
+
+  $("btn-in").onclick = async () => {
+    hideMsg();
+    try { await signInWithPopup(auth, provider); }
+    catch (e) {
+      if (e.code === "auth/popup-blocked" || e.code === "auth/operation-not-supported-in-this-environment") return signInWithRedirect(auth, provider);
+      if (e.code !== "auth/popup-closed-by-user" && e.code !== "auth/cancelled-popup-request") say("Could not sign in (" + e.code + ").", "err");
+    }
+  };
+  getRedirectResult(auth).catch(e => say("Could not sign in (" + e.code + ").", "err"));
+  $("btn-out").onclick = () => signOut(auth);
+
+  async function loadMine(u) {
+    const snap = await getDoc(doc(db, "pilot", u.uid));
+    const d = snap.exists() ? snap.data() : {};
+    $("s-count").textContent = d.saves || 0;
+    $("s-last").textContent = d.lastSave ? d.lastSave.toDate().toLocaleString() : "never";
+    $("s-dev").textContent = (d.devices || []).length;
+  }
+
+  async function loadTeacher() {
+    const rows = (await getDocs(collection(db, "pilot"))).docs.map(s => s.data());
+    rows.sort((a, b) => (b.lastSave?.seconds || 0) - (a.lastSave?.seconds || 0));
+    $("t-rows").innerHTML = rows.map(r => `<tr><td>${esc(r.name)}</td><td>${esc(r.email)}</td><td>${r.saves || 0}</td><td>${r.lastSave ? r.lastSave.toDate().toLocaleDateString() : ""}</td></tr>`).join("");
+    $("teacher").classList.remove("hidden");
+  }
+
+  $("btn-save").onclick = async () => {
+    const u = auth.currentUser; if (!u) return;
+    $("btn-save").disabled = true;
+    try {
+      await setDoc(doc(db, "pilot", u.uid), {
+        name: u.displayName || "", email: u.email, saves: increment(1),
+        lastSave: serverTimestamp(), devices: arrayUnion(device)
+      }, { merge: true });
+      await loadMine(u);
+      if (teacher) await loadTeacher();
+      say("Saved in the cloud. Sign in on another device and you will see the same number.", "ok");
+    } catch (e) {
+      say("Could not save (" + e.code + "). Check the Firestore rules.", "err");
+    } finally { $("btn-save").disabled = false; }
+  };
+
+  onAuthStateChanged(auth, async (u) => {
+    if (!u) { $("view-out").classList.remove("hidden"); $("view-in").classList.add("hidden"); return; }
+    const school = u.emailVerified && (u.email || "").toLowerCase().endsWith("@" + SCHOOL_DOMAIN);
+    teacher = false;
+    try { teacher = (await getDoc(doc(db, "admins", u.uid))).exists(); } catch (e) { teacher = false; }
+    if (!school && !teacher) {
+      const email = u.email, uid = u.uid;
+      await signOut(auth);
+      say(email + " is not a school account. Please use your @" + SCHOOL_DOMAIN + " email. (User ID: " + uid + ")", "err");
+      return;
+    }
+    hideMsg();
+    $("view-out").classList.add("hidden"); $("view-in").classList.remove("hidden");
+    $("u-name").textContent = u.displayName || "";
+    $("u-email").textContent = u.email;
+    if (u.photoURL) $("u-photo").src = u.photoURL; else $("u-photo").style.display = "none";
+    try { await loadMine(u); if (teacher) await loadTeacher(); }
+    catch (e) { say("Signed in, but could not read the database (" + e.code + "). Check the Firestore rules.", "err"); }
+  });
+</script>
+</body>
+</html>
