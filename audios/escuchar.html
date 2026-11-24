@@ -12,7 +12,8 @@
 :root{--blue:#1F5FD1;--blue-d:#1747A6;--sky:#38BDF8;--bg:#EEF4FC;--ink:#0F2347;--muted:#5B6B84;--line:#DCE6F3;--green:#16A36A;--green-l:#DDF6EA;--red:#E1484C;--red-l:#FDE4E4}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:Manrope,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
-body.embed{background:transparent}
+body.embed{background:transparent;min-height:0}
+.backbtn{margin-bottom:12px}
 button{font:inherit;cursor:pointer}
 .hidden{display:none!important}
 header{background:linear-gradient(140deg,#0B2350,#1747A6 60%,#2C8BE6);color:#fff;padding:22px 16px}
@@ -38,7 +39,7 @@ body.embed main{padding:8px}
 .card h3{font-size:1.02rem;margin-bottom:10px}
 audio{width:100%;margin-top:14px}
 .speed{display:flex;gap:6px;margin-top:10px;align-items:center;color:var(--muted);font-size:.85rem;font-weight:700}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:none;border-radius:11px;background:#EEF2F8;color:var(--ink);font-weight:800}
+.btn{text-decoration:none;display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:none;border-radius:11px;background:#EEF2F8;color:var(--ink);font-weight:800}
 .btn.main{background:var(--blue);color:#fff;box-shadow:0 3px 0 var(--blue-d)}
 .back{color:#fff;opacity:.85;text-decoration:none;font-weight:700;font-size:.9rem;margin-left:auto}
 .line{padding:7px 0;border-bottom:1px solid #EEF2F8;line-height:1.55}
@@ -71,7 +72,14 @@ audio{width:100%;margin-top:14px}
 (function () {
   var params = new URLSearchParams(location.search);
   var id = params.get('id'), embed = params.get('embed') === '1';
-  if (embed) { document.body.classList.add('embed'); document.getElementById('head').classList.add('hidden'); }
+  if (embed) {
+    document.body.classList.add('embed'); document.getElementById('head').classList.add('hidden');
+    if (window.parent !== window) {
+      var post = function () { parent.postMessage({ pzHeight: Math.ceil(document.body.getBoundingClientRect().height) }, location.origin); };
+      if (window.ResizeObserver) new ResizeObserver(post).observe(document.body); window.addEventListener('load', post);
+    }
+  }
+  var linkSuffix = embed ? '&embed=1&from=list' : '';
   var app = document.getElementById('app');
   var TYPES = { conversation: 'Conversation', reading: 'Reading', vocabulary: 'Vocabulary', dictation: 'Dictation', announcement: 'Announcement', imported: 'Listening' };
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -98,7 +106,7 @@ audio{width:100%;margin-top:14px}
       var shown = list.filter(function (a) { return cur === 'All' || a.level === cur; });
       app.innerHTML = (levels.length > 1 ? '<div class="filters">' + ['All'].concat(levels).map(function (l) { return '<button class="chip' + (l === cur ? ' on' : '') + '" data-l="' + esc(l) + '">' + esc(l) + '</button>'; }).join('') + '</div>' : '') +
         '<div class="list">' + shown.map(function (a) {
-          return '<a class="row" href="escuchar.html?id=' + encodeURIComponent(a.id) + '"><div class="ic">' + ICON + '</div><div><h3>' + esc(a.title) + '</h3><div class="tags"><span class="tag">' + esc(TYPES[a.type] || 'Listening') + '</span>' + (a.level ? '<span class="tag">' + esc(a.level) + '</span>' : '') + '<span class="tag">' + fmt(a.duration) + '</span></div></div></a>';
+          return '<a class="row" href="escuchar.html?id=' + encodeURIComponent(a.id) + linkSuffix + '"><div class="ic">' + ICON + '</div><div><h3>' + esc(a.title) + '</h3><div class="tags"><span class="tag">' + esc(TYPES[a.type] || 'Listening') + '</span>' + (a.level ? '<span class="tag">' + esc(a.level) + '</span>' : '') + '<span class="tag">' + fmt(a.duration) + '</span></div></div></a>';
         }).join('') + '</div>';
       Array.prototype.forEach.call(app.querySelectorAll('.chip'), function (b) { b.onclick = function () { cur = b.getAttribute('data-l'); draw(); }; });
     }
@@ -107,7 +115,7 @@ audio{width:100%;margin-top:14px}
 
   function showOne(a) {
     document.title = a.title + ' · Pazport to English';
-    var h = '<div class="card"><div class="tags"><span class="tag">' + esc(TYPES[a.type] || 'Listening') + '</span>' + (a.level ? '<span class="tag">' + esc(a.level) + '</span>' : '') + '</div>' +
+    var h = (embed && params.get('from') === 'list' ? '<a class="btn backbtn" href="escuchar.html?embed=1">All audios</a>' : '') + '<div class="card"><div class="tags"><span class="tag">' + esc(TYPES[a.type] || 'Listening') + '</span>' + (a.level ? '<span class="tag">' + esc(a.level) + '</span>' : '') + '</div>' +
       '<h2 style="margin-top:8px">' + esc(a.title) + '</h2>' +
       '<p class="muted" style="margin-top:4px">Listen first without reading. Then answer the questions and check the transcript at the end.</p>' +
       '<audio id="au" controls preload="metadata" src="' + esc(a.file) + '"></audio>' +

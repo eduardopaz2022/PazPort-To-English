@@ -70,6 +70,13 @@ audio{width:100%;margin-top:12px}
 .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
 .toolbar input{flex:1;min-width:180px}
 .keyok{font-size:.78rem;color:var(--green);font-weight:800;margin-left:6px}
+body.embed{min-height:0;background:transparent}
+body.embed header{background:none;padding:0}
+body.embed .top{display:none}
+body.embed .tabs{margin:0}
+body.embed .tab{color:var(--muted);border-radius:11px;border:1px solid transparent}
+body.embed .tab.on{background:#fff;color:var(--ink);border-color:var(--line)}
+body.embed main{padding:14px 0 10px}
 @media(max-width:860px){.grid{grid-template-columns:1fr}}
 @media(max-width:520px){.row,.row3{grid-template-columns:1fr}.spk{grid-template-columns:1fr}.item{grid-template-columns:1fr}.item .ops{justify-content:flex-start}}
 </style>
@@ -253,6 +260,11 @@ audio{width:100%;margin-top:12px}
 <script src="vendor/lame.min.js"></script>
 <script type="module">
 const $ = s => document.querySelector(s);
+if (new URLSearchParams(location.search).get('embed') === '1' && window.parent !== window) {
+  document.body.classList.add('embed');
+  const post = () => parent.postMessage({ pzHeight: Math.ceil(document.body.getBoundingClientRect().height) }, location.origin);
+  new ResizeObserver(post).observe(document.body); window.addEventListener('load', post);
+}
 const $$ = s => [...document.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const conf = {
