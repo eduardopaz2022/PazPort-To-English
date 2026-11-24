@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google" content="notranslate">
+<meta name="theme-color" content="#0F2D63">
+<title>Listening · Pazport to English</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#1F5FD1;--blue-d:#1747A6;--sky:#38BDF8;--bg:#EEF4FC;--ink:#0F2347;--muted:#5B6B84;--line:#DCE6F3;--green:#16A36A;--green-l:#DDF6EA;--red:#E1484C;--red-l:#FDE4E4}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Manrope,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+body.embed{background:transparent}
+button{font:inherit;cursor:pointer}
+.hidden{display:none!important}
+header{background:linear-gradient(140deg,#0B2350,#1747A6 60%,#2C8BE6);color:#fff;padding:22px 16px}
+.top{max-width:860px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.top img{width:42px;height:42px}
+.top h1{font-family:Fraunces,serif;font-size:1.45rem}
+.top small{display:block;font-size:.7rem;letter-spacing:2px;color:var(--sky);text-transform:uppercase;font-weight:800}
+main{max-width:860px;margin:0 auto;padding:22px 16px 60px}
+body.embed main{padding:8px}
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.chip{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:6px 14px;font-weight:800;font-size:.85rem;color:var(--ink)}
+.chip.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.list{display:grid;gap:10px}
+.row{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;text-decoration:none;color:inherit}
+.row:hover{border-color:var(--blue)}
+.row .ic{width:42px;height:42px;border-radius:12px;background:#E6EEFB;display:grid;place-items:center;flex:none}
+.row h3{font-size:1rem}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.tag{font-size:.72rem;font-weight:800;padding:3px 8px;border-radius:99px;background:#E6EEFB;color:#1747A6}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 10px 26px rgba(15,45,99,.06)}
+.card+.card{margin-top:16px}
+.card h2{font-family:Fraunces,serif;font-size:1.4rem}
+.card h3{font-size:1.02rem;margin-bottom:10px}
+audio{width:100%;margin-top:14px}
+.speed{display:flex;gap:6px;margin-top:10px;align-items:center;color:var(--muted);font-size:.85rem;font-weight:700}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:none;border-radius:11px;background:#EEF2F8;color:var(--ink);font-weight:800}
+.btn.main{background:var(--blue);color:#fff;box-shadow:0 3px 0 var(--blue-d)}
+.back{color:#fff;opacity:.85;text-decoration:none;font-weight:700;font-size:.9rem;margin-left:auto}
+.line{padding:7px 0;border-bottom:1px solid #EEF2F8;line-height:1.55}
+.line b{color:var(--blue-d)}
+.q{margin-bottom:16px}
+.q p{font-weight:700;margin-bottom:8px}
+.opt{display:block;width:100%;text-align:left;padding:10px 12px;margin-top:6px;border:1.5px solid var(--line);border-radius:10px;background:#fff;font-weight:600}
+.opt.right{background:var(--green-l);border-color:var(--green)}
+.opt.wrong{background:var(--red-l);border-color:var(--red)}
+.score{font-weight:800;margin-top:6px}
+.vocab{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px}
+.vocab div{padding:6px 0;border-bottom:1px solid #EEF2F8}
+.vocab span{color:var(--muted)}
+.empty{color:var(--muted);text-align:center;padding:40px 10px}
+.muted{color:var(--muted);font-size:.88rem}
+@media(max-width:520px){.vocab{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header id="head">
+  <div class="top">
+    <img src="../icons/logo-128.png" alt="">
+    <div><small>Pazport to English</small><h1>Listening practice</h1></div>
+    <a class="back hidden" id="backLink" href="escuchar.html">All audios</a>
+  </div>
+</header>
+<main id="app"><p class="empty">Loading…</p></main>
+
+<script>
+(function () {
+  var params = new URLSearchParams(location.search);
+  var id = params.get('id'), embed = params.get('embed') === '1';
+  if (embed) { document.body.classList.add('embed'); document.getElementById('head').classList.add('hidden'); }
+  var app = document.getElementById('app');
+  var TYPES = { conversation: 'Conversation', reading: 'Reading', vocabulary: 'Vocabulary', dictation: 'Dictation', announcement: 'Announcement', imported: 'Listening' };
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function fmt(s) { s = Math.round(s || 0); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); }
+  var ICON = '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1747A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14v-2a9 9 0 0 1 18 0v2"/><rect x="2" y="14" width="5" height="7" rx="2"/><rect x="17" y="14" width="5" height="7" rx="2"/></svg>';
+
+  fetch('catalog.json?t=' + Date.now()).then(function (r) { if (!r.ok) throw 0; return r.json(); }).then(function (cat) {
+    var list = (cat && cat.audios) || [];
+    if (id) {
+      var a = list.filter(function (x) { return x.id === id; })[0];
+      if (!a) { app.innerHTML = '<p class="empty">This audio is not available yet. If it was just published, try again in a minute.</p>'; return; }
+      if (!embed) document.getElementById('backLink').classList.remove('hidden');
+      showOne(a);
+    } else showList(list);
+  }).catch(function () { app.innerHTML = '<p class="empty">Could not load the audios. Check your internet connection.</p>'; });
+
+  function showList(list) {
+    if (!list.length) { app.innerHTML = '<p class="empty">There are no audios yet.</p>'; return; }
+    var levels = [];
+    list.forEach(function (a) { if (a.level && levels.indexOf(a.level) < 0) levels.push(a.level); });
+    levels.sort();
+    var cur = 'All';
+    function draw() {
+      var shown = list.filter(function (a) { return cur === 'All' || a.level === cur; });
+      app.innerHTML = (levels.length > 1 ? '<div class="filters">' + ['All'].concat(levels).map(function (l) { return '<button class="chip' + (l === cur ? ' on' : '') + '" data-l="' + esc(l) + '">' + esc(l) + '</button>'; }).join('') + '</div>' : '') +
+        '<div class="list">' + shown.map(function (a) {
+          return '<a class="row" href="escuchar.html?id=' + encodeURIComponent(a.id) + '"><div class="ic">' + ICON + '</div><div><h3>' + esc(a.title) + '</h3><div class="tags"><span class="tag">' + esc(TYPES[a.type] || 'Listening') + '</span>' + (a.level ? '<span class="tag">' + esc(a.level) + '</span>' : '') + '<span class="tag">' + fmt(a.duration) + '</span></div></div></a>';
+        }).join('') + '</div>';
+      Array.prototype.forEach.call(app.querySelectorAll('.chip'), function (b) { b.onclick = function () { cur = b.getAttribute('data-l'); draw(); }; });
+    }
+    draw();
+  }
+
+  function showOne(a) {
+    document.title = a.title + ' · Pazport to English';
+    var h = '<div class="card"><div class="tags"><span class="tag">' + esc(TYPES[a.type] || 'Listening') + '</span>' + (a.level ? '<span class="tag">' + esc(a.level) + '</span>' : '') + '</div>' +
+      '<h2 style="margin-top:8px">' + esc(a.title) + '</h2>' +
+      '<p class="muted" style="margin-top:4px">Listen first without reading. Then answer the questions and check the transcript at the end.</p>' +
+      '<audio id="au" controls preload="metadata" src="' + esc(a.file) + '"></audio>' +
+      '<div class="speed">Speed <button class="btn" data-r="0.75">0.75x</button><button class="btn main" data-r="1">1x</button><button class="btn" data-r="1.25">1.25x</button></div></div>';
+    if (a.questions && a.questions.length) {
+      h += '<div class="card"><h3>Questions</h3>' + a.questions.map(function (q, i) {
+        return '<div class="q" data-a="' + esc(q.answer) + '"><p>' + (i + 1) + '. ' + esc(q.question) + '</p>' + q.options.map(function (o) { return '<button class="opt" data-o="' + esc(o) + '">' + esc(o) + '</button>'; }).join('') + '</div>';
+      }).join('') + '<p class="score" id="score"></p></div>';
+    }
+    if (a.vocabulary && a.vocabulary.length) {
+      h += '<div class="card"><h3>Vocabulary</h3><div class="vocab">' + a.vocabulary.map(function (v) { return '<div><b>' + esc(v.word) + '</b> <span>' + esc(v.meaning_es) + '</span></div>'; }).join('') + '</div></div>';
+    }
+    if (a.transcript && a.transcript.length) {
+      h += '<div class="card"><button class="btn" id="tbtn">Show transcript</button><div id="tr" class="hidden" style="margin-top:12px">' +
+        a.transcript.map(function (l) { return '<div class="line">' + (l.speaker ? '<b>' + esc(l.speaker) + ':</b> ' : '') + esc(l.text) + '</div>'; }).join('') + '</div></div>';
+    }
+    app.innerHTML = h;
+    var au = document.getElementById('au');
+    Array.prototype.forEach.call(app.querySelectorAll('[data-r]'), function (b) {
+      b.onclick = function () { au.playbackRate = parseFloat(b.getAttribute('data-r')); Array.prototype.forEach.call(app.querySelectorAll('[data-r]'), function (x) { x.classList.toggle('main', x === b); }); };
+    });
+    var answered = 0, right = 0, total = (a.questions || []).length;
+    Array.prototype.forEach.call(app.querySelectorAll('.q'), function (q) {
+      var ans = q.getAttribute('data-a'), done = false;
+      Array.prototype.forEach.call(q.querySelectorAll('.opt'), function (b) {
+        b.onclick = function () {
+          if (done) return; done = true; answered++;
+          var ok = b.getAttribute('data-o') === ans; if (ok) right++;
+          b.classList.add(ok ? 'right' : 'wrong');
+          if (!ok) Array.prototype.forEach.call(q.querySelectorAll('.opt'), function (x) { if (x.getAttribute('data-o') === ans) x.classList.add('right'); });
+          if (answered === total) document.getElementById('score').textContent = 'Score: ' + right + ' / ' + total;
+        };
+      });
+    });
+    var tb = document.getElementById('tbtn');
+    if (tb) tb.onclick = function () { var t = document.getElementById('tr'); t.classList.toggle('hidden'); tb.textContent = t.classList.contains('hidden') ? 'Show transcript' : 'Hide transcript'; };
+  }
+})();
+</script>
+</body>
+</html>
