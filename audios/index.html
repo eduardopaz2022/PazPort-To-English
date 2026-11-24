@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="es" translate="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<meta name="google" content="notranslate">
+<meta name="theme-color" content="#0F2D63">
+<title>Estudio de audio · Pazport to English</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--side:#0F2D63;--blue:#1F5FD1;--blue-d:#1747A6;--sky:#38BDF8;--bg:#EEF4FC;--card:#fff;--ink:#0F2347;--muted:#5B6B84;--line:#DCE6F3;--green:#16A36A;--green-l:#DDF6EA;--red:#E1484C;--red-l:#FDE4E4;--gold-l:#FFF4DB}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Manrope,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+header{background:linear-gradient(140deg,#0B2350,#1747A6 60%,#2C8BE6);color:#fff;padding:22px 16px 0}
+.top{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.top img{width:42px;height:42px}
+.top h1{font-family:Fraunces,serif;font-size:1.45rem;line-height:1.1}
+.top small{display:block;font-size:.7rem;letter-spacing:2px;color:var(--sky);text-transform:uppercase;font-weight:800}
+.tabs{max-width:1100px;margin:18px auto 0;display:flex;gap:4px;overflow-x:auto}
+.tab{background:none;border:none;color:#C9D7F2;font-weight:800;padding:12px 16px;border-radius:12px 12px 0 0;white-space:nowrap}
+.tab.on{background:var(--bg);color:var(--ink)}
+main{max-width:1100px;margin:0 auto;padding:22px 16px 60px}
+.grid{display:grid;grid-template-columns:1.25fr 1fr;gap:18px;align-items:start}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 10px 26px rgba(15,45,99,.06)}
+.card+.card{margin-top:18px}
+h2{font-family:Fraunces,serif;font-size:1.15rem;margin-bottom:4px}
+.sub{color:var(--muted);font-size:.88rem;line-height:1.45;margin-bottom:14px}
+label{display:block;font-weight:700;font-size:.82rem;margin:12px 0 5px;color:#26385C}
+input[type=text],input[type=password],input[type=url],select,textarea{width:100%;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue)}
+textarea{resize:vertical;min-height:120px;line-height:1.5}
+#script{min-height:300px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.9rem}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 16px;border:none;border-radius:11px;background:var(--blue);color:#fff;font-weight:800;box-shadow:0 3px 0 var(--blue-d)}
+.btn:disabled{opacity:.55;cursor:wait}
+.btn.ghost{background:#EEF2F8;color:var(--ink);box-shadow:none}
+.btn.green{background:var(--green);box-shadow:0 3px 0 #0e7a4e}
+.btn.red{background:var(--red-l);color:#8d2c2f;box-shadow:none}
+.btn.sm{padding:7px 11px;font-size:.82rem;border-radius:9px}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.help{background:#F4F8FE;border:1px dashed #C4D5EE;border-radius:12px;padding:10px 12px;font-size:.82rem;color:#3A4E72;line-height:1.5;margin-top:10px}
+.help code{background:#fff;border:1px solid var(--line);border-radius:5px;padding:0 4px}
+.spk{display:grid;grid-template-columns:110px 1fr auto;gap:8px;align-items:center;margin-top:8px}
+.spk b{font-size:.88rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.note{margin-top:12px;padding:10px 12px;border-radius:11px;font-size:.86rem;line-height:1.45;word-break:break-word}
+.note.err{background:var(--red-l);color:#8d2c2f}.note.ok{background:var(--green-l);color:#0d6b45}.note.info{background:var(--gold-l);color:#6b4b00}
+.bar{height:8px;background:#E3EBF6;border-radius:99px;overflow:hidden;margin-top:12px}
+.bar i{display:block;height:100%;width:0;background:var(--blue);transition:width .3s}
+audio{width:100%;margin-top:12px}
+.meta{color:var(--muted);font-size:.82rem;margin-top:6px}
+.extra{margin-top:12px;font-size:.86rem;line-height:1.5}
+.extra h3{font-size:.9rem;margin:10px 0 4px}
+.extra li{margin-left:18px}
+.lib{display:grid;gap:12px}
+.item{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px}
+.item h3{font-size:1rem}
+.item .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tag{font-size:.72rem;font-weight:800;padding:3px 8px;border-radius:99px;background:#E6EEFB;color:#1747A6}
+.tag.pub{background:var(--green-l);color:#0d6b45}
+.item .ops{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.item audio{grid-column:1/-1;margin-top:2px}
+.item .link{grid-column:1/-1;font-size:.8rem;color:var(--muted);word-break:break-all}
+.empty{color:var(--muted);text-align:center;padding:30px 10px}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.toolbar input{flex:1;min-width:180px}
+.keyok{font-size:.78rem;color:var(--green);font-weight:800;margin-left:6px}
+body.embed{min-height:0;background:transparent}
+body.embed header{background:none;padding:0}
+body.embed .top{display:none}
+body.embed .tabs{margin:0}
+body.embed .tab{color:var(--muted);border-radius:11px;border:1px solid transparent}
+body.embed .tab.on{background:#fff;color:var(--ink);border-color:var(--line)}
+body.embed main{padding:14px 0 10px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+@media(max-width:520px){.row,.row3{grid-template-columns:1fr}.spk{grid-template-columns:1fr}.item{grid-template-columns:1fr}.item .ops{justify-content:flex-start}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <img src="../icons/logo-128.png" alt="">
+    <div><small>Pazport to English</small><h1>Estudio de audio</h1></div>
+  </div>
+  <nav class="tabs">
+    <button class="tab on" data-tab="crear">Crear audio</button>
+    <button class="tab" data-tab="biblioteca">Biblioteca</button>
+    <button class="tab" data-tab="ajustes">Ajustes</button>
+  </nav>
+</header>
+
+<main>
+<!-- CREAR -->
+<section id="crear">
+  <div id="setupWarn" class="note info hidden" style="margin:0 0 16px">Antes de generar audio necesitas pegar al menos una clave de voz (OpenAI o ElevenLabs) en la pestaña Ajustes.</div>
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2>1. El guion</h2>
+        <p class="sub">Pide a la IA que lo escriba a partir de un tema o pega tu propio texto. Siempre puedes corregirlo antes de convertirlo en audio.</p>
+        <div class="row3">
+          <div><label for="type">Tipo</label>
+            <select id="type">
+              <option value="conversation">Conversación</option>
+              <option value="reading">Lectura</option>
+              <option value="vocabulary">Vocabulario</option>
+              <option value="dictation">Dictado</option>
+              <option value="announcement">Anuncio o noticia</option>
+            </select></div>
+          <div><label for="level">Nivel</label>
+            <select id="level">
+              <option>A1</option><option selected>A2</option><option>B1</option><option>B2</option><option>C1</option>
+            </select></div>
+          <div><label for="length">Duración aproximada</label>
+            <select id="length">
+              <option value="short">Corto (1 min)</option>
+              <option value="medium" selected>Medio (2 a 3 min)</option>
+              <option value="long">Largo (4 a 5 min)</option>
+            </select></div>
+        </div>
+        <label for="topic">Tema</label>
+        <input type="text" id="topic" placeholder="Ej: ordering food at a restaurant, my daily routine, a trip to London">
+        <div class="row">
+          <div><label for="speakers">Personas que hablan</label>
+            <select id="speakers"><option value="1">1</option><option value="2" selected>2</option><option value="3">3</option><option value="4">4</option></select></div>
+          <div><label for="grammar">Gramática a practicar (opcional)</label>
+            <input type="text" id="grammar" placeholder="Ej: past simple, going to"></div>
+        </div>
+        <label for="vocab">Vocabulario que debe aparecer (opcional)</label>
+        <textarea id="vocab" style="min-height:64px" placeholder="Ej: menu, waiter, bill, tip, starter"></textarea>
+        <div class="actions">
+          <button class="btn" id="writeBtn">Escribir guion con IA</button>
+        </div>
+        <div id="writeMsg"></div>
+
+        <label for="title" style="margin-top:20px">Título del audio</label>
+        <input type="text" id="title" placeholder="Ej: At the restaurant">
+        <label for="script">Guion</label>
+        <textarea id="script" placeholder="Anna: Hi, Tom! How was your weekend?&#10;Tom: It was great, thanks. I went to the beach.&#10;[pausa 2]&#10;Anna: That sounds fun!"></textarea>
+        <div class="help">
+          Una intervención por línea con el formato <code>Nombre: texto</code>. Las líneas sin nombre las lee el narrador. Escribe <code>[pausa 3]</code> en su propia línea para dejar 3 segundos de silencio, útil en vocabulario y dictados.
+        </div>
+        <div id="extraBox" class="extra hidden"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h2>2. Las voces</h2>
+        <p class="sub">Cada persona del guion recibe su propia voz. Las de OpenAI aceptan acento y tono; las de ElevenLabs suenan muy humanas y tienen más variedad.</p>
+        <div class="row">
+          <div><label for="provider">Motor de voz</label>
+            <select id="provider"><option value="openai">OpenAI</option><option value="eleven">ElevenLabs</option></select></div>
+          <div><label for="accent">Acento</label>
+            <select id="accent"><option value="American">Estadounidense</option><option value="British">Británico</option><option value="Australian">Australiano</option><option value="Canadian">Canadiense</option></select></div>
+        </div>
+        <div class="row">
+          <div><label for="pace">Velocidad</label>
+            <select id="pace">
+              <option value="slow">Lenta y muy clara</option>
+              <option value="moderate" selected>Moderada</option>
+              <option value="natural">Natural</option>
+            </select></div>
+          <div><label for="gap">Silencio entre intervenciones</label>
+            <select id="gap"><option value="0.4">0,4 s</option><option value="0.7" selected>0,7 s</option><option value="1">1 s</option><option value="1.5">1,5 s</option><option value="2">2 s</option></select></div>
+        </div>
+        <label>Voz para cada persona</label>
+        <div id="spkList"><p class="meta">Escribe o genera un guion para ver aquí a las personas que hablan.</p></div>
+        <div class="actions">
+          <button class="btn green" id="genBtn">Generar audio</button>
+        </div>
+        <div class="bar hidden" id="bar"><i></i></div>
+        <div id="genMsg"></div>
+      </div>
+
+      <div class="card hidden" id="resultCard">
+        <h2 id="resTitle">Tu audio</h2>
+        <p class="meta" id="resMeta"></p>
+        <audio id="resAudio" controls></audio>
+        <div class="actions">
+          <button class="btn" id="dlBtn">Descargar MP3</button>
+          <button class="btn ghost" id="dlTxtBtn">Descargar guion</button>
+          <button class="btn green" id="pubBtn">Publicar en Pazport</button>
+        </div>
+        <div id="resMsg"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIBLIOTECA -->
+<section id="biblioteca" class="hidden">
+  <div class="card">
+    <h2>Biblioteca</h2>
+    <p class="sub">Todo lo que generas queda guardado en este navegador. También puedes importar audios que ya tengas (MP3, WAV, M4A) para publicarlos desde aquí.</p>
+    <div class="toolbar">
+      <input type="text" id="search" placeholder="Buscar por título, tema o nivel">
+      <button class="btn ghost" id="importBtn">Importar audio</button>
+      <button class="btn ghost" id="syncBtn">Ver lo publicado</button>
+      <input type="file" id="importFile" accept="audio/*" multiple class="hidden">
+    </div>
+    <div id="libMsg"></div>
+    <div class="lib" id="lib"></div>
+  </div>
+</section>
+
+<!-- AJUSTES -->
+<section id="ajustes" class="hidden">
+  <div class="grid">
+    <div>
+      <div class="card">
+        <h2>Claves de acceso</h2>
+        <p class="sub">Las claves se guardan solo en este navegador. No quedan en el código de la página ni se suben a GitHub. Si usas otro computador tendrás que pegarlas de nuevo.</p>
+        <label for="kOpenai">OpenAI (voces) <span class="keyok hidden" data-ok="kOpenai">guardada</span></label>
+        <input type="password" id="kOpenai" placeholder="sk-..." autocomplete="off">
+        <label for="kEleven">ElevenLabs (voces) <span class="keyok hidden" data-ok="kEleven">guardada</span></label>
+        <input type="password" id="kEleven" placeholder="Pega tu API key de ElevenLabs" autocomplete="off">
+        <label for="kClaude">Anthropic (escritura de guiones con Claude) <span class="keyok hidden" data-ok="kClaude">guardada</span></label>
+        <input type="password" id="kClaude" placeholder="sk-ant-..." autocomplete="off">
+        <div class="actions">
+          <button class="btn" id="saveKeys">Guardar claves</button>
+          <button class="btn ghost" id="loadVoices">Cargar voces de ElevenLabs</button>
+        </div>
+        <div id="keyMsg"></div>
+        <div class="help">
+          Con una sola clave de voz basta. OpenAI cobra por caracteres y es la opción más económica. ElevenLabs tiene un plan gratuito con un cupo mensual de caracteres. La clave de Anthropic solo hace falta si quieres que la IA escriba los guiones.
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="card">
+        <h2>Conexión con Pazport to English</h2>
+        <p class="sub">Al publicar, el MP3 se sube a la carpeta <code>audios/files</code> del repositorio y queda registrado en <code>audios/catalog.json</code>. Así la plataforma y tus alumnos lo encuentran con un enlace fijo.</p>
+        <label for="ghToken">Token de GitHub <span class="keyok hidden" data-ok="ghToken">guardado</span></label>
+        <input type="password" id="ghToken" placeholder="github_pat_..." autocomplete="off">
+        <div class="row">
+          <div><label for="ghOwner">Usuario</label><input type="text" id="ghOwner"></div>
+          <div><label for="ghRepo">Repositorio</label><input type="text" id="ghRepo"></div>
+        </div>
+        <div class="row">
+          <div><label for="ghBranch">Rama publicada</label><input type="text" id="ghBranch"></div>
+          <div><label for="siteUrl">Dirección del sitio</label><input type="url" id="siteUrl"></div>
+        </div>
+        <div class="actions"><button class="btn" id="saveGh">Guardar conexión</button><button class="btn ghost" id="testGh">Probar conexión</button></div>
+        <div id="ghMsg"></div>
+        <div class="help">
+          Crea el token en GitHub, en Settings, Developer settings, Fine-grained tokens. Dale acceso solo a este repositorio y el permiso Contents en modo lectura y escritura. Los audios aparecen en la web uno o dos minutos después de publicar.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<script src="vendor/lame.min.js"></script>
+<script type="module">
+const $ = s => document.querySelector(s);
+if (new URLSearchParams(location.search).get('embed') === '1' && window.parent !== window) {
+  document.body.classList.add('embed');
+  const post = () => parent.postMessage({ pzHeight: Math.ceil(document.body.getBoundingClientRect().height) }, location.origin);
+  new ResizeObserver(post).observe(document.body); window.addEventListener('load', post);
+}
+const $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const conf = {
+  get(k, d = '') { try { const v = localStorage.getItem('pzaudio.' + k); return v === null ? d : v; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem('pzaudio.' + k, v); } catch {} }
+};
+const note = (el, msg, kind = 'info') => { $(el).innerHTML = msg ? `<div class="note ${kind}">${msg}</div>` : ''; };
+
+/* ---------- pestañas ---------- */
+$$('.tab').forEach(t => t.onclick = () => {
+  $$('.tab').forEach(x => x.classList.toggle('on', x === t));
+  ['crear', 'biblioteca', 'ajustes'].forEach(id => $('#' + id).classList.toggle('hidden', id !== t.dataset.tab));
+  if (t.dataset.tab === 'biblioteca') renderLib();
+});
+
+/* ---------- ajustes ---------- */
+const DEFAULTS = { ghOwner: 'eduardopaz2022', ghRepo: 'PazPort-To-English', ghBranch: 'main', siteUrl: 'https://eduardopaz2022.github.io/PazPort-To-English/' };
+['ghOwner', 'ghRepo', 'ghBranch', 'siteUrl'].forEach(k => $('#' + k).value = conf.get(k, DEFAULTS[k]));
+function refreshKeyMarks() {
+  ['kOpenai', 'kEleven', 'kClaude', 'ghToken'].forEach(k => {
+    const has = !!conf.get(k);
+    document.querySelector(`[data-ok="${k}"]`).classList.toggle('hidden', !has);
+    $('#' + k).placeholder = has ? '•••••••• (guardada, pega otra para cambiarla)' : $('#' + k).placeholder;
+  });
+  $('#setupWarn').classList.toggle('hidden', !!(conf.get('kOpenai') || conf.get('kEleven')));
+}
+refreshKeyMarks();
+$('#saveKeys').onclick = () => {
+  ['kOpenai', 'kEleven', 'kClaude'].forEach(k => { const v = $('#' + k).value.trim(); if (v) conf.set(k, v); $('#' + k).value = ''; });
+  refreshKeyMarks();
+  note('#keyMsg', 'Claves guardadas en este navegador.', 'ok');
+  if (conf.get('kEleven') && !conf.get('elevenVoices')) loadElevenVoices();
+};
+$('#saveGh').onclick = () => {
+  const t = $('#ghToken').value.trim(); if (t) conf.set('ghToken', t); $('#ghToken').value = '';
+  ['ghOwner', 'ghRepo', 'ghBranch'].forEach(k => conf.set(k, $('#' + k).value.trim()));
+  let u = $('#siteUrl').value.trim(); if (u && !u.endsWith('/')) u += '/'; conf.set('siteUrl', u); $('#siteUrl').value = u;
+  refreshKeyMarks();
+  note('#ghMsg', 'Conexión guardada.', 'ok');
+};
+$('#testGh').onclick = async () => {
+  try {
+    const r = await gh('');
+    if (!r.ok) throw new Error(r.status === 401 ? 'el token no es válido' : r.status === 404 ? 'no encuentro el repositorio, o el token no tiene acceso a él' : 'GitHub respondió ' + r.status);
+    const j = await r.json();
+    note('#ghMsg', j.permissions && j.permissions.push === false ? 'El token entra al repositorio pero no puede escribir. Activa Contents en lectura y escritura.' : 'Conexión correcta con ' + esc(j.full_name) + '.', j.permissions && j.permissions.push === false ? 'err' : 'ok');
+  } catch (e) { note('#ghMsg', 'No funcionó: ' + esc(e.message), 'err'); }
+};
+
+/* ---------- voces ---------- */
+const OPENAI_VOICES = [
+  ['marin', 'Marin (mujer, muy natural)'], ['cedar', 'Cedar (hombre, muy natural)'],
+  ['coral', 'Coral (mujer, cálida)'], ['ash', 'Ash (hombre, joven)'], ['sage', 'Sage (mujer, tranquila)'],
+  ['ballad', 'Ballad (hombre, suave)'], ['nova', 'Nova (mujer, enérgica)'], ['onyx', 'Onyx (hombre, grave)'],
+  ['shimmer', 'Shimmer (mujer, clara)'], ['echo', 'Echo (hombre, neutro)'], ['verse', 'Verse (hombre, expresivo)'],
+  ['fable', 'Fable (hombre, narrador)'], ['alloy', 'Alloy (neutra)']
+];
+const OPENAI_ROTATION = ['marin', 'cedar', 'coral', 'ash', 'sage', 'ballad'];
+const NARRATOR_OPENAI = 'cedar';
+
+function elevenVoices() { try { return JSON.parse(conf.get('elevenVoices', '[]')); } catch { return []; } }
+async function loadElevenVoices() {
+  const key = conf.get('kEleven');
+  if (!key) { note('#keyMsg', 'Primero guarda la clave de ElevenLabs.', 'err'); return; }
+  note('#keyMsg', 'Cargando voces de ElevenLabs…');
+  try {
+    const r = await fetch('https://api.elevenlabs.io/v1/voices', { headers: { 'xi-api-key': key } });
+    if (!r.ok) throw new Error(await apiError(r));
+    const j = await r.json();
+    const list = (j.voices || []).map(v => {
+      const l = v.labels || {};
+      const desc = [l.gender, l.accent, l.age, l.description || l.descriptive].filter(Boolean).join(', ');
+      return { id: v.voice_id, name: v.name + (desc ? ' (' + desc + ')' : '') };
+    });
+    conf.set('elevenVoices', JSON.stringify(list));
+    note('#keyMsg', list.length + ' voces de ElevenLabs disponibles.', 'ok');
+    renderSpeakers();
+  } catch (e) { note('#keyMsg', 'No pude cargar las voces: ' + esc(e.message), 'err'); }
+}
+$('#loadVoices').onclick = loadElevenVoices;
+
+/* ---------- guion ---------- */
+const NARRATOR = 'Narrador';
+function parseScript(text) {
+  const segs = [];
+  for (const raw of text.split(/\r?\n/)) {
+    const line = raw.trim();
+    if (!line) continue;
+    const p = line.match(/^\[(?:pausa|pause)\s*(\d+(?:[.,]\d+)?)\s*s?\]$/i);
+    if (p) { segs.push({ pause: Math.min(30, parseFloat(p[1].replace(',', '.'))) }); continue; }
+    const m = line.match(/^([A-Za-zÀ-ÿ][A-Za-zÀ-ÿ0-9 .'-]{0,24}):\s+(.+)$/);
+    if (m) segs.push({ speaker: m[1].trim(), text: m[2].trim() });
+    else segs.push({ speaker: NARRATOR, text: line });
+  }
+  return segs;
+}
+let voiceMap = {};
+let currentExtras = null; // vocabulario y preguntas que vienen de la IA
+function speakersOf(segs) { return [...new Set(segs.filter(s => s.speaker).map(s => s.speaker))]; }
+function defaultVoice(provider, speaker, idx) {
+  if (provider === 'openai') return speaker === NARRATOR ? NARRATOR_OPENAI : OPENAI_ROTATION[idx % OPENAI_ROTATION.length];
+  const ev = elevenVoices(); return ev.length ? ev[idx % ev.length].id : '';
+}
+function renderSpeakers() {
+  const provider = $('#provider').value;
+  const spk = speakersOf(parseScript($('#script').value));
+  $('#accent').disabled = provider !== 'openai';
+  if (!spk.length) { $('#spkList').innerHTML = '<p class="meta">Escribe o genera un guion para ver aquí a las personas que hablan.</p>'; return; }
+  const options = provider === 'openai' ? OPENAI_VOICES : elevenVoices().map(v => [v.id, v.name]);
+  if (provider === 'eleven' && !options.length) {
+    $('#spkList').innerHTML = '<p class="meta">Guarda tu clave de ElevenLabs y pulsa "Cargar voces de ElevenLabs" en Ajustes.</p>';
+    return;
+  }
+  voiceMap[provider] = voiceMap[provider] || {};
+  const vm = voiceMap[provider];
+  $('#spkList').innerHTML = spk.map((s, i) => {
+    if (!vm[s] || !options.some(o => o[0] === vm[s])) {
+      const taken = spk.filter(o => o !== s && vm[o]).map(o => vm[o]);
+      const pool = options.map(o => o[0]);
+      let v = defaultVoice(provider, s, i);
+      if (taken.includes(v)) v = (provider === 'openai' ? OPENAI_ROTATION.concat(pool) : pool).find(x => !taken.includes(x)) || v;
+      vm[s] = v;
+    }
+    return `<div class="spk"><b title="${esc(s)}">${esc(s)}</b>
+      <select data-spk="${esc(s)}">${options.map(o => `<option value="${esc(o[0])}"${o[0] === vm[s] ? ' selected' : ''}>${esc(o[1])}</option>`).join('')}</select>
+      <button class="btn ghost sm" data-try="${esc(s)}">Probar</button></div>`;
+  }).join('');
+  $$('#spkList select').forEach(sel => sel.onchange = () => { vm[sel.dataset.spk] = sel.value; });
+  $$('#spkList [data-try]').forEach(b => b.onclick = () => tryVoice(b.dataset.try, b));
+}
+let spkTimer;
+$('#script').addEventListener('input', () => { clearTimeout(spkTimer); spkTimer = setTimeout(renderSpeakers, 400); });
+$('#provider').onchange = renderSpeakers;
+$('#provider').value = conf.get('provider', 'openai');
+$('#provider').addEventListener('change', () => conf.set('provider', $('#provider').value));
+
+/* ---------- escritura del guion con Claude ---------- */
+const TYPE_RULES = {
+  conversation: n => `A natural conversation between ${n} people. Use realistic first names from different English-speaking countries. Include natural features of real speech (short reactions like "Oh, really?", "Hmm", "Right", polite interruptions, follow-up questions) without making it hard to follow for the level.`,
+  reading: () => `A reading passage (story, article or personal text) read by one narrator. Use the speaker name "Narrador" for every line, and split the text into lines of one to three sentences.`,
+  vocabulary: () => `A vocabulary listening drill read by one teacher voice. Use the speaker name "Narrador". For each word: say the word, add a pause line for the student to repeat (pause_after 2), then say one short example sentence that uses it. Start with a one-line introduction of the topic.`,
+  dictation: () => `A dictation exercise read by one teacher voice. Use the speaker name "Narrador". Say each sentence once at normal speed, then repeat it split into short chunks, each chunk followed by a pause long enough to write it (pause_after 4 to 6).`,
+  announcement: () => `A realistic public announcement, radio news item, voicemail or podcast segment, as it would be heard in real life. Use one or two speakers with realistic names or roles.`
+};
+const LENGTH_WORDS = { short: 130, medium: 300, long: 550 };
+const SCRIPT_SCHEMA = {
+  type: 'object',
+  properties: {
+    title: { type: 'string' },
+    lines: { type: 'array', items: { type: 'object', properties: {
+      speaker: { type: 'string' }, text: { type: 'string' }, pause_after: { type: 'integer' }
+    }, required: ['speaker', 'text', 'pause_after'], additionalProperties: false } },
+    vocabulary: { type: 'array', items: { type: 'object', properties: {
+      word: { type: 'string' }, meaning_es: { type: 'string' }
+    }, required: ['word', 'meaning_es'], additionalProperties: false } },
+    questions: { type: 'array', items: { type: 'object', properties: {
+      question: { type: 'string' }, options: { type: 'array', items: { type: 'string' } }, answer: { type: 'string' }
+    }, required: ['question', 'options', 'answer'], additionalProperties: false } }
+  },
+  required: ['title', 'lines', 'vocabulary', 'questions'],
+  additionalProperties: false
+};
+let AnthropicSDK = null;
+$('#writeBtn').onclick = async () => {
+  const key = conf.get('kClaude');
+  if (!key) { note('#writeMsg', 'Para que la IA escriba el guion necesitas guardar la clave de Anthropic en Ajustes. También puedes escribirlo tú directamente abajo.', 'err'); return; }
+  const topic = $('#topic').value.trim();
+  if (!topic) { note('#writeMsg', 'Escribe primero el tema.', 'err'); return; }
+  const type = $('#type').value, level = $('#level').value, n = +$('#speakers').value;
+  const words = Math.round(LENGTH_WORDS[$('#length').value] * ({ A1: .6, A2: .8, B1: 1, B2: 1.15, C1: 1.3 }[level]));
+  const prompt = [
+    `Write an English listening-practice script.`,
+    `Topic: ${topic}`,
+    `CEFR level: ${level}. Keep vocabulary and grammar inside this level, but make it sound like real people, not like a textbook.`,
+    `Format: ${TYPE_RULES[type](n)}`,
+    `Target length of the spoken text: about ${words} words.`,
+    $('#grammar').value.trim() && `Grammar to practise naturally in the text: ${$('#grammar').value.trim()}.`,
+    $('#vocab').value.trim() && `These words must appear in the script: ${$('#vocab').value.trim()}.`,
+    `Accent and spelling: ${$('#accent').value} English.`,
+    `Each line holds what one speaker says in one turn. Use pause_after = 0 unless the format above asks for a pause.`,
+    `The text will be read aloud by a text-to-speech voice: write numbers, times and prices the way they are spoken when that helps ("half past seven"), avoid abbreviations, emojis, stage directions and parentheses.`,
+    `vocabulary: 6 to 10 useful words or expressions from the script, with a short meaning in Spanish.`,
+    `questions: 5 multiple-choice comprehension questions in English about details that can only be answered by listening. Each has 3 options; answer must be exactly one of the options.`
+  ].filter(Boolean).join('\n');
+  const btn = $('#writeBtn'); btn.disabled = true; btn.textContent = 'Escribiendo…';
+  note('#writeMsg', 'Claude está escribiendo el guion. Tarda entre 10 y 40 segundos.');
+  try {
+    if (!AnthropicSDK) AnthropicSDK = (await import('https://cdn.jsdelivr.net/npm/@anthropic-ai/sdk@1.7.0/+esm')).default;
+    const client = new AnthropicSDK({ apiKey: key, dangerouslyAllowBrowser: true });
+    const msg = await client.beta.messages.create({
+      model: 'claude-opus-5-5',
+      max_tokens: 16000,
+      betas: ['server-side-fallback-2026-07-01'],
+      fallbacks: 'default',
+      output_config: { effort: 'medium', format: { type: 'json_schema', schema: SCRIPT_SCHEMA } },
+      system: 'You write listening material for an English teacher whose students are Spanish speakers. Your scripts are accurate, level-appropriate and sound like real people talking.',
+      messages: [{ role: 'user', content: prompt }]
+    });
+    if (msg.stop_reason === 'refusal') throw new Error('Claude no quiso escribir sobre ese tema. Prueba a redactarlo de otra forma.');
+    if (msg.stop_reason === 'max_tokens') throw new Error('El guion salió demasiado largo. Prueba con una duración menor.');
+    const txt = msg.content.filter(b => b.type === 'text').map(b => b.text).join('');
+    const data = JSON.parse(txt);
+    const lines = [];
+    for (const l of data.lines) {
+      lines.push(`${l.speaker.replace(/:/g, '')}: ${l.text}`);
+      if (l.pause_after > 0) lines.push(`[pausa ${l.pause_after}]`);
+    }
+    $('#script').value = lines.join('\n');
+    if (!$('#title').value.trim() || $('#title').dataset.auto) { $('#title').value = data.title; $('#title').dataset.auto = '1'; }
+    currentExtras = { vocabulary: data.vocabulary || [], questions: data.questions || [] };
+    renderExtras();
+    renderSpeakers();
+    note('#writeMsg', 'Guion listo. Léelo, cambia lo que quieras y luego genera el audio.', 'ok');
+  } catch (e) {
+    note('#writeMsg', 'No se pudo escribir el guion: ' + esc(friendlyClaudeError(e)), 'err');
+  } finally { btn.disabled = false; btn.textContent = 'Escribir guion con IA'; }
+};
+$('#title').addEventListener('input', () => delete $('#title').dataset.auto);
+function friendlyClaudeError(e) {
+  const s = e && (e.status || (e.error && e.error.status));
+  if (s === 401) return 'la clave de Anthropic no es válida.';
+  if (s === 429) return 'demasiadas peticiones seguidas o sin saldo. Espera un momento.';
+  if (s === 402 || /credit/i.test(e.message || '')) return 'la cuenta de Anthropic no tiene saldo.';
+  return e.message || String(e);
+}
+function renderExtras() {
+  const box = $('#extraBox');
+  if (!currentExtras || (!currentExtras.vocabulary.length && !currentExtras.questions.length)) { box.classList.add('hidden'); return; }
+  box.classList.remove('hidden');
+  box.innerHTML =
+    (currentExtras.vocabulary.length ? `<h3>Vocabulario del audio</h3><ul>${currentExtras.vocabulary.map(v => `<li>${esc(v.word)}: ${esc(v.meaning_es)}</li>`).join('')}</ul>` : '') +
+    (currentExtras.questions.length ? `<h3>Preguntas de comprensión</h3><ol>${currentExtras.questions.map(q => `<li>${esc(q.question)} <span class="meta">(${q.options.map(esc).join(' / ')}; respuesta: ${esc(q.answer)})</span></li>`).join('')}</ol>` : '') +
+    `<p class="meta">Se publican junto al audio para que los alumnos respondan después de escuchar. <button class="btn ghost sm" id="dropExtras">Quitar</button></p>`;
+  $('#dropExtras').onclick = () => { currentExtras = null; renderExtras(); };
+}
+
+/* ---------- síntesis de voz ---------- */
+function paceText(p) {
+  return { slow: 'Speak slowly and very clearly, with clean pauses between sentences, as a teacher would for beginner learners. Keep it natural, never robotic.',
+           moderate: 'Speak at a slightly relaxed pace with very clear pronunciation, the way a friendly native speaker talks to a learner.',
+           natural: 'Speak at a normal native pace, like a real person in everyday life.' }[p];
+}
+function elevenSpeed(p) { return { slow: 0.85, moderate: 0.95, natural: 1.0 }[p]; }
+async function apiError(r) {
+  let t = ''; try { const j = await r.json(); t = (j.error && (j.error.message || j.error)) || (j.detail && (j.detail.message || j.detail)) || JSON.stringify(j); } catch { try { t = await r.text(); } catch {} }
+  if (r.status === 401) return 'la clave no es válida (' + t + ')';
+  if (r.status === 429) return 'límite de uso o sin saldo (' + t + ')';
+  return 'error ' + r.status + ': ' + (typeof t === 'string' ? t : JSON.stringify(t));
+}
+async function ttsOpenAI(text, voice, speaker) {
+  const role = speaker === NARRATOR ? 'You are narrating listening material for English students.' : `You are ${speaker}, a real person in a conversation.`;
+  const instructions = `${role} Accent: ${$('#accent').value} English. ${paceText($('#pace').value)} Sound warm and human, with natural intonation and emotion that fits the words. Studio-quality, no background noise.`;
+  const r = await fetch('https://api.openai.com/v1/audio/speech', {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + conf.get('kOpenai'), 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: 'gpt-4o-mini-tts', voice, input: text, instructions, response_format: 'mp3' })
+  });
+  if (!r.ok) throw new Error('OpenAI: ' + await apiError(r));
+  return r.arrayBuffer();
+}
+async function ttsEleven(text, voiceId, prev, next) {
+  const r = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${encodeURIComponent(voiceId)}?output_format=mp3_44100_128`, {
+    method: 'POST',
+    headers: { 'xi-api-key': conf.get('kEleven'), 'Content-Type': 'application/json', 'Accept': 'audio/mpeg' },
+    body: JSON.stringify({ text, model_id: 'eleven_multilingual_v2', previous_text: prev || undefined, next_text: next || undefined,
+      voice_settings: { stability: 0.5, similarity_boost: 0.8, style: 0.15, use_speaker_boost: true, speed: elevenSpeed($('#pace').value) } })
+  });
+  if (!r.ok) throw new Error('ElevenLabs: ' + await apiError(r));
+  return r.arrayBuffer();
+}
+function splitLong(text, max = 2400) {
+  if (text.length <= max) return [text];
+  const parts = [], sentences = text.match(/[^.!?]+[.!?]+["')\]]*\s*|[^.!?]+$/g) || [text];
+  let cur = '';
+  for (const s of sentences) { if ((cur + s).length > max && cur) { parts.push(cur.trim()); cur = ''; } cur += s; }
+  if (cur.trim()) parts.push(cur.trim());
+  return parts;
+}
+async function tryVoice(speaker, btn) {
+  const provider = $('#provider').value, voice = (voiceMap[provider] || {})[speaker];
+  const key = conf.get(provider === 'openai' ? 'kOpenai' : 'kEleven');
+  if (!key) { note('#genMsg', 'Falta la clave de ' + (provider === 'openai' ? 'OpenAI' : 'ElevenLabs') + ' en Ajustes.', 'err'); return; }
+  const first = parseScript($('#script').value).find(s => s.speaker === speaker);
+  const sample = first ? first.text.slice(0, 220) : 'Hello! This is how I sound.';
+  btn.disabled = true;
+  try {
+    const buf = provider === 'openai' ? await ttsOpenAI(sample, voice, speaker) : await ttsEleven(sample, voice);
+    new Audio(URL.createObjectURL(new Blob([buf], { type: 'audio/mpeg' }))).play();
+  } catch (e) { note('#genMsg', esc(e.message), 'err'); }
+  finally { btn.disabled = false; }
+}
+
+/* ---------- montaje y MP3 ---------- */
+const SR = 44100;
+async function assemble(items, gap) {
+  const ctx = new (window.AudioContext || window.webkitAudioContext)();
+  const decoded = [];
+  for (const it of items) decoded.push(it.buf ? { audio: await ctx.decodeAudioData(it.buf.slice(0)), join: it.join } : { pause: it.pause });
+  ctx.close();
+  let t = 0.5; const placed = [];
+  decoded.forEach((d, i) => {
+    if (d.pause !== undefined) { t += d.pause; return; }
+    if (i > 0 && decoded[i - 1].audio) t += d.join ? 0.12 : gap;
+    placed.push([d.audio, t]); t += d.audio.duration;
+  });
+  t += 0.8;
+  const off = new OfflineAudioContext(1, Math.ceil(t * SR), SR);
+  for (const [b, at] of placed) { const src = off.createBufferSource(); src.buffer = b; src.connect(off.destination); src.start(at); }
+  const out = await off.startRendering();
+  const data = out.getChannelData(0);
+  let peak = 0; for (let i = 0; i < data.length; i++) { const a = Math.abs(data[i]); if (a > peak) peak = a; }
+  const g = peak > 0 ? 0.89 / peak : 1; // pico en -1 dB
+  for (let i = 0; i < data.length; i++) data[i] *= g;
+  return { data, duration: t };
+}
+async function encodeMp3(data, onProgress) {
+  const enc = new lamejs.Mp3Encoder(1, SR, 128), block = 1152, chunks = [];
+  const pcm = new Int16Array(data.length);
+  for (let i = 0; i < data.length; i++) { const s = Math.max(-1, Math.min(1, data[i])); pcm[i] = s < 0 ? s * 0x8000 : s * 0x7FFF; }
+  for (let i = 0; i < pcm.length; i += block) {
+    const b = enc.encodeBuffer(pcm.subarray(i, i + block)); if (b.length) chunks.push(new Uint8Array(b));
+    if (i % (block * 400) === 0) { onProgress && onProgress(i / pcm.length); await new Promise(r => setTimeout(r)); }
+  }
+  const end = enc.flush(); if (end.length) chunks.push(new Uint8Array(end));
+  return new Blob(chunks, { type: 'audio/mpeg' });
+}
+async function pool(tasks, n, onDone) {
+  const res = new Array(tasks.length); let i = 0, done = 0;
+  await Promise.all(Array.from({ length: Math.min(n, tasks.length) }, async () => {
+    while (i < tasks.length) { const k = i++; res[k] = await tasks[k](); onDone(++done); }
+  }));
+  return res;
+}
+const fmt = s => { s = Math.round(s); return Math.floor(s / 60) + ':' + String(s % 60).padStart(2, '0'); };
+const bar = p => { $('#bar').classList.remove('hidden'); $('#bar i').style.width = Math.round(p * 100) + '%'; };
+
+let current = null; // último audio generado
+$('#genBtn').onclick = async () => {
+  const provider = $('#provider').value;
+  if (!conf.get(provider === 'openai' ? 'kOpenai' : 'kEleven')) { note('#genMsg', 'Falta la clave de ' + (provider === 'openai' ? 'OpenAI' : 'ElevenLabs') + '. Pégala en Ajustes.', 'err'); return; }
+  const segs = parseScript($('#script').value);
+  if (!segs.some(s => s.text)) { note('#genMsg', 'El guion está vacío.', 'err'); return; }
+  renderSpeakers();
+  const vm = voiceMap[provider] || {};
+  const items = [];
+  segs.forEach(s => {
+    if (s.pause !== undefined) { items.push({ pause: s.pause }); return; }
+    splitLong(s.text).forEach((t, k) => items.push({ speaker: s.speaker, text: t, voice: vm[s.speaker], join: k > 0 }));
+  });
+  if (items.some(it => it.text && !it.voice)) { note('#genMsg', 'Hay personas sin voz asignada.', 'err'); return; }
+  const speechItems = items.filter(it => it.text);
+  const chars = speechItems.reduce((a, it) => a + it.text.length, 0);
+  const btn = $('#genBtn'); btn.disabled = true; btn.textContent = 'Generando…';
+  $('#resultCard').classList.add('hidden');
+  note('#genMsg', `Creando ${speechItems.length} fragmentos de voz (${chars} caracteres)…`);
+  bar(0.02);
+  try {
+    const tasks = speechItems.map((it, idx) => async () => {
+      const prevSame = speechItems[idx - 1], nextSame = speechItems[idx + 1];
+      it.buf = provider === 'openai'
+        ? await ttsOpenAI(it.text, it.voice, it.speaker)
+        : await ttsEleven(it.text, it.voice, prevSame && prevSame.speaker === it.speaker ? prevSame.text : '', nextSame && nextSame.speaker === it.speaker ? nextSame.text : '');
+    });
+    await pool(tasks, 3, d => bar(0.05 + 0.75 * d / tasks.length));
+    note('#genMsg', 'Uniendo las voces y creando el MP3…');
+    const { data, duration } = await assemble(items, parseFloat($('#gap').value));
+    const blob = await encodeMp3(data, p => bar(0.8 + 0.2 * p));
+    bar(1);
+    const title = $('#title').value.trim() || $('#topic').value.trim() || 'Listening';
+    current = {
+      id: makeId(title), title, type: $('#type').value, level: $('#level').value, topic: $('#topic').value.trim(),
+      createdAt: Date.now(), duration, blob, mime: 'audio/mpeg', script: $('#script').value,
+      provider, vocabulary: currentExtras ? currentExtras.vocabulary : [], questions: currentExtras ? currentExtras.questions : []
+    };
+    await dbPut(current);
+    showResult(current);
+    note('#genMsg', 'Audio listo y guardado en tu biblioteca.', 'ok');
+  } catch (e) {
+    note('#genMsg', 'No se pudo generar el audio: ' + esc(e.message), 'err');
+  } finally { btn.disabled = false; btn.textContent = 'Generar audio'; setTimeout(() => $('#bar').classList.add('hidden'), 1200); }
+};
+function showResult(it) {
+  $('#resultCard').classList.remove('hidden');
+  $('#resTitle').textContent = it.title;
+  $('#resMeta').textContent = `${TYPE_NAMES[it.type] || 'Audio'} · ${it.level} · ${fmt(it.duration)} · ${(it.blob.size / 1048576).toFixed(1)} MB`;
+  $('#resAudio').src = URL.createObjectURL(it.blob);
+  note('#resMsg', '');
+  $('#dlBtn').onclick = () => download(it.blob, slug(it.title) + '.mp3');
+  $('#dlTxtBtn').onclick = () => download(new Blob([transcriptText(it)], { type: 'text/plain' }), slug(it.title) + '.txt');
+  $('#pubBtn').onclick = () => publish(it, '#resMsg', $('#pubBtn'));
+}
+const TYPE_NAMES = { conversation: 'Conversación', reading: 'Lectura', vocabulary: 'Vocabulario', dictation: 'Dictado', announcement: 'Anuncio', imported: 'Importado' };
+function transcriptText(it) {
+  let s = it.title + '\n\n' + (it.script || '').replace(/^\[(?:pausa|pause)[^\]]*\]\s*$/gim, '').replace(/\n{2,}/g, '\n') + '\n';
+  if (it.vocabulary && it.vocabulary.length) s += '\nVocabulary\n' + it.vocabulary.map(v => `- ${v.word}: ${v.meaning_es}`).join('\n') + '\n';
+  if (it.questions && it.questions.length) s += '\nQuestions\n' + it.questions.map((q, i) => `${i + 1}. ${q.question}\n   ${q.options.join(' / ')}\n   Answer: ${q.answer}`).join('\n') + '\n';
+  return s;
+}
+const slug = s => (s || 'audio').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 50) || 'audio';
+const makeId = t => slug(t) + '-' + Math.random().toString(36).slice(2, 6);
+function download(blob, name) { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000); }
+
+/* ---------- biblioteca (IndexedDB) ---------- */
+let dbp;
+function db() {
+  return dbp = dbp || new Promise((res, rej) => {
+    const r = indexedDB.open('pazport-audio', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('items', { keyPath: 'id' });
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  });
+}
+async function tx(mode, fn) { const d = await db(); return new Promise((res, rej) => { const t = d.transaction('items', mode); const st = t.objectStore('items'); const out = fn(st); t.oncomplete = () => res(out && out.result); t.onerror = () => rej(t.error); }); }
+const dbPut = it => tx('readwrite', s => s.put(it));
+const dbDel = id => tx('readwrite', s => s.delete(id));
+const dbAll = () => tx('readonly', s => s.getAll());
+
+async function renderLib() {
+  let items;
+  try { items = await dbAll(); } catch (e) { note('#libMsg', 'Este navegador no permite guardar la biblioteca (modo privado o almacenamiento bloqueado). Descarga cada audio al generarlo.', 'err'); return; }
+  const q = $('#search').value.trim().toLowerCase();
+  items = items.filter(it => !q || [it.title, it.topic, it.level, TYPE_NAMES[it.type]].join(' ').toLowerCase().includes(q)).sort((a, b) => b.createdAt - a.createdAt);
+  if (!items.length) { $('#lib').innerHTML = `<div class="empty">${q ? 'Nada coincide con la búsqueda.' : 'Todavía no hay audios. Crea el primero en la pestaña Crear audio.'}</div>`; return; }
+  $('#lib').innerHTML = items.map(it => `
+    <div class="item" data-id="${esc(it.id)}">
+      <div><h3>${esc(it.title)}</h3>
+        <div class="tags"><span class="tag">${esc(TYPE_NAMES[it.type] || 'Audio')}</span>${it.level ? `<span class="tag">${esc(it.level)}</span>` : ''}<span class="tag">${fmt(it.duration || 0)}</span>${it.publishedUrl ? '<span class="tag pub">Publicado</span>' : ''}</div>
+        <p class="meta">${new Date(it.createdAt).toLocaleString('es')}</p></div>
+      <div class="ops">
+        <button class="btn sm" data-op="dl">MP3</button>
+        ${it.script ? '<button class="btn ghost sm" data-op="txt">Guion</button>' : ''}
+        ${it.script ? '<button class="btn ghost sm" data-op="edit">Editar</button>' : ''}
+        <button class="btn green sm" data-op="pub">${it.publishedUrl ? 'Actualizar' : 'Publicar'}</button>
+        ${it.publishedUrl ? '<button class="btn ghost sm" data-op="copy">Copiar enlaces</button><button class="btn red sm" data-op="unpub">Despublicar</button>' : ''}
+        <button class="btn red sm" data-op="del">Borrar</button>
+      </div>
+      <audio controls preload="none"></audio>
+      ${it.publishedUrl ? `<div class="link">MP3: ${esc(it.publishedUrl)}<br>Página para alumnos: ${esc(studentUrl(it.id))}</div>` : ''}
+      <div class="msg" style="grid-column:1/-1"></div>
+    </div>`).join('');
+  const byId = Object.fromEntries(items.map(it => [it.id, it]));
+  $$('#lib .item').forEach(el => {
+    const it = byId[el.dataset.id];
+    el.querySelector('audio').src = URL.createObjectURL(it.blob);
+    el.querySelectorAll('[data-op]').forEach(b => b.onclick = async () => {
+      const op = b.dataset.op, msg = el.querySelector('.msg');
+      if (op === 'dl') download(it.blob, slug(it.title) + '.' + extOf(it.mime));
+      if (op === 'txt') download(new Blob([transcriptText(it)], { type: 'text/plain' }), slug(it.title) + '.txt');
+      if (op === 'edit') loadIntoEditor(it);
+      if (op === 'pub') publish(it, msg, b);
+      if (op === 'copy') { await navigator.clipboard.writeText(`MP3: ${it.publishedUrl}\nPágina para alumnos: ${studentUrl(it.id)}`); msg.innerHTML = '<div class="note ok">Enlaces copiados.</div>'; }
+      if (op === 'unpub' && confirm('¿Quitar "' + it.title + '" de Pazport? Los alumnos dejarán de verlo. Seguirá en tu biblioteca.')) unpublish(it, msg, b);
+      if (op === 'del' && confirm('¿Borrar "' + it.title + '" de la biblioteca de este navegador?' + (it.publishedUrl ? ' Seguirá publicado en Pazport.' : ''))) { await dbDel(it.id); renderLib(); }
+    });
+  });
+}
+$('#search').oninput = renderLib;
+function loadIntoEditor(it) {
+  $('#title').value = it.title; delete $('#title').dataset.auto;
+  $('#script').value = it.script || ''; $('#topic').value = it.topic || '';
+  if (TYPE_NAMES[it.type] && it.type !== 'imported') $('#type').value = it.type;
+  if (it.level) $('#level').value = it.level;
+  currentExtras = (it.vocabulary && it.vocabulary.length) || (it.questions && it.questions.length) ? { vocabulary: it.vocabulary || [], questions: it.questions || [] } : null;
+  renderExtras(); renderSpeakers();
+  document.querySelector('[data-tab="crear"]').click();
+  showResult(it);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+const extOf = mime => ({ 'audio/mpeg': 'mp3', 'audio/mp3': 'mp3', 'audio/wav': 'wav', 'audio/x-wav': 'wav', 'audio/wave': 'wav', 'audio/mp4': 'm4a', 'audio/x-m4a': 'm4a', 'audio/aac': 'aac', 'audio/ogg': 'ogg', 'audio/webm': 'webm' }[mime] || 'mp3');
+
+$('#importBtn').onclick = () => $('#importFile').click();
+$('#importFile').onchange = async e => {
+  const files = [...e.target.files]; e.target.value = '';
+  let ok = 0;
+  for (const f of files) {
+    const title = prompt('Título para "' + f.name + '"', f.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '));
+    if (title === null) continue;
+    let duration = 0;
+    try { const ctx = new (window.AudioContext || window.webkitAudioContext)(); duration = (await ctx.decodeAudioData(await f.arrayBuffer())).duration; ctx.close(); }
+    catch { note('#libMsg', 'No pude leer "' + esc(f.name) + '". ¿Es un archivo de audio?', 'err'); continue; }
+    const level = (prompt('Nivel (A1, A2, B1, B2, C1). Déjalo vacío si no aplica.', '') || '').toUpperCase().trim();
+    const transcript = prompt('Si quieres, pega aquí la transcripción (puedes dejarlo vacío).', '') || '';
+    await dbPut({ id: makeId(title), title: title.trim() || f.name, type: 'imported', level, topic: '', createdAt: Date.now(), duration, blob: f, mime: f.type || 'audio/mpeg', script: transcript, vocabulary: [], questions: [] });
+    ok++;
+  }
+  if (ok) note('#libMsg', ok + ' audio(s) importado(s).', 'ok');
+  renderLib();
+};
+
+/* ---------- publicar en Pazport (GitHub) ---------- */
+function gh(path, opts = {}) {
+  const base = `https://api.github.com/repos/${encodeURIComponent(conf.get('ghOwner', DEFAULTS.ghOwner))}/${encodeURIComponent(conf.get('ghRepo', DEFAULTS.ghRepo))}`;
+  return fetch(base + (path ? '/' + path : ''), { ...opts, headers: { 'Authorization': 'Bearer ' + conf.get('ghToken'), 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', ...(opts.headers || {}) } });
+}
+const branch = () => conf.get('ghBranch', DEFAULTS.ghBranch);
+const siteUrl = () => conf.get('siteUrl', DEFAULTS.siteUrl);
+const studentUrl = id => siteUrl() + 'audios/escuchar.html?id=' + encodeURIComponent(id);
+const blobToB64 = b => new Promise((res, rej) => { const fr = new FileReader(); fr.onload = () => res(fr.result.split(',')[1]); fr.onerror = () => rej(fr.error); fr.readAsDataURL(b); });
+async function ghGet(path) {
+  const r = await gh('contents/' + path + '?ref=' + encodeURIComponent(branch()));
+  if (r.status === 404) return null;
+  if (!r.ok) throw new Error(await ghErr(r));
+  return r.json();
+}
+async function ghPut(path, b64, message, sha) {
+  const r = await gh('contents/' + path, { method: 'PUT', body: JSON.stringify({ message, content: b64, branch: branch(), sha: sha || undefined }) });
+  if (!r.ok) throw new Error(await ghErr(r));
+  return r.json();
+}
+async function ghErr(r) {
+  if (r.status === 401) return 'el token de GitHub no es válido o venció.';
+  if (r.status === 403) return 'el token no tiene permiso para escribir. Activa Contents en lectura y escritura.';
+  if (r.status === 404) return 'no encuentro el repositorio o la rama. Revisa Ajustes.';
+  if (r.status === 409) return 'el catálogo cambió mientras publicabas. Vuelve a intentarlo.';
+  let t = ''; try { t = (await r.json()).message; } catch {}
+  return 'GitHub respondió ' + r.status + (t ? ': ' + t : '');
+}
+async function readCatalog() {
+  const f = await ghGet('audios/catalog.json');
+  if (!f) return { sha: null, data: { audios: [] } };
+  const bytes = Uint8Array.from(atob(f.content.replace(/\n/g, '')), c => c.charCodeAt(0));
+  let data; try { data = JSON.parse(new TextDecoder().decode(bytes)); } catch { data = { audios: [] }; }
+  if (!Array.isArray(data.audios)) data.audios = [];
+  return { sha: f.sha, data };
+}
+async function writeCatalog(data, sha, message) {
+  const b64 = await blobToB64(new Blob([JSON.stringify(data, null, 2) + '\n'], { type: 'application/json' }));
+  return ghPut('audios/catalog.json', b64, message, sha);
+}
+function segmentsForCatalog(script) {
+  return parseScript(script || '').filter(s => s.text).map(s => ({ speaker: s.speaker === NARRATOR ? '' : s.speaker, text: s.text }));
+}
+async function publish(it, msgSel, btn) {
+  const msgEl = typeof msgSel === 'string' ? $(msgSel) : msgSel;
+  const say = (m, k = 'info') => msgEl.innerHTML = `<div class="note ${k}">${m}</div>`;
+  if (!conf.get('ghToken')) { say('Para publicar necesitas guardar el token de GitHub en Ajustes.', 'err'); return; }
+  btn.disabled = true;
+  try {
+    const ext = extOf(it.mime);
+    const filePath = `audios/files/${it.id}.${ext}`;
+    say('Subiendo el audio…');
+    const existing = await ghGet(filePath);
+    await ghPut(filePath, await blobToB64(it.blob), `Audio: ${it.title}`, existing && existing.sha);
+    say('Actualizando el catálogo…');
+    const { sha, data } = await readCatalog();
+    const entry = {
+      id: it.id, title: it.title, type: it.type, level: it.level || '', topic: it.topic || '',
+      file: `files/${it.id}.${ext}`, duration: Math.round(it.duration || 0), createdAt: new Date(it.createdAt).toISOString(),
+      transcript: segmentsForCatalog(it.script), vocabulary: it.vocabulary || [], questions: it.questions || []
+    };
+    const i = data.audios.findIndex(a => a.id === it.id);
+    if (i >= 0) data.audios[i] = entry; else data.audios.unshift(entry);
+    await writeCatalog(data, sha, `Catálogo: ${it.title}`);
+    it.publishedUrl = siteUrl() + filePath;
+    await dbPut(it);
+    say(`Publicado. En uno o dos minutos estará disponible.<br>MP3: <a href="${esc(it.publishedUrl)}" target="_blank">${esc(it.publishedUrl)}</a><br>Página para alumnos: <a href="${esc(studentUrl(it.id))}" target="_blank">${esc(studentUrl(it.id))}</a>`, 'ok');
+    if (!$('#biblioteca').classList.contains('hidden')) setTimeout(renderLib, 2500);
+  } catch (e) { say('No se pudo publicar: ' + esc(e.message), 'err'); }
+  finally { btn.disabled = false; }
+}
+async function unpublish(it, msgEl, btn) {
+  btn.disabled = true;
+  try {
+    const { sha, data } = await readCatalog();
+    const entry = data.audios.find(a => a.id === it.id);
+    data.audios = data.audios.filter(a => a.id !== it.id);
+    await writeCatalog(data, sha, `Catálogo: quitar ${it.title}`);
+    const path = 'audios/' + (entry ? entry.file : `files/${it.id}.${extOf(it.mime)}`);
+    const f = await ghGet(path);
+    if (f) await gh('contents/' + path, { method: 'DELETE', body: JSON.stringify({ message: `Quitar audio: ${it.title}`, sha: f.sha, branch: branch() }) });
+    delete it.publishedUrl; await dbPut(it); renderLib();
+  } catch (e) { msgEl.innerHTML = `<div class="note err">No se pudo despublicar: ${esc(e.message)}</div>`; btn.disabled = false; }
+}
+$('#syncBtn').onclick = () => window.open(siteUrl() + 'audios/escuchar.html', '_blank');
+
+renderSpeakers();
+</script>
+</body>
+</html>

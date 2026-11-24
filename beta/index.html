@@ -145,6 +145,7 @@ td{padding:12px;border-bottom:1px solid var(--line)}
 .empty{color:var(--muted);text-align:center;padding:24px;font-size:.92rem}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 18px;border-radius:12px;font-weight:700;font-size:.9rem;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.2)}
 .mnav{display:none}
+.pzframe{width:100%;height:80vh;border:none;display:block;background:transparent}
 .loading{min-height:100vh;display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700;gap:10px}
 /* responsive */
 @media (max-width:1180px){.grid4{grid-template-columns:repeat(2,minmax(0,1fr))}.app{grid-template-columns:248px 1fr}.app aside{grid-column:2;border-left:none;border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}}
@@ -304,8 +305,8 @@ function renderGradePick() {
 }
 
 /* ---------- shell ---------- */
-const STUDENT_NAV = [["home", "fa-house", "Home"], ["assign", "fa-clipboard-check", "Assignments"], ["study", "fa-book-open-reader", "Study zone"], ["progress", "fa-chart-line", "My progress"], ["certs", "fa-award", "Certificates"]];
-const TEACHER_NAV = [["t-overview", "fa-gauge-high", "Overview"], ["t-students", "fa-users", "Students"], ["t-activities", "fa-clipboard-list", "Activities"], ["t-results", "fa-chart-column", "Results"], ["t-reports", "fa-file-pdf", "Reports"]];
+const STUDENT_NAV = [["home", "fa-house", "Home"], ["assign", "fa-clipboard-check", "Assignments"], ["study", "fa-book-open-reader", "Study zone"], ["listening", "fa-headphones", "Listening"], ["progress", "fa-chart-line", "My progress"], ["certs", "fa-award", "Certificates"]];
+const TEACHER_NAV = [["t-overview", "fa-gauge-high", "Overview"], ["t-students", "fa-users", "Students"], ["t-activities", "fa-clipboard-list", "Activities"], ["t-audio", "fa-microphone-lines", "Audio studio"], ["t-results", "fa-chart-column", "Results"], ["t-reports", "fa-file-pdf", "Reports"]];
 
 function go(v) { S.view = v; S.practice = null; render(); window.scrollTo(0, 0); }
 window.go = go;
@@ -329,13 +330,17 @@ function render() {
       <button onclick="switchMode()">Back to teacher view</button></div>` : ""}${page.main}</main>
    ${page.aside ? `<aside>${page.aside}</aside>` : ""}
   </div>
-  <div class="mnav">${nav.slice(0, 4).map(n => `<button class="${S.view === n[0] ? "on" : ""}" onclick="go('${n[0]}')"><i class="fas ${n[1]}"></i>${({"Study zone":"Study","My progress":"Progress","Assignments":"Tasks"})[n[2]] || n[2]}</button>`).join("")}
+  <div class="mnav">${nav.slice(0, 5).map(n => `<button class="${S.view === n[0] ? "on" : ""}" onclick="go('${n[0]}')"><i class="fas ${n[1]}"></i>${({"Study zone":"Study","My progress":"Progress","Assignments":"Tasks","Audio studio":"Audio","Activities":"Tasks"})[n[2]] || n[2]}</button>`).join("")}
    ${S.teacher ? `<button onclick="switchMode()"><i class="fas ${student ? "fa-chalkboard-user" : "fa-user-graduate"}"></i>${student ? "Teacher" : "Student"}</button>` : `<button onclick="logout()"><i class="fas fa-right-from-bracket"></i>Exit</button>`}</div>`;
   if (page.after) page.after();
 }
 window.switchMode = () => { S.mode = S.mode === "student" ? "teacher" : "student"; S.view = S.mode === "student" ? "home" : "t-overview"; S.practice = null; if (S.mode === "student" && S.prog.grade) S.grade = S.prog.grade; render(); window.scrollTo(0, 0); };
 window.setGrade = (g) => { S.grade = g; render(); };
 window.logout = () => signOut(auth);
+window.addEventListener("message", e => {
+  if (e.origin !== location.origin || !e.data || !e.data.pzHeight) return;
+  document.querySelectorAll("iframe.pzframe").forEach(f => { if (f.contentWindow === e.source) f.style.height = Math.max(300, e.data.pzHeight) + "px"; });
+});
 
 /* ---------- student pages ---------- */
 function sideStats() {
@@ -421,7 +426,15 @@ const PAGES = {
     return { main: `<div class="top"><div><h1>Certificates</h1><div class="sub">Your certificates for each finished unit</div></div></div>
      <div class="card empty"><i class="fas fa-award" style="font-size:2rem;color:var(--gold)"></i><p style="margin-top:10px">In the final version your unit certificates will be saved here, so you can download them again anytime.</p></div>`, aside: sideStats() };
   },
+  listening() {
+    return { main: `<div class="top"><div><h1>Listening</h1><div class="sub">Audios from your teacher. Listen first, then answer and read the transcript</div></div></div>
+     <iframe class="pzframe" src="../audios/escuchar.html?embed=1" title="Listening"></iframe>` };
+  },
   /* ---------- teacher pages ---------- */
+  "t-audio"() {
+    return { main: `<div class="top"><div><h1>Audio studio</h1><div class="sub">Create natural listening audios and publish them for your students</div></div></div>
+     <iframe class="pzframe" src="../audios/?embed=1" title="Audio studio" allow="clipboard-write; autoplay"></iframe>` };
+  },
   "t-overview"() { return teacherOverview(); },
   "t-students"() { return teacherStudents(); },
   "t-activities"() { return teacherActivities(); },
